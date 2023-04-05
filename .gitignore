@@ -7,4 +7,6 @@ src/DAL/bin/
 src/DAL/obj/
 src/CQRS/bin/
 src/CQRS/obj/
+src/Extensions/bin/
+src/Extensions/obj/
 *.v2

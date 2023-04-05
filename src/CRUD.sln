@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.DAL", "DAL\CRUD.DAL.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.CQRS", "CQRS\CRUD.CQRS.csproj", "{0FEE1418-A26D-4498-9D38-1D00BBD5F6EB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.Extensions", "Extensions\CRUD.Extensions.csproj", "{0F6E3193-E43F-408B-A054-D028E99AE998}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0FEE1418-A26D-4498-9D38-1D00BBD5F6EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FEE1418-A26D-4498-9D38-1D00BBD5F6EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FEE1418-A26D-4498-9D38-1D00BBD5F6EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F6E3193-E43F-408B-A054-D028E99AE998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F6E3193-E43F-408B-A054-D028E99AE998}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F6E3193-E43F-408B-A054-D028E99AE998}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F6E3193-E43F-408B-A054-D028E99AE998}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

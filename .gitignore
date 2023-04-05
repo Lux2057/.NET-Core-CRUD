@@ -3,5 +3,5 @@
 *.user
 
 src/.vs/
-src/bin/
-src/obj/
+src/DAL/bin/
+src/DAL/obj/

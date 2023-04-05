@@ -5,3 +5,6 @@
 src/.vs/
 src/DAL/bin/
 src/DAL/obj/
+src/CQRS/bin/
+src/CQRS/obj/
+*.v2

@@ -17,5 +17,9 @@
         Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         Task DeleteAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+
+        Task DeleteAsync(object id, CancellationToken cancellationToken = default);
+
+        Task DeleteAsync(IEnumerable<object> ids, CancellationToken cancellationToken = default);
     }
 }

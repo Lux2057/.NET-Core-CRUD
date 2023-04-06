@@ -1,14 +1,15 @@
 ﻿namespace CRUD.DAL
 {
+    #region << Using >>
+
     using System;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Threading;
-    using System.Threading.Tasks;
     using LinqSpecs;
-    using Microsoft.EntityFrameworkCore;
 
-    public class EfReadRepository<TEntity, TId> : IReadRepository<TEntity, TId> where TEntity : class, IId<TId>, new()
+    #endregion
+
+    public class EfReadRepository<TEntity> : IReadRepository<TEntity> where TEntity : class, new()
     {
         #region Properties
 
@@ -26,11 +27,6 @@
         #endregion
 
         #region Interface Implementations
-
-        public async Task<TEntity> GetByIdOrDefaultAsync(TId id, CancellationToken cancellationToken = default)
-        {
-            return await this._context.Set<TEntity>().SingleOrDefaultAsync(cancellationToken: cancellationToken, predicate: r => Equals(r.Id, id));
-        }
 
         public IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicateExpression = null)
         {
@@ -53,4 +49,5 @@
         }
 
         #endregion
-    }}
+    }
+}

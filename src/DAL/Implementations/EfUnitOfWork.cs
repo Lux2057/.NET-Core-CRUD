@@ -33,14 +33,14 @@
 
         #region Interface Implementations
 
-        public IReadRepository<TEntity, TId> ReadRepository<TEntity, TId>() where TEntity : IId<TId>, new()
+        public IReadRepository<TEntity> ReadRepository<TEntity>() where TEntity : class, new()
         {
-            return this._serviceProvider.GetService<IReadRepository<TEntity, TId>>();
+            return this._serviceProvider.GetService<IReadRepository<TEntity>>();
         }
 
-        public IReadWriteRepository<TEntity, TId> ReadWriteRepository<TEntity, TId>() where TEntity : IId<TId>, new()
+        public IReadWriteRepository<TEntity> ReadWriteRepository<TEntity>() where TEntity : class, new()
         {
-            return this._serviceProvider.GetService<IReadWriteRepository<TEntity, TId>>();
+            return this._serviceProvider.GetService<IReadWriteRepository<TEntity>>();
         }
 
         public async Task BeginTransactionAsync(PermissionType permissionType, CancellationToken cancellationToken = default)

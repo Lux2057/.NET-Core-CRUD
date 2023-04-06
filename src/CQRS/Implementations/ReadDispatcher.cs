@@ -12,7 +12,7 @@
     {
         #region Properties
 
-        protected readonly IMediator _mediator;
+        private readonly IMediator _mediator;
 
         #endregion
 

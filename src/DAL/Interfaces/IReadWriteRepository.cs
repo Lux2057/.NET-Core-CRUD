@@ -8,7 +8,7 @@
 
     #endregion
 
-    public interface IReadWriteRepository<TEntity, in TId> : IReadRepository<TEntity, TId> where TEntity : IId<TId>, new()
+    public interface IReadWriteRepository<TEntity> : IReadRepository<TEntity> where TEntity : class, new()
     {
         Task AddOrUpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
 
@@ -17,9 +17,5 @@
         Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         Task DeleteAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
-
-        Task DeleteAsync(TId id, CancellationToken cancellationToken = default);
-
-        Task DeleteAsync(IEnumerable<TId> ids, CancellationToken cancellationToken = default);
     }
 }

@@ -5,11 +5,14 @@
     using System;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Threading;
+    using System.Threading.Tasks;
     using LinqSpecs;
+    using Microsoft.EntityFrameworkCore;
 
     #endregion
 
-    public class EfReadRepository<TEntity> : IReadRepository<TEntity> where TEntity : class, new()
+    public class EfReadRepository<TEntity> : IReadRepository<TEntity> where TEntity : EntityBase, new()
     {
         #region Properties
 
@@ -49,5 +52,10 @@
         }
 
         #endregion
+
+        public async Task<TEntity> GetByIdOrDefaultAsync(object id, CancellationToken cancellationToken = default)
+        {
+            return await this._context.Set<TEntity>().SingleOrDefaultAsync(cancellationToken: cancellationToken, predicate: r => Equals(r.Id, id));
+        }
     }
 }

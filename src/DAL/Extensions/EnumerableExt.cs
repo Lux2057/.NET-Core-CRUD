@@ -10,9 +10,9 @@
 
     public static class EnumerableExt
     {
-        public static object[] GetIds(this IEnumerable<EntityBase> enumerable)
+        public static object[] GetIds<TEntity>(this IEnumerable<TEntity> enumerable) where TEntity : EntityBase
         {
-            return enumerable.Select(r => r.Id).ToArrayOrEmpty();
+            return enumerable.Select(r => (object)r.Id).ToArrayOrEmpty();
         }
     }
 }

@@ -59,7 +59,7 @@
             {
                 var entitiesCount = await Repository<TEntity>().Get(new EntitiesByIdsSpec<TEntity>(request.Ids)).CountAsync(cancellationToken);
                 var pageSize = new[] { defaultPage, request.PageSize.GetValueOrDefault(defaultPageSize) }.Max();
-                var currentPage = new[] { new[] { defaultPage, request.Page.GetValueOrDefault(1) }.Max(), entitiesCount / pageSize }.Min() - 1;
+                var currentPage = new[] { new[] { defaultPage, request.Page.GetValueOrDefault(1) }.Max(), new[] { 1, entitiesCount / pageSize }.Max() }.Min() - 1;
 
                 var entities = await Repository<TEntity>().Get(new EntitiesByIdsSpec<TEntity>(request.Ids))
                                                           .Skip(currentPage * pageSize).Take(pageSize)

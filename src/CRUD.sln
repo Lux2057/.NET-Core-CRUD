@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.Extensions", "Extensio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.Core", "Core\CRUD.Core.csproj", "{03418254-7C9D-4371-A73D-6815DD49B82A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.Example", "Example\CRUD.Example.csproj", "{9453056A-87EB-4DC1-A13E-ACFE3603AE58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{03418254-7C9D-4371-A73D-6815DD49B82A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03418254-7C9D-4371-A73D-6815DD49B82A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03418254-7C9D-4371-A73D-6815DD49B82A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9453056A-87EB-4DC1-A13E-ACFE3603AE58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9453056A-87EB-4DC1-A13E-ACFE3603AE58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9453056A-87EB-4DC1-A13E-ACFE3603AE58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9453056A-87EB-4DC1-A13E-ACFE3603AE58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

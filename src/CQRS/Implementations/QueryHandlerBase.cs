@@ -69,9 +69,9 @@
 
         protected abstract Task<TResponse> Execute(TRequest request, CancellationToken cancellationToken);
 
-        protected IReadRepository<TEntity, TId> Repository<TEntity, TId>() where TEntity : IId<TId>, new()
+        protected IReadRepository<TEntity> Repository<TEntity>() where TEntity : class, new()
         {
-            return this._unitOfWork.ReadRepository<TEntity, TId>();
+            return this._unitOfWork.ReadRepository<TEntity>();
         }
     }
 }

@@ -66,9 +66,9 @@
 
         protected abstract Task Execute(TNotification command, CancellationToken cancellationToken);
 
-        protected IReadWriteRepository<TEntity, TId> Repository<TEntity, TId>() where TEntity : IId<TId>, new()
+        protected IReadWriteRepository<TEntity> Repository<TEntity>() where TEntity : class, new()
         {
-            return this._unitOfWork.ReadWriteRepository<TEntity, TId>();
+            return this._unitOfWork.ReadWriteRepository<TEntity>();
         }
     }
 }

@@ -9,9 +9,9 @@
 
     public interface IUnitOfWork
     {
-        public IReadRepository<TEntity, TId> ReadRepository<TEntity, TId>() where TEntity : IId<TId>, new();
+        public IReadRepository<TEntity> ReadRepository<TEntity>() where TEntity : class, new();
 
-        public IReadWriteRepository<TEntity, TId> ReadWriteRepository<TEntity, TId>() where TEntity : IId<TId>, new();
+        public IReadWriteRepository<TEntity> ReadWriteRepository<TEntity>() where TEntity : class, new();
 
         public Task BeginTransactionAsync(PermissionType permissionType, CancellationToken cancellationToken = default);
 

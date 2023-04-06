@@ -29,10 +29,7 @@
 
         public async Task<TResponse> QueryAsync<TQuery, TResponse>(TQuery queryBase, CancellationToken cancellationToken = default) where TQuery : QueryBase<TResponse>, new()
         {
-            var response = await this._mediator.Send(queryBase, cancellationToken);
-            queryBase.Result = response;
-
-            return response;
+            return await this._mediator.Send(queryBase, cancellationToken);
         }
 
         public TResponse QuerySync<TQuery, TResponse>(TQuery queryBase) where TQuery : QueryBase<TResponse>, new()

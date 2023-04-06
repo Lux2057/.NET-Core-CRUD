@@ -6,5 +6,5 @@
 
     #endregion
 
-    public abstract class QueryBase<TResponse> : MessageBase, IRequest<TResponse> { }
+    public abstract class QueryBase<TResponse> : IRequest<TResponse> { }
 }

@@ -6,5 +6,12 @@
 
     #endregion
 
-    public abstract class CommandBase : MessageBase, INotification { }
+    public abstract class CommandBase : INotification
+    {
+        #region Properties
+
+        public virtual object Result { get; set; }
+
+        #endregion
+    }
 }

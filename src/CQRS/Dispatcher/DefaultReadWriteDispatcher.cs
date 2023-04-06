@@ -27,22 +27,22 @@
 
         #region Interface Implementations
 
-        public async Task PushAsync<TCommand>(TCommand commandBase, CancellationToken cancellationToken = default) where TCommand : CommandBase, new()
+        public async Task PushAsync<TCommand>(TCommand commandBase, CancellationToken cancellationToken = default) where TCommand : CommandBase
         {
             await this._mediator.Publish(commandBase, cancellationToken);
         }
 
-        public void PushSync<TCommand>(TCommand commandBase) where TCommand : CommandBase, new()
+        public void PushSync<TCommand>(TCommand commandBase) where TCommand : CommandBase
         {
             this._mediator.Publish(commandBase).Wait();
         }
 
-        public async Task<TResponse> QueryAsync<TQuery, TResponse>(TQuery queryBase, CancellationToken cancellationToken = default) where TQuery : QueryBase<TResponse>, new()
+        public async Task<TResponse> QueryAsync<TQuery, TResponse>(TQuery queryBase, CancellationToken cancellationToken = default) where TQuery : QueryBase<TResponse>
         {
             return await this._mediator.Send(queryBase, cancellationToken);
         }
 
-        public TResponse QuerySync<TQuery, TResponse>(TQuery queryBase) where TQuery : QueryBase<TResponse>, new()
+        public TResponse QuerySync<TQuery, TResponse>(TQuery queryBase) where TQuery : QueryBase<TResponse>
         {
             var task = this._mediator.Send(queryBase);
             task.Wait();

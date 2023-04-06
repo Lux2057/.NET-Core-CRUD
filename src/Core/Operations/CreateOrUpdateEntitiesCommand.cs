@@ -56,7 +56,7 @@
 
                 await Repository<TEntity>().AddOrUpdateAsync(entities, cancellationToken);
 
-                command.Result = entities.GetIds();
+                command.Result = entities.Cast<object>().ToArrayOrEmpty();
             }
         }
 

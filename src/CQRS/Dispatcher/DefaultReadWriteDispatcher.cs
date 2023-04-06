@@ -27,24 +27,24 @@
 
         #region Interface Implementations
 
-        public async Task PushAsync<TCommand>(TCommand commandBase, CancellationToken cancellationToken = default) where TCommand : CommandBase, new()
+        public async Task PushAsync<TCommand>(TCommand command, CancellationToken cancellationToken = default) where TCommand : CommandBase
         {
-            await this._mediator.Publish(commandBase, cancellationToken);
+            await this._mediator.Publish(notification: command, cancellationToken: cancellationToken);
         }
 
-        public void PushSync<TCommand>(TCommand commandBase) where TCommand : CommandBase, new()
+        public void PushSync<TCommand>(TCommand command) where TCommand : CommandBase
         {
-            this._mediator.Publish(commandBase).Wait();
+            this._mediator.Publish(command).Wait();
         }
 
-        public async Task<TResponse> QueryAsync<TQuery, TResponse>(TQuery queryBase, CancellationToken cancellationToken = default) where TQuery : QueryBase<TResponse>, new()
+        public async Task<TResponse> QueryAsync<TResponse>(IQuery<TResponse> query, CancellationToken cancellationToken = default)
         {
-            return await this._mediator.Send(queryBase, cancellationToken);
+            return await this._mediator.Send(request: query, cancellationToken: cancellationToken);
         }
 
-        public TResponse QuerySync<TQuery, TResponse>(TQuery queryBase) where TQuery : QueryBase<TResponse>, new()
+        public TResponse QuerySync<TResponse>(IQuery<TResponse> query)
         {
-            var task = this._mediator.Send(queryBase);
+            var task = this._mediator.Send(query);
             task.Wait();
 
             return task.Result;

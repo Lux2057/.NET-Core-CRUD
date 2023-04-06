@@ -1,6 +1,7 @@
 *.DotSettings
 *.cache
 *.user
+*.v2
 
 src/.vs/
 src/DAL/bin/
@@ -11,4 +12,5 @@ src/Extensions/bin/
 src/Extensions/obj/
 src/Core/bin/
 src/Core/obj/
-*.v2
+src/Example/bin/
+src/Example/obj/

@@ -13,7 +13,7 @@
 
     #endregion
 
-    public abstract class CommandHandlerBase<TNotification> : INotificationHandler<TNotification> where TNotification : INotification
+    public abstract class CommandHandlerBase<TNotification> : INotificationHandler<TNotification> where TNotification : CommandBase
     {
         #region Properties
 

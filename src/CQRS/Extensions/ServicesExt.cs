@@ -23,8 +23,8 @@
             services.AddScoped(typeof(IReadRepository<>), typeof(EfReadRepository<>));
             services.AddScoped(typeof(IReadWriteRepository<>), typeof(EfReadWriteRepository<>));
             services.AddScoped<IUnitOfWork, EfUnitOfWork>();
-            services.AddScoped<IReadDispatcher, ReadDispatcher>();
-            services.AddScoped<IReadWriteDispatcher, ReadWriteDispatcher>();
+            services.AddScoped<IReadDispatcher, DefaultReadDispatcher>();
+            services.AddScoped<IReadWriteDispatcher, DefaultReadWriteDispatcher>();
             services.AddValidatorsFromAssemblies(validatorAssemblies);
             services.AddAutoMapper(automapperAssemblies);
             services.AddMediatR(mediatorAssemblies);

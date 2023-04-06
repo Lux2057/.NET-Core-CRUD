@@ -6,5 +6,5 @@
 
     #endregion
 
-    public interface ICommand : IMessage, INotification { }
+    public abstract class QueryBase<TResponse> : MessageBase, IRequest<TResponse> { }
 }

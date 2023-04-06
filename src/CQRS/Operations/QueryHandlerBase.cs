@@ -13,7 +13,7 @@
 
     #endregion
 
-    public abstract class QueryHandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    public abstract class QueryHandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, TResponse> where TRequest : QueryBase<TResponse>
     {
         #region Properties
 

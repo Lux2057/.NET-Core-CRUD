@@ -6,5 +6,5 @@
 
     #endregion
 
-    public abstract class QueryBase<TResponse> : IRequest<TResponse> { }
+    public interface IQuery<TResponse> : IRequest<TResponse> { }
 }

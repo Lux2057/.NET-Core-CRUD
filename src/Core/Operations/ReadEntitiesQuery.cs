@@ -14,7 +14,7 @@
 
     #endregion
 
-    public class ReadEntitiesQuery<TEntity, TDto> : QueryBase<TDto[]>
+    public class ReadEntitiesQuery<TEntity, TDto> : IQuery<TDto[]>
             where TEntity : EntityBase, new()
             where TDto : DtoBase, new()
     {

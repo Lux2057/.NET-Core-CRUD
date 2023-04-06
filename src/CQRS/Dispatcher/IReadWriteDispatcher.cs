@@ -9,8 +9,8 @@
 
     public interface IReadWriteDispatcher : IReadDispatcher
     {
-        public Task PushAsync<TCommand>(TCommand commandBase, CancellationToken cancellationToken = default) where TCommand : CommandBase;
+        public Task PushAsync<TCommand>(TCommand command, CancellationToken cancellationToken = default) where TCommand : CommandBase;
 
-        public void PushSync<TCommand>(TCommand commandBase) where TCommand : CommandBase;
+        public void PushSync<TCommand>(TCommand command) where TCommand : CommandBase;
     }
 }

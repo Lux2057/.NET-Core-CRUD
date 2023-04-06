@@ -24,11 +24,11 @@
         [HttpGet]
         public virtual async Task<IActionResult> Read(object[] ids, int? page, int? pageSize, CancellationToken cancellationToken = default)
         {
-            var entities = await this.Dispatcher.QueryAsync<ReadEntitiesQuery<TEntity, TDto>, TDto[]>(new ReadEntitiesQuery<TEntity, TDto>(ids)
-                                                                                                      {
-                                                                                                              Page = page,
-                                                                                                              PageSize = pageSize
-                                                                                                      }, cancellationToken);
+            var entities = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TEntity, TDto>(ids)
+                                                            {
+                                                                    Page = page,
+                                                                    PageSize = pageSize
+                                                            }, cancellationToken);
 
             return Ok(entities);
         }

@@ -27,12 +27,12 @@
 
         #region Interface Implementations
 
-        public async Task<TResponse> QueryAsync<TQuery, TResponse>(TQuery queryBase, CancellationToken cancellationToken = default) where TQuery : QueryBase<TResponse>
+        public async Task<TResponse> QueryAsync<TResponse>(IQuery<TResponse> queryBase, CancellationToken cancellationToken = default)
         {
             return await this._mediator.Send(queryBase, cancellationToken);
         }
 
-        public TResponse QuerySync<TQuery, TResponse>(TQuery queryBase) where TQuery : QueryBase<TResponse>
+        public TResponse QuerySync<TResponse>(IQuery<TResponse> queryBase)
         {
             var task = this._mediator.Send(queryBase);
             task.Wait();

@@ -10,7 +10,7 @@
     {
         #region Properties
 
-        public virtual object Id { get; set; }
+        public int Id { get; set; }
 
         public DateTime CrDt { get; set; }
 

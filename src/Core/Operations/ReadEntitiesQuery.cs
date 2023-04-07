@@ -28,17 +28,17 @@
 
         #region Properties
 
-        public object[] Ids { get; }
+        public int[] Ids { get; }
 
-        public int? Page { get; set; }
+        public int? Page { get; init; }
 
-        public int? PageSize { get; set; }
+        public int? PageSize { get; init; }
 
         #endregion
 
         #region Constructors
 
-        public ReadEntitiesQuery(IEnumerable<object> ids)
+        public ReadEntitiesQuery(IEnumerable<int> ids)
         {
             Ids = ids.ToArrayOrEmpty();
         }

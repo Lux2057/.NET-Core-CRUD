@@ -4,22 +4,21 @@
 
     using System;
     using System.Linq.Expressions;
-    using CRUD.DAL;
     using LinqSpecs;
 
     #endregion
 
-    public class EntityByIdSpec<TEntity> : Specification<TEntity> where TEntity : EntityBase
+    public class EntityByIdSpec<TEntity, TId> : Specification<TEntity> where TEntity : IId<TId>
     {
         #region Properties
 
-        private readonly int id;
+        private readonly TId id;
 
         #endregion
 
         #region Constructors
 
-        public EntityByIdSpec(int id)
+        public EntityByIdSpec(TId id)
         {
             this.id = id;
         }
@@ -28,7 +27,7 @@
 
         public override Expression<Func<TEntity, bool>> ToExpression()
         {
-            return x => x.Id == this.id;
+            return x => Equals(x.Id, this.id);
         }
     }
 }

@@ -7,22 +7,21 @@
     using System.Linq;
     using System.Linq.Expressions;
     using CRUD.DAL;
-    using CRUD.Extensions;
     using LinqSpecs;
 
     #endregion
 
-    public class EntitiesByIdsSpec<TEntity> : Specification<TEntity> where TEntity : EntityBase
+    public class EntitiesByIdsSpec<TEntity, TId> : Specification<TEntity> where TEntity : IId<TId>
     {
         #region Properties
 
-        private readonly int[] ids;
+        private readonly TId[] ids;
 
         #endregion
 
         #region Constructors
 
-        public EntitiesByIdsSpec(IEnumerable<int> ids)
+        public EntitiesByIdsSpec(IEnumerable<TId> ids)
         {
             this.ids = ids.ToArrayOrEmpty();
         }

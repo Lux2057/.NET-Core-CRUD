@@ -8,15 +8,15 @@
     using System.Threading.Tasks;
     using CRUD.CQRS;
     using CRUD.DAL;
-    using CRUD.Extensions;
+    using Microsoft.EntityFrameworkCore;
 
     #endregion
 
-    public class DeleteEntitiesCommand<TEntity> : CommandBase where TEntity : EntityBase, new()
+    public class DeleteEntitiesCommand<TEntity, TId> : CommandBase where TEntity : EntityBase<TId>, new()
     {
         #region Properties
 
-        public object[] Ids { get; }
+        public TId[] Ids { get; }
 
         public new bool Result { get; set; }
 
@@ -24,7 +24,7 @@
 
         #region Constructors
 
-        public DeleteEntitiesCommand(IEnumerable<object> ids)
+        public DeleteEntitiesCommand(IEnumerable<TId> ids)
         {
             Ids = ids.ToArrayOrEmpty();
         }
@@ -33,7 +33,7 @@
 
         #region Nested Classes
 
-        public class Handler : CommandHandlerBase<DeleteEntitiesCommand<TEntity>>
+        public class Handler : CommandHandlerBase<DeleteEntitiesCommand<TEntity, TId>>
         {
             #region Constructors
 
@@ -41,9 +41,11 @@
 
             #endregion
 
-            protected override async Task Execute(DeleteEntitiesCommand<TEntity> command, CancellationToken cancellationToken)
+            protected override async Task Execute(DeleteEntitiesCommand<TEntity, TId> command, CancellationToken cancellationToken)
             {
-                await Repository<TEntity>().DeleteAsync(command.Ids, cancellationToken);
+                var entities = await Repository<TEntity>().Get(new EntitiesByIdsSpec<TEntity, TId>(command.Ids)).ToArrayAsync(cancellationToken);
+
+                await Repository<TEntity>().DeleteAsync(entities, cancellationToken);
 
                 command.Result = true;
             }

@@ -52,7 +52,7 @@
             {
                     PermissionType.Read => IsolationLevel.ReadUncommitted,
                     PermissionType.ReadWrite => IsolationLevel.ReadCommitted,
-                    _ => throw new NotImplementedException(nameof(PermissionType))
+                    _ => throw new NotImplementedException($"{nameof(PermissionType)} -> {permissionType}")
             };
 
             await this._dbContext.Database.BeginTransactionAsync(isolationLevel, cancellationToken);

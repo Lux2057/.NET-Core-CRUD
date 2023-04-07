@@ -1,16 +1,12 @@
 ﻿namespace CRUD.Example
 {
-    #region << Using >>
-
     using CRUD.Core;
 
-    #endregion
-
-    public class ExampleDto : DtoBase
+    public class ExampleDto : DtoBase, IId<int>
     {
         #region Properties
 
-        public new int? Id { get; set; }
+        public new int Id { get; set; }
 
         public string Text { get; set; }
 

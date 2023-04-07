@@ -47,7 +47,7 @@ namespace CRUD.Example
 
             services.AddEfInfrastructure<ExampleDbContext>(mediatorAssemblies: new[]
                                                                                {
-                                                                                       typeof(CreateOrUpdateEntitiesCommand<,>).Assembly,
+                                                                                       typeof(CreateOrUpdateEntitiesCommand<,,>).Assembly,
                                                                                        typeof(GetExampleTextsByIdsQuery).Assembly
                                                                                },
                                                            validatorAssemblies: new[]
@@ -59,7 +59,7 @@ namespace CRUD.Example
                                                                                          typeof(ExampleEntity).Assembly
                                                                                  });
 
-            services.AddEntityCRUD<ExampleEntity, ExampleDto>();
+            services.AddEntityCRUD<ExampleEntity, int, ExampleDto>();
         }
 
         public void Configure(IApplicationBuilder app, ExampleDbContext dbContext)

@@ -1,10 +1,10 @@
 ﻿namespace CRUD.Core
 {
-    public abstract class DtoBase
+    public interface IId<TId>
     {
         #region Properties
 
-        public virtual object Id { get; set; }
+        public TId Id { get; set; }
 
         #endregion
     }

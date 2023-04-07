@@ -2,7 +2,6 @@
 {
     #region << Using >>
 
-    using CRUD.DAL;
     using MediatR;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -10,20 +9,20 @@
 
     public static class ServicesExt
     {
-        public static void AddEntityCRUD<TEntity, TDto>(this IServiceCollection services)
-                where TEntity : EntityBase, new()
-                where TDto : DtoBase, new()
+        public static void AddEntityCRUD<TEntity, TId, TDto>(this IServiceCollection services)
+                where TEntity : EntityBase<TId>, new()
+                where TDto : class, IId<TId>, new()
         {
-            services.AddEntityRead<TEntity, TDto>();
-            services.AddTransient(typeof(INotificationHandler<CreateOrUpdateEntitiesCommand<TEntity, TDto>>), typeof(CreateOrUpdateEntitiesCommand<TEntity, TDto>.Handler));
-            services.AddTransient(typeof(INotificationHandler<DeleteEntitiesCommand<TEntity>>), typeof(DeleteEntitiesCommand<TEntity>.Handler));
+            services.AddEntityRead<TEntity, TId, TDto>();
+            services.AddTransient(typeof(INotificationHandler<CreateOrUpdateEntitiesCommand<TEntity, TId, TDto>>), typeof(CreateOrUpdateEntitiesCommand<TEntity, TId, TDto>.Handler));
+            services.AddTransient(typeof(INotificationHandler<DeleteEntitiesCommand<TEntity, TId>>), typeof(DeleteEntitiesCommand<TEntity, TId>.Handler));
         }
 
-        public static void AddEntityRead<TEntity, TDto>(this IServiceCollection services)
-                where TEntity : EntityBase, new()
-                where TDto : DtoBase, new()
+        public static void AddEntityRead<TEntity, TId, TDto>(this IServiceCollection services)
+                where TEntity : EntityBase<TId>, new()
+                where TDto : class, new()
         {
-            services.AddTransient(typeof(IRequestHandler<ReadEntitiesQuery<TEntity, TDto>, TDto[]>), typeof(ReadEntitiesQuery<TEntity, TDto>.Handler));
+            services.AddTransient(typeof(IRequestHandler<ReadEntitiesQuery<TEntity, TId, TDto>, TDto[]>), typeof(ReadEntitiesQuery<TEntity, TId, TDto>.Handler));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CRUD.DAL
+﻿namespace CRUD.Core
 {
     #region << Using >>
 
@@ -6,11 +6,11 @@
 
     #endregion
 
-    public abstract class EntityBase
+    public abstract class EntityBase<TId> : IId<TId>
     {
         #region Properties
 
-        public int Id { get; set; }
+        public TId Id { get; set; }
 
         public DateTime CrDt { get; set; }
 

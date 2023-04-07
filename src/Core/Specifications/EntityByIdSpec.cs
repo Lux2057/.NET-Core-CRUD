@@ -13,13 +13,13 @@
     {
         #region Properties
 
-        private readonly object id;
+        private readonly int id;
 
         #endregion
 
         #region Constructors
 
-        public EntityByIdSpec(object id)
+        public EntityByIdSpec(int id)
         {
             this.id = id;
         }

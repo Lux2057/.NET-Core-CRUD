@@ -16,13 +16,13 @@
     {
         #region Properties
 
-        private readonly object[] ids;
+        private readonly int[] ids;
 
         #endregion
 
         #region Constructors
 
-        public EntitiesByIdsSpec(IEnumerable<object> ids)
+        public EntitiesByIdsSpec(IEnumerable<int> ids)
         {
             this.ids = ids.ToArrayOrEmpty();
         }

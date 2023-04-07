@@ -12,8 +12,6 @@
     {
         #region Properties
 
-        public new int Id { get; set; }
-
         public string Text { get; set; }
 
         public int Number { get; set; }
@@ -38,6 +36,10 @@
                         .ForMember(r => r.Number, r => r.MapFrom(x => x.Number))
                         .ForMember(r => r.Flag, r => r.MapFrom(x => x.Flag))
                         .ForMember(r => r.EnumValue, r => r.MapFrom(x => x.EnumValue));
+
+                CreateMap<ExampleEntity, ExampleTextDto>()
+                        .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))
+                        .ForMember(r => r.Text, r => r.MapFrom(x => x.Text));
             }
 
             #endregion

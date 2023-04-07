@@ -2,17 +2,17 @@
 {
     #region << Using >>
 
+    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using CRUD.Extensions;
 
     #endregion
 
     public static class EnumerableExt
     {
-        public static object[] GetIds<TEntity>(this IEnumerable<TEntity> enumerable) where TEntity : EntityBase
+        public static T[] ToArrayOrEmpty<T>(this IEnumerable<T> enumerable)
         {
-            return enumerable.Select(r => (object)r.Id).ToArrayOrEmpty();
+            return enumerable == null ? Array.Empty<T>() : enumerable.ToArray();
         }
     }
 }

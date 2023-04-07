@@ -10,16 +10,16 @@
 
     public interface IReadWriteRepository<TEntity> : IReadRepository<TEntity> where TEntity : class, new()
     {
-        Task AddOrUpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
+        Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
 
-        Task AddOrUpdateAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+        Task AddAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+
+        Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
+
+        Task UpdateAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
         Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         Task DeleteAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
-
-        Task DeleteAsync(object id, CancellationToken cancellationToken = default);
-
-        Task DeleteAsync(IEnumerable<object> ids, CancellationToken cancellationToken = default);
     }
 }

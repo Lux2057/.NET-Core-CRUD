@@ -6,13 +6,12 @@
     using System.Threading.Tasks;
     using CRUD.Core;
     using CRUD.CQRS;
-    using CRUD.DAL;
     using Microsoft.AspNetCore.Mvc;
 
     #endregion
 
     public abstract class EntityReadControllerBase<TEntity, TDto> : DispatcherControllerBase
-            where TEntity : EntityBase, new()
+            where TEntity : EntityBase<int>, new()
             where TDto : DtoBase, new()
     {
         #region Constructors
@@ -24,7 +23,7 @@
         [HttpGet]
         public virtual async Task<IActionResult> Read(int[] ids, int? page, int? pageSize, CancellationToken cancellationToken = default)
         {
-            var entities = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TEntity, TDto>(ids)
+            var entities = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TEntity, int, TDto>(ids)
                                                             {
                                                                     Page = page,
                                                                     PageSize = pageSize

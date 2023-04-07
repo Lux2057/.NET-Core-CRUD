@@ -35,9 +35,7 @@
             {
                 var id = command.Dto.Id.GetValueOrDefault(0);
 
-                var entity = await Repository<ExampleEntity>().Get(new EntityByIdSpec<ExampleEntity>(id)).SingleOrDefaultAsync(cancellationToken);
-
-                var t = this.Mapper.Map<ExampleDto>(entity);
+                var entity = await Repository<ExampleEntity>().Get(new EntityByIdSpec<ExampleEntity, int>(id)).SingleOrDefaultAsync(cancellationToken);
 
                 if (entity == null)
                 {
@@ -46,7 +44,7 @@
                 }
 
                 entity.Text = command.Dto.Text.Trim();
-                await Repository<ExampleEntity>().AddOrUpdateAsync(entity, cancellationToken);
+                await Repository<ExampleEntity>().UpdateAsync(entity, cancellationToken);
 
                 command.Result = true;
             }

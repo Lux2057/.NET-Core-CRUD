@@ -9,13 +9,13 @@
     using System.Threading.Tasks;
     using CRUD.CQRS;
     using CRUD.DAL;
-    using CRUD.Extensions;
+    using Microsoft.EntityFrameworkCore;
 
     #endregion
 
-    public class CreateOrUpdateEntitiesCommand<TEntity, TDto> : CommandBase
-            where TEntity : EntityBase, new()
-            where TDto : DtoBase, new()
+    public class CreateOrUpdateEntitiesCommand<TEntity, TId, TDto> : CommandBase
+            where TEntity : EntityBase<TId>, new()
+            where TDto : class, IId<TId>, new()
     {
         #region Properties
 
@@ -36,7 +36,7 @@
 
         #region Nested Classes
 
-        public class Handler : CommandHandlerBase<CreateOrUpdateEntitiesCommand<TEntity, TDto>>
+        public class Handler : CommandHandlerBase<CreateOrUpdateEntitiesCommand<TEntity, TId, TDto>>
         {
             #region Constructors
 
@@ -44,7 +44,7 @@
 
             #endregion
 
-            protected override async Task Execute(CreateOrUpdateEntitiesCommand<TEntity, TDto> command, CancellationToken cancellationToken)
+            protected override async Task Execute(CreateOrUpdateEntitiesCommand<TEntity, TId, TDto> command, CancellationToken cancellationToken)
             {
                 if (!command.Dtos.Any())
                     return;
@@ -54,7 +54,10 @@
                 var dt = DateTime.UtcNow;
                 Parallel.ForEach(entities, entity => entity.CrDt = dt);
 
-                await Repository<TEntity>().AddOrUpdateAsync(entities, cancellationToken);
+                var existingEntitiesIds = await Repository<TEntity>().Get(new EntitiesByIdsSpec<TEntity, TId>(entities.GetIds<TEntity, TId>())).Select(r => r.Id).ToArrayAsync(cancellationToken);
+
+                await Repository<TEntity>().AddAsync(entities.Where(r => !existingEntitiesIds.Contains(r.Id)), cancellationToken);
+                await Repository<TEntity>().UpdateAsync(entities.Where(r => existingEntitiesIds.Contains(r.Id)), cancellationToken);
 
                 command.Result = entities.Cast<object>().ToArrayOrEmpty();
             }

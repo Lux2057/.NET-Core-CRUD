@@ -2,13 +2,13 @@
 {
     #region << Using >>
 
-    using CRUD.DAL;
+    using CRUD.Core;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     #endregion
 
-    public class ExampleEntity : EntityBase
+    public class ExampleEntity : EntityBase<int>
     {
         #region Properties
 

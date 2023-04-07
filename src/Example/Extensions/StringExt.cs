@@ -1,4 +1,4 @@
-﻿namespace CRUD.Extensions
+﻿namespace CRUD.Example
 {
     #region << Using >>
 

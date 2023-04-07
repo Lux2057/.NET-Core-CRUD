@@ -4,8 +4,6 @@
 
     using System;
     using System.Linq.Expressions;
-    using CRUD.DAL;
-    using CRUD.Extensions;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,7 +11,7 @@
 
     internal static class MappingExt
     {
-        public static PropertyBuilder<TEnum> PropertyAsEnum<TEntity, TEnum>(this EntityTypeBuilder<TEntity> builder, Expression<Func<TEntity, TEnum>> propertyExpression) where TEntity : EntityBase, new()
+        public static PropertyBuilder<TEnum> PropertyAsEnum<TEntity, TEnum>(this EntityTypeBuilder<TEntity> builder, Expression<Func<TEntity, TEnum>> propertyExpression) where TEntity : class, new()
         {
             return builder.Property(propertyExpression)
                           .HasMaxLength(50)

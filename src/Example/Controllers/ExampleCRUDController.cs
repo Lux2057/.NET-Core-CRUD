@@ -9,7 +9,7 @@
     #endregion
 
     [Route("[controller]/[action]")]
-    public class ExampleCRUDController : EntityCRUDControllerBase<ExampleEntity, ExampleDto>
+    public class ExampleCRUDController : EntityCRUDControllerBase<ExampleEntity, int, ExampleDto>
     {
         #region Constructors
 

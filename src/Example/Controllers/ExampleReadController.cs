@@ -10,7 +10,7 @@
 
     [Route("[controller]/[action]")]
 
-    public class ExampleReadController : EntityReadControllerBase<ExampleEntity, ExampleDto>
+    public class ExampleReadController : EntityReadControllerBase<ExampleEntity, int, ExampleDto>
     {
         #region Constructors
 

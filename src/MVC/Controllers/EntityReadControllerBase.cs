@@ -8,8 +8,8 @@
 
     #endregion
 
-    public abstract class EntityReadControllerBase<TEntity, TDto> : DispatcherControllerBase
-            where TEntity : EntityBase<int>, new()
+    public abstract class EntityReadControllerBase<TEntity, TId, TDto> : DispatcherControllerBase
+            where TEntity : EntityBase<TId>, new()
             where TDto : class, new()
     {
         #region Constructors
@@ -19,9 +19,9 @@
         #endregion
 
         [HttpGet]
-        public virtual async Task<IActionResult> Read(int[] ids, int? page, int? pageSize, CancellationToken cancellationToken = default)
+        public virtual async Task<IActionResult> Read(TId[] ids, int? page, int? pageSize, CancellationToken cancellationToken = default)
         {
-            var entities = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TEntity, int, TDto>(ids)
+            var entities = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TEntity, TId, TDto>(ids)
                                                             {
                                                                     Page = page,
                                                                     PageSize = pageSize

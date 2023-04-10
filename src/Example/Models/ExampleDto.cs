@@ -1,6 +1,11 @@
 ﻿namespace CRUD.Example
 {
+    #region << Using >>
+
     using CRUD.Core;
+    using CRUD.MVC;
+
+    #endregion
 
     public class ExampleDto : DtoBase, IId<int>
     {

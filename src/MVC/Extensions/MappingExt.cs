@@ -1,15 +1,14 @@
-﻿namespace CRUD.Example
+﻿namespace CRUD.MVC
 {
     #region << Using >>
 
-    using System;
     using System.Linq.Expressions;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     #endregion
 
-    internal static class MappingExt
+    public static class MappingExt
     {
         public static PropertyBuilder<TEnum> PropertyAsEnum<TEntity, TEnum>(this EntityTypeBuilder<TEntity> builder, Expression<Func<TEntity, TEnum>> propertyExpression) where TEntity : class, new()
         {

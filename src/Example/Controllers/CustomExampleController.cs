@@ -5,10 +5,12 @@
     using System.Threading;
     using System.Threading.Tasks;
     using CRUD.CQRS;
+    using CRUD.MVC;
     using Microsoft.AspNetCore.Mvc;
 
     #endregion
 
+    [Route("[controller]/[action]")]
     public class CustomExampleController : DispatcherControllerBase
     {
         #region Constructors

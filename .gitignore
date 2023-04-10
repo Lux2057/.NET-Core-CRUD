@@ -14,3 +14,5 @@ src/Core/bin/
 src/Core/obj/
 src/Example/bin/
 src/Example/obj/
+src/MVC/bin/
+src/MVC/obj/

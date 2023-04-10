@@ -1,5 +1,11 @@
 ﻿namespace CRUD.Example
 {
+    #region << Using >>
+
+    using CRUD.MVC;
+
+    #endregion
+
     public class ExampleTextDto : DtoBase
     {
         #region Properties

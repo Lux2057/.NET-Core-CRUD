@@ -1,9 +1,7 @@
-﻿namespace CRUD.Example
+﻿namespace CRUD.MVC
 {
     #region << Using >>
 
-    using System.Threading;
-    using System.Threading.Tasks;
     using CRUD.Core;
     using CRUD.CQRS;
     using Microsoft.AspNetCore.Mvc;
@@ -12,7 +10,7 @@
 
     public abstract class EntityReadControllerBase<TEntity, TDto> : DispatcherControllerBase
             where TEntity : EntityBase<int>, new()
-            where TDto : DtoBase, new()
+            where TDto : class, new()
     {
         #region Constructors
 

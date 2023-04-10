@@ -1,4 +1,4 @@
-﻿namespace CRUD.Example
+﻿namespace CRUD.MVC
 {
     #region << Using >>
 

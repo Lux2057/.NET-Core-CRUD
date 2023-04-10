@@ -1,13 +1,11 @@
-﻿namespace CRUD.Example
+﻿namespace CRUD.MVC
 {
     #region << Using >>
 
-    using System;
     using System.Threading;
     using System.Threading.Tasks;
     using CRUD.Core;
     using CRUD.CQRS;
-    using CRUD.DAL;
     using Microsoft.AspNetCore.Mvc;
 
     #endregion

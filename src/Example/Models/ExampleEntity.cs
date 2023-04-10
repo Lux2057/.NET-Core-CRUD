@@ -3,6 +3,7 @@
     #region << Using >>
 
     using CRUD.Core;
+    using CRUD.MVC;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

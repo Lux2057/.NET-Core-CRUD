@@ -1,4 +1,4 @@
-﻿namespace CRUD.Example
+﻿namespace CRUD.MVC
 {
     #region << Using >>
 
@@ -7,7 +7,6 @@
 
     #endregion
 
-    [Route("[controller]/[action]")]
     public abstract class DispatcherControllerBase : ControllerBase
     {
         #region Properties

@@ -21,7 +21,7 @@
 
         public TDto[] Dtos { get; }
 
-        public new object[] Result { get; set; }
+        public new TId[] Result { get; set; }
 
         #endregion
 
@@ -59,7 +59,7 @@
                 await Repository<TEntity>().AddAsync(entities.Where(r => !existingEntitiesIds.Contains(r.Id)), cancellationToken);
                 await Repository<TEntity>().UpdateAsync(entities.Where(r => existingEntitiesIds.Contains(r.Id)), cancellationToken);
 
-                command.Result = entities.Cast<object>().ToArrayOrEmpty();
+                command.Result = entities.GetIds<TEntity, TId>();
             }
         }
 

@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using CRUD.Core;
     using CRUD.CQRS;
+    using FluentValidation;
     using Microsoft.EntityFrameworkCore;
 
     #endregion
@@ -22,6 +23,20 @@
         #endregion
 
         #region Nested Classes
+
+        public class Validator : AbstractValidator<EditExampleTextByIdCommand>
+        {
+            #region Constructors
+
+            public Validator()
+            {
+                RuleFor(r => r.Dto).NotEmpty();
+                RuleFor(r => r.Dto.Id).NotEmpty();
+                RuleFor(r => r.Dto.Text).NotEmpty();
+            }
+
+            #endregion
+        }
 
         class Handler : CommandHandlerBase<EditExampleTextByIdCommand>
         {

@@ -4,6 +4,7 @@ namespace CRUD.Example
 
     using CRUD.Core;
     using CRUD.CQRS;
+    using CRUD.MVC;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -77,6 +78,8 @@ namespace CRUD.Example
                              });
 
             app.UseRouting();
+
+            app.UseMiddleware<ValidationErrorsHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
                              {

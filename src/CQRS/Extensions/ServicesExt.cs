@@ -5,7 +5,6 @@
     using System.Reflection;
     using CRUD.DAL;
     using FluentValidation;
-    using MediatR;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -27,7 +26,7 @@
             services.AddScoped<IReadWriteDispatcher, DefaultReadWriteDispatcher>();
             services.AddValidatorsFromAssemblies(validatorAssemblies);
             services.AddAutoMapper(automapperAssemblies);
-            services.AddMediatR(mediatorAssemblies);
+            services.AddMediatR(config => config.RegisterServicesFromAssemblies(mediatorAssemblies));
         }
     }
 }

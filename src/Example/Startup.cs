@@ -67,6 +67,8 @@ namespace CRUD.Example
         {
             dbContext.Database.Migrate();
 
+            app.UseDeveloperExceptionPage();
+
             app.UseHttpsRedirection();
 
             app.UseSwagger();

@@ -7,7 +7,7 @@
 
     #endregion
 
-    public class ExampleDto : DtoBase, IId<int>
+    public class ExampleDto : IId<int>
     {
         #region Properties
 

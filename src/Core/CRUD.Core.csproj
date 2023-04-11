@@ -8,6 +8,7 @@
     <PackageId>XulBenet.CRUD.Core</PackageId>
     <PackageProjectUrl>https://github.com/Lux2057/.NET-Core-CRUD</PackageProjectUrl>
     <Authors>XulBenet</Authors>
+    <Version>1.0.0-build.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

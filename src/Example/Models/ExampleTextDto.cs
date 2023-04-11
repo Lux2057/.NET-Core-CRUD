@@ -2,11 +2,11 @@
 {
     #region << Using >>
 
-    using CRUD.MVC;
+    using CRUD.Core;
 
     #endregion
 
-    public class ExampleTextDto : DtoBase
+    public class ExampleTextDto : IId<int?>
     {
         #region Properties
 

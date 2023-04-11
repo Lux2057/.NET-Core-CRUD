@@ -49,15 +49,11 @@
             TResponse response;
             try
             {
-                await this._unitOfWork.BeginTransactionAsync(PermissionType.Read, cancellationToken);
-
                 response = await Execute(query, cancellationToken);
-
-                await this._unitOfWork.EndTransactionAsync(cancellationToken);
             }
             catch (Exception)
             {
-                await this._unitOfWork.RollbackTransactionAsync(cancellationToken);
+                await this._unitOfWork.RollbackTransactionAsync();
 
                 throw;
             }

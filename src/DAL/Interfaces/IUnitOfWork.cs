@@ -13,10 +13,10 @@
 
         public IReadWriteRepository<TEntity> ReadWriteRepository<TEntity>() where TEntity : class, new();
 
-        public Task BeginTransactionAsync(PermissionType permissionType, CancellationToken cancellationToken = default);
+        public Task BeginTransactionAsync(PermissionType permissionType);
 
-        public Task EndTransactionAsync(CancellationToken cancellationToken = default);
+        public Task EndTransactionAsync();
 
-        public Task RollbackTransactionAsync(CancellationToken cancellationToken = default);
+        public Task RollbackTransactionAsync();
     }
 }

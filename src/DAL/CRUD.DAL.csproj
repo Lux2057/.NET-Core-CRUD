@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
+    <Title>.NET Core CRUD DAL package</Title>
+    <PackageProjectUrl>https://github.com/Lux2057/.NET-Core-CRUD</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Lux2057/.NET-Core-CRUD</RepositoryUrl>
+    <PackageId>XulBenet.CRUD.DAL</PackageId>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Version>$(AssemblyVersion)</Version>
+    <Authors>XulBenet</Authors>
   </PropertyGroup>
 
   <ItemGroup>

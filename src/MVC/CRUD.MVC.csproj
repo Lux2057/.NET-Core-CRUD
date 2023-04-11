@@ -4,6 +4,13 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Title>.NET Core CRUD MVC package</Title>
+    <PackageProjectUrl>https://github.com/Lux2057/.NET-Core-CRUD</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Lux2057/.NET-Core-CRUD</RepositoryUrl>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageId>XulBenet.CRUD.MVC</PackageId>
+    <Version>$(AssemblyVersion)</Version>
+    <Authors>XulBenet</Authors>
   </PropertyGroup>
 
   <ItemGroup>

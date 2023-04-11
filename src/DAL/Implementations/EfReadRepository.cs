@@ -3,7 +3,10 @@
     #region << Using >>
 
     using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
     using LinqSpecs;
+    using Microsoft.EntityFrameworkCore;
 
     #endregion
 
@@ -33,6 +36,20 @@
             return specification == null ?
                            dbSet.AsQueryable() :
                            dbSet.Where(specification).AsQueryable();
+        }
+
+        public IQueryable<TEntity> GetPaginated(Specification<TEntity> specification, int? page, int? pageSize)
+        {
+            var totalCount = Get(specification).Count();
+
+            return Get(specification).GetPage(totalCount, page, pageSize);
+        }
+
+        public async Task<IQueryable<TEntity>> GetPaginatedAsync(Specification<TEntity> specification, int? page, int? pageSize, CancellationToken cancellationToken = default)
+        {
+            var totalCount = await Get(specification).CountAsync(cancellationToken);
+
+            return Get(specification).GetPage(totalCount, page, pageSize);
         }
 
         #endregion

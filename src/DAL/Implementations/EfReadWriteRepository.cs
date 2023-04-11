@@ -2,7 +2,6 @@
 {
     #region << Using >>
 
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
@@ -12,14 +11,6 @@
 
     public class EfReadWriteRepository<TEntity> : EfReadRepository<TEntity>, IReadWriteRepository<TEntity> where TEntity : class, new()
     {
-        #region Constants
-
-        private const string EntityCanTBeNull = "Entity can't be null!";
-
-        private const string EntitiesCanTBeEmptyOrNull = "Entities can't be empty or null!";
-
-        #endregion
-
         #region Constructors
 
         public EfReadWriteRepository(IEfDbContext context) : base(context) { }
@@ -31,7 +22,7 @@
         public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             if (entity == null)
-                throw new ArgumentException(EntityCanTBeNull);
+                return;
 
             var dbSet = this._context.Set<TEntity>();
 
@@ -42,10 +33,10 @@
 
         public async Task AddAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         {
-            var entitiesArray = entities.ToArrayOrEmpty();
+            var entitiesArray = entities.Where(r => r != null).ToArrayOrEmpty();
 
-            if (!entitiesArray.Any() || entitiesArray.Any(r => r == null))
-                throw new ArgumentException(EntitiesCanTBeEmptyOrNull);
+            if (!entitiesArray.Any())
+                return;
 
             var dbSet = this._context.Set<TEntity>();
 
@@ -57,7 +48,7 @@
         public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             if (entity == null)
-                throw new ArgumentException(EntityCanTBeNull);
+                return;
 
             var dbSet = this._context.Set<TEntity>();
 
@@ -68,10 +59,10 @@
 
         public async Task UpdateAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         {
-            var entitiesArray = entities.ToArrayOrEmpty();
+            var entitiesArray = entities.Where(r => r != null).ToArrayOrEmpty();
 
-            if (!entitiesArray.Any() || entitiesArray.Any(r => r == null))
-                throw new ArgumentException(EntitiesCanTBeEmptyOrNull);
+            if (!entitiesArray.Any())
+                return;
 
             var dbSet = this._context.Set<TEntity>();
 
@@ -83,7 +74,7 @@
         public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             if (entity == null)
-                throw new ArgumentException(EntityCanTBeNull);
+                return;
 
             this._context.Set<TEntity>().Remove(entity);
 
@@ -92,10 +83,10 @@
 
         public async Task DeleteAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         {
-            var entitiesArray = entities.ToArrayOrEmpty();
+            var entitiesArray = entities.Where(r => r != null).ToArrayOrEmpty();
 
-            if (!entitiesArray.Any() || entitiesArray.Any(r => r == null))
-                throw new ArgumentException(EntitiesCanTBeEmptyOrNull);
+            if (!entitiesArray.Any())
+                return;
 
             this._context.Set<TEntity>().RemoveRange(entitiesArray);
 

@@ -17,14 +17,6 @@
             where TEntity : class, IId<TId>, new()
             where TDto : class, new()
     {
-        #region Constants
-
-        public const int defaultPageSize = 50;
-
-        public const int defaultPage = 1;
-
-        #endregion
-
         #region Properties
 
         public TId[] Ids { get; }
@@ -56,14 +48,8 @@
 
             protected override async Task<TDto[]> Execute(ReadEntitiesQuery<TEntity, TId, TDto> request, CancellationToken cancellationToken)
             {
-                var entitiesCount = await Repository<TEntity>().Get(new EntitiesByIdsSpec<TEntity, TId>(request.Ids)).CountAsync(cancellationToken);
-                var pageSize = new[] { defaultPage, request.PageSize.GetValueOrDefault(defaultPageSize) }.Max();
-                var maxPage = new[] { 1, entitiesCount / pageSize }.Max();
-                var currentPage = new[] { new[] { defaultPage, request.Page.GetValueOrDefault(defaultPage) }.Max(), maxPage }.Min() - 1;
-
-                var entities = await Repository<TEntity>().Get(new EntitiesByIdsSpec<TEntity, TId>(request.Ids))
-                                                          .Skip(currentPage * pageSize).Take(pageSize)
-                                                          .ToArrayAsync(cancellationToken);
+                var paginatedAsync = await Repository<TEntity>().GetPaginatedAsync(new EntitiesByIdsSpec<TEntity, TId>(request.Ids), request.Page, request.PageSize, cancellationToken);
+                var entities = await paginatedAsync.ToArrayAsync(cancellationToken);
 
                 return this.Mapper.Map<TDto[]>(entities).ToArray();
             }

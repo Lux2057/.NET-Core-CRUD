@@ -4,7 +4,6 @@
 
     using System;
     using System.Data;
-    using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
@@ -43,7 +42,7 @@
             return this._serviceProvider.GetService<IReadWriteRepository<TEntity>>();
         }
 
-        public async Task BeginTransactionAsync(PermissionType permissionType, CancellationToken cancellationToken = default)
+        public async Task BeginTransactionAsync(PermissionType permissionType)
         {
             if (this._dbContext.Database.CurrentTransaction != null)
                 return;
@@ -55,23 +54,23 @@
                     _ => throw new NotImplementedException($"{nameof(PermissionType)} -> {permissionType}")
             };
 
-            await this._dbContext.Database.BeginTransactionAsync(isolationLevel, cancellationToken);
+            await this._dbContext.Database.BeginTransactionAsync(isolationLevel);
         }
 
-        public async Task EndTransactionAsync(CancellationToken cancellationToken = default)
+        public async Task EndTransactionAsync()
         {
             if (this._dbContext.Database.CurrentTransaction == null)
                 return;
 
-            await this._dbContext.Database.CurrentTransaction.CommitAsync(cancellationToken);
+            await this._dbContext.Database.CurrentTransaction.CommitAsync();
         }
 
-        public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
+        public async Task RollbackTransactionAsync()
         {
             if (this._dbContext.Database.CurrentTransaction == null)
                 return;
 
-            await this._dbContext.Database.CurrentTransaction.RollbackAsync(cancellationToken);
+            await this._dbContext.Database.CurrentTransaction.RollbackAsync();
         }
 
         #endregion

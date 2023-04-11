@@ -48,15 +48,15 @@
 
             try
             {
-                await this._unitOfWork.BeginTransactionAsync(PermissionType.ReadWrite, cancellationToken);
+                await this._unitOfWork.BeginTransactionAsync(PermissionType.ReadWrite);
 
                 await Execute(command, cancellationToken);
 
-                await this._unitOfWork.EndTransactionAsync(cancellationToken);
+                await this._unitOfWork.EndTransactionAsync();
             }
             catch (Exception)
             {
-                await this._unitOfWork.RollbackTransactionAsync(cancellationToken);
+                await this._unitOfWork.RollbackTransactionAsync();
 
                 throw;
             }

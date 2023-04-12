@@ -18,11 +18,6 @@
 
         #endregion
 
-        public static T[] ToArrayOrEmpty<T>(this IEnumerable<T> enumerable)
-        {
-            return enumerable == null ? Array.Empty<T>() : enumerable.ToArray();
-        }
-
         public static IOrderedEnumerable<TEntity> OrderBy<TEntity, TProperty>(this IEnumerable<TEntity> enumerable, OrderSpecification<TEntity, TProperty> specification)
         {
             var ordering = specification.Expression.Compile();

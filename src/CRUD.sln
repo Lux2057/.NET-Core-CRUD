@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.Example", "Example\CRU
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.MVC", "MVC\CRUD.MVC.csproj", "{3DBB732F-4476-4A29-B5DA-952B3277D3F5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.Extensions", "Extensions\CRUD.Extensions.csproj", "{7E0B209D-0600-4309-84C1-85C170C606C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{3DBB732F-4476-4A29-B5DA-952B3277D3F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DBB732F-4476-4A29-B5DA-952B3277D3F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DBB732F-4476-4A29-B5DA-952B3277D3F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E0B209D-0600-4309-84C1-85C170C606C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E0B209D-0600-4309-84C1-85C170C606C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E0B209D-0600-4309-84C1-85C170C606C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E0B209D-0600-4309-84C1-85C170C606C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

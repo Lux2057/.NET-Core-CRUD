@@ -4,11 +4,11 @@
 
     using System.Collections.Generic;
     using System.Linq;
-    using CRUD.DAL;
+    using CRUD.Extensions;
 
     #endregion
 
-    public static class Enumerable
+    internal static class Enumerable
     {
         public static TId[] GetIds<TEntity, TId>(this IEnumerable<TEntity> entities) where TEntity : IId<TId>
         {

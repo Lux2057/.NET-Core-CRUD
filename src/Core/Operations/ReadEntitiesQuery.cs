@@ -8,7 +8,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using CRUD.CQRS;
-    using CRUD.DAL;
+    using CRUD.Extensions;
     using Microsoft.EntityFrameworkCore;
 
     #endregion

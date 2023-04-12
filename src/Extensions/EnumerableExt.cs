@@ -15,8 +15,6 @@ public static class EnumerableExt
         return enumerable == null ? Array.Empty<T>() : enumerable.ToArray();
     }
 
-
-
     public static IQueryable<TEntity> ToPage<TEntity>(this IQueryable<TEntity> queryable, int totalCount, int? page, int? pageSize)
     {
         var currentPageSize = new[] { pageSize.GetValueOrDefault(defaultPageSize), 1 }.Max();

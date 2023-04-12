@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DAL\Extensions\EnumerableExt\" />
     <Folder Include="Extensions\JsonExt\" />
   </ItemGroup>
 

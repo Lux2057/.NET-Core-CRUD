@@ -48,7 +48,7 @@
 
             protected override async Task<TDto[]> Execute(ReadEntitiesQuery<TEntity, TId, TDto> request, CancellationToken cancellationToken)
             {
-                var paginatedAsync = await Repository<TEntity>().GetPaginatedAsync(new EntitiesByIdsSpec<TEntity, TId>(request.Ids), request.Page, request.PageSize, cancellationToken);
+                var paginatedAsync = await Repository<TEntity>().GetPageAsync(new EntitiesByIdsSpec<TEntity, TId>(request.Ids), request.Page, request.PageSize, cancellationToken);
                 var entities = await paginatedAsync.ToArrayAsync(cancellationToken);
 
                 return this.Mapper.Map<TDto[]>(entities).ToArray();

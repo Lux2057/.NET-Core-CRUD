@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.MVC", "MVC\CRUD.MVC.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.Extensions", "Extensions\CRUD.Extensions.csproj", "{7E0B209D-0600-4309-84C1-85C170C606C1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.Tests", "Tests\CRUD.Tests.csproj", "{8EFA9F42-5B16-4EA9-9413-72F0104FBEC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{7E0B209D-0600-4309-84C1-85C170C606C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E0B209D-0600-4309-84C1-85C170C606C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E0B209D-0600-4309-84C1-85C170C606C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EFA9F42-5B16-4EA9-9413-72F0104FBEC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EFA9F42-5B16-4EA9-9413-72F0104FBEC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EFA9F42-5B16-4EA9-9413-72F0104FBEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EFA9F42-5B16-4EA9-9413-72F0104FBEC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

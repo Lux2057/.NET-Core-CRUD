@@ -18,3 +18,5 @@ src/MVC/bin/
 src/MVC/obj/
 src/Extensions/bin/
 src/Extensions/obj/
+src/Tests/bin/
+src/Tests/obj/

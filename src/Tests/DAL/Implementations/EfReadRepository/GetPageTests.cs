@@ -14,7 +14,7 @@ public class GetPageTests
         var text1 = Guid.NewGuid().ToString();
         var text2 = Guid.NewGuid().ToString();
 
-        MockDbHelper.ExecuteWithDbContext(context =>
+        EfDbContextMocker.ExecuteWithDbContext(context =>
                                           {
                                               context.Set<TestEntity>().AddRange(new[]
                                                                                  {

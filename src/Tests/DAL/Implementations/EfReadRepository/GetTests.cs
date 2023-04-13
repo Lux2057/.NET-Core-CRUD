@@ -14,7 +14,7 @@ public class GetTests
         var text = Guid.NewGuid().ToString();
         var id = 1;
 
-        MockDbHelper.ExecuteWithDbContext(context =>
+        EfDbContextMocker.ExecuteWithDbContext(context =>
                                           {
                                               var testEntity = new TestEntity
                                                                {
@@ -40,7 +40,7 @@ public class GetTests
         var text1 = Guid.NewGuid().ToString();
         var text2 = Guid.NewGuid().ToString();
 
-        MockDbHelper.ExecuteWithDbContext(context =>
+        EfDbContextMocker.ExecuteWithDbContext(context =>
                                           {
                                               context.Set<TestEntity>().AddRange(new[]
                                                                                  {

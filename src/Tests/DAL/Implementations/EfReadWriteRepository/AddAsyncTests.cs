@@ -14,7 +14,7 @@ public class AddAsyncTests
     {
         var text = Guid.NewGuid().ToString();
 
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var repository = new EfReadWriteRepository<TestEntity>(context);
 
@@ -30,7 +30,7 @@ public class AddAsyncTests
     [Fact]
     public void Should_ignore_null_entity()
     {
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var repository = new EfReadWriteRepository<TestEntity>(context);
 
@@ -60,7 +60,7 @@ public class AddAsyncTests
                                (TestEntity)null
                        };
 
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var repository = new EfReadWriteRepository<TestEntity>(context);
 
@@ -81,7 +81,7 @@ public class AddAsyncTests
                                (TestEntity)null
                        };
 
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var repository = new EfReadWriteRepository<TestEntity>(context);
 

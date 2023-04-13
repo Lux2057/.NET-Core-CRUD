@@ -12,7 +12,7 @@ public class DeleteAsyncTests
     [Fact]
     public void Should_ignore_null_entity()
     {
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var dbSet = context.Set<TestEntity>();
                                               await dbSet.AddAsync(new TestEntity { Text = Guid.NewGuid().ToString() });
@@ -28,7 +28,7 @@ public class DeleteAsyncTests
     [Fact]
     public void Should_delete_an_entity()
     {
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var dbSet = context.Set<TestEntity>();
                                               var entity = new TestEntity { Text = Guid.NewGuid().ToString() };
@@ -45,7 +45,7 @@ public class DeleteAsyncTests
     [Fact]
     public void Should_throw_exception_for_an_unattached_entity()
     {
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var repository = new EfReadWriteRepository<TestEntity>(context);
 
@@ -75,7 +75,7 @@ public class DeleteAsyncTests
                                (TestEntity)null
                        };
 
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var dbSet = context.Set<TestEntity>();
                                               await dbSet.AddRangeAsync(entities.Where(r => r != null));
@@ -96,7 +96,7 @@ public class DeleteAsyncTests
                                (TestEntity)null
                        };
 
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var repository = new EfReadWriteRepository<TestEntity>(context);
 

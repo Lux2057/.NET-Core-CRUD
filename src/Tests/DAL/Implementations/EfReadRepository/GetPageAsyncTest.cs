@@ -15,7 +15,7 @@ public class GetPageAsyncTest
         var text1 = Guid.NewGuid().ToString();
         var text2 = Guid.NewGuid().ToString();
 
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               context.Set<TestEntity>().AddRange(new[]
                                                                                  {

@@ -20,7 +20,7 @@ public class UpdateAsyncTests
                              Text = oldText
                      };
 
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var dbSet = context.Set<TestEntity>();
                                               dbSet.Add(entity);
@@ -38,7 +38,7 @@ public class UpdateAsyncTests
     [Fact]
     public void Should_ignore_null()
     {
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var repository = new EfReadWriteRepository<TestEntity>(context);
                                               await repository.UpdateAsync((TestEntity)null);
@@ -61,7 +61,7 @@ public class UpdateAsyncTests
                              Text = oldText
                      };
 
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var repository = new EfReadWriteRepository<TestEntity>(context);
                                               entity.Text = newText;
@@ -89,7 +89,7 @@ public class UpdateAsyncTests
                                (TestEntity)null
                        };
 
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var dbSet = context.Set<TestEntity>();
                                               await dbSet.AddRangeAsync(entities.Where(r => r != null));
@@ -113,7 +113,7 @@ public class UpdateAsyncTests
                                (TestEntity)null
                        };
 
-        MockDbHelper.ExecuteWithDbContext(async context =>
+        EfDbContextMocker.ExecuteWithDbContext(async context =>
                                           {
                                               var repository = new EfReadWriteRepository<TestEntity>(context);
 

@@ -2,6 +2,7 @@
 
 #region << Using >>
 
+using System.Linq.Expressions;
 using CRUD.DAL;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,12 +34,15 @@ public static class MockDbHelper
 
     #endregion
 
-    public static TestDbContext GetDbContextInstance()
+    public static void ExecuteWithDbContext(Action<TestDbContext> action)
     {
         var options = new DbContextOptionsBuilder<TestDbContext>()
                       .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                       .Options;
 
-        return new TestDbContext(options);
+        using (var context = new TestDbContext(options))
+        {
+            action.Invoke(context);
+        }
     }
 }

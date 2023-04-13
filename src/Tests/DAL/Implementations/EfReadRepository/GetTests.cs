@@ -11,60 +11,60 @@ public class GetTests
     [Fact]
     public void Should_return_saved_entity()
     {
-        var text = "Test1";
+        var text = Guid.NewGuid().ToString();
         var id = 1;
 
-        using (var context = MockDbHelper.GetDbContextInstance())
-        {
-            var testEntity = new TestEntity
-                             {
-                                     Text = text
-                             };
+        MockDbHelper.ExecuteWithDbContext(context =>
+                                          {
+                                              var testEntity = new TestEntity
+                                                               {
+                                                                       Text = text
+                                                               };
 
-            context.Set<TestEntity>().Add(testEntity);
-            context.SaveChanges();
+                                              context.Set<TestEntity>().Add(testEntity);
+                                              context.SaveChanges();
 
-            var repository = new EfReadRepository<TestEntity>(context);
+                                              var repository = new EfReadRepository<TestEntity>(context);
 
-            Assert.Single(repository.Get().ToArray());
+                                              Assert.Single(repository.Get().ToArray());
 
-            Assert.Equal(testEntity, repository.Get().Single());
-            Assert.Equal(id, repository.Get().Single().Id);
-            Assert.Equal(text, repository.Get().Single().Text);
-        }
+                                              Assert.Equal(testEntity, repository.Get().Single());
+                                              Assert.Equal(id, repository.Get().Single().Id);
+                                              Assert.Equal(text, repository.Get().Single().Text);
+                                          });
     }
 
     [Fact]
     public void Should_return_saved_entities_by_text_spec()
     {
-        var text1 = "TEST";
-        var text2 = "test";
+        var text1 = Guid.NewGuid().ToString();
+        var text2 = Guid.NewGuid().ToString();
 
-        using (var context = MockDbHelper.GetDbContextInstance())
-        {
-            context.Set<TestEntity>().AddRange(new[]
-                                               {
-                                                       new TestEntity
-                                                       {
-                                                               Text = text1
-                                                       },
-                                                       new TestEntity
-                                                       {
-                                                               Text = text1
-                                                       },
-                                                       new TestEntity
-                                                       {
-                                                               Text = text2
-                                                       }
-                                               });
+        MockDbHelper.ExecuteWithDbContext(context =>
+                                          {
+                                              context.Set<TestEntity>().AddRange(new[]
+                                                                                 {
+                                                                                         new TestEntity
+                                                                                         {
+                                                                                                 Text = text1
+                                                                                         },
+                                                                                         new TestEntity
+                                                                                         {
+                                                                                                 Text = text1
+                                                                                         },
+                                                                                         new TestEntity
+                                                                                         {
+                                                                                                 Text = text2
+                                                                                         }
+                                                                                 });
 
-            context.SaveChanges();
+                                              context.SaveChanges();
 
-            var repository = new EfReadRepository<TestEntity>(context);
+                                              var repository = new EfReadRepository<TestEntity>(context);
 
-            Assert.Equal(3, repository.Get().Count());
-            Assert.Equal(2, repository.Get(new TestByTextSpecification(text1)).Count());
-            Assert.Equal(1, repository.Get(new TestByTextSpecification(text2)).Count());
-        }
+                                              Assert.Equal(3, repository.Get().Count());
+                                              Assert.Equal(2, repository.Get(new TestByTextSpecification(text1)).Count());
+                                              Assert.Equal(1, repository.Get(new TestByTextSpecification(text2)).Count());
+                                          });
     }
 }

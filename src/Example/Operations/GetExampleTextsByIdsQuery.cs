@@ -3,11 +3,11 @@
     #region << Using >>
 
     using System;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using CRUD.Core;
     using CRUD.CQRS;
-    using CRUD.DAL;
     using CRUD.Extensions;
     using Microsoft.EntityFrameworkCore;
 
@@ -37,9 +37,7 @@
             {
                 var entities = await Repository<ExampleEntity>().Get(new EntitiesByIdsSpec<ExampleEntity, int>(request.Ids)).ToArrayAsync(cancellationToken);
 
-                var dtos = this.Mapper.Map<ExampleTextDto[]>(entities)
-                               .OrderBy(new OrderSpecification<ExampleTextDto, string>(r => r.Text, OrderType.Descending))
-                               .ToArrayOrEmpty();
+                var dtos = this.Mapper.Map<ExampleTextDto[]>(entities).OrderBy(r => r.Text).ToArrayOrEmpty();
 
                 if (request.ToUpper)
                     Parallel.ForEach(dtos, dto => dto.Text = dto.Text.ToUpper());

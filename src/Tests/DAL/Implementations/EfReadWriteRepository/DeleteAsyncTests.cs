@@ -7,84 +7,70 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 
-public class UpdateAsyncTests
+public class DeleteAsyncTests
 {
     [Fact]
-    public void Should_update_an_entity()
+    public void Should_ignore_null_entity()
     {
-        var oldText = Guid.NewGuid().ToString();
-        var newText = Guid.NewGuid().ToString();
-
-        var entity = new TestEntity
-                     {
-                             Text = oldText
-                     };
-
         MockDbHelper.ExecuteWithDbContext(async context =>
                                           {
                                               var dbSet = context.Set<TestEntity>();
-                                              dbSet.Add(entity);
+                                              await dbSet.AddAsync(new TestEntity { Text = Guid.NewGuid().ToString() });
                                               await context.SaveChangesAsync();
 
                                               var repository = new EfReadWriteRepository<TestEntity>(context);
-                                              entity.Text = newText;
-                                              await repository.UpdateAsync(entity);
+                                              await repository.DeleteAsync((TestEntity)null);
 
-                                              var entityFromDb = await dbSet.SingleAsync();
-                                              Assert.Equal(newText, entityFromDb.Text);
+                                              Assert.Single(await dbSet.ToArrayAsync());
                                           });
     }
 
     [Fact]
-    public void Should_ignore_null()
+    public void Should_delete_an_entity()
+    {
+        MockDbHelper.ExecuteWithDbContext(async context =>
+                                          {
+                                              var dbSet = context.Set<TestEntity>();
+                                              var entity = new TestEntity { Text = Guid.NewGuid().ToString() };
+                                              await dbSet.AddAsync(entity);
+                                              await context.SaveChangesAsync();
+
+                                              var repository = new EfReadWriteRepository<TestEntity>(context);
+                                              await repository.DeleteAsync(entity);
+
+                                              Assert.Empty(await dbSet.ToArrayAsync());
+                                          });
+    }
+
+    [Fact]
+    public void Should_throw_exception_for_an_unattached_entity()
     {
         MockDbHelper.ExecuteWithDbContext(async context =>
                                           {
                                               var repository = new EfReadWriteRepository<TestEntity>(context);
-                                              await repository.UpdateAsync((TestEntity)null);
 
-                                              var entitiesInDb = await context.Set<TestEntity>().ToArrayAsync();
-
-                                              Assert.Empty(entitiesInDb);
+                                              await Assert.ThrowsAsync<DbUpdateConcurrencyException>
+                                                      (async () =>
+                                                               await repository.DeleteAsync(new TestEntity
+                                                                                            {
+                                                                                                    Id = 1,
+                                                                                                    Text = Guid.NewGuid().ToString()
+                                                                                            }));
                                           });
     }
 
     [Fact]
-    public void Should_throw_exception_for_nonexistent_entity()
+    public void Should_delete_several_non_null_entities()
     {
-        var oldText = Guid.NewGuid().ToString();
-        var newText = Guid.NewGuid().ToString();
-
-        var entity = new TestEntity
-                     {
-                             Id = 1,
-                             Text = oldText
-                     };
-
-        MockDbHelper.ExecuteWithDbContext(async context =>
-                                          {
-                                              var repository = new EfReadWriteRepository<TestEntity>(context);
-                                              entity.Text = newText;
-
-                                              await Assert.ThrowsAsync<DbUpdateConcurrencyException>(async () => await repository.UpdateAsync(entity));
-                                          });
-    }
-
-    [Fact]
-    public void Should_update_several_non_null_entities()
-    {
-        var oldText = Guid.NewGuid().ToString();
-        var newText = Guid.NewGuid().ToString();
-
         var entities = new List<TestEntity>
                        {
                                new TestEntity
                                {
-                                       Text = oldText
+                                       Text = Guid.NewGuid().ToString()
                                },
                                new TestEntity
                                {
-                                       Text = oldText
+                                       Text = Guid.NewGuid().ToString()
                                },
                                (TestEntity)null
                        };
@@ -96,12 +82,9 @@ public class UpdateAsyncTests
                                               await context.SaveChangesAsync();
 
                                               var repository = new EfReadWriteRepository<TestEntity>(context);
-                                              entities[0].Text = newText;
-                                              await repository.UpdateAsync(entities);
+                                              await repository.DeleteAsync(entities);
 
-                                              var entitiesInDb = await dbSet.ToArrayAsync();
-                                              Assert.Equal(newText, entitiesInDb[0].Text);
-                                              Assert.Equal(oldText, entitiesInDb[1].Text);
+                                              Assert.Empty(await dbSet.ToArrayAsync());
                                           });
     }
 
@@ -117,7 +100,7 @@ public class UpdateAsyncTests
                                           {
                                               var repository = new EfReadWriteRepository<TestEntity>(context);
 
-                                              await repository.UpdateAsync(entities);
+                                              await repository.DeleteAsync(entities);
 
                                               Assert.Empty(await context.Set<TestEntity>().ToArrayAsync());
                                           });

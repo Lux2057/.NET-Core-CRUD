@@ -28,7 +28,7 @@ public class AddAsyncTests
     }
 
     [Fact]
-    public void Should_not_add_an_entity()
+    public void Should_ignore_null_entity()
     {
         MockDbHelper.ExecuteWithDbContext(async context =>
                                           {
@@ -70,6 +70,26 @@ public class AddAsyncTests
 
                                               Assert.Equal(2, entitiesInDb.Length);
                                               Assert.True(entitiesInDb.All(r => r.Text == text));
+                                          });
+    }
+
+    [Fact]
+    public void Should_ignore_empty_collection()
+    {
+        var entities = new List<TestEntity>
+                       {
+                               (TestEntity)null
+                       };
+
+        MockDbHelper.ExecuteWithDbContext(async context =>
+                                          {
+                                              var repository = new EfReadWriteRepository<TestEntity>(context);
+
+                                              await repository.AddAsync(entities);
+
+                                              var entitiesInDb = await context.Set<TestEntity>().ToArrayAsync();
+
+                                              Assert.Empty(entitiesInDb);
                                           });
     }
 }

@@ -42,30 +42,26 @@
             return this._serviceProvider.GetService<IReadWriteRepository<TEntity>>();
         }
 
-        public async Task BeginTransactionAsync(PermissionType permissionType)
+        public async Task<string> BeginTransactionScopeAsync(IsolationLevel isolationLevel)
         {
             if (this._dbContext.Database.CurrentTransaction != null)
-                return;
-
-            var isolationLevel = permissionType switch
-            {
-                    PermissionType.Read => IsolationLevel.ReadUncommitted,
-                    PermissionType.ReadWrite => IsolationLevel.ReadCommitted,
-                    _ => throw new NotImplementedException($"{nameof(PermissionType)} -> {permissionType}")
-            };
+                return string.Empty;
 
             await this._dbContext.Database.BeginTransactionAsync(isolationLevel);
+
+            return this._dbContext.Database.CurrentTransaction!.TransactionId.ToString();
         }
 
-        public async Task EndTransactionAsync()
+        public async Task EndTransactionScopeAsync(string transactionId)
         {
-            if (this._dbContext.Database.CurrentTransaction == null)
+            if (this._dbContext.Database.CurrentTransaction == null ||
+                this._dbContext.Database.CurrentTransaction.TransactionId.ToString() != transactionId)
                 return;
 
             await this._dbContext.Database.CurrentTransaction.CommitAsync();
         }
 
-        public async Task RollbackTransactionAsync()
+        public async Task RollbackCurrentTransactionScopeAsync()
         {
             if (this._dbContext.Database.CurrentTransaction == null)
                 return;

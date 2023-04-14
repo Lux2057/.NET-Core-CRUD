@@ -53,7 +53,7 @@
             }
             catch (Exception)
             {
-                await this._unitOfWork.RollbackTransactionAsync();
+                await this._unitOfWork.RollbackCurrentTransactionScopeAsync();
 
                 throw;
             }

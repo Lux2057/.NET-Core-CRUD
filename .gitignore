@@ -12,8 +12,8 @@ src/Extensions/bin/
 src/Extensions/obj/
 src/Core/bin/
 src/Core/obj/
-src/Example/bin/
-src/Example/obj/
+src/Examples/WebAPI/bin/
+src/Examples/WebAPI/obj/
 src/MVC/bin/
 src/MVC/obj/
 src/Extensions/bin/

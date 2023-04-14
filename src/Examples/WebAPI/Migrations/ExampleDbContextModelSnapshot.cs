@@ -8,6 +8,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CRUD.Example.Migrations
 {
+    using Examples.WebAPI;
+
     [DbContext(typeof(ExampleDbContext))]
     partial class ExampleDbContextModelSnapshot : ModelSnapshot
     {

@@ -1,9 +1,8 @@
-﻿namespace CRUD.Example
+﻿namespace Examples.WebAPI
 {
     #region << Using >>
 
     using CRUD.Core;
-    using CRUD.MVC;
 
     #endregion
 

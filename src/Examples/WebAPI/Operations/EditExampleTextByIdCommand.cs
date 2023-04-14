@@ -1,4 +1,4 @@
-﻿namespace CRUD.Example
+﻿namespace Examples.WebAPI
 {
     #region << Using >>
 

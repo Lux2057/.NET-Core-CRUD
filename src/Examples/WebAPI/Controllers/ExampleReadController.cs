@@ -1,4 +1,4 @@
-﻿namespace CRUD.Example
+﻿namespace Examples.WebAPI
 {
     #region << Using >>
 
@@ -9,11 +9,11 @@
     #endregion
 
     [Route("[controller]/[action]")]
-    public class ExampleCRUDController : EntityCRUDControllerBase<ExampleEntity, int, ExampleDto>
+    public class ExampleReadController : EntityReadControllerBase<ExampleEntity, int, ExampleDto>
     {
         #region Constructors
 
-        public ExampleCRUDController(IReadWriteDispatcher dispatcher) : base(dispatcher) { }
+        public ExampleReadController(IReadWriteDispatcher dispatcher) : base(dispatcher) { }
 
         #endregion
     }

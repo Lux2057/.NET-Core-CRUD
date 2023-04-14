@@ -1,4 +1,4 @@
-﻿namespace CRUD.Example
+﻿namespace Examples.WebAPI
 {
     public enum ExampleEnum
     {

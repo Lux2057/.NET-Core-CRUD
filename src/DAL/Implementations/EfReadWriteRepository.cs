@@ -83,7 +83,7 @@
             await this._context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+        public async Task DeleteAsync(TEntity[] entities, CancellationToken cancellationToken = default)
         {
             var entitiesArray = entities.Where(r => r != null).ToArrayOrEmpty();
 

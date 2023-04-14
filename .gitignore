@@ -18,5 +18,7 @@ src/MVC/bin/
 src/MVC/obj/
 src/Extensions/bin/
 src/Extensions/obj/
-src/Tests/bin/
-src/Tests/obj/
+src/Tests/DAL/bin/
+src/Tests/DAL/obj/
+src/Tests/Extensions/bin/
+src/Tests/Extensions/obj/

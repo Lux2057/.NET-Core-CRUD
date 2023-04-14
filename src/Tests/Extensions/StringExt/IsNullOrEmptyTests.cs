@@ -1,4 +1,4 @@
-﻿namespace CRUD.Tests;
+﻿namespace Tests.Extensions;
 
 #region << Using >>
 

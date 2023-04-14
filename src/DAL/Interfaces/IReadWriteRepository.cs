@@ -20,6 +20,6 @@
 
         Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default);
 
-        Task DeleteAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+        Task DeleteAsync(TEntity[] entities, CancellationToken cancellationToken = default);
     }
 }

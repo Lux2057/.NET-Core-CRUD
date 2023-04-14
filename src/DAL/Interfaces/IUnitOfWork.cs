@@ -2,7 +2,7 @@
 {
     #region << Using >>
 
-    using System.Threading;
+    using System.Data;
     using System.Threading.Tasks;
 
     #endregion
@@ -13,10 +13,10 @@
 
         public IReadWriteRepository<TEntity> ReadWriteRepository<TEntity>() where TEntity : class, new();
 
-        public Task BeginTransactionAsync(PermissionType permissionType);
+        public Task<string> BeginTransactionScopeAsync(IsolationLevel isolationLevel);
 
-        public Task EndTransactionAsync();
+        public Task EndTransactionScopeAsync(string transactionId);
 
-        public Task RollbackTransactionAsync();
+        public Task RollbackCurrentTransactionScopeAsync();
     }
 }

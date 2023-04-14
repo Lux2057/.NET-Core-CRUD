@@ -49,15 +49,15 @@
 
             try
             {
-                await this._unitOfWork.BeginTransactionAsync(PermissionType.ReadWrite);
+                var transactionId = await this._unitOfWork.BeginTransactionScopeAsync(IsolationLevel.ReadCommitted);
 
                 await Execute(command, cancellationToken);
 
-                await this._unitOfWork.EndTransactionAsync();
+                await this._unitOfWork.EndTransactionScopeAsync(transactionId);
             }
             catch (Exception)
             {
-                await this._unitOfWork.RollbackTransactionAsync();
+                await this._unitOfWork.RollbackCurrentTransactionScopeAsync();
 
                 throw;
             }

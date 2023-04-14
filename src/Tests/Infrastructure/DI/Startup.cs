@@ -1,4 +1,4 @@
-﻿namespace Tests.DAL;
+﻿namespace Tests.Infrastructure;
 
 #region << Using >>
 
@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 #endregion
 
-public class Startup
+public abstract class Startup
 {
     #region Constants
 
@@ -16,7 +16,7 @@ public class Startup
 
     #endregion
 
-    public void ConfigureServices(IServiceCollection services)
+    public virtual void ConfigureServices(IServiceCollection services)
     {
         services.AddScoped(provider => provider.GetService(typeof(TestDbContext)) as IEfDbContext);
         services.AddScoped(typeof(IReadRepository<>), typeof(EfReadRepository<>));

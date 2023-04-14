@@ -1,4 +1,4 @@
-﻿namespace Tests.DAL;
+﻿namespace Tests.Infrastructure;
 
 #region << Using >>
 

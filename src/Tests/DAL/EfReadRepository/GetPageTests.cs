@@ -6,7 +6,7 @@ using CRUD.DAL;
 
 #endregion
 
-public class GetPageTests : ReadRepositoryTest
+public class GetPageTests : EfReadRepositoryTest
 {
     #region Constructors
 

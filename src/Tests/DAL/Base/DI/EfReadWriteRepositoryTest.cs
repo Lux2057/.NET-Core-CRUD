@@ -6,7 +6,7 @@ using CRUD.DAL;
 
 #endregion
 
-public abstract class ReadWriteRepositoryTest : DbTest
+public abstract class EfReadWriteRepositoryTest : DbTest
 {
     #region Properties
 
@@ -18,7 +18,7 @@ public abstract class ReadWriteRepositoryTest : DbTest
 
     #region Constructors
 
-    protected ReadWriteRepositoryTest(TestDbContext context, IReadWriteRepository<TestEntity> repository)
+    protected EfReadWriteRepositoryTest(TestDbContext context, IReadWriteRepository<TestEntity> repository)
     {
         this.context = context;
         this.repository = repository;

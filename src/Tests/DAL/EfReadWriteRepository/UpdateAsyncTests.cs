@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 
-public class UpdateAsyncTests : ReadWriteRepositoryTest
+public class UpdateAsyncTests : EfReadWriteRepositoryTest
 {
     #region Constructors
 

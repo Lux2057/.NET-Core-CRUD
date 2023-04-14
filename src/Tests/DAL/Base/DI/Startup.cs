@@ -18,10 +18,10 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddTransient(provider => provider.GetService(typeof(TestDbContext)) as IEfDbContext);
-        services.AddTransient(typeof(IReadRepository<>), typeof(EfReadRepository<>));
-        services.AddTransient(typeof(IReadWriteRepository<>), typeof(EfReadWriteRepository<>));
-        services.AddTransient<IUnitOfWork, EfUnitOfWork>();
-        services.AddDbContext<TestDbContext>(options => options.UseNpgsql(dbConnectionString), ServiceLifetime.Transient);
+        services.AddScoped(provider => provider.GetService(typeof(TestDbContext)) as IEfDbContext);
+        services.AddScoped(typeof(IReadRepository<>), typeof(EfReadRepository<>));
+        services.AddScoped(typeof(IReadWriteRepository<>), typeof(EfReadWriteRepository<>));
+        services.AddScoped<IUnitOfWork, EfUnitOfWork>();
+        services.AddDbContext<TestDbContext>(options => options.UseNpgsql(dbConnectionString));
     }
 }

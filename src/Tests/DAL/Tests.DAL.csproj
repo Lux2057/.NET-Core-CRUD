@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="Xunit.DependencyInjection" Version="8.7.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -24,8 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DAL\CRUD.DAL.csproj" />
-    <ProjectReference Include="..\Infrastructure\Tests.Infrastructure.csproj" />
+    <ProjectReference Include="..\Models\Tests.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,9 @@
-﻿namespace Tests.Infrastructure;
+﻿namespace Tests.DAL;
 
 #region << Using >>
 
 using CRUD.DAL;
+using Tests.Models;
 
 #endregion
 

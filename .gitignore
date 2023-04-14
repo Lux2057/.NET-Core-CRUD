@@ -22,8 +22,8 @@ src/Tests/DAL/bin/
 src/Tests/DAL/obj/
 src/Tests/Extensions/bin/
 src/Tests/Extensions/obj/
-src/Tests/Infrastructure/bin/
-src/Tests/Infrastructure/obj/
+src/Tests/Models/bin/
+src/Tests/Models/obj/
 src/Tests/CQRS/bin/
 src/Tests/CQRS/obj/
 

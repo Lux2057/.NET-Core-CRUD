@@ -1,4 +1,4 @@
-﻿namespace Tests.Infrastructure;
+﻿namespace Tests.Models;
 
 #region << Using >>
 
@@ -7,25 +7,25 @@ using LinqSpecs;
 
 #endregion
 
-public class TestByTextSpecification : Specification<TestEntity>
+public class TestByIdSpecification : Specification<TestEntity>
 {
     #region Properties
 
-    public readonly string text;
+    public readonly int id;
 
     #endregion
 
     #region Constructors
 
-    public TestByTextSpecification(string text)
+    public TestByIdSpecification(int id)
     {
-        this.text = text;
+        this.id = id;
     }
 
     #endregion
 
     public override Expression<Func<TestEntity, bool>> ToExpression()
     {
-        return x => x.Text == this.text;
+        return x => x.Id == this.id;
     }
 }

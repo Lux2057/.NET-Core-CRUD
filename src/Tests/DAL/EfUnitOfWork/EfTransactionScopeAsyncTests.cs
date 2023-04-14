@@ -5,7 +5,7 @@
 using System.Data;
 using CRUD.DAL;
 using Microsoft.EntityFrameworkCore;
-using Tests.Infrastructure;
+using Tests.Models;
 
 #endregion
 

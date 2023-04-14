@@ -3,7 +3,7 @@
 #region << Using >>
 
 using CRUD.DAL;
-using Tests.Infrastructure;
+using Tests.Models;
 
 #endregion
 

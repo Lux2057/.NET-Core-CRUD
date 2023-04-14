@@ -1,4 +1,4 @@
-﻿namespace Tests.Infrastructure;
+﻿namespace Tests.Models;
 
 #region << Using >>
 

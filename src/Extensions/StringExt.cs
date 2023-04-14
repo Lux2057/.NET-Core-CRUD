@@ -2,7 +2,7 @@
 
 public static class StringExt
 {
-    public static bool IsNullOrEmpty(this string value)
+    public static bool IsNullOrEmpty(this string? value)
     {
         return string.IsNullOrEmpty(value);
     }
@@ -17,10 +17,11 @@ public static class StringExt
         return (T)Enum.Parse(typeof(T), value);
     }
 
-    public static string ToJoinedString(this IEnumerable<string> enumerable, string separator)
+    public static string ToJoinedString(this IEnumerable<string> enumerable, string? separator = default)
     {
         var enumerableArray = enumerable.ToArrayOrEmpty();
+        var currentSeparator = separator.IsNullOrEmpty() ? string.Empty : separator;
 
-        return !enumerableArray.Any() ? string.Empty : string.Join(separator, enumerableArray);
+        return !enumerableArray.Any() ? string.Empty : string.Join(currentSeparator, enumerableArray);
     }
 }

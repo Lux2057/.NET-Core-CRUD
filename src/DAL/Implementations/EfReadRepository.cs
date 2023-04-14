@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using CRUD.Extensions;
     using LinqSpecs;
     using Microsoft.EntityFrameworkCore;
 
@@ -38,18 +39,18 @@
                            dbSet.Where(specification).AsQueryable();
         }
 
-        public IQueryable<TEntity> GetPaginated(Specification<TEntity> specification = default, int? page = default, int? pageSize = default)
+        public IQueryable<TEntity> GetPage(Specification<TEntity> specification = default, int? page = default, int? pageSize = default)
         {
             var totalCount = Get(specification).Count();
 
-            return Get(specification).GetPage(totalCount, page, pageSize);
+            return Get(specification).ToPage(totalCount, page, pageSize);
         }
 
-        public async Task<IQueryable<TEntity>> GetPaginatedAsync(Specification<TEntity> specification = default, int? page = default, int? pageSize = default, CancellationToken cancellationToken = default)
+        public async Task<IQueryable<TEntity>> GetPageAsync(Specification<TEntity> specification = default, int? page = default, int? pageSize = default, CancellationToken cancellationToken = default)
         {
             var totalCount = await Get(specification).CountAsync(cancellationToken);
 
-            return Get(specification).GetPage(totalCount, page, pageSize);
+            return Get(specification).ToPage(totalCount, page, pageSize);
         }
 
         #endregion

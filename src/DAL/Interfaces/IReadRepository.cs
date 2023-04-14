@@ -13,8 +13,8 @@
     {
         IQueryable<TEntity> Get(Specification<TEntity> specification = default);
 
-        IQueryable<TEntity> GetPaginated(Specification<TEntity> specification = default, int? page = default, int? pageSize = default);
+        IQueryable<TEntity> GetPage(Specification<TEntity> specification = default, int? page = default, int? pageSize = default);
 
-        Task<IQueryable<TEntity>> GetPaginatedAsync(Specification<TEntity> specification = default, int? page = default, int? pageSize = default, CancellationToken cancellationToken = default);
+        Task<IQueryable<TEntity>> GetPageAsync(Specification<TEntity> specification = default, int? page = default, int? pageSize = default, CancellationToken cancellationToken = default);
     }
 }

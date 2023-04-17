@@ -32,14 +32,6 @@
             return await this._mediator.Send(queryBase, cancellationToken);
         }
 
-        public TResponse QuerySync<TResponse>(IQuery<TResponse> queryBase)
-        {
-            var task = this._mediator.Send(queryBase);
-            task.Wait();
-
-            return task.Result;
-        }
-
         #endregion
     }
 }

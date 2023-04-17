@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.Extensions", "Extensio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8382DA59-2329-441D-B1D9-3E6D67D160C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.DAL", "Tests\DAL\Tests.DAL.csproj", "{CB8AC7C4-9B71-4DB5-9BBA-7C7A2275D2F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfTests.DAL", "Tests\DAL\EfTests.DAL.csproj", "{CB8AC7C4-9B71-4DB5-9BBA-7C7A2275D2F1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Extensions", "Tests\Extensions\Tests.Extensions.csproj", "{472E0ED2-3494-46BA-91BF-91DC9BFEC286}"
 EndProject
@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{A0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.WebAPI", "Examples\WebAPI\Examples.WebAPI.csproj", "{6EED76A3-5B19-4679-A989-639C38DF5A7E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.CQRS", "Tests\CQRS\Tests.CQRS.csproj", "{A07D797C-A435-4BE7-A8AF-D1F1B2DEA48E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfTests.CQRS", "Tests\CQRS\EfTests.CQRS.csproj", "{A07D797C-A435-4BE7-A8AF-D1F1B2DEA48E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Models", "Tests\Models\Tests.Models.csproj", "{45AA834A-F6C3-4A73-9B42-08D274F0B700}"
 EndProject

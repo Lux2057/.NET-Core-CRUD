@@ -1,4 +1,4 @@
-﻿namespace Tests.CQRS;
+﻿namespace EfTests.CQRS;
 
 #region << Using >>
 
@@ -8,7 +8,7 @@ using Tests.Models;
 
 #endregion
 
-public class ReadDispatcherTests : ReadDispatcherTest
+public class ReadDispatcherTests : EfReadDispatcherTest
 {
     #region Constructors
 

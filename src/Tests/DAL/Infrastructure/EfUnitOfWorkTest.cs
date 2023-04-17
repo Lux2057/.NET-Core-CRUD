@@ -1,4 +1,4 @@
-﻿namespace Tests.DAL;
+﻿namespace EfTests.DAL;
 
 #region << Using >>
 

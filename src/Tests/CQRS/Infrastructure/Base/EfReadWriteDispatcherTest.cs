@@ -1,4 +1,4 @@
-﻿namespace Tests.CQRS;
+﻿namespace EfTests.CQRS;
 
 #region << Using >>
 
@@ -11,9 +11,9 @@ public class EfReadWriteDispatcherTest : DbTest
 {
     #region Properties
 
-    protected readonly TestDbContext context;
+    protected TestDbContext context;
 
-    protected readonly IReadWriteDispatcher dispatcher;
+    protected IReadWriteDispatcher dispatcher;
 
     #endregion
 

@@ -1,4 +1,4 @@
-﻿namespace Tests.DAL;
+﻿namespace EfTests.DAL;
 
 #region << Using >>
 
@@ -7,14 +7,32 @@ using Tests.Models;
 
 #endregion
 
-public class GetPageTests : EfReadRepositoryTest
+public class GetTests : EfReadRepositoryTest
 {
     #region Constructors
 
-    public GetPageTests(TestDbContext context, IReadRepository<TestEntity> repository)
+    public GetTests(TestDbContext context, IReadRepository<TestEntity> repository)
             : base(context, repository) { }
 
     #endregion
+
+    [Fact]
+    public void Should_return_saved_entity()
+    {
+        var text = Guid.NewGuid().ToString();
+
+        var testEntity = new TestEntity
+                         {
+                                 Text = text
+                         };
+
+        this.context.Set<TestEntity>().Add(testEntity);
+        this.context.SaveChanges();
+
+        Assert.Single(this.repository.Get().ToArray());
+        Assert.Equal(1, this.repository.Get().Single().Id);
+        Assert.Equal(text, this.repository.Get().Single().Text);
+    }
 
     [Fact]
     public void Should_return_saved_entities_by_text_spec()
@@ -33,24 +51,12 @@ public class GetPageTests : EfReadRepositoryTest
                                                 new TestEntity
                                                 {
                                                         Text = text2
-                                                },
-                                                new TestEntity
-                                                {
-                                                        Text = text2
-                                                },
-                                                new TestEntity
-                                                {
-                                                        Text = text2
                                                 });
 
         this.context.SaveChanges();
 
-        var testPage1 = this.repository.GetPage(page: 1, pageSize: 3).ToArray();
-        Assert.Equal(3, testPage1.Count());
-        Assert.Equal(text2, testPage1[2].Text);
-
-        var testPage2 = this.repository.GetPage(specification: new TestByTextSpecification(text1), page: 2, pageSize: 1).ToArray();
-        Assert.Single(testPage2);
-        Assert.Equal(2, testPage2.Single().Id);
+        Assert.Equal(3, this.repository.Get().Count());
+        Assert.Equal(2, this.repository.Get(new TestByTextSpecification(text1)).Count());
+        Assert.Equal(1, this.repository.Get(new TestByTextSpecification(text2)).Count());
     }
 }

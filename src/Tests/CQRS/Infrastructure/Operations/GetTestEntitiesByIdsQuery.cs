@@ -9,7 +9,7 @@ using Tests.Models;
 
 #endregion
 
-public class GetTestEntitiesByIdsQuery : IQuery<TestEntityDto[]>
+internal class GetTestEntitiesByIdsQuery : IQuery<TestEntityDto[]>
 {
     #region Properties
 
@@ -19,7 +19,7 @@ public class GetTestEntitiesByIdsQuery : IQuery<TestEntityDto[]>
 
     #region Nested Classes
 
-    public class Validator : AbstractValidator<GetTestEntitiesByIdsQuery>
+    class Validator : AbstractValidator<GetTestEntitiesByIdsQuery>
     {
         #region Constructors
 

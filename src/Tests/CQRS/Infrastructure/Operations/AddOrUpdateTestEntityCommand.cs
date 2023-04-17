@@ -3,11 +3,12 @@
 #region << Using >>
 
 using CRUD.CQRS;
+using FluentValidation;
 using Tests.Models;
 
 #endregion
 
-public class AddOrUpdateTestEntityCommand : CommandBase
+internal class AddOrUpdateTestEntityCommand : CommandBase
 {
     #region Properties
 
@@ -20,6 +21,18 @@ public class AddOrUpdateTestEntityCommand : CommandBase
     #endregion
 
     #region Nested Classes
+
+    class Validator : AbstractValidator<AddOrUpdateTestEntityCommand>
+    {
+        #region Constructors
+
+        public Validator()
+        {
+            RuleFor(r => r.Text).NotEmpty();
+        }
+
+        #endregion
+    }
 
     class Handler : CommandHandlerBase<AddOrUpdateTestEntityCommand>
     {
@@ -37,9 +50,9 @@ public class AddOrUpdateTestEntityCommand : CommandBase
             if (dto == null)
             {
                 entity = new TestEntity
-                {
-                    Text = command.Text
-                };
+                         {
+                                 Text = command.Text
+                         };
 
                 await Repository<TestEntity>().AddAsync(entity, cancellationToken);
             }

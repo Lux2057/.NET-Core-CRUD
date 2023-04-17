@@ -6,7 +6,7 @@ using CRUD.CQRS;
 
 #endregion
 
-public class TestThrowingExceptionQuery : IQuery<bool>
+internal class TestThrowingExceptionQuery : IQuery<bool>
 {
     #region Nested Classes
 

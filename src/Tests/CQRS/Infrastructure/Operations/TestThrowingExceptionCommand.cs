@@ -6,7 +6,7 @@ using CRUD.CQRS;
 
 #endregion
 
-public class TestThrowingExceptionCommand : CommandBase
+internal class TestThrowingExceptionCommand : CommandBase
 {
     #region Nested Classes
 

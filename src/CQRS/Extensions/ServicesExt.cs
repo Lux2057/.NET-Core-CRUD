@@ -24,7 +24,7 @@
             services.AddScoped<IUnitOfWork, EfUnitOfWork>();
             services.AddScoped<IReadDispatcher, DefaultReadDispatcher>();
             services.AddScoped<IReadWriteDispatcher, DefaultReadWriteDispatcher>();
-            services.AddValidatorsFromAssemblies(validatorAssemblies);
+            services.AddValidatorsFromAssemblies(assemblies: validatorAssemblies, includeInternalTypes: true);
             services.AddAutoMapper(automapperAssemblies);
             services.AddMediatR(config => config.RegisterServicesFromAssemblies(mediatorAssemblies));
         }

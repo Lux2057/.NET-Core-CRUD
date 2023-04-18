@@ -3,7 +3,6 @@
 #region << Using >>
 
 using CRUD.CQRS;
-using Tests.Models;
 
 #endregion
 

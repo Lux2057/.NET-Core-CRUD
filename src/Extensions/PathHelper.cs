@@ -14,8 +14,6 @@ public static class PathHelper
         if (exePath == null)
             throw new NullReferenceException();
 
-        var regex = @"(?<!fil)[A-Za-z]:\\+[\S\s]*?(?=\\+bin)";
-
-        return new Regex(regex).Match(exePath).Value;
+        return new Regex(@"(?<!fil)[A-Za-z]:\\+[\S\s]*?(?=\\+bin)").Match(exePath).Value;
     }
 }

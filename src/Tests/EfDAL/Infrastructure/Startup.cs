@@ -14,10 +14,8 @@ public class Startup
 {
     public virtual void ConfigureServices(IServiceCollection services)
     {
-        var rootPath = PathHelper.GetApplicationRoot();
-
         var connectionString = new ConfigurationBuilder()
-                               .SetBasePath(rootPath)
+                               .SetBasePath(PathHelper.GetApplicationRoot())
                                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                                .Build().GetConnectionString("DefaultConnection");
 

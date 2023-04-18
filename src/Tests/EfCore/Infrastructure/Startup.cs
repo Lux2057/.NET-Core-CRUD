@@ -2,6 +2,7 @@
 
 #region << Using >>
 
+using CRUD.Core;
 using CRUD.CQRS;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,10 +15,8 @@ public class Startup
 {
     public virtual void ConfigureServices(IServiceCollection services)
     {
-        var rootPath = PathHelper.GetApplicationRoot();
-
         var connectionString = new ConfigurationBuilder()
-                               .SetBasePath(rootPath)
+                               .SetBasePath(PathHelper.GetApplicationRoot())
                                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                                .Build().GetConnectionString("DefaultConnection");
 
@@ -30,11 +29,13 @@ public class Startup
         var currentAssembly = new[]
                               {
                                       typeof(Startup).Assembly,
-                                      typeof(TestEntity).Assembly
+                                      typeof(CreateOrUpdateEntitiesCommand<,,>).Assembly
                               };
 
         services.AddEfInfrastructure<TestDbContext>(mediatorAssemblies: currentAssembly,
                                                     validatorAssemblies: currentAssembly,
                                                     automapperAssemblies: currentAssembly);
+
+        services.AddEntityCRUD<TestEntity, int, TestEntityDto>();
     }
 }

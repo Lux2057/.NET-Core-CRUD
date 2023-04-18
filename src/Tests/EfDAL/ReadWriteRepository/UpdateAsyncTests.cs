@@ -4,7 +4,6 @@
 
 using CRUD.DAL;
 using Microsoft.EntityFrameworkCore;
-using Tests.Models;
 
 #endregion
 

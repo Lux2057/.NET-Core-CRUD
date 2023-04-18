@@ -4,7 +4,6 @@
 
 using CRUD.CQRS;
 using FluentValidation;
-using Tests.Models;
 
 #endregion
 

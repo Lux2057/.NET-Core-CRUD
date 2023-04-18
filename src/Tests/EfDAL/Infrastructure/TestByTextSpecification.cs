@@ -1,4 +1,4 @@
-﻿namespace Tests.Models;
+﻿namespace EfTests.DAL;
 
 #region << Using >>
 
@@ -7,25 +7,25 @@ using LinqSpecs;
 
 #endregion
 
-public class TestByIdSpecification : Specification<TestEntity>
+public class TestByTextSpecification : Specification<TestEntity>
 {
     #region Properties
 
-    public readonly int id;
+    public readonly string text;
 
     #endregion
 
     #region Constructors
 
-    public TestByIdSpecification(int id)
+    public TestByTextSpecification(string text)
     {
-        this.id = id;
+        this.text = text;
     }
 
     #endregion
 
     public override Expression<Func<TestEntity, bool>> ToExpression()
     {
-        return x => x.Id == this.id;
+        return x => x.Text == this.text;
     }
 }

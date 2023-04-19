@@ -9,7 +9,7 @@
     #endregion
 
     public abstract class EntityReadControllerBase<TEntity, TId, TDto> : DispatcherControllerBase
-            where TEntity : EntityBase<TId>, new()
+            where TEntity : class, IId<TId>, new()
             where TDto : class, new()
     {
         #region Constructors

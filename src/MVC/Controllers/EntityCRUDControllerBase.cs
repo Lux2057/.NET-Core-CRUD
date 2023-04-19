@@ -11,7 +11,7 @@
     #endregion
 
     public abstract class EntityCRUDControllerBase<TEntity, TId, TDto> : DispatcherControllerBase
-            where TEntity : EntityBase<TId>, new()
+            where TEntity : class, IId<TId>, new()
             where TDto : class, IId<TId>, new()
     {
         #region Constructors

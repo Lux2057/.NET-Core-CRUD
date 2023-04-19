@@ -10,7 +10,7 @@
     public static class ServicesExt
     {
         public static void AddEntityCRUD<TEntity, TId, TDto>(this IServiceCollection services)
-                where TEntity : EntityBase<TId>, new()
+                where TEntity : class, IId<TId>, new()
                 where TDto : class, IId<TId>, new()
         {
             services.AddEntityRead<TEntity, TId, TDto>();
@@ -19,7 +19,7 @@
         }
 
         public static void AddEntityRead<TEntity, TId, TDto>(this IServiceCollection services)
-                where TEntity : EntityBase<TId>, new()
+                where TEntity : class, IId<TId>, new()
                 where TDto : class, new()
         {
             services.AddTransient(typeof(IRequestHandler<ReadEntitiesQuery<TEntity, TId, TDto>, TDto[]>), typeof(ReadEntitiesQuery<TEntity, TId, TDto>.Handler));

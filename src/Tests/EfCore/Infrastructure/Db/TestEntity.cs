@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 #endregion
 
-public class TestEntity : EntityBase<int>
+public class TestEntity : IId<int>
 {
     #region Properties
+
+    public int Id { get; set; }
 
     public string Text { get; set; }
 
@@ -26,7 +28,6 @@ public class TestEntity : EntityBase<int>
         {
             builder.HasKey(r => r.Id);
             builder.Property(r => r.Id).ValueGeneratedOnAdd();
-            builder.Property(r => r.CrDt);
             builder.Property(r => r.Text);
         }
 

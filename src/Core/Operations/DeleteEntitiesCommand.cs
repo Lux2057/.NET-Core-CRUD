@@ -12,7 +12,7 @@
 
     #endregion
 
-    public class DeleteEntitiesCommand<TEntity, TId> : CommandBase where TEntity : EntityBase<TId>, new()
+    public class DeleteEntitiesCommand<TEntity, TId> : CommandBase where TEntity : class, IId<TId>, new()
     {
         #region Properties
 

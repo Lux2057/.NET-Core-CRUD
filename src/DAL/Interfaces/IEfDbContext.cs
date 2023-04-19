@@ -5,6 +5,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
     using Microsoft.EntityFrameworkCore.Infrastructure;
 
     #endregion
@@ -14,6 +15,8 @@
         #region Properties
 
         public DatabaseFacade Database { get; }
+
+        public ChangeTracker ChangeTracker { get; }
 
         #endregion
 

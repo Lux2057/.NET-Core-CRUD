@@ -18,7 +18,14 @@ src/MVC/bin/
 src/MVC/obj/
 src/Extensions/bin/
 src/Extensions/obj/
-src/Tests/DAL/bin/
-src/Tests/DAL/obj/
+src/Tests/EfDAL/bin/
+src/Tests/EfDAL/obj/
 src/Tests/Extensions/bin/
 src/Tests/Extensions/obj/
+src/Tests/Models/bin/
+src/Tests/Models/obj/
+src/Tests/EfCQRS/bin/
+src/Tests/EfCQRS/obj/
+src/Tests/EfCore/bin/
+src/Tests/EfCore/obj/
+

@@ -10,7 +10,5 @@
     public interface IReadDispatcher
     {
         public Task<TResponse> QueryAsync<TResponse>(IQuery<TResponse> query, CancellationToken cancellationToken = default);
-
-        public TResponse QuerySync<TResponse>(IQuery<TResponse> query);
     }
 }

@@ -33,7 +33,7 @@
 
         #region Nested Classes
 
-        public class Handler : CommandHandlerBase<DeleteEntitiesCommand<TEntity, TId>>
+        internal class Handler : CommandHandlerBase<DeleteEntitiesCommand<TEntity, TId>>
         {
             #region Constructors
 

@@ -44,6 +44,7 @@ namespace Examples.WebAPI
                                                     {
                                                         options.UseNpgsql(dbConnectionString);
                                                         options.UseLazyLoadingProxies();
+                                                        options.EnableSensitiveDataLogging();
                                                     });
 
             services.AddEfInfrastructure<ExampleDbContext>(mediatorAssemblies: new[]

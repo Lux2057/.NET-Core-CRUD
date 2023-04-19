@@ -32,22 +32,9 @@
             await this._mediator.Publish(notification: command, cancellationToken: cancellationToken);
         }
 
-        public void PushSync<TCommand>(TCommand command) where TCommand : CommandBase
-        {
-            this._mediator.Publish(command).Wait();
-        }
-
         public async Task<TResponse> QueryAsync<TResponse>(IQuery<TResponse> query, CancellationToken cancellationToken = default)
         {
             return await this._mediator.Send(request: query, cancellationToken: cancellationToken);
-        }
-
-        public TResponse QuerySync<TResponse>(IQuery<TResponse> query)
-        {
-            var task = this._mediator.Send(query);
-            task.Wait();
-
-            return task.Result;
         }
 
         #endregion

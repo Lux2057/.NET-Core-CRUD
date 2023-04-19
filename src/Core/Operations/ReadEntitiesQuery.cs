@@ -29,7 +29,7 @@
 
         #region Constructors
 
-        public ReadEntitiesQuery(IEnumerable<TId> ids)
+        public ReadEntitiesQuery(IEnumerable<TId> ids = null)
         {
             Ids = ids.ToArrayOrEmpty();
         }
@@ -38,7 +38,7 @@
 
         #region Nested Classes
 
-        public class Handler : QueryHandlerBase<ReadEntitiesQuery<TEntity, TId, TDto>, TDto[]>
+        internal class Handler : QueryHandlerBase<ReadEntitiesQuery<TEntity, TId, TDto>, TDto[]>
         {
             #region Constructors
 

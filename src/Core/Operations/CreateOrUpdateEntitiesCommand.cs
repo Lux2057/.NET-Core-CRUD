@@ -36,7 +36,7 @@
 
         #region Nested Classes
 
-        public class Handler : CommandHandlerBase<CreateOrUpdateEntitiesCommand<TEntity, TId, TDto>>
+        internal class Handler : CommandHandlerBase<CreateOrUpdateEntitiesCommand<TEntity, TId, TDto>>
         {
             #region Constructors
 
@@ -50,9 +50,6 @@
                     return;
 
                 var entities = this.Mapper.Map<TEntity[]>(command.Dtos);
-
-                var dt = DateTime.UtcNow;
-                Parallel.ForEach(entities, entity => entity.CrDt = dt);
 
                 var existingEntitiesIds = await Repository<TEntity>().Get(new EntitiesByIdsSpec<TEntity, TId>(entities.GetIds<TEntity, TId>())).Select(r => r.Id).ToArrayAsync(cancellationToken);
 

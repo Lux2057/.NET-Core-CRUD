@@ -32,7 +32,7 @@
 
         public IQueryable<TEntity> Get(Specification<TEntity> specification = default)
         {
-            var dbSet = this._context.Set<TEntity>();
+            var dbSet = this._context.Set<TEntity>().AsNoTracking();
 
             return specification == null ?
                            dbSet.AsQueryable() :

@@ -33,17 +33,5 @@ public class TestEntity
         #endregion
     }
 
-    public class Profile : AutoMapper.Profile
-    {
-        #region Constructors
-
-        public Profile()
-        {
-            CreateMap<TestEntity, TestEntityDto>();
-        }
-
-        #endregion
-    }
-
     #endregion
 }

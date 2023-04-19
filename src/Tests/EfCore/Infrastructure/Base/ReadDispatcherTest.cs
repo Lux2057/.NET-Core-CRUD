@@ -6,17 +6,14 @@ public abstract class ReadDispatcherTest : DbTest
 {
     #region Properties
 
-    protected TestDbContext context;
-
-    protected IReadDispatcher dispatcher;
+    protected readonly IReadDispatcher dispatcher;
 
     #endregion
 
     #region Constructors
 
-    protected ReadDispatcherTest(TestDbContext context, IReadDispatcher dispatcher)
+    protected ReadDispatcherTest(IReadDispatcher dispatcher)
     {
-        this.context = context;
         this.dispatcher = dispatcher;
     }
 

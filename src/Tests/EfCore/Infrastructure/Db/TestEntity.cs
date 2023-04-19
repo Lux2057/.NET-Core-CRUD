@@ -26,7 +26,7 @@ public class TestEntity : EntityBase<int>
         {
             builder.HasKey(r => r.Id);
             builder.Property(r => r.Id).ValueGeneratedOnAdd();
-            builder.Property(r => r.CrDt).HasDefaultValueSql("getdate()");
+            builder.Property(r => r.CrDt);
             builder.Property(r => r.Text);
         }
 

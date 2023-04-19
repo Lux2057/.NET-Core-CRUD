@@ -10,18 +10,15 @@ public abstract class ReadWriteDispatcherTest : DbTest
 {
     #region Properties
 
-    protected TestDbContext context;
-
-    protected IReadWriteDispatcher dispatcher;
+    protected readonly IReadWriteDispatcher dispatcher;
 
     #endregion
 
     #region Constructors
 
-    protected ReadWriteDispatcherTest(IReadWriteDispatcher dispatcher, TestDbContext context)
+    protected ReadWriteDispatcherTest(IReadWriteDispatcher dispatcher)
     {
         this.dispatcher = dispatcher;
-        this.context = context;
     }
 
     #endregion

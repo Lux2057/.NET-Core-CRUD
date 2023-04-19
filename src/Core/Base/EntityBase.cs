@@ -15,5 +15,14 @@
         public DateTime CrDt { get; set; }
 
         #endregion
+
+        #region Constructors
+
+        protected EntityBase()
+        {
+            CrDt = DateTime.UtcNow;
+        }
+
+        #endregion
     }
 }

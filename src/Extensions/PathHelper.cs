@@ -8,6 +8,9 @@ using System.Text.RegularExpressions;
 
 public static class PathHelper
 {
+    /// <summary>
+    ///     Returns current application root path
+    /// </summary>
     public static string GetApplicationRoot()
     {
         var exePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);

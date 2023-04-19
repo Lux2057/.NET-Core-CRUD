@@ -3,9 +3,9 @@
     #region << Using >>
 
     using System;
+    using System.Data;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Data;
     using AutoMapper;
     using CRUD.DAL;
     using FluentValidation;
@@ -14,6 +14,9 @@
 
     #endregion
 
+    /// <summary>
+    ///     Base Command handler which implements transaction scoped handling of a Command
+    /// </summary>
     public abstract class CommandHandlerBase<TNotification> : INotificationHandler<TNotification> where TNotification : CommandBase
     {
         #region Properties

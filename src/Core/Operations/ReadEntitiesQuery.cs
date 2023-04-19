@@ -13,6 +13,10 @@
 
     #endregion
 
+    /// <summary>
+    ///     Returns a page collection of Entities by specified id collection.
+    ///     If id collection is null or empty, returns all Entities from data storage.
+    /// </summary>
     public class ReadEntitiesQuery<TEntity, TId, TDto> : IQuery<TDto[]>
             where TEntity : class, IId<TId>, new()
             where TDto : class, new()

@@ -1,4 +1,4 @@
-﻿namespace CRUD.DAL;
+﻿namespace Examples.WebAPI;
 
 #region << Using >>
 
@@ -23,6 +23,6 @@ public static class MappingExt
 
     public static PropertyBuilder<string> HasColumnTypeText(this PropertyBuilder<string> builder)
     {
-        return builder.HasColumnType("text");
+        return builder;
     }
 }

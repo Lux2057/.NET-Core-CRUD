@@ -8,6 +8,9 @@
 
     #endregion
 
+    /// <summary>
+    /// MediatR based implementation of IReadWriteDispatcher interface
+    /// </summary>
     public class DefaultReadWriteDispatcher : IReadWriteDispatcher
     {
         #region Properties

@@ -42,14 +42,14 @@ public class CreateOrUpdateEntitiesCommandTests : ReadWriteDispatcherTest
     public async Task Should_update_entities()
     {
         var text1 = Guid.NewGuid().ToString();
-        await this._context.Set<TestEntity>().AddRangeAsync(new[]
+        await this.context.Set<TestEntity>().AddRangeAsync(new[]
                                                             {
                                                                     new TestEntity { Text = text1 },
                                                                     new TestEntity { Text = text1 },
                                                                     new TestEntity { Text = text1 }
                                                             });
 
-        await this._context.SaveChangesAsync();
+        await this.context.SaveChangesAsync();
 
         var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 

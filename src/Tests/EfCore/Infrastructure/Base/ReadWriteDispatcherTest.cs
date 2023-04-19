@@ -12,7 +12,7 @@ public abstract class ReadWriteDispatcherTest : DbTest
 
     protected readonly IReadWriteDispatcher dispatcher;
 
-    protected TestDbContext _context;
+    protected readonly TestDbContext context;
 
     #endregion
 
@@ -20,7 +20,7 @@ public abstract class ReadWriteDispatcherTest : DbTest
 
     protected ReadWriteDispatcherTest(TestDbContext context, IReadWriteDispatcher dispatcher)
     {
-        this._context = context;
+        this.context = context;
         this.dispatcher = dispatcher;
     }
 

@@ -11,6 +11,9 @@
 
     #endregion
 
+    /// <summary>
+    ///     Finds entities by specified id collection
+    /// </summary>
     public class EntitiesByIdsSpec<TEntity, TId> : Specification<TEntity> where TEntity : IId<TId>
     {
         #region Properties

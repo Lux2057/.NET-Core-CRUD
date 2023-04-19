@@ -4,6 +4,7 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using CRUD.CQRS;
@@ -12,6 +13,9 @@
 
     #endregion
 
+    /// <summary>
+    ///     Deletes Entities from data storage by specified id collection.
+    /// </summary>
     public class DeleteEntitiesCommand<TEntity, TId> : CommandBase where TEntity : class, IId<TId>, new()
     {
         #region Properties
@@ -26,7 +30,12 @@
 
         public DeleteEntitiesCommand(IEnumerable<TId> ids)
         {
-            Ids = ids.ToArrayOrEmpty();
+            var arrayOrEmpty = ids.ToArrayOrEmpty();
+
+            if (!arrayOrEmpty.Any())
+                throw new ArgumentNullException("Ids can't be null or empty!");
+
+            Ids = arrayOrEmpty;
         }
 
         #endregion

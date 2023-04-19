@@ -8,6 +8,9 @@
 
     #endregion
 
+    /// <summary>
+    ///     Finds an entity by specified id
+    /// </summary>
     public class EntityByIdSpec<TEntity, TId> : Specification<TEntity> where TEntity : IId<TId>
     {
         #region Properties

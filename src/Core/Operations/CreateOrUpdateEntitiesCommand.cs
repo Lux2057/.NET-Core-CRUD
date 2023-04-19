@@ -13,6 +13,10 @@
 
     #endregion
 
+    /// <summary>
+    ///     Creates new Entities by specified Dtos if data storage doesn't contain entries by specified ids,
+    ///     otherwise updates existing Entities. Entity and Dto classes must have Automapper.Profiles for two way mapping.
+    /// </summary>
     public class CreateOrUpdateEntitiesCommand<TEntity, TId, TDto> : CommandBase
             where TEntity : class, IId<TId>, new()
             where TDto : class, IId<TId>, new()

@@ -11,6 +11,9 @@
 
     #endregion
 
+    /// <summary>
+    ///     EntityFrameworkCore based implementation of IReadWriteRepository interface
+    /// </summary>
     public class EfReadWriteRepository<TEntity> : EfReadRepository<TEntity>, IReadWriteRepository<TEntity> where TEntity : class, new()
     {
         #region Constructors

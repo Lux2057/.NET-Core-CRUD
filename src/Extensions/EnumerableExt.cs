@@ -11,8 +11,8 @@ public static class EnumerableExt
     #endregion
 
     /// <summary>
-    /// Returns an array that contains the elements from the input sequence or
-    /// an empty array in case when the sequence is null or empty
+    ///     Returns an array that contains the elements from the input sequence or
+    ///     an empty array in case when the sequence is null or empty
     /// </summary>
     public static T[] ToArrayOrEmpty<T>(this IEnumerable<T>? enumerable)
     {
@@ -20,7 +20,7 @@ public static class EnumerableExt
     }
 
     /// <summary>
-    /// Returns a page IQueryable basing on LINQ Skip/Take functions
+    ///     Returns a page IQueryable basing on LINQ Skip/Take functions
     /// </summary>
     public static IQueryable<TEntity> ToPage<TEntity>(this IQueryable<TEntity> queryable, int totalCount, int? page, int? pageSize)
     {

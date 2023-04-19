@@ -10,6 +10,9 @@
 
     #endregion
 
+    /// <summary>
+    ///     EntityFrameworkCore based implementation of the IUnitOfWork interface
+    /// </summary>
     public class EfUnitOfWork : IUnitOfWork
     {
         #region Properties
@@ -42,6 +45,10 @@
             return this._serviceProvider.GetService<IReadWriteRepository<TEntity>>();
         }
 
+        /// <summary>
+        ///     Starts a transaction scope
+        /// </summary>
+        /// <returns>If a transaction scope doesn't exist returns transaction id, otherwise returns empty string</returns>
         public async Task<string> BeginTransactionScopeAsync(IsolationLevel isolationLevel)
         {
             if (this._dbContext.Database.CurrentTransaction != null)

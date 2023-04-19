@@ -3,7 +3,7 @@
 public static class StringExt
 {
     /// <summary>
-    /// A wrapper for String.IsNullOrEmpty function
+    ///     A wrapper for String.IsNullOrEmpty function
     /// </summary>
     public static bool IsNullOrEmpty(this string? value)
     {
@@ -11,7 +11,7 @@ public static class StringExt
     }
 
     /// <summary>
-    /// A wrapper for String.IsNullOrWhiteSpace function
+    ///     A wrapper for String.IsNullOrWhiteSpace function
     /// </summary>
     public static bool IsNullOrWhitespace(this string value)
     {
@@ -19,7 +19,7 @@ public static class StringExt
     }
 
     /// <summary>
-    /// A wrapper for Enum.Parse function
+    ///     A wrapper for Enum.Parse function
     /// </summary>
     public static T ToEnum<T>(this string value) where T : struct, Enum
     {
@@ -27,7 +27,7 @@ public static class StringExt
     }
 
     /// <summary>
-    /// A wrapper for String.Join function
+    ///     A wrapper for String.Join function
     /// </summary>
     public static string ToJoinedString(this IEnumerable<string> enumerable, string? separator = default)
     {

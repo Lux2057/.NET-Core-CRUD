@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 public static class JsonExt
 {
     /// <summary>
-    /// A wrapper for Newtonsoft JsonConvert.SerializeObject function
+    ///     A wrapper for Newtonsoft JsonConvert.SerializeObject function
     /// </summary>
     public static string ToJsonString(this object? value, JsonSerializerSettings? settings = null)
     {

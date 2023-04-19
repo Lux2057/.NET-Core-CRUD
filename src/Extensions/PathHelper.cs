@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 public static class PathHelper
 {
     /// <summary>
-    /// Returns current application root path
+    ///     Returns current application root path
     /// </summary>
     public static string GetApplicationRoot()
     {

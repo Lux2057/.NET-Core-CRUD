@@ -14,7 +14,7 @@
     #endregion
 
     public class CreateOrUpdateEntitiesCommand<TEntity, TId, TDto> : CommandBase
-            where TEntity : EntityBase<TId>, new()
+            where TEntity : class, IId<TId>, new()
             where TDto : class, IId<TId>, new()
     {
         #region Properties

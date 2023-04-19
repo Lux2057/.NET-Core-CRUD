@@ -9,7 +9,7 @@
 
     #endregion
 
-    public class ExampleEntity : EntityBase<int>
+    public class ExampleEntity : IId<int>
     {
         #region Properties
 
@@ -54,7 +54,6 @@
             {
                 builder.HasKey(r => r.Id);
                 builder.Property(r => r.Id).ValueGeneratedOnAdd();
-                builder.Property(r => r.CrDt).IsRequired();
                 builder.Property(r => r.Text).HasColumnTypeText();
                 builder.Property(r => r.Number).IsRequired();
                 builder.Property(r => r.Flag).IsRequired();
@@ -65,5 +64,7 @@
         }
 
         #endregion
+
+        public int Id { get; set; }
     }
 }

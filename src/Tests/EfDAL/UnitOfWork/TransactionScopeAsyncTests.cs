@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 
-public class EfTransactionScopeAsyncTests : EfUnitOfWorkTest
+public class TransactionScopeAsyncTests : EfUnitOfWorkTest
 {
     #region Constructors
 
-    public EfTransactionScopeAsyncTests(IUnitOfWork unitOfWork, TestDbContext context)
+    public TransactionScopeAsyncTests(IUnitOfWork unitOfWork, TestDbContext context)
             : base(unitOfWork, context) { }
 
     #endregion

@@ -9,7 +9,7 @@ using Tests.Models;
 
 #endregion
 
-public class ReadWriteDispatcherTests : EfReadWriteDispatcherTest
+public class ReadWriteDispatcherTests : ReadWriteDispatcherTest
 {
     #region Constructors
 

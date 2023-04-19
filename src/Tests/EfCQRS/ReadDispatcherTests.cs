@@ -8,7 +8,7 @@ using Tests.Models;
 
 #endregion
 
-public class ReadDispatcherTests : EfReadDispatcherTest
+public class ReadDispatcherTests : ReadDispatcherTest
 {
     #region Constructors
 

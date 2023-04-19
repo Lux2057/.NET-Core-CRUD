@@ -5,7 +5,6 @@
 using CRUD.CQRS;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Tests.Models;
 
 #endregion
 

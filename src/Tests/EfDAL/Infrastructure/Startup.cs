@@ -3,10 +3,10 @@
 #region << Using >>
 
 using CRUD.DAL;
+using CRUD.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Tests.Models;
 
 #endregion
 

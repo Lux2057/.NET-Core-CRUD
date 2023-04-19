@@ -32,11 +32,11 @@
 
         public IQueryable<TEntity> Get(Specification<TEntity> specification = default)
         {
-            var dbSet = this._context.Set<TEntity>().AsNoTracking();
+            var dbSet = this._context.Set<TEntity>();
 
-            return specification == null ?
+            return (specification == null ?
                            dbSet.AsQueryable() :
-                           dbSet.Where(specification).AsQueryable();
+                           dbSet.Where(specification).AsQueryable()).AsNoTracking();
         }
 
         public IQueryable<TEntity> GetPage(Specification<TEntity> specification = default, int? page = default, int? pageSize = default)

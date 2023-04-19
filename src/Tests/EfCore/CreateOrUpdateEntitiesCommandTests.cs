@@ -43,6 +43,32 @@ public class CreateOrUpdateEntitiesCommandTests : ReadWriteDispatcherTest
 
         Assert.Equal(3, dtosInDb.Length);
         Assert.True(dtosInDb.All(x => x.Text == text2));
+
+        await this.dispatcher.PushAsync(new CreateOrUpdateEntitiesCommand<TestEntity, int, TestEntityDto>(new[]
+                                                                                                          {
+                                                                                                                  new TestEntityDto { Text = text1 },
+                                                                                                                  new TestEntityDto { Text = text1 },
+                                                                                                                  new TestEntityDto { Text = text1 }
+                                                                                                          }));
+
+        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
+
+        Assert.Equal(6, dtosInDb.Length);
+        Assert.Equal(3, dtosInDb.Count(x => x.Text == text1));
+        Assert.Equal(3, dtosInDb.Count(x => x.Text == text2));
+
+        await this.dispatcher.PushAsync(new CreateOrUpdateEntitiesCommand<TestEntity, int, TestEntityDto>(new[]
+                                                                                                          {
+                                                                                                                  new TestEntityDto { Text = text2 },
+                                                                                                                  new TestEntityDto { Text = text2 },
+                                                                                                                  new TestEntityDto { Text = text2 }
+                                                                                                          }));
+
+        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
+
+        Assert.Equal(9, dtosInDb.Length);
+        Assert.Equal(3, dtosInDb.Count(x => x.Text == text1));
+        Assert.Equal(6, dtosInDb.Count(x => x.Text == text2));
     }
 
     [Fact]

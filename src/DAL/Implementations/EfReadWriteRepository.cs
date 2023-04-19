@@ -26,9 +26,7 @@
             if (entity == null)
                 return;
 
-            var dbSet = this._context.Set<TEntity>();
-
-            dbSet.Add(entity);
+            _dbSet().Add(entity);
 
             await this._context.SaveChangesAsync(cancellationToken);
         }
@@ -40,9 +38,7 @@
             if (!entitiesArray.Any())
                 return;
 
-            var dbSet = this._context.Set<TEntity>();
-
-            await dbSet.AddRangeAsync(entitiesArray, cancellationToken);
+            await _dbSet().AddRangeAsync(entitiesArray, cancellationToken);
 
             await this._context.SaveChangesAsync(cancellationToken);
         }
@@ -52,9 +48,7 @@
             if (entity == null)
                 return;
 
-            var dbSet = this._context.Set<TEntity>();
-
-            dbSet.Update(entity);
+            _dbSet().Update(entity);
 
             await this._context.SaveChangesAsync(cancellationToken);
         }
@@ -66,9 +60,7 @@
             if (!entitiesArray.Any())
                 return;
 
-            var dbSet = this._context.Set<TEntity>();
-
-            dbSet.UpdateRange(entitiesArray);
+            _dbSet().UpdateRange(entitiesArray);
 
             await this._context.SaveChangesAsync(cancellationToken);
         }
@@ -78,7 +70,7 @@
             if (entity == null)
                 return;
 
-            this._context.Set<TEntity>().Remove(entity);
+            _dbSet().Remove(entity);
 
             await this._context.SaveChangesAsync(cancellationToken);
         }
@@ -90,11 +82,19 @@
             if (!entitiesArray.Any())
                 return;
 
-            this._context.Set<TEntity>().RemoveRange(entitiesArray);
+            _dbSet().RemoveRange(entitiesArray);
 
             await this._context.SaveChangesAsync(cancellationToken);
         }
 
         #endregion
+
+        private DbSet<TEntity> _dbSet()
+        {
+            //Force tracking disable
+            this._context.ChangeTracker.Clear();
+
+            return this._context.Set<TEntity>();
+        }
     }
 }

@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
     using CRUD.CQRS;
     using CRUD.Extensions;
+    using LinqSpecs;
     using Microsoft.EntityFrameworkCore;
 
     #endregion
@@ -28,6 +29,10 @@
         public int? Page { get; init; }
 
         public int? PageSize { get; init; }
+
+        public bool DisablePaging { get; init; }
+
+        public Specification<TEntity> Specification { get; init; }
 
         #endregion
 
@@ -52,8 +57,15 @@
 
             protected override async Task<TDto[]> Execute(ReadEntitiesQuery<TEntity, TId, TDto> request, CancellationToken cancellationToken)
             {
-                var paginatedAsync = await Repository<TEntity>().GetPageAsync(new EntitiesByIdsSpec<TEntity, TId>(request.Ids), request.Page, request.PageSize, cancellationToken);
-                var entities = await paginatedAsync.ToArrayAsync(cancellationToken);
+                Specification<TEntity> specification = new EntitiesByIdsSpec<TEntity, TId>(request.Ids);
+                if (request.Specification != null)
+                    specification = specification && request.Specification;
+
+                var entitiesQueryable = request.DisablePaging ?
+                                                Repository<TEntity>().Get(specification) :
+                                                await Repository<TEntity>().GetPageAsync(specification, request.Page, request.PageSize, cancellationToken);
+
+                var entities = await entitiesQueryable.ToArrayAsync(cancellationToken);
 
                 return this.Mapper.Map<TDto[]>(entities).ToArray();
             }

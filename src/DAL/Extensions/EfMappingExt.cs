@@ -1,4 +1,4 @@
-﻿namespace Examples.WebAPI;
+﻿namespace CRUD.DAL;
 
 #region << Using >>
 
@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 #endregion
 
-public static class MappingExt
+public static class EfMappingExt
 {
     public static PropertyBuilder<TEnum> PropertyAsEnum<TEntity, TEnum>(this EntityTypeBuilder<TEntity> builder, Expression<Func<TEntity, TEnum>> propertyExpression) where TEntity : class, new() where TEnum : struct, Enum
     {
@@ -23,6 +23,6 @@ public static class MappingExt
 
     public static PropertyBuilder<string> HasColumnTypeText(this PropertyBuilder<string> builder)
     {
-        return builder;
+        return builder.HasColumnType("text");
     }
 }

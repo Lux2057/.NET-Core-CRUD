@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using AutoMapper.QueryableExtensions;
     using CRUD.CQRS;
     using CRUD.Extensions;
     using LinqSpecs;
@@ -65,9 +66,7 @@
                                                 Repository<TEntity>().Get(specification) :
                                                 await Repository<TEntity>().GetPageAsync(specification, request.Page, request.PageSize, cancellationToken);
 
-                var entities = await entitiesQueryable.ToArrayAsync(cancellationToken);
-
-                return this.Mapper.Map<TDto[]>(entities).ToArray();
+                return await entitiesQueryable.AsNoTracking().ProjectTo<TDto>(this.Mapper.ConfigurationProvider).ToArrayAsync(cancellationToken);
             }
         }
 

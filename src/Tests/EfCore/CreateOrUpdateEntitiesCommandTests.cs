@@ -34,8 +34,8 @@ public class CreateOrUpdateEntitiesCommandTests : ReadWriteDispatcherTest
 
         var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
-        Assert.Equal(3, dtosInDb.Length);
-        Assert.True(dtosInDb.All(x => x.Text == text1));
+        Assert.Equal(3, dtosInDb.Items.Length);
+        Assert.True(dtosInDb.Items.All(x => x.Text == text1));
     }
 
     [Fact]
@@ -53,22 +53,22 @@ public class CreateOrUpdateEntitiesCommandTests : ReadWriteDispatcherTest
 
         var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
-        Assert.Equal(3, dtosInDb.Length);
-        Assert.True(dtosInDb.All(x => x.Text == text1));
+        Assert.Equal(3, dtosInDb.Items.Length);
+        Assert.True(dtosInDb.Items.All(x => x.Text == text1));
 
         var text2 = Guid.NewGuid().ToString();
 
-        Parallel.ForEach(dtosInDb, dto => dto.Text = text2);
+        Parallel.ForEach(dtosInDb.Items, dto => dto.Text = text2);
 
-        var updateCommand = new CreateOrUpdateEntitiesCommand<TestEntity, int, TestEntityDto>(dtosInDb);
+        var updateCommand = new CreateOrUpdateEntitiesCommand<TestEntity, int, TestEntityDto>(dtosInDb.Items);
         await this.dispatcher.PushAsync(updateCommand);
 
         Assert.Equal(new[] { 1, 2, 3 }, updateCommand.Result);
 
         dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
-        Assert.Equal(3, dtosInDb.Length);
-        Assert.True(dtosInDb.All(x => x.Text == text2));
+        Assert.Equal(3, dtosInDb.Items.Length);
+        Assert.True(dtosInDb.Items.All(x => x.Text == text2));
     }
 
     [Fact]
@@ -89,22 +89,22 @@ public class CreateOrUpdateEntitiesCommandTests : ReadWriteDispatcherTest
 
         var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
-        Assert.Equal(3, dtosInDb.Length);
-        Assert.True(dtosInDb.All(x => x.Text == text1));
+        Assert.Equal(3, dtosInDb.Items.Length);
+        Assert.True(dtosInDb.Items.All(x => x.Text == text1));
 
         var text2 = Guid.NewGuid().ToString();
 
-        Parallel.ForEach(dtosInDb, dto => dto.Text = text2);
+        Parallel.ForEach(dtosInDb.Items, dto => dto.Text = text2);
 
-        var updateCommand = new CreateOrUpdateEntitiesCommand<TestEntity, int, TestEntityDto>(dtosInDb);
+        var updateCommand = new CreateOrUpdateEntitiesCommand<TestEntity, int, TestEntityDto>(dtosInDb.Items);
         await this.dispatcher.PushAsync(updateCommand);
 
         Assert.Equal(new[] { 1, 2, 3 }, updateCommand.Result);
 
         dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
-        Assert.Equal(3, dtosInDb.Length);
-        Assert.True(dtosInDb.All(x => x.Text == text2));
+        Assert.Equal(3, dtosInDb.Items.Length);
+        Assert.True(dtosInDb.Items.All(x => x.Text == text2));
 
         var addCommand2 = new CreateOrUpdateEntitiesCommand<TestEntity, int, TestEntityDto>(new[]
                                                                                             {
@@ -119,9 +119,9 @@ public class CreateOrUpdateEntitiesCommandTests : ReadWriteDispatcherTest
 
         dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
-        Assert.Equal(6, dtosInDb.Length);
-        Assert.Equal(3, dtosInDb.Count(x => x.Text == text1));
-        Assert.Equal(3, dtosInDb.Count(x => x.Text == text2));
+        Assert.Equal(6, dtosInDb.Items.Length);
+        Assert.Equal(3, dtosInDb.Items.Count(x => x.Text == text1));
+        Assert.Equal(3, dtosInDb.Items.Count(x => x.Text == text2));
     }
 
     [Fact]
@@ -134,6 +134,6 @@ public class CreateOrUpdateEntitiesCommandTests : ReadWriteDispatcherTest
 
         var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
-        Assert.Empty(dtosInDb);
+        Assert.Empty(dtosInDb.Items);
     }
 }

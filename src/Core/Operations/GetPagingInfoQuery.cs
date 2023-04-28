@@ -53,17 +53,20 @@ public class GetPagingInfoQuery : IQuery<PagingInfoDto>
 
         protected override async Task<PagingInfoDto> Execute(GetPagingInfoQuery request, CancellationToken cancellationToken)
         {
-            var pageSize = new[] { request.PageSize.GetValueOrDefault(defaultPageSize), 1 }.Max();
-            var totalPages = new[] { 1, (int)Math.Ceiling((decimal)request.TotalCount / pageSize) }.Max();
-            var currentPage = new[] { new[] { request.Page.GetValueOrDefault(defaultPage), 1 }.Max(), totalPages }.Min();
+            return await Task.Run(() =>
+                                  {
+                                      var pageSize = new[] { request.PageSize.GetValueOrDefault(defaultPageSize), 1 }.Max();
+                                      var totalPages = new[] { 1, (int)Math.Ceiling((decimal)request.TotalCount / pageSize) }.Max();
+                                      var currentPage = new[] { new[] { request.Page.GetValueOrDefault(defaultPage), 1 }.Max(), totalPages }.Min();
 
-            return new PagingInfoDto
-                   {
-                           CurrentPage = currentPage,
-                           TotalPages = totalPages,
-                           TotalItemsCount = request.TotalCount,
-                           PageSize = pageSize
-                   };
+                                      return new PagingInfoDto
+                                             {
+                                                     CurrentPage = currentPage,
+                                                     TotalPages = totalPages,
+                                                     TotalItemsCount = request.TotalCount,
+                                                     PageSize = pageSize
+                                             };
+                                  }, cancellationToken);
         }
     }
 

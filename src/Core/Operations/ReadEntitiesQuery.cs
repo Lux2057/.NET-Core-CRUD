@@ -19,9 +19,9 @@
     ///     Returns a page collection of Entities by specified id collection.
     ///     If id collection is null or empty, returns all Entities from data storage.
     /// </summary>
-    public class ReadEntitiesQuery<TEntity, TId, TDto> : IQuery<TDto[]>
+    public class ReadEntitiesQuery<TEntity, TId, TResponseDto> : IQuery<PaginatedResponseDto<TResponseDto>>
             where TEntity : class, IId<TId>, new()
-            where TDto : class, new()
+            where TResponseDto : class, new()
     {
         #region Properties
 
@@ -48,7 +48,7 @@
 
         #region Nested Classes
 
-        internal class Handler : QueryHandlerBase<ReadEntitiesQuery<TEntity, TId, TDto>, TDto[]>
+        internal class Handler : QueryHandlerBase<ReadEntitiesQuery<TEntity, TId, TResponseDto>, PaginatedResponseDto<TResponseDto>>
         {
             #region Constructors
 
@@ -56,17 +56,36 @@
 
             #endregion
 
-            protected override async Task<TDto[]> Execute(ReadEntitiesQuery<TEntity, TId, TDto> request, CancellationToken cancellationToken)
+            protected override async Task<PaginatedResponseDto<TResponseDto>> Execute(ReadEntitiesQuery<TEntity, TId, TResponseDto> request, CancellationToken cancellationToken)
             {
                 Specification<TEntity> specification = new EntitiesByIdsSpec<TEntity, TId>(request.Ids);
                 if (request.Specification != null)
                     specification = specification && request.Specification;
 
-                var entitiesQueryable = request.DisablePaging ?
-                                                Repository<TEntity>().Get(specification) :
-                                                await Repository<TEntity>().GetPageAsync(specification, request.Page, request.PageSize, cancellationToken);
+                var queryable = Repository<TEntity>().Get(specification).AsNoTracking().ProjectTo<TResponseDto>(this.Mapper.ConfigurationProvider);
 
-                return await entitiesQueryable.AsNoTracking().ProjectTo<TDto>(this.Mapper.ConfigurationProvider).ToArrayAsync(cancellationToken);
+                PagingInfoDto pagingInfo = null;
+                if (!request.DisablePaging)
+                {
+                    var totalCount = await queryable.CountAsync(cancellationToken);
+                    pagingInfo = await this.Dispatcher.QueryAsync(new GetPagingInfoQuery(request.Page, request.PageSize, totalCount), cancellationToken);
+
+                    queryable = queryable.Skip(pagingInfo.PageSize * (pagingInfo.CurrentPage - 1)).Take(pagingInfo.PageSize);
+                }
+
+                var items = await queryable.ToArrayAsync(cancellationToken);
+
+                return new PaginatedResponseDto<TResponseDto>
+                       {
+                               Items = items,
+                               PagingInfo = pagingInfo ?? new PagingInfoDto
+                                                          {
+                                                                  PageSize = items.Length,
+                                                                  CurrentPage = 1,
+                                                                  TotalPages = 1,
+                                                                  TotalItemsCount = items.Length
+                                                          }
+                       };
             }
         }
 

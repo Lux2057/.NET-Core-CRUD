@@ -38,4 +38,10 @@ public class DeleteEntitiesCommandTests : ReadWriteDispatcherTest
 
         Assert.Empty(entitiesInDb);
     }
+
+    [Fact]
+    public async Task Should_throw_exception()
+    {
+        await Assert.ThrowsAsync<ArgumentNullException>(async () => await this.dispatcher.PushAsync(new DeleteEntitiesCommand<TestEntity, int>(Array.Empty<int>())));
+    }
 }

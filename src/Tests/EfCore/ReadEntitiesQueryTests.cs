@@ -4,6 +4,7 @@
 
 using CRUD.Core;
 using CRUD.CQRS;
+using CRUD.Extensions;
 
 #endregion
 
@@ -32,8 +33,17 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
 
         var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
-        Assert.Equal(3, dtosInDb.Length);
-        Assert.True(dtosInDb.All(x => x.Text == text));
+        Assert.Equal(3, dtosInDb.Items.Length);
+        Assert.True(dtosInDb.Items.All(x => x.Text == text));
+
+        Assert.Equal(new PagingInfoDto
+                     {
+                             CurrentPage = GetPagingInfoQuery.defaultPage,
+                             PageSize = GetPagingInfoQuery.defaultPageSize,
+                             TotalItemsCount = 3,
+                             TotalPages = 1
+                     }.ToJsonString(),
+                     dtosInDb.PagingInfo.ToJsonString());
     }
 
     [Fact]
@@ -52,8 +62,17 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
 
         var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>(new[] { 1 }));
 
-        Assert.Single(dtosInDb);
-        Assert.Equal(text, dtosInDb.Single().Text);
+        Assert.Single(dtosInDb.Items);
+        Assert.Equal(text, dtosInDb.Items.Single().Text);
+
+        Assert.Equal(new PagingInfoDto
+                     {
+                             CurrentPage = GetPagingInfoQuery.defaultPage,
+                             PageSize = GetPagingInfoQuery.defaultPageSize,
+                             TotalItemsCount = 1,
+                             TotalPages = 1
+                     }.ToJsonString(),
+                     dtosInDb.PagingInfo.ToJsonString());
     }
 
     [Fact]
@@ -78,8 +97,17 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
                                                                 PageSize = 2
                                                         });
 
-        Assert.Equal(2, dtosInDb.Length);
-        Assert.True(dtosInDb.All(x => x.Text == text1));
+        Assert.Equal(2, dtosInDb.Items.Length);
+        Assert.True(dtosInDb.Items.All(x => x.Text == text1));
+
+        Assert.Equal(new PagingInfoDto
+                     {
+                             CurrentPage = 1,
+                             PageSize = 2,
+                             TotalItemsCount = 4,
+                             TotalPages = 2
+                     }.ToJsonString(),
+                     dtosInDb.PagingInfo.ToJsonString());
 
         dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
                                                     {
@@ -87,8 +115,17 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
                                                             PageSize = 2
                                                     });
 
-        Assert.Equal(2, dtosInDb.Length);
-        Assert.True(dtosInDb.All(x => x.Text == text2));
+        Assert.Equal(2, dtosInDb.Items.Length);
+        Assert.True(dtosInDb.Items.All(x => x.Text == text2));
+
+        Assert.Equal(new PagingInfoDto
+                     {
+                             CurrentPage = 2,
+                             PageSize = 2,
+                             TotalItemsCount = 4,
+                             TotalPages = 2
+                     }.ToJsonString(),
+                     dtosInDb.PagingInfo.ToJsonString());
     }
 
     [Fact]
@@ -115,8 +152,17 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
                                                                 DisablePaging = true
                                                         });
 
-        Assert.Equal(6, dtosInDb.Length);
-        Assert.True(dtosInDb.All(x => x.Text == text));
+        Assert.Equal(6, dtosInDb.Items.Length);
+        Assert.True(dtosInDb.Items.All(x => x.Text == text));
+
+        Assert.Equal(new PagingInfoDto
+                     {
+                             CurrentPage = 1,
+                             PageSize = 6,
+                             TotalItemsCount = 6,
+                             TotalPages = 1
+                     }.ToJsonString(),
+                     dtosInDb.PagingInfo.ToJsonString());
     }
 
     [Fact]
@@ -141,7 +187,16 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
                                                                 Specification = new TestEntityByTextSpec(text1)
                                                         });
 
-        Assert.Equal(2, dtosInDb.Length);
-        Assert.True(dtosInDb.All(x => x.Text == text1));
+        Assert.Equal(2, dtosInDb.Items.Length);
+        Assert.True(dtosInDb.Items.All(x => x.Text == text1));
+
+        Assert.Equal(new PagingInfoDto
+                     {
+                             CurrentPage = 1,
+                             PageSize = 2,
+                             TotalItemsCount = 2,
+                             TotalPages = 1
+                     }.ToJsonString(),
+                     dtosInDb.PagingInfo.ToJsonString());
     }
 }

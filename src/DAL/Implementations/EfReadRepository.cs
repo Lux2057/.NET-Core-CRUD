@@ -44,7 +44,7 @@
 
         public async Task<IQueryable<TEntity>> GetPageAsync(Specification<TEntity> specification = default, int? page = default, int? pageSize = default, CancellationToken cancellationToken = default)
         {
-            var totalCount = await Get(specification).CountAsync(cancellationToken);
+            var totalCount = await Get(specification).AsNoTracking().CountAsync(cancellationToken);
 
             return Get(specification).ToPage(totalCount, page, pageSize);
         }

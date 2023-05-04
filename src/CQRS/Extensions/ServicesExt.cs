@@ -32,7 +32,11 @@
             services.AddScoped<IReadWriteDispatcher, DefaultReadWriteDispatcher>();
             services.AddValidatorsFromAssemblies(assemblies: validatorAssemblies, includeInternalTypes: true);
             services.AddAutoMapper(automapperAssemblies);
-            services.AddMediatR(config => config.RegisterServicesFromAssemblies(mediatorAssemblies));
+            services.AddMediatR(config =>
+                                {
+                                    config.MediatorImplementationType = typeof(ReMediator);
+                                    config.RegisterServicesFromAssemblies(mediatorAssemblies);
+                                });
         }
     }
 }

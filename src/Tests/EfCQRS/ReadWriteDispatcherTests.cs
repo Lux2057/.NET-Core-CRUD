@@ -58,4 +58,15 @@ public class ReadWriteDispatcherTests : ReadWriteDispatcherTest
 
         Assert.Empty(await this.context.Set<TestEntity>().ToArrayAsync());
     }
+
+    [Fact]
+    public async Task Should_create_an_entity_by_generic_command()
+    {
+        await this.dispatcher.PushAsync(new TestGenericCommand<TestEntity>());
+
+        var entitiesInDB = await this.context.Set<TestEntity>().ToArrayAsync();
+
+        Assert.Single(entitiesInDB);
+        Assert.Equal(TestGenericCommand<TestEntity>.TestText, entitiesInDB.Single().Text);
+    }
 }

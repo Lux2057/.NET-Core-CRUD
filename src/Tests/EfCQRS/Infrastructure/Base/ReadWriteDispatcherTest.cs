@@ -10,9 +10,9 @@ public class ReadWriteDispatcherTest : DbTest
 {
     #region Properties
 
-    protected TestDbContext context;
+    protected readonly TestDbContext context;
 
-    protected IReadWriteDispatcher dispatcher;
+    protected readonly IReadWriteDispatcher dispatcher;
 
     #endregion
 

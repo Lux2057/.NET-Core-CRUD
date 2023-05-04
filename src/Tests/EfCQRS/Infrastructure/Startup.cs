@@ -4,6 +4,7 @@
 
 using CRUD.CQRS;
 using CRUD.Extensions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +27,10 @@ public class Startup
                                              });
 
         var currentAssembly = new[] { typeof(Startup).Assembly };
-        services.AddEfInfrastructure<TestDbContext>(mediatorAssemblies: currentAssembly, 
-                                                    validatorAssemblies: currentAssembly, 
+        services.AddEfInfrastructure<TestDbContext>(mediatorAssemblies: currentAssembly,
+                                                    validatorAssemblies: currentAssembly,
                                                     automapperAssemblies: currentAssembly);
+
+        services.AddTransient(typeof(INotificationHandler<TestGenericCommand<TestEntity>>), typeof(TestGenericCommand<TestEntity>.Handler));
     }
 }

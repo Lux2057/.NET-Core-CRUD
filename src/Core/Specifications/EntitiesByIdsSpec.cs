@@ -27,7 +27,7 @@
 
         public EntitiesByIdsSpec(IEnumerable<TId> ids)
         {
-            this.ids = ids.ToArrayOrEmpty();
+            this.ids = ids.ToDistinctArrayOrEmpty();
         }
 
         #endregion

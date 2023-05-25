@@ -20,6 +20,15 @@ public static class EnumerableExt
     }
 
     /// <summary>
+    ///     Returns an distinct array that contains the elements from the input sequence or
+    ///     an empty array in case when the sequence is null or empty
+    /// </summary>
+    public static T[] ToDistinctArrayOrEmpty<T>(this IEnumerable<T>? enumerable)
+    {
+        return enumerable?.Distinct().ToArrayOrEmpty() ?? Array.Empty<T>();
+    }
+
+    /// <summary>
     ///     Returns a page IQueryable basing on LINQ Skip/Take functions
     /// </summary>
     public static IQueryable<TEntity> ToPage<TEntity>(this IQueryable<TEntity> queryable, int totalCount, int? page, int? pageSize)

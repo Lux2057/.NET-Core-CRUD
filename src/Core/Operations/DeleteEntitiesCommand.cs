@@ -52,7 +52,7 @@
 
             protected override async Task Execute(DeleteEntitiesCommand<TEntity, TId> command, CancellationToken cancellationToken)
             {
-                var entities = await Repository<TEntity>().Get(new EntitiesByIdsSpec<TEntity, TId>(command.Ids)).ToArrayAsync(cancellationToken);
+                var entities = await Repository<TEntity>().Get(new FindEntitiesByIds<TEntity, TId>(command.Ids)).ToArrayAsync(cancellationToken);
 
                 await Repository<TEntity>().DeleteAsync(entities, cancellationToken);
 

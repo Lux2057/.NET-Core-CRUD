@@ -11,7 +11,7 @@
     /// <summary>
     ///     Finds an entity by specified id
     /// </summary>
-    public class EntityByIdSpec<TEntity, TId> : Specification<TEntity> where TEntity : IId<TId>
+    public class FindEntityById<TEntity, TId> : Specification<TEntity> where TEntity : IId<TId>
     {
         #region Properties
 
@@ -21,7 +21,7 @@
 
         #region Constructors
 
-        public EntityByIdSpec(TId id)
+        public FindEntityById(TId id)
         {
             this.id = id;
         }

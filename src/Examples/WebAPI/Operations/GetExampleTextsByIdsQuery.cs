@@ -35,7 +35,7 @@
 
             protected override async Task<ExampleTextDto[]> Execute(GetExampleTextsByIdsQuery request, CancellationToken cancellationToken)
             {
-                var entities = await Repository<ExampleEntity>().Get(new EntitiesByIdsSpec<ExampleEntity, int>(request.Ids)).ToArrayAsync(cancellationToken);
+                var entities = await Repository<ExampleEntity>().Get(new FindEntitiesByIds<ExampleEntity, int>(request.Ids)).ToArrayAsync(cancellationToken);
 
                 var dtos = this.Mapper.Map<ExampleTextDto[]>(entities).OrderBy(r => r.Text).ToArrayOrEmpty();
 

@@ -50,7 +50,7 @@
             {
                 var id = command.Dto.Id.GetValueOrDefault(0);
 
-                var entity = await Repository<ExampleEntity>().Get(new EntityByIdSpec<ExampleEntity, int>(id)).SingleOrDefaultAsync(cancellationToken);
+                var entity = await Repository<ExampleEntity>().Get(new FindEntityById<ExampleEntity, int>(id)).SingleOrDefaultAsync(cancellationToken);
 
                 if (entity == null)
                 {

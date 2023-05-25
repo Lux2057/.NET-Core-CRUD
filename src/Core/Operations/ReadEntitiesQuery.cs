@@ -58,7 +58,7 @@
 
             protected override async Task<PaginatedResponseDto<TResponseDto>> Execute(ReadEntitiesQuery<TEntity, TId, TResponseDto> request, CancellationToken cancellationToken)
             {
-                Specification<TEntity> specification = new EntitiesByIdsSpec<TEntity, TId>(request.Ids);
+                Specification<TEntity> specification = new FindEntitiesByIds<TEntity, TId>(request.Ids);
                 if (request.Specification != null)
                     specification = specification && request.Specification;
 

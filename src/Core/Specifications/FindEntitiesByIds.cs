@@ -15,7 +15,7 @@
     ///     Finds entities by specified id collection.
     ///     Optional: returns true if id collection is empty
     /// </summary>
-    public class EntitiesByIdsSpec<TEntity, TId> : Specification<TEntity> where TEntity : IId<TId>
+    public class FindEntitiesByIds<TEntity, TId> : Specification<TEntity> where TEntity : IId<TId>
     {
         #region Properties
 
@@ -25,7 +25,7 @@
 
         #region Constructors
 
-        public EntitiesByIdsSpec(IEnumerable<TId> ids)
+        public FindEntitiesByIds(IEnumerable<TId> ids)
         {
             this.ids = ids.ToDistinctArrayOrEmpty();
         }

@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
     using AutoMapper.QueryableExtensions;
     using CRUD.CQRS;
+    using CRUD.DAL;
     using CRUD.Extensions;
     using LinqSpecs;
     using Microsoft.EntityFrameworkCore;

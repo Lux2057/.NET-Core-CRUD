@@ -3,7 +3,6 @@
     #region << Using >>
 
     using System;
-    using System.Data;
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -50,20 +49,7 @@
             if (this._validator != null)
                 await this._validator.ValidateAndThrowAsync(command, cancellationToken);
 
-            try
-            {
-                var transactionId = await this._unitOfWork.BeginTransactionScopeAsync(IsolationLevel.ReadCommitted);
-
-                await Execute(command, cancellationToken);
-
-                await this._unitOfWork.EndTransactionScopeAsync(transactionId);
-            }
-            catch (Exception)
-            {
-                await this._unitOfWork.RollbackCurrentTransactionScopeAsync();
-
-                throw;
-            }
+            await Execute(command, cancellationToken);
         }
 
         #endregion

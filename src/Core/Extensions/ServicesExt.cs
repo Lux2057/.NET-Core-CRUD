@@ -2,6 +2,7 @@
 {
     #region << Using >>
 
+    using CRUD.DAL;
     using MediatR;
     using Microsoft.Extensions.DependencyInjection;
 

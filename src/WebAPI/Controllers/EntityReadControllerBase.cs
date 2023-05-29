@@ -4,6 +4,7 @@
 
     using CRUD.Core;
     using CRUD.CQRS;
+    using CRUD.DAL;
     using Microsoft.AspNetCore.Mvc;
 
     #endregion

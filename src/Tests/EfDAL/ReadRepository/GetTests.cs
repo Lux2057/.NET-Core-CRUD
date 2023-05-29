@@ -20,16 +20,28 @@ public class GetTests : EfReadRepositoryTest
     {
         var text = Guid.NewGuid().ToString();
 
-        var testEntity = new TestEntity
-                         {
-                                 Text = text
-                         };
+        var testEntity = new TestEntity { Text = text };
 
         this.context.Set<TestEntity>().Add(testEntity);
         this.context.SaveChanges();
 
         Assert.Single(this.repository.Get().ToArray());
         Assert.Equal(1, this.repository.Get().Single().Id);
+        Assert.Equal(text, this.repository.Get().Single().Text);
+    }
+
+    [Fact]
+    public void Should_return_saved_entity_by_id()
+    {
+        var text = Guid.NewGuid().ToString();
+
+        var testEntity = new TestEntity { Text = text };
+
+        this.context.Set<TestEntity>().Add(testEntity);
+        this.context.SaveChanges();
+
+        Assert.Single(this.repository.Get().ToArray());
+        Assert.Equal(1, this.repository.Get(new FindEntityById<TestEntity, int>(1)).Single().Id);
         Assert.Equal(text, this.repository.Get().Single().Text);
     }
 
@@ -57,5 +69,29 @@ public class GetTests : EfReadRepositoryTest
         Assert.Equal(3, this.repository.Get().Count());
         Assert.Equal(2, this.repository.Get(new TestByTextSpecification(text1)).Count());
         Assert.Equal(1, this.repository.Get(new TestByTextSpecification(text2)).Count());
+    }
+
+    [Fact]
+    public void Should_return_saved_entities_by_ids_spec()
+    {
+        var text1 = Guid.NewGuid().ToString();
+        var text2 = Guid.NewGuid().ToString();
+
+        this.context.Set<TestEntity>().AddRange(new TestEntity
+                                                {
+                                                        Text = text1
+                                                },
+                                                new TestEntity
+                                                {
+                                                        Text = text1
+                                                },
+                                                new TestEntity
+                                                {
+                                                        Text = text2
+                                                });
+
+        this.context.SaveChanges();
+
+        Assert.Equal(3, this.repository.Get(new FindEntitiesByIds<TestEntity, int>(new[] { 1, 2, 3 })).Count());
     }
 }

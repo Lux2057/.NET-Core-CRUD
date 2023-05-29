@@ -1,4 +1,4 @@
-﻿namespace CRUD.Core
+﻿namespace CRUD.DAL
 {
     public interface IId<TId>
     {

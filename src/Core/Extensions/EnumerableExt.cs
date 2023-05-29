@@ -12,6 +12,7 @@ namespace CRUD.Core
 
     using System.Collections.Generic;
     using System.Linq;
+    using CRUD.DAL;
     using CRUD.Extensions;
 
     #endregion

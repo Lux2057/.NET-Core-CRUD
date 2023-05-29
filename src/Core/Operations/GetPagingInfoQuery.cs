@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CRUD.CQRS;
+using JetBrains.Annotations;
 
 #endregion
 
@@ -43,6 +44,7 @@ public class GetPagingInfoQuery : IQuery<PagingInfoDto>
 
     #region Nested Classes
 
+    [UsedImplicitly]
     public class Handler : QueryHandlerBase<GetPagingInfoQuery, PagingInfoDto>
     {
         #region Constructors

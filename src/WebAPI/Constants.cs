@@ -1,4 +1,4 @@
-﻿namespace CRUD.MVC;
+﻿namespace CRUD.WebAPI;
 
 internal abstract class Constants
 {

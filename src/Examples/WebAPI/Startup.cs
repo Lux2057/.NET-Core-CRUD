@@ -4,7 +4,7 @@ namespace Examples.WebAPI
 
     using CRUD.Core;
     using CRUD.CQRS;
-    using CRUD.MVC;
+    using CRUD.WebAPI;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;

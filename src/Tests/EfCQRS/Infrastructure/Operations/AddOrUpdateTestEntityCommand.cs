@@ -4,6 +4,7 @@
 
 using CRUD.CQRS;
 using FluentValidation;
+using JetBrains.Annotations;
 
 #endregion
 
@@ -21,6 +22,7 @@ internal class AddOrUpdateTestEntityCommand : CommandBase
 
     #region Nested Classes
 
+    [UsedImplicitly]
     class Validator : AbstractValidator<AddOrUpdateTestEntityCommand>
     {
         #region Constructors
@@ -33,6 +35,7 @@ internal class AddOrUpdateTestEntityCommand : CommandBase
         #endregion
     }
 
+    [UsedImplicitly]
     class Handler : CommandHandlerBase<AddOrUpdateTestEntityCommand>
     {
         #region Constructors

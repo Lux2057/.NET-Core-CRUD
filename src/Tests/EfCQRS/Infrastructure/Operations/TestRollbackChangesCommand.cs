@@ -3,6 +3,7 @@
 #region << Using >>
 
 using CRUD.CQRS;
+using JetBrains.Annotations;
 
 #endregion
 
@@ -10,6 +11,7 @@ internal class TestRollbackChangesCommand : CommandBase
 {
     #region Nested Classes
 
+    [UsedImplicitly]
     class Handler : CommandHandlerBase<TestRollbackChangesCommand>
     {
         #region Constructors

@@ -69,4 +69,16 @@ public class ReadWriteDispatcherTests : ReadWriteDispatcherTest
         Assert.Single(entitiesInDB);
         Assert.Equal(TestGenericCommand<TestEntity>.TestText, entitiesInDB.Single().Text);
     }
+
+    [Fact]
+    public async Task Should_roll_back_changes_in_the_whole_scope()
+    {
+        await this.dispatcher.PushAsync(new AddOrUpdateTestEntityCommand { Text = "test" });
+
+        await Assert.ThrowsAnyAsync<Exception>(async () => await this.dispatcher.PushAsync(new TestEntitiesCreationRollbackCommand()));
+
+        var entitiesInDb = await this.context.Set<TestEntity>().ToArrayAsync();
+
+        Assert.Empty(entitiesInDb);
+    }
 }

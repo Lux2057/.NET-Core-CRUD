@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using CRUD.Core;
     using CRUD.CQRS;
+    using CRUD.DAL;
     using FluentValidation;
     using Microsoft.EntityFrameworkCore;
 

@@ -24,11 +24,21 @@
         /// <summary>
         ///     Ends a transaction scope by transaction id
         /// </summary>
+        public void EndTransactionScope(string transactionId);
+
+        /// <summary>
+        ///     Ends a transaction scope by transaction id
+        /// </summary>
         public Task EndTransactionScopeAsync(string transactionId);
 
         /// <summary>
         ///     Rolls back all changes in currently opened transaction scope
         /// </summary>
         public Task RollbackCurrentTransactionScopeAsync();
+
+        /// <summary>
+        ///     Rolls back all changes in currently opened transaction scope
+        /// </summary>
+        public void RollbackCurrentTransactionScope();
     }
 }

@@ -59,6 +59,25 @@
             return this._dbContext.Database.CurrentTransaction!.TransactionId.ToString();
         }
 
+        public string BeginTransactionScope(IsolationLevel isolationLevel)
+        {
+            if (this._dbContext.Database.CurrentTransaction != null)
+                return string.Empty;
+
+            this._dbContext.Database.BeginTransaction(isolationLevel);
+
+            return this._dbContext.Database.CurrentTransaction!.TransactionId.ToString();
+        }
+
+        public void EndTransactionScope(string transactionId)
+        {
+            if (this._dbContext.Database.CurrentTransaction == null ||
+                this._dbContext.Database.CurrentTransaction.TransactionId.ToString() != transactionId)
+                return;
+
+            this._dbContext.Database.CurrentTransaction.Commit();
+        }
+
         public async Task EndTransactionScopeAsync(string transactionId)
         {
             if (this._dbContext.Database.CurrentTransaction == null ||
@@ -74,6 +93,14 @@
                 return;
 
             await this._dbContext.Database.CurrentTransaction.RollbackAsync();
+        }
+
+        public void RollbackCurrentTransactionScope()
+        {
+            if (this._dbContext.Database.CurrentTransaction == null)
+                return;
+
+            this._dbContext.Database.CurrentTransaction.Rollback();
         }
 
         #endregion

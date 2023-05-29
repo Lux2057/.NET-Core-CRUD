@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <PackageId>XulBenet.CRUD.Extensions</PackageId>
     <Title>.NET Core CRUD extensions package</Title>
-    <Version>1.0.4</Version>
+    <Version>1.1.0</Version>
     <Authors>XulBenet</Authors>
     <PackageProjectUrl>https://github.com/Lux2057/.NET-Core-CRUD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Lux2057/.NET-Core-CRUD</RepositoryUrl>

@@ -3,6 +3,7 @@
 #region << Using >>
 
 using CRUD.Core;
+using CRUD.DAL;
 
 #endregion
 

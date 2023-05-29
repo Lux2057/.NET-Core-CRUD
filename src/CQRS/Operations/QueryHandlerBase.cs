@@ -49,19 +49,7 @@
             if (this._validator != null)
                 await this._validator.ValidateAndThrowAsync(query, cancellationToken);
 
-            TResponse response;
-            try
-            {
-                response = await Execute(query, cancellationToken);
-            }
-            catch (Exception)
-            {
-                await this._unitOfWork.RollbackCurrentTransactionScopeAsync();
-
-                throw;
-            }
-
-            return response;
+            return await Execute(query, cancellationToken);
         }
 
         #endregion

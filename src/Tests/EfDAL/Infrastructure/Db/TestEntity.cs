@@ -2,12 +2,13 @@
 
 #region << Using >>
 
+using CRUD.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 #endregion
 
-public class TestEntity
+public class TestEntity : IId<int>
 {
     #region Properties
 

@@ -39,27 +39,26 @@ namespace Examples.WebAPI
                                        c.OrderActionsBy(r => r.GroupName);
                                    });
 
-            var dbConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ExampleDbContext>(options =>
-                                                    {
-                                                        options.UseNpgsql(dbConnectionString);
-                                                        options.UseLazyLoadingProxies();
-                                                        options.EnableSensitiveDataLogging();
-                                                    });
-
-            services.AddEfInfrastructure<ExampleDbContext>(mediatorAssemblies: new[]
-                                                                               {
-                                                                                       typeof(CreateOrUpdateEntitiesCommand<,,>).Assembly,
-                                                                                       typeof(GetExampleTextsByIdsQuery).Assembly
-                                                                               },
-                                                           validatorAssemblies: new[]
-                                                                                {
-                                                                                        typeof(ExampleEntity).Assembly
-                                                                                },
-                                                           automapperAssemblies: new[]
-                                                                                 {
-                                                                                         typeof(ExampleEntity).Assembly
-                                                                                 });
+            services.AddEfInfrastructure<ExampleDbContext>
+                    (dbContextOptions: options =>
+                                       {
+                                           options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+                                           options.UseLazyLoadingProxies();
+                                           options.EnableSensitiveDataLogging();
+                                       },
+                     mediatorAssemblies: new[]
+                                         {
+                                                 typeof(CreateOrUpdateEntitiesCommand<,,>).Assembly,
+                                                 typeof(GetExampleTextsByIdsQuery).Assembly
+                                         },
+                     validatorAssemblies: new[]
+                                          {
+                                                  typeof(ExampleEntity).Assembly
+                                          },
+                     automapperAssemblies: new[]
+                                           {
+                                                   typeof(ExampleEntity).Assembly
+                                           });
 
             services.AddEntityCRUD<ExampleEntity, int, ExampleDto>();
         }

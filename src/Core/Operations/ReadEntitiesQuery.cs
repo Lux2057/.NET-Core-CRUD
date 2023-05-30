@@ -36,6 +36,8 @@
 
         public Specification<TEntity> Specification { get; init; }
 
+        public IEnumerable<OrderSpecification<TEntity>> OrderSpecifications { get; init; }
+
         #endregion
 
         #region Constructors
@@ -63,7 +65,9 @@
                 if (request.Specification != null)
                     specification = specification && request.Specification;
 
-                var queryable = Repository<TEntity>().Get(specification).AsNoTracking().ProjectTo<TResponseDto>(this.Mapper.ConfigurationProvider);
+                var queryable = Repository<TEntity>().Get(specification: specification,
+                                                          orderSpecifications: request.OrderSpecifications)
+                                                     .AsNoTracking().ProjectTo<TResponseDto>(this.Mapper.ConfigurationProvider);
 
                 PagingInfoDto pagingInfo = null;
                 if (!request.DisablePaging)

@@ -4,6 +4,7 @@
 
 using CRUD.Core;
 using CRUD.CQRS;
+using CRUD.DAL;
 using CRUD.Extensions;
 
 #endregion
@@ -18,7 +19,7 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
     #endregion
 
     [Fact]
-    public async Task Should_return_entities()
+    public async Task Should_return_entities_ordered_by_ids()
     {
         var text = Guid.NewGuid().ToString();
 
@@ -31,10 +32,16 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
 
         await this.context.SaveChangesAsync();
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
+        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+                                                        {
+                                                                OrderSpecifications = new[] { new OrderById<TestEntity, int>(false) }
+                                                        });
 
         Assert.Equal(3, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text));
+        Assert.Equal(1, dtosInDb.Items[0].Id);
+        Assert.Equal(2, dtosInDb.Items[1].Id);
+        Assert.Equal(3, dtosInDb.Items[2].Id);
 
         Assert.Equal(new PagingInfoDto
                      {

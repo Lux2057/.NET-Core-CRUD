@@ -4,6 +4,7 @@
 
 using System.Net;
 using FluentValidation;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
@@ -26,6 +27,7 @@ public class ValidationErrorsHandlerMiddleware
 
     #endregion
 
+    [UsedImplicitly]
     public async Task Invoke(HttpContext context)
     {
         try

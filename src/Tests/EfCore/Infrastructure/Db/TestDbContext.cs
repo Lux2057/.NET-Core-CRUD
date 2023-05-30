@@ -2,6 +2,7 @@
 
 #region << Using >>
 
+using CRUD.Core;
 using CRUD.DAL;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,5 +25,6 @@ public sealed class TestDbContext : DbContext, IEfDbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(TestEntity).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(LogEntity).Assembly);
     }
 }

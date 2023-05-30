@@ -51,6 +51,8 @@
 
             protected override async Task Execute(CreateOrUpdateEntitiesCommand<TEntity, TId, TDto> command, CancellationToken cancellationToken)
             {
+                throw new Exception("TEST");
+
                 if (!command.Dtos.Any())
                     return;
 

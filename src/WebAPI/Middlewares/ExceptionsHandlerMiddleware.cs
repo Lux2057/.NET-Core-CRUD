@@ -62,14 +62,12 @@
                 catch (Exception addLogException)
                 {
                     var relativeFileLogPath = context.RequestServices.GetService<IOptions<PathOptions>>()?.Value.RelativeFileLogPath ?? "Logs";
-                    var logsFolder = Path.Combine(Environment.CurrentDirectory, relativeFileLogPath);
+                    var logsFolder = Path.Combine(PathHelper.GetApplicationRootOrDefault(), relativeFileLogPath);
 
                     if (!Directory.Exists(logsFolder))
                         Directory.CreateDirectory(logsFolder);
 
                     var logPath = Path.Combine(logsFolder, $"Log_{DateTime.UtcNow.ToShortDateString()}.txt");
-                    if (!File.Exists(logPath))
-                        File.Create(logPath);
 
                     var pipelineExceptionJson = pipelineException.ToJsonString(new JsonSerializerSettings
                                                                                {
@@ -85,7 +83,7 @@
                                          + $"Exception: {pipelineExceptionJson}"
                                    }.ToJoinedString(Environment.NewLine);
 
-                    await File.WriteAllTextAsync(logPath, messages);
+                    await File.AppendAllTextAsync(logPath, messages);
                 }
 
                 var response = context.Response;

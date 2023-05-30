@@ -83,6 +83,7 @@ namespace Examples.WebAPI
             app.UseRouting();
 
             app.UseMiddleware<ValidationErrorsHandlerMiddleware>();
+            app.UseMiddleware<ExceptionsHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
                              {

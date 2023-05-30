@@ -39,6 +39,7 @@
             {
                 await Repository<LogEntity>().AddAsync(new LogEntity
                                                        {
+                                                               CrDt = DateTime.UtcNow,
                                                                LogLevel = command.LogLevel,
                                                                Message = command.Message,
                                                                Exception = JsonConvert.SerializeObject(command.Exception,

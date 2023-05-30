@@ -7,8 +7,9 @@
     <RepositoryUrl>https://github.com/Lux2057/.NET-Core-CRUD</RepositoryUrl>
     <PackageId>XulBenet.CRUD.DAL</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>XulBenet</Authors>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

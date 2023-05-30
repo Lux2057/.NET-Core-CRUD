@@ -2,9 +2,8 @@
 {
     #region << Using >>
 
+    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using LinqSpecs;
 
     #endregion
@@ -14,6 +13,6 @@
         /// <summary>
         ///     Returns a IQueryable response from a data storage
         /// </summary>
-        IQueryable<TEntity> Get(Specification<TEntity> specification = default);
+        IQueryable<TEntity> Get(Specification<TEntity> specification = default, IEnumerable<OrderSpecification<TEntity>> orderSpecifications = default);
     }
 }

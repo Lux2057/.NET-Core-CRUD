@@ -20,14 +20,13 @@ public class Startup
                                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                                .Build().GetConnectionString("DefaultConnection");
 
-        services.AddDbContext<TestDbContext>(options =>
-                                             {
-                                                 options.UseNpgsql(connectionString);
-                                                 options.EnableSensitiveDataLogging();
-                                             });
-
         var currentAssembly = new[] { typeof(Startup).Assembly };
-        services.AddEfInfrastructure<TestDbContext>(mediatorAssemblies: currentAssembly,
+        services.AddEfInfrastructure<TestDbContext>(dbContextOptions: options =>
+                                                                      {
+                                                                          options.UseNpgsql(connectionString);
+                                                                          options.EnableSensitiveDataLogging();
+                                                                      },
+                                                    mediatorAssemblies: currentAssembly,
                                                     validatorAssemblies: currentAssembly,
                                                     automapperAssemblies: currentAssembly);
 

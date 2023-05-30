@@ -2,11 +2,16 @@
 {
     #region << Using >>
 
+    #region << Using >>
+
+    using System;
     using System.Reflection;
     using CRUD.DAL;
     using FluentValidation;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+
+    #endregion
 
     #endregion
 
@@ -19,11 +24,13 @@
         /// <param name="validatorAssemblies">Assemblies that contain Queries/Commands FluentValidators</param>
         /// <param name="automapperAssemblies">Assemblies that contains Queries/Commands Automapper.Profiles</param>
         public static void AddEfInfrastructure<TDbContext>(this IServiceCollection services,
+                                                           Action<DbContextOptionsBuilder> dbContextOptions,
                                                            Assembly[] mediatorAssemblies,
                                                            Assembly[] validatorAssemblies,
                                                            Assembly[] automapperAssemblies)
                 where TDbContext : DbContext, IEfDbContext
         {
+            services.AddDbContext<TDbContext>(dbContextOptions);
             services.AddScoped(provider => provider.GetService(typeof(TDbContext)) as IEfDbContext);
             services.AddScoped(typeof(IReadRepository<>), typeof(EfReadRepository<>));
             services.AddScoped(typeof(IReadWriteRepository<>), typeof(EfReadWriteRepository<>));

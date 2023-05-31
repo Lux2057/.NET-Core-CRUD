@@ -15,14 +15,14 @@
     {
         #region Constructors
 
-        protected EntityReadControllerBase(IReadWriteDispatcher dispatcher) : base(dispatcher) { }
+        protected EntityReadControllerBase(IDispatcher dispatcher) : base(dispatcher) { }
 
         #endregion
 
         [HttpGet]
         public virtual async Task<IActionResult> Read(TId[] ids, int? page, int? pageSize, CancellationToken cancellationToken = default)
         {
-            var entities = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TEntity, TId, TDto>(ids)
+            var entities = await QueryAsync(new ReadEntitiesQueryBase<TEntity, TId, TDto>(ids)
                                                             {
                                                                     Page = page,
                                                                     PageSize = pageSize

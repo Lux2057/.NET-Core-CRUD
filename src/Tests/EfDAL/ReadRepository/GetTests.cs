@@ -11,7 +11,7 @@ public class GetTests : EfReadRepositoryTest
 {
     #region Constructors
 
-    public GetTests(TestDbContext context, IReadRepository<TestEntity> repository)
+    public GetTests(TestDbContext context, IReadRepository repository)
             : base(context, repository) { }
 
     #endregion
@@ -26,9 +26,9 @@ public class GetTests : EfReadRepositoryTest
         await this.context.Set<TestEntity>().AddAsync(testEntity);
         await this.context.SaveChangesAsync();
 
-        Assert.Single(this.repository.Get().ToArray());
-        Assert.Equal(1, this.repository.Get().Single().Id);
-        Assert.Equal(text, this.repository.Get().Single().Text);
+        Assert.Single(this.repository.Get<TestEntity>().ToArray());
+        Assert.Equal(1, this.repository.Get<TestEntity>().Single().Id);
+        Assert.Equal(text, this.repository.Get<TestEntity>().Single().Text);
     }
 
     [Fact]
@@ -41,9 +41,9 @@ public class GetTests : EfReadRepositoryTest
         await this.context.Set<TestEntity>().AddAsync(testEntity);
         await this.context.SaveChangesAsync();
 
-        Assert.Single(this.repository.Get().ToArray());
+        Assert.Single(this.repository.Get<TestEntity>().ToArray());
         Assert.Equal(1, this.repository.Get(new FindEntityById<TestEntity, int>(1)).Single().Id);
-        Assert.Equal(text, this.repository.Get().Single().Text);
+        Assert.Equal(text, this.repository.Get<TestEntity>().Single().Text);
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class GetTests : EfReadRepositoryTest
 
         await this.context.SaveChangesAsync();
 
-        Assert.Equal(3, this.repository.Get().Count());
+        Assert.Equal(3, this.repository.Get<TestEntity>().Count());
         Assert.Equal(2, this.repository.Get(new TestByTextSpecification(text1)).Count());
         Assert.Equal(1, this.repository.Get(new TestByTextSpecification(text2)).Count());
     }

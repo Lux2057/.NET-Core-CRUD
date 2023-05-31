@@ -6,19 +6,19 @@ using CRUD.DAL;
 
 #endregion
 
-public abstract class EfReadWriteRepositoryTest : DbTest
+public abstract class EfRepositoryTest : DbTest
 {
     #region Properties
 
     protected readonly TestDbContext context;
 
-    protected readonly IReadWriteRepository<TestEntity> repository;
+    protected readonly IRepository repository;
 
     #endregion
 
     #region Constructors
 
-    protected EfReadWriteRepositoryTest(TestDbContext context, IReadWriteRepository<TestEntity> repository)
+    protected EfRepositoryTest(TestDbContext context, IRepository repository)
     {
         this.context = context;
         this.repository = repository;

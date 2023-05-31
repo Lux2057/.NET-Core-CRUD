@@ -40,8 +40,4 @@
     <ProjectReference Include="..\..\Core\CRUD.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Infrastructure\Base\" />
-  </ItemGroup>
-
 </Project>

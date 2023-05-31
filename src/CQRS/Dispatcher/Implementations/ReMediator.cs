@@ -11,7 +11,7 @@ using MediatR;
 #endregion
 
 /// <summary>
-/// Issue #75: https://github.com/Lux2057/.NET-Core-CRUD/issues/75#issue-1695287763
+///     Issue #75: https://github.com/Lux2057/.NET-Core-CRUD/issues/75#issue-1695287763
 /// </summary>
 public class ReMediator : Mediator
 {

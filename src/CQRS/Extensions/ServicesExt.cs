@@ -32,11 +32,11 @@
         {
             services.AddDbContext<TDbContext>(dbContextOptions);
             services.AddScoped(provider => provider.GetService(typeof(TDbContext)) as IEfDbContext);
-            services.AddScoped(typeof(IReadRepository<>), typeof(EfReadRepository<>));
-            services.AddScoped(typeof(IReadWriteRepository<>), typeof(EfReadWriteRepository<>));
+            services.AddScoped(typeof(IReadRepository), typeof(EfRepository));
+            services.AddScoped(typeof(IRepository), typeof(EfRepository));
             services.AddScoped<IUnitOfWork, EfUnitOfWork>();
-            services.AddScoped<IReadDispatcher, DefaultReadDispatcher>();
-            services.AddScoped<IReadWriteDispatcher, DefaultReadWriteDispatcher>();
+            services.AddScoped<IReadDispatcher, DefaultDispatcher>();
+            services.AddScoped<IDispatcher, DefaultDispatcher>();
             services.AddValidatorsFromAssemblies(assemblies: validatorAssemblies, includeInternalTypes: true);
             services.AddAutoMapper(automapperAssemblies);
             services.AddMediatR(config =>

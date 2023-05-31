@@ -2,6 +2,7 @@
 {
     #region << Using >>
 
+    using System;
     using System.Data;
     using System.Threading.Tasks;
 
@@ -12,9 +13,11 @@
     /// </summary>
     public interface IUnitOfWork
     {
-        public IReadRepository<TEntity> ReadRepository<TEntity>() where TEntity : class, new();
+        #region Properties
 
-        public IReadWriteRepository<TEntity> ReadWriteRepository<TEntity>() where TEntity : class, new();
+        public IRepository Repository { get; }
+
+        #endregion
 
         /// <summary>
         ///     Starts a transaction scope

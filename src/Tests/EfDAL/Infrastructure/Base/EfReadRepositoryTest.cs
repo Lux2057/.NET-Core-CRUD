@@ -12,13 +12,13 @@ public abstract class EfReadRepositoryTest : DbTest
 
     protected readonly TestDbContext context;
 
-    protected readonly IReadRepository<TestEntity> repository;
+    protected readonly IReadRepository repository;
 
     #endregion
 
     #region Constructors
 
-    protected EfReadRepositoryTest(TestDbContext context, IReadRepository<TestEntity> repository)
+    protected EfReadRepositoryTest(TestDbContext context, IReadRepository repository)
     {
         this.context = context;
         this.repository = repository;

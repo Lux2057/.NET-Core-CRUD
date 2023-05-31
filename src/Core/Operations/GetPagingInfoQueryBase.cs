@@ -11,7 +11,7 @@ using JetBrains.Annotations;
 
 #endregion
 
-public class GetPagingInfoQuery : IQuery<PagingInfoDto>
+public class GetPagingInfoQueryBase : QueryBase<PagingInfoDto>
 {
     #region Constants
 
@@ -33,7 +33,7 @@ public class GetPagingInfoQuery : IQuery<PagingInfoDto>
 
     #region Constructors
 
-    public GetPagingInfoQuery(int? page, int? pageSize, int totalCount)
+    public GetPagingInfoQueryBase(int? page, int? pageSize, int totalCount)
     {
         Page = page;
         PageSize = pageSize;
@@ -45,7 +45,7 @@ public class GetPagingInfoQuery : IQuery<PagingInfoDto>
     #region Nested Classes
 
     [UsedImplicitly]
-    public class Handler : QueryHandlerBase<GetPagingInfoQuery, PagingInfoDto>
+    public class Handler : QueryHandlerBase<GetPagingInfoQueryBase, PagingInfoDto>
     {
         #region Constructors
 
@@ -53,7 +53,7 @@ public class GetPagingInfoQuery : IQuery<PagingInfoDto>
 
         #endregion
 
-        protected override async Task<PagingInfoDto> Execute(GetPagingInfoQuery request, CancellationToken cancellationToken)
+        protected override async Task<PagingInfoDto> Execute(GetPagingInfoQueryBase request, CancellationToken cancellationToken)
         {
             return await Task.Run(() =>
                                   {

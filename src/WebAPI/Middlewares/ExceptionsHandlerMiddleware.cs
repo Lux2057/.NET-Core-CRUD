@@ -48,7 +48,7 @@
             }
             catch (Exception pipelineException)
             {
-                var dispatcher = context.RequestServices.GetService<IReadWriteDispatcher>()!;
+                var dispatcher = context.RequestServices.GetService<IDispatcher>()!;
 
                 try
                 {

@@ -2,11 +2,9 @@
 {
     #region << Using >>
 
-    using System;
     using System.Data;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.DependencyInjection;
 
     #endregion
 
@@ -17,33 +15,23 @@
     {
         #region Properties
 
-        private readonly IEfDbContext _dbContext;
+        public IRepository Repository { get; }
 
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IEfDbContext _dbContext;
 
         #endregion
 
         #region Constructors
 
-        public EfUnitOfWork(IServiceProvider serviceProvider)
+        public EfUnitOfWork(IRepository repository, IEfDbContext efDbContext)
         {
-            this._serviceProvider = serviceProvider;
-            this._dbContext = serviceProvider.GetService<IEfDbContext>();
+            this._dbContext = efDbContext;
+            Repository = repository;
         }
 
         #endregion
 
         #region Interface Implementations
-
-        public IReadRepository<TEntity> ReadRepository<TEntity>() where TEntity : class, new()
-        {
-            return this._serviceProvider.GetService<IReadRepository<TEntity>>();
-        }
-
-        public IReadWriteRepository<TEntity> ReadWriteRepository<TEntity>() where TEntity : class, new()
-        {
-            return this._serviceProvider.GetService<IReadWriteRepository<TEntity>>();
-        }
 
         /// <summary>
         ///     Starts a transaction scope
@@ -55,16 +43,6 @@
                 return string.Empty;
 
             await this._dbContext.Database.BeginTransactionAsync(isolationLevel);
-
-            return this._dbContext.Database.CurrentTransaction!.TransactionId.ToString();
-        }
-
-        public string BeginTransactionScope(IsolationLevel isolationLevel)
-        {
-            if (this._dbContext.Database.CurrentTransaction != null)
-                return string.Empty;
-
-            this._dbContext.Database.BeginTransaction(isolationLevel);
 
             return this._dbContext.Database.CurrentTransaction!.TransactionId.ToString();
         }
@@ -104,5 +82,15 @@
         }
 
         #endregion
+
+        public string BeginTransactionScope(IsolationLevel isolationLevel)
+        {
+            if (this._dbContext.Database.CurrentTransaction != null)
+                return string.Empty;
+
+            this._dbContext.Database.BeginTransaction(isolationLevel);
+
+            return this._dbContext.Database.CurrentTransaction!.TransactionId.ToString();
+        }
     }
 }

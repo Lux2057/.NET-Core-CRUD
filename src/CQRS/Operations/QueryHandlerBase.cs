@@ -16,17 +16,17 @@
     /// <summary>
     ///     Base Query handler which implements transaction scoped handling of a Query
     /// </summary>
-    public abstract class QueryHandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, TResponse> where TRequest : IQuery<TResponse>
+    public abstract class QueryHandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, TResponse> where TRequest : QueryBase<TResponse>
     {
         #region Properties
 
-        private readonly IUnitOfWork _unitOfWork;
+        protected IReadRepository Repository { get; }
+
+        protected IReadDispatcher Dispatcher { get; }
+
+        protected IMapper Mapper { get; }
 
         private readonly IValidator<TRequest> _validator;
-
-        protected readonly IReadDispatcher Dispatcher;
-
-        protected readonly IMapper Mapper;
 
         #endregion
 
@@ -34,10 +34,10 @@
 
         protected QueryHandlerBase(IServiceProvider serviceProvider)
         {
-            this._unitOfWork = serviceProvider.GetService<IUnitOfWork>();
             this._validator = serviceProvider.GetService<IValidator<TRequest>>();
-            this.Dispatcher = serviceProvider.GetService<IReadDispatcher>();
-            this.Mapper = serviceProvider.GetService<IMapper>();
+            Repository = serviceProvider.GetService<IReadRepository>();
+            Dispatcher = serviceProvider.GetService<IReadDispatcher>();
+            Mapper = serviceProvider.GetService<IMapper>();
         }
 
         #endregion
@@ -55,10 +55,5 @@
         #endregion
 
         protected abstract Task<TResponse> Execute(TRequest request, CancellationToken cancellationToken);
-
-        protected IReadRepository<TEntity> Repository<TEntity>() where TEntity : class, new()
-        {
-            return this._unitOfWork.ReadRepository<TEntity>();
-        }
     }
 }

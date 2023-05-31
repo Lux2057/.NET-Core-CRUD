@@ -6,11 +6,11 @@ using CRUD.CQRS;
 
 #endregion
 
-internal class TestThrowingExceptionQuery : IQuery<bool>
+internal class TestThrowingExceptionQueryBase : QueryBase<bool>
 {
     #region Nested Classes
 
-    class Handler : QueryHandlerBase<TestThrowingExceptionQuery, bool>
+    class Handler : QueryHandlerBase<TestThrowingExceptionQueryBase, bool>
     {
         #region Constructors
 
@@ -18,7 +18,7 @@ internal class TestThrowingExceptionQuery : IQuery<bool>
 
         #endregion
 
-        protected override Task<bool> Execute(TestThrowingExceptionQuery request, CancellationToken cancellationToken)
+        protected override Task<bool> Execute(TestThrowingExceptionQueryBase request, CancellationToken cancellationToken)
         {
             throw new Exception("Test exception");
         }

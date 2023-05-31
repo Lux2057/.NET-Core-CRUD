@@ -37,17 +37,17 @@
 
             protected override async Task Execute(AddLogCommand command, CancellationToken cancellationToken)
             {
-                await Repository<LogEntity>().AddAsync(new LogEntity
-                                                       {
-                                                               CrDt = DateTime.UtcNow,
-                                                               LogLevel = command.LogLevel,
-                                                               Message = command.Message,
-                                                               Exception = JsonConvert.SerializeObject(command.Exception,
-                                                                                                       new JsonSerializerSettings
-                                                                                                       {
-                                                                                                               ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                                                                                                       })
-                                                       }, cancellationToken);
+                await Repository.AddAsync(new LogEntity
+                                          {
+                                                  CrDt = DateTime.UtcNow,
+                                                  LogLevel = command.LogLevel,
+                                                  Message = command.Message,
+                                                  Exception = JsonConvert.SerializeObject(command.Exception,
+                                                                                          new JsonSerializerSettings
+                                                                                          {
+                                                                                                  ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                                                                                          })
+                                          }, cancellationToken);
             }
         }
 

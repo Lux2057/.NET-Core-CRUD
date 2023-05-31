@@ -11,17 +11,27 @@
     {
         #region Properties
 
-        protected readonly IReadWriteDispatcher Dispatcher;
+        readonly IDispatcher _dispatcher;
 
         #endregion
 
         #region Constructors
 
-        protected DispatcherControllerBase(IReadWriteDispatcher dispatcher)
+        protected DispatcherControllerBase(IDispatcher dispatcher)
         {
-            this.Dispatcher = dispatcher;
+            this._dispatcher = dispatcher;
         }
 
         #endregion
+
+        protected async Task<TQueryResponse> QueryAsync<TQueryResponse>(QueryBase<TQueryResponse> query, CancellationToken cancellationToken = default)
+        {
+            return await this._dispatcher.QueryAsync(query, cancellationToken);
+        }
+
+        protected async Task PushAsync<TCommand>(TCommand command, CancellationToken cancellationToken = default) where TCommand : CommandBase
+        {
+            await this._dispatcher.PushAsync(command, cancellationToken);
+        }
     }
 }

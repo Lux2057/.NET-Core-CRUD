@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 
-public class DeleteAsyncTests : EfReadWriteRepositoryTest
+public class DeleteAsyncTests : EfRepositoryTest
 {
     #region Constructors
 
-    public DeleteAsyncTests(TestDbContext context, IReadWriteRepository<TestEntity> repository)
+    public DeleteAsyncTests(TestDbContext context, IRepository repository)
             : base(context, repository) { }
 
     #endregion

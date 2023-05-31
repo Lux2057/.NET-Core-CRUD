@@ -13,7 +13,7 @@
     {
         #region Constructors
 
-        public ExampleReadController(IReadWriteDispatcher dispatcher) : base(dispatcher) { }
+        public ExampleReadController(IDispatcher dispatcher) : base(dispatcher) { }
 
         #endregion
     }

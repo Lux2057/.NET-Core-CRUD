@@ -38,7 +38,7 @@ public class ReadDispatcherTests : ReadDispatcherTest
 
         await this.context.SaveChangesAsync();
 
-        var dtos = await this.dispatcher.QueryAsync(new GetTestEntitiesByIdsQuery { Ids = Array.Empty<int>() });
+        var dtos = await this.dispatcher.QueryAsync(new GetTestEntitiesByIdsQueryBase(Array.Empty<int>()));
 
         Assert.Equal(3, dtos.Length);
         Assert.True(dtos.All(x => x.Text == text));
@@ -47,12 +47,12 @@ public class ReadDispatcherTests : ReadDispatcherTest
     [Fact]
     public async Task Should_throw_validation_exception()
     {
-        await Assert.ThrowsAsync<ValidationException>(async () => await this.dispatcher.QueryAsync(new GetTestEntitiesByIdsQuery()));
+        await Assert.ThrowsAsync<ValidationException>(async () => await this.dispatcher.QueryAsync(new GetTestEntitiesByIdsQueryBase(null)));
     }
 
     [Fact]
     public async Task Should_throw_test_exception()
     {
-        await Assert.ThrowsAsync<Exception>(async () => await this.dispatcher.QueryAsync(new TestThrowingExceptionQuery()));
+        await Assert.ThrowsAsync<Exception>(async () => await this.dispatcher.QueryAsync(new TestThrowingExceptionQueryBase()));
     }
 }

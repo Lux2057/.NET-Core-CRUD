@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 
-public class UpdateAsyncTests : EfReadWriteRepositoryTest
+public class UpdateAsyncTests : EfRepositoryTest
 {
     #region Constructors
 
-    public UpdateAsyncTests(TestDbContext context, IReadWriteRepository<TestEntity> repository)
+    public UpdateAsyncTests(TestDbContext context, IRepository repository)
             : base(context, repository) { }
 
     #endregion

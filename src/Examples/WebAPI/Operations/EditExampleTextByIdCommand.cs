@@ -5,7 +5,6 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using CRUD.Core;
     using CRUD.CQRS;
     using CRUD.DAL;
     using FluentValidation;
@@ -51,7 +50,7 @@
             {
                 var id = command.Dto.Id.GetValueOrDefault(0);
 
-                var entity = await Repository<ExampleEntity>().Get(new FindEntityById<ExampleEntity, int>(id)).SingleOrDefaultAsync(cancellationToken);
+                var entity = await Repository.Get(new FindEntityById<ExampleEntity, int>(id)).SingleOrDefaultAsync(cancellationToken);
 
                 if (entity == null)
                 {
@@ -60,7 +59,7 @@
                 }
 
                 entity.Text = command.Dto.Text.Trim();
-                await Repository<ExampleEntity>().UpdateAsync(entity, cancellationToken);
+                await Repository.UpdateAsync(entity, cancellationToken);
 
                 command.Result = true;
             }

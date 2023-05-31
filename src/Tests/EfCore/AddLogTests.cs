@@ -10,11 +10,11 @@ using Microsoft.Extensions.Logging;
 
 #endregion
 
-public class AddLogTests : ReadWriteDispatcherTest
+public class AddLogTests : DispatcherTest
 {
     #region Constructors
 
-    public AddLogTests(TestDbContext context, IReadWriteDispatcher dispatcher)
+    public AddLogTests(TestDbContext context, IDispatcher dispatcher)
             : base(context, dispatcher) { }
 
     #endregion

@@ -49,7 +49,7 @@ namespace Examples.WebAPI
                      mediatorAssemblies: new[]
                                          {
                                                  typeof(CreateOrUpdateEntitiesCommand<,,>).Assembly,
-                                                 typeof(GetExampleTextsByIdsQuery).Assembly
+                                                 typeof(GetExampleTextsByIdsQueryBase).Assembly
                                          },
                      validatorAssemblies: new[]
                                           {

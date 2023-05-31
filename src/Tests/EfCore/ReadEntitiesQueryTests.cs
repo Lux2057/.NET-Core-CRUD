@@ -32,7 +32,7 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
 
         await this.context.SaveChangesAsync();
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQueryBase<TestEntity, int, TestEntityDto>
                                                         {
                                                                 OrderSpecifications = new[] { new OrderById<TestEntity, int>(false) }
                                                         });
@@ -45,8 +45,8 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
 
         Assert.Equal(new PagingInfoDto
                      {
-                             CurrentPage = GetPagingInfoQuery.defaultPage,
-                             PageSize = GetPagingInfoQuery.defaultPageSize,
+                             CurrentPage = GetPagingInfoQueryBase.defaultPage,
+                             PageSize = GetPagingInfoQueryBase.defaultPageSize,
                              TotalItemsCount = 3,
                              TotalPages = 1
                      }.ToJsonString(),
@@ -67,15 +67,15 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
 
         await this.context.SaveChangesAsync();
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>(new[] { 1 }));
+        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQueryBase<TestEntity, int, TestEntityDto>(new[] { 1 }));
 
         Assert.Single(dtosInDb.Items);
         Assert.Equal(text, dtosInDb.Items.Single().Text);
 
         Assert.Equal(new PagingInfoDto
                      {
-                             CurrentPage = GetPagingInfoQuery.defaultPage,
-                             PageSize = GetPagingInfoQuery.defaultPageSize,
+                             CurrentPage = GetPagingInfoQueryBase.defaultPage,
+                             PageSize = GetPagingInfoQueryBase.defaultPageSize,
                              TotalItemsCount = 1,
                              TotalPages = 1
                      }.ToJsonString(),
@@ -98,7 +98,7 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
 
         await this.context.SaveChangesAsync();
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQueryBase<TestEntity, int, TestEntityDto>
                                                         {
                                                                 Page = 1,
                                                                 PageSize = 2
@@ -116,7 +116,7 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
                      }.ToJsonString(),
                      dtosInDb.PagingInfo.ToJsonString());
 
-        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQueryBase<TestEntity, int, TestEntityDto>
                                                     {
                                                             Page = 2,
                                                             PageSize = 2
@@ -152,7 +152,7 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
 
         await this.context.SaveChangesAsync();
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQueryBase<TestEntity, int, TestEntityDto>
                                                         {
                                                                 Page = 1,
                                                                 PageSize = 2,
@@ -188,7 +188,7 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
 
         await this.context.SaveChangesAsync();
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQueryBase<TestEntity, int, TestEntityDto>
                                                         {
                                                                 DisablePaging = true,
                                                                 Specification = new TestEntityByTextSpec(text1)

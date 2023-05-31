@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 
-public class AddAsyncTests : EfReadWriteRepositoryTest
+public class AddAsyncTests : EfRepositoryTest
 {
     #region Constructors
 
-    public AddAsyncTests(TestDbContext context, IReadWriteRepository<TestEntity> repository)
+    public AddAsyncTests(TestDbContext context, IRepository repository)
             : base(context, repository) { }
 
     #endregion
@@ -66,7 +66,7 @@ public class AddAsyncTests : EfReadWriteRepositoryTest
     [Fact]
     public async Task Should_ignore_empty_collection()
     {
-        await this.repository.AddAsync(new List<TestEntity> { null });
+        await this.repository.AddAsync(new [] { (TestEntity)null });
 
         var entitiesInDb = await this.context.Set<TestEntity>().ToArrayAsync();
 

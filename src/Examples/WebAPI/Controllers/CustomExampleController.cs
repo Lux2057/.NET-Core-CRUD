@@ -15,15 +15,15 @@
     {
         #region Constructors
 
-        public CustomExampleController(IReadWriteDispatcher dispatcher) : base(dispatcher) { }
+        public CustomExampleController(IDispatcher dispatcher) : base(dispatcher) { }
 
         #endregion
 
         [HttpGet]
         public async Task<IActionResult> GetTexts(int[] ids, bool toUpper, CancellationToken cancellationToken = default)
         {
-            var dtos = await this.Dispatcher.QueryAsync(new GetExampleTextsByIdsQuery()
-                                                        {
+            var dtos = await QueryAsync(new GetExampleTextsByIdsQueryBase
+                                        {
                                                                 Ids = ids,
                                                                 ToUpper = toUpper
                                                         }, cancellationToken);
@@ -35,7 +35,7 @@
         public async Task<IActionResult> EditText([FromBody] ExampleTextDto item, CancellationToken cancellationToken = default)
         {
             var command = new EditExampleTextByIdCommand { Dto = item };
-            await this.Dispatcher.PushAsync(command, cancellationToken);
+            await PushAsync(command, cancellationToken);
 
             return Ok(command.Result);
         }

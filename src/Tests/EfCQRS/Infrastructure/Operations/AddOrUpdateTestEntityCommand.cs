@@ -46,7 +46,8 @@ internal class AddOrUpdateTestEntityCommand : CommandBase
 
         protected override async Task Execute(AddOrUpdateTestEntityCommand command, CancellationToken cancellationToken)
         {
-            var dto = (await this.Dispatcher.QueryAsync(new GetTestEntitiesByIdsQuery { Ids = new[] { command.Id.GetValueOrDefault(0) } }, cancellationToken)).SingleOrDefault();
+            var dto = (await Dispatcher.QueryAsync(new GetTestEntitiesByIdsQueryBase(new[] { command.Id.GetValueOrDefault(0) }),
+                                                   cancellationToken)).SingleOrDefault();
 
             TestEntity entity;
             if (dto == null)
@@ -56,14 +57,14 @@ internal class AddOrUpdateTestEntityCommand : CommandBase
                                  Text = command.Text
                          };
 
-                await Repository<TestEntity>().AddAsync(entity, cancellationToken);
+                await Repository.AddAsync(entity, cancellationToken);
             }
             else
             {
-                entity = this.Mapper.Map<TestEntity>(dto);
+                entity = Mapper.Map<TestEntity>(dto);
                 entity.Text = command.Text;
 
-                await Repository<TestEntity>().UpdateAsync(entity, cancellationToken);
+                await Repository.UpdateAsync(entity, cancellationToken);
             }
 
             command.Result = entity.Id;

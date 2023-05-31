@@ -54,12 +54,12 @@
                 if (!command.Dtos.Any())
                     return;
 
-                var entities = this.Mapper.Map<TEntity[]>(command.Dtos);
+                var entities = Mapper.Map<TEntity[]>(command.Dtos);
 
-                var existingEntitiesIds = await Repository<TEntity>().Get(new FindEntitiesByIds<TEntity, TId>(entities.GetIds<TEntity, TId>())).Select(r => r.Id).ToArrayAsync(cancellationToken);
+                var existingEntitiesIds = await Repository.Get(new FindEntitiesByIds<TEntity, TId>(entities.GetIds<TEntity, TId>())).Select(r => r.Id).ToArrayAsync(cancellationToken);
 
-                await Repository<TEntity>().AddAsync(entities.Where(r => !existingEntitiesIds.Contains(r.Id)), cancellationToken);
-                await Repository<TEntity>().UpdateAsync(entities.Where(r => existingEntitiesIds.Contains(r.Id)), cancellationToken);
+                await Repository.AddAsync(entities.Where(r => !existingEntitiesIds.Contains(r.Id)), cancellationToken);
+                await Repository.UpdateAsync(entities.Where(r => existingEntitiesIds.Contains(r.Id)), cancellationToken);
 
                 command.Result = entities.GetIds<TEntity, TId>();
             }

@@ -23,9 +23,9 @@ internal class TestRollbackChangesCommand : CommandBase
         protected override async Task Execute(TestRollbackChangesCommand command, CancellationToken cancellationToken)
         {
             var addOrUpdateTestEntityCommand = new AddOrUpdateTestEntityCommand { Text = "TEST Text" };
-            await this.Dispatcher.PushAsync(addOrUpdateTestEntityCommand, cancellationToken);
+            await Dispatcher.PushAsync(addOrUpdateTestEntityCommand, cancellationToken);
 
-            var dto = await this.Dispatcher.QueryAsync(new GetTestEntitiesByIdsQuery { Ids = new[] { addOrUpdateTestEntityCommand.Result } }, cancellationToken);
+            var dto = await Dispatcher.QueryAsync(new GetTestEntitiesByIdsQueryBase(new[] { addOrUpdateTestEntityCommand.Result }), cancellationToken);
 
             throw new Exception("Test rollback");
         }

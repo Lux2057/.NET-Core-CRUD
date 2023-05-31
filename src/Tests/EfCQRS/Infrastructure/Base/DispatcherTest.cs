@@ -6,19 +6,19 @@ using CRUD.CQRS;
 
 #endregion
 
-public class ReadWriteDispatcherTest : DbTest
+public class DispatcherTest : DbTest
 {
     #region Properties
 
     protected readonly TestDbContext context;
 
-    protected readonly IReadWriteDispatcher dispatcher;
+    protected readonly IDispatcher dispatcher;
 
     #endregion
 
     #region Constructors
 
-    public ReadWriteDispatcherTest(TestDbContext context, IReadWriteDispatcher dispatcher)
+    public DispatcherTest(TestDbContext context, IDispatcher dispatcher)
     {
         this.context = context;
         this.dispatcher = dispatcher;

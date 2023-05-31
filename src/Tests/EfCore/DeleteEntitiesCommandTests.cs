@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 
-public class DeleteEntitiesCommandTests : ReadWriteDispatcherTest
+public class DeleteEntitiesCommandTests : DispatcherTest
 {
     #region Constructors
 
-    public DeleteEntitiesCommandTests(TestDbContext context, IReadWriteDispatcher dispatcher)
+    public DeleteEntitiesCommandTests(TestDbContext context, IDispatcher dispatcher)
             : base(context, dispatcher) { }
 
     #endregion

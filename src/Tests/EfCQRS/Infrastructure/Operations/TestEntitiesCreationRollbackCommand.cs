@@ -23,13 +23,13 @@ public class TestEntitiesCreationRollbackCommand : CommandBase
         protected override async Task Execute(TestEntitiesCreationRollbackCommand command, CancellationToken cancellationToken)
         {
             var text = Guid.NewGuid().ToString();
-            await Repository<TestEntity>().AddAsync(new[]
-                                                    {
-                                                            new TestEntity { Text = text },
-                                                            new TestEntity { Text = text },
-                                                            new TestEntity { Text = text },
-                                                            new TestEntity { Text = text }
-                                                    }, cancellationToken);
+            await Repository.AddAsync(new[]
+                                      {
+                                              new TestEntity { Text = text },
+                                              new TestEntity { Text = text },
+                                              new TestEntity { Text = text },
+                                              new TestEntity { Text = text }
+                                      }, cancellationToken);
 
             throw new Exception("Test rollback");
         }

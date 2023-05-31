@@ -14,7 +14,7 @@
 
     #endregion
 
-    public class GetExampleTextsByIdsQuery : IQuery<ExampleTextDto[]>
+    public class GetExampleTextsByIdsQueryBase : QueryBase<ExampleTextDto[]>
     {
         #region Properties
 
@@ -26,7 +26,7 @@
 
         #region Nested Classes
 
-        class Handler : QueryHandlerBase<GetExampleTextsByIdsQuery, ExampleTextDto[]>
+        class Handler : QueryHandlerBase<GetExampleTextsByIdsQueryBase, ExampleTextDto[]>
         {
             #region Constructors
 
@@ -34,9 +34,9 @@
 
             #endregion
 
-            protected override async Task<ExampleTextDto[]> Execute(GetExampleTextsByIdsQuery request, CancellationToken cancellationToken)
+            protected override async Task<ExampleTextDto[]> Execute(GetExampleTextsByIdsQueryBase request, CancellationToken cancellationToken)
             {
-                var entities = await Repository<ExampleEntity>().Get(new FindEntitiesByIds<ExampleEntity, int>(request.Ids)).ToArrayAsync(cancellationToken);
+                var entities = await Repository.Get(new FindEntitiesByIds<ExampleEntity, int>(request.Ids)).ToArrayAsync(cancellationToken);
 
                 var dtos = this.Mapper.Map<ExampleTextDto[]>(entities).OrderBy(r => r.Text).ToArrayOrEmpty();
 

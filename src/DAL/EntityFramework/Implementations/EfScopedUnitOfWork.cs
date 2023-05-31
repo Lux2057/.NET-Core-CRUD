@@ -36,7 +36,7 @@
 
         #region Interface Implementations
 
-        public void OpenTransactionScope(IsolationLevel isolationLevel)
+        public void OpenScope(IsolationLevel isolationLevel)
         {
             if (this._dbContext.Database.CurrentTransaction != null)
                 return;
@@ -46,7 +46,7 @@
             IsOpened = true;
         }
 
-        public void CloseTransactionScope()
+        public void CloseScope()
         {
             if (this._dbContext.Database.CurrentTransaction == null)
                 return;
@@ -56,7 +56,7 @@
             IsOpened = false;
         }
 
-        public void RollbackChanges()
+        public void RollbackAndCloseScope()
         {
             if (this._dbContext.Database.CurrentTransaction == null)
                 return;

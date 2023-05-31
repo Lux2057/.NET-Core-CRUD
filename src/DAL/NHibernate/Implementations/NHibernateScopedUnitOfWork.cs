@@ -37,7 +37,7 @@ public class NHibernateScopedUnitOfWork : IScopedUnitOfWork
 
     #region Interface Implementations
 
-    public void OpenTransactionScope(IsolationLevel isolationLevel)
+    public void OpenScope(IsolationLevel isolationLevel)
     {
         if (this._session.GetCurrentTransaction() != null)
             return;
@@ -47,22 +47,24 @@ public class NHibernateScopedUnitOfWork : IScopedUnitOfWork
         IsOpened = true;
     }
 
-    public void CloseTransactionScope()
+    public void CloseScope()
     {
         if (this._session.GetCurrentTransaction() == null)
             return;
 
         this._session.GetCurrentTransaction().Commit();
+        this._session.Close();
         OpenedScopeId = string.Empty;
         IsOpened = false;
     }
 
-    public void RollbackChanges()
+    public void RollbackAndCloseScope()
     {
         if (this._session.GetCurrentTransaction() == null)
             return;
 
         this._session.GetCurrentTransaction().Rollback();
+        this._session.Close();
     }
 
     #endregion

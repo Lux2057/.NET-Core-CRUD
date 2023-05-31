@@ -24,16 +24,16 @@
         /// <summary>
         ///     Opens a transaction scope
         /// </summary>
-        public void OpenTransactionScope(IsolationLevel isolationLevel);
+        public void OpenScope(IsolationLevel isolationLevel);
 
         /// <summary>
         ///     Closes currently opened transaction scope
         /// </summary>
-        public void CloseTransactionScope();
+        public void CloseScope();
 
         /// <summary>
         ///     Rolls back all changes in currently opened transaction scope
         /// </summary>
-        public void RollbackChanges();
+        public void RollbackAndCloseScope();
     }
 }

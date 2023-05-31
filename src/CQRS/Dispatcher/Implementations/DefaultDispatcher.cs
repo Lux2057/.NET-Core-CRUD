@@ -40,7 +40,7 @@ public class DefaultDispatcher : IDispatcher, IDisposable
     public async Task PushAsync<TCommand>(TCommand command, CancellationToken cancellationToken = default) where TCommand : CommandBase
     {
         if (!this.scopedUnitOfWork.IsOpened)
-            this.scopedUnitOfWork.OpenTransactionScope(IsolationLevel.ReadCommitted);
+            this.scopedUnitOfWork.OpenScope(IsolationLevel.ReadCommitted);
 
         try
         {
@@ -48,7 +48,7 @@ public class DefaultDispatcher : IDispatcher, IDisposable
         }
         catch
         {
-            this.scopedUnitOfWork.RollbackChanges();
+            this.scopedUnitOfWork.RollbackAndCloseScope();
             throw;
         }
     }
@@ -61,14 +61,14 @@ public class DefaultDispatcher : IDispatcher, IDisposable
         }
         catch
         {
-            this.scopedUnitOfWork.RollbackChanges();
+            this.scopedUnitOfWork.RollbackAndCloseScope();
             throw;
         }
     }
 
     public void Dispose()
     {
-        this.scopedUnitOfWork.CloseTransactionScope();
+        this.scopedUnitOfWork.CloseScope();
     }
 
     #endregion

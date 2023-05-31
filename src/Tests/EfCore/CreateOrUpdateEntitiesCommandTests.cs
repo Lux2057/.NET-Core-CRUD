@@ -32,7 +32,7 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
 
         Assert.Equal(new[] { 1, 2, 3 }, addCommand1.Result);
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQueryBase<TestEntity, int, TestEntityDto>());
+        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Equal(3, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text1));
@@ -51,7 +51,7 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
 
         await this.context.SaveChangesAsync();
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQueryBase<TestEntity, int, TestEntityDto>());
+        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Equal(3, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text1));
@@ -65,7 +65,7 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
 
         Assert.Equal(new[] { 1, 2, 3 }, updateCommand.Result);
 
-        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQueryBase<TestEntity, int, TestEntityDto>());
+        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Equal(3, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text2));
@@ -87,7 +87,7 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
 
         Assert.Equal(new[] { 1, 2, 3 }, addCommand1.Result);
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQueryBase<TestEntity, int, TestEntityDto>());
+        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Equal(3, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text1));
@@ -101,7 +101,7 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
 
         Assert.Equal(new[] { 1, 2, 3 }, updateCommand.Result);
 
-        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQueryBase<TestEntity, int, TestEntityDto>());
+        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Equal(3, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text2));
@@ -117,7 +117,7 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
 
         Assert.Equal(new[] { 4, 5, 6 }, addCommand2.Result);
 
-        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQueryBase<TestEntity, int, TestEntityDto>());
+        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Equal(6, dtosInDb.Items.Length);
         Assert.Equal(3, dtosInDb.Items.Count(x => x.Text == text1));
@@ -132,7 +132,7 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
 
         Assert.Null(command.Result);
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQueryBase<TestEntity, int, TestEntityDto>());
+        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Empty(dtosInDb.Items);
     }

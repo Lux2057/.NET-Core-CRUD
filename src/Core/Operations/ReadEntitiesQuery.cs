@@ -20,7 +20,7 @@
     ///     Returns a page collection of Entities by specified id collection.
     ///     If id collection is null or empty, returns all Entities from data storage.
     /// </summary>
-    public class ReadEntitiesQueryBase<TEntity, TId, TResponseDto> : QueryBase<PaginatedResponseDto<TResponseDto>>
+    public class ReadEntitiesQuery<TEntity, TId, TResponseDto> : QueryBase<PaginatedResponseDto<TResponseDto>>
             where TEntity : class, IId<TId>, new()
             where TResponseDto : class, new()
     {
@@ -42,7 +42,7 @@
 
         #region Constructors
 
-        public ReadEntitiesQueryBase(IEnumerable<TId> ids = null)
+        public ReadEntitiesQuery(IEnumerable<TId> ids = null)
         {
             Ids = ids.ToArrayOrEmpty();
         }
@@ -51,7 +51,7 @@
 
         #region Nested Classes
 
-        internal class Handler : QueryHandlerBase<ReadEntitiesQueryBase<TEntity, TId, TResponseDto>, PaginatedResponseDto<TResponseDto>>
+        internal class Handler : QueryHandlerBase<ReadEntitiesQuery<TEntity, TId, TResponseDto>, PaginatedResponseDto<TResponseDto>>
         {
             #region Constructors
 
@@ -59,7 +59,7 @@
 
             #endregion
 
-            protected override async Task<PaginatedResponseDto<TResponseDto>> Execute(ReadEntitiesQueryBase<TEntity, TId, TResponseDto> request, CancellationToken cancellationToken)
+            protected override async Task<PaginatedResponseDto<TResponseDto>> Execute(ReadEntitiesQuery<TEntity, TId, TResponseDto> request, CancellationToken cancellationToken)
             {
                 Specification<TEntity> specification = new FindEntitiesByIds<TEntity, TId>(request.Ids);
                 if (request.Specification != null)
@@ -73,7 +73,7 @@
                 if (!request.DisablePaging)
                 {
                     var totalCount = await queryable.CountAsync(cancellationToken);
-                    pagingInfo = await Dispatcher.QueryAsync(new GetPagingInfoQueryBase(request.Page, request.PageSize, totalCount), cancellationToken);
+                    pagingInfo = await Dispatcher.QueryAsync(new GetPagingInfoQuery(request.Page, request.PageSize, totalCount), cancellationToken);
 
                     queryable = queryable.Skip(pagingInfo.PageSize * (pagingInfo.CurrentPage - 1)).Take(pagingInfo.PageSize);
                 }

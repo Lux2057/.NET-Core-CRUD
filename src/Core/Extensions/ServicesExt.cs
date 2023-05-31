@@ -29,7 +29,7 @@
                 where TEntity : class, IId<TId>, new()
                 where TDto : class, new()
         {
-            services.AddTransient(typeof(IRequestHandler<ReadEntitiesQueryBase<TEntity, TId, TDto>, PaginatedResponseDto<TDto>>), typeof(ReadEntitiesQueryBase<TEntity, TId, TDto>.Handler));
+            services.AddTransient(typeof(IRequestHandler<ReadEntitiesQuery<TEntity, TId, TDto>, PaginatedResponseDto<TDto>>), typeof(ReadEntitiesQuery<TEntity, TId, TDto>.Handler));
         }
     }
 }

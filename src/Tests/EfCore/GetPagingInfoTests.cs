@@ -148,7 +148,7 @@ public class GetPagingInfoTests : ReadDispatcherTest
     [MemberData(nameof(AssertionData))]
     public async Task Should_be_equal_to_expected(int totalCount, int? page, int? pageSize, string expected)
     {
-        var pagingInfo = await this.dispatcher.QueryAsync(new GetPagingInfoQueryBase(page, pageSize, totalCount));
+        var pagingInfo = await this.dispatcher.QueryAsync(new GetPagingInfoQuery(page, pageSize, totalCount));
 
         Assert.Equal(expected, pagingInfo.ToJsonString());
     }

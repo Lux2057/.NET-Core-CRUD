@@ -22,11 +22,11 @@
         [HttpGet]
         public async Task<IActionResult> GetTexts(int[] ids, bool toUpper, CancellationToken cancellationToken = default)
         {
-            var dtos = await QueryAsync(new GetExampleTextsByIdsQueryBase
-                                        {
-                                                                Ids = ids,
-                                                                ToUpper = toUpper
-                                                        }, cancellationToken);
+            var dtos = await Dispatcher.QueryAsync(new GetExampleTextsByIdsQueryBase
+                                                   {
+                                                           Ids = ids,
+                                                           ToUpper = toUpper
+                                                   }, cancellationToken);
 
             return Ok(dtos);
         }
@@ -35,7 +35,7 @@
         public async Task<IActionResult> EditText([FromBody] ExampleTextDto item, CancellationToken cancellationToken = default)
         {
             var command = new EditExampleTextByIdCommand { Dto = item };
-            await PushAsync(command, cancellationToken);
+            await Dispatcher.PushAsync(command, cancellationToken);
 
             return Ok(command.Result);
         }

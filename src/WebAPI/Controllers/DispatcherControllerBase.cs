@@ -11,7 +11,7 @@
     {
         #region Properties
 
-        readonly IDispatcher _dispatcher;
+        protected IDispatcher Dispatcher { get; }
 
         #endregion
 
@@ -19,19 +19,9 @@
 
         protected DispatcherControllerBase(IDispatcher dispatcher)
         {
-            this._dispatcher = dispatcher;
+            Dispatcher = dispatcher;
         }
 
         #endregion
-
-        protected async Task<TQueryResponse> QueryAsync<TQueryResponse>(QueryBase<TQueryResponse> query, CancellationToken cancellationToken = default)
-        {
-            return await this._dispatcher.QueryAsync(query, cancellationToken);
-        }
-
-        protected async Task PushAsync<TCommand>(TCommand command, CancellationToken cancellationToken = default) where TCommand : CommandBase
-        {
-            await this._dispatcher.PushAsync(command, cancellationToken);
-        }
     }
 }

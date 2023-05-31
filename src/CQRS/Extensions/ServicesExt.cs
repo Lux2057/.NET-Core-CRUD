@@ -35,6 +35,17 @@
             services.AddScoped(typeof(IReadRepository), typeof(EfRepository));
             services.AddScoped(typeof(IRepository), typeof(EfRepository));
             services.AddScoped<IScopedUnitOfWork, EfScopedUnitOfWork>();
+
+            services.addCommonServices(mediatorAssemblies: mediatorAssemblies,
+                                       validatorAssemblies: validatorAssemblies,
+                                       automapperAssemblies: automapperAssemblies);
+        }
+
+        static void addCommonServices(this IServiceCollection services,
+                                      Assembly[] mediatorAssemblies,
+                                      Assembly[] validatorAssemblies,
+                                      Assembly[] automapperAssemblies)
+        {
             services.AddScoped<IReadDispatcher, DefaultDispatcher>();
             services.AddScoped<IDispatcher, DefaultDispatcher>();
             services.AddValidatorsFromAssemblies(assemblies: validatorAssemblies, includeInternalTypes: true);

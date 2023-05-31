@@ -49,11 +49,16 @@ public class NHibernateScopedUnitOfWork : IScopedUnitOfWork
 
     public void CloseScope()
     {
-        if (this._session.GetCurrentTransaction() == null)
+        var currentTransaction = this._session.GetCurrentTransaction();
+
+        if (currentTransaction == null)
             return;
 
-        this._session.GetCurrentTransaction().Commit();
+        currentTransaction.Commit();
+        currentTransaction.Dispose();
+
         this._session.Close();
+
         OpenedScopeId = string.Empty;
         IsOpened = false;
     }

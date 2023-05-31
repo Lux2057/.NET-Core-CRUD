@@ -23,8 +23,6 @@ public class DefaultDispatcher : IDispatcher, IDisposable
 
     private readonly IScopedUnitOfWork scopedUnitOfWork;
 
-    private string _currentTransactionScopeId;
-
     #endregion
 
     #region Constructors
@@ -41,8 +39,8 @@ public class DefaultDispatcher : IDispatcher, IDisposable
 
     public async Task PushAsync<TCommand>(TCommand command, CancellationToken cancellationToken = default) where TCommand : CommandBase
     {
-        if (this._currentTransactionScopeId.IsNullOrWhitespace())
-            this._currentTransactionScopeId = this.scopedUnitOfWork.BeginTransactionScope(IsolationLevel.ReadCommitted);
+        if (!this.scopedUnitOfWork.IsOpened)
+            this.scopedUnitOfWork.OpenTransactionScope(IsolationLevel.ReadCommitted);
 
         try
         {
@@ -50,7 +48,7 @@ public class DefaultDispatcher : IDispatcher, IDisposable
         }
         catch
         {
-            this.scopedUnitOfWork.RollbackCurrentTransactionScope();
+            this.scopedUnitOfWork.RollbackChanges();
             throw;
         }
     }
@@ -63,14 +61,14 @@ public class DefaultDispatcher : IDispatcher, IDisposable
         }
         catch
         {
-            this.scopedUnitOfWork.RollbackCurrentTransactionScope();
+            this.scopedUnitOfWork.RollbackChanges();
             throw;
         }
     }
 
     public void Dispose()
     {
-        this.scopedUnitOfWork.EndTransactionScope();
+        this.scopedUnitOfWork.CloseTransactionScope();
     }
 
     #endregion

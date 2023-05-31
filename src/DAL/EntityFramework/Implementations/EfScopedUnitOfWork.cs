@@ -16,6 +16,10 @@
 
         public IRepository Repository { get; }
 
+        public string OpenedScopeId { get; private set; }
+
+        public bool IsOpened { get; private set; }
+
         private readonly IEfDbContext _dbContext;
 
         #endregion
@@ -32,25 +36,27 @@
 
         #region Interface Implementations
 
-        public string BeginTransactionScope(IsolationLevel isolationLevel)
+        public void OpenTransactionScope(IsolationLevel isolationLevel)
         {
             if (this._dbContext.Database.CurrentTransaction != null)
-                return string.Empty;
+                return;
 
-            this._dbContext.Database.BeginTransaction(isolationLevel);
-
-            return this._dbContext.Database.CurrentTransaction!.TransactionId.ToString();
+            var transaction = this._dbContext.Database.BeginTransaction(isolationLevel);
+            OpenedScopeId = transaction.TransactionId.ToString();
+            IsOpened = true;
         }
 
-        public void EndTransactionScope()
+        public void CloseTransactionScope()
         {
             if (this._dbContext.Database.CurrentTransaction == null)
                 return;
 
             this._dbContext.Database.CurrentTransaction.Commit();
+            OpenedScopeId = string.Empty;
+            IsOpened = false;
         }
 
-        public void RollbackCurrentTransactionScope()
+        public void RollbackChanges()
         {
             if (this._dbContext.Database.CurrentTransaction == null)
                 return;

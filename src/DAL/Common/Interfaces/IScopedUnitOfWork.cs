@@ -15,22 +15,25 @@
 
         public IRepository Repository { get; }
 
+        public string OpenedScopeId { get; }
+
+        public bool IsOpened { get; }
+
         #endregion
 
         /// <summary>
-        ///     Starts a transaction scope
+        ///     Opens a transaction scope
         /// </summary>
-        /// <returns>If a transaction scope doesn't exist returns transaction id, otherwise returns empty string</returns>
-        public string BeginTransactionScope(IsolationLevel isolationLevel);
+        public void OpenTransactionScope(IsolationLevel isolationLevel);
 
         /// <summary>
-        ///     Ends currently opened transaction scope
+        ///     Closes currently opened transaction scope
         /// </summary>
-        public void EndTransactionScope();
+        public void CloseTransactionScope();
 
         /// <summary>
         ///     Rolls back all changes in currently opened transaction scope
         /// </summary>
-        public void RollbackCurrentTransactionScope();
+        public void RollbackChanges();
     }
 }

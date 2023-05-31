@@ -24,6 +24,6 @@ public class Startup
         services.AddScoped(provider => provider.GetService(typeof(TestDbContext)) as IEfDbContext);
         services.AddScoped(typeof(IReadRepository), typeof(EfRepository));
         services.AddScoped(typeof(IRepository), typeof(EfRepository));
-        services.AddScoped<IUnitOfWork, EfUnitOfWork>();
+        services.AddScoped<IScopedUnitOfWork, EfScopedUnitOfWork>();
     }
 }

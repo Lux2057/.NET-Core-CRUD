@@ -21,7 +21,7 @@ public class DefaultDispatcher : IDispatcher, IDisposable
 
     private readonly IMediator _mediator;
 
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IScopedUnitOfWork scopedUnitOfWork;
 
     private string _currentTransactionScopeId;
 
@@ -29,10 +29,10 @@ public class DefaultDispatcher : IDispatcher, IDisposable
 
     #region Constructors
 
-    public DefaultDispatcher(IMediator mediator, IUnitOfWork unitOfWork)
+    public DefaultDispatcher(IMediator mediator, IScopedUnitOfWork scopedUnitOfWork)
     {
         this._mediator = mediator;
-        this._unitOfWork = unitOfWork;
+        this.scopedUnitOfWork = scopedUnitOfWork;
     }
 
     #endregion
@@ -42,7 +42,7 @@ public class DefaultDispatcher : IDispatcher, IDisposable
     public async Task PushAsync<TCommand>(TCommand command, CancellationToken cancellationToken = default) where TCommand : CommandBase
     {
         if (this._currentTransactionScopeId.IsNullOrWhitespace())
-            this._currentTransactionScopeId = await this._unitOfWork.BeginTransactionScopeAsync(IsolationLevel.ReadCommitted);
+            this._currentTransactionScopeId = this.scopedUnitOfWork.BeginTransactionScope(IsolationLevel.ReadCommitted);
 
         try
         {
@@ -50,7 +50,7 @@ public class DefaultDispatcher : IDispatcher, IDisposable
         }
         catch
         {
-            await this._unitOfWork.RollbackCurrentTransactionScopeAsync();
+            this.scopedUnitOfWork.RollbackCurrentTransactionScope();
             throw;
         }
     }
@@ -63,14 +63,14 @@ public class DefaultDispatcher : IDispatcher, IDisposable
         }
         catch
         {
-            await this._unitOfWork.RollbackCurrentTransactionScopeAsync();
+            this.scopedUnitOfWork.RollbackCurrentTransactionScope();
             throw;
         }
     }
 
     public void Dispose()
     {
-        this._unitOfWork.EndTransactionScope(this._currentTransactionScopeId);
+        this.scopedUnitOfWork.EndTransactionScope();
     }
 
     #endregion

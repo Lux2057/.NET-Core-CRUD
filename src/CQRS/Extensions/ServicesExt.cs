@@ -34,7 +34,7 @@
             services.AddScoped(provider => provider.GetService(typeof(TDbContext)) as IEfDbContext);
             services.AddScoped(typeof(IReadRepository), typeof(EfRepository));
             services.AddScoped(typeof(IRepository), typeof(EfRepository));
-            services.AddScoped<IUnitOfWork, EfUnitOfWork>();
+            services.AddScoped<IScopedUnitOfWork, EfScopedUnitOfWork>();
             services.AddScoped<IReadDispatcher, DefaultDispatcher>();
             services.AddScoped<IDispatcher, DefaultDispatcher>();
             services.AddValidatorsFromAssemblies(assemblies: validatorAssemblies, includeInternalTypes: true);

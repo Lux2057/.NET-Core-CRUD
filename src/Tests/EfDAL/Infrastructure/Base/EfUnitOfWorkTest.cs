@@ -12,15 +12,15 @@ public class EfUnitOfWorkTest : DbTest
 
     protected readonly TestDbContext context;
 
-    protected readonly IUnitOfWork unitOfWork;
+    protected readonly IScopedUnitOfWork ScopedUnitOfWork;
 
     #endregion
 
     #region Constructors
 
-    public EfUnitOfWorkTest(IUnitOfWork unitOfWork, TestDbContext context)
+    public EfUnitOfWorkTest(IScopedUnitOfWork scopedUnitOfWork, TestDbContext context)
     {
-        this.unitOfWork = unitOfWork;
+        this.ScopedUnitOfWork = scopedUnitOfWork;
         this.context = context;
     }
 

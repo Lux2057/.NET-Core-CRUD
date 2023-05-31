@@ -12,23 +12,23 @@ public class TransactionScopeAsyncTests : EfUnitOfWorkTest
 {
     #region Constructors
 
-    public TransactionScopeAsyncTests(IUnitOfWork unitOfWork, TestDbContext context)
-            : base(unitOfWork, context) { }
+    public TransactionScopeAsyncTests(IScopedUnitOfWork scopedUnitOfWork, TestDbContext context)
+            : base(scopedUnitOfWork, context) { }
 
     #endregion
 
     [Fact]
-    public async Task Should_open_and_close_a_transaction_once()
+    public void Should_open_and_close_a_transaction_once()
     {
-        var transactionId1 = await this.unitOfWork.BeginTransactionScopeAsync(IsolationLevel.ReadCommitted);
-        var transactionId2 = await this.unitOfWork.BeginTransactionScopeAsync(IsolationLevel.ReadUncommitted);
+        var transactionId1 = this.ScopedUnitOfWork.BeginTransactionScope(IsolationLevel.ReadCommitted);
+        var transactionId2 = this.ScopedUnitOfWork.BeginTransactionScope(IsolationLevel.ReadUncommitted);
 
         Assert.NotNull(this.context.Database.CurrentTransaction);
         Assert.Equal(transactionId1, this.context.Database.CurrentTransaction.TransactionId.ToString());
         Assert.Equal(string.Empty, transactionId2);
 
-        await this.unitOfWork.EndTransactionScopeAsync(transactionId1);
-        await this.unitOfWork.EndTransactionScopeAsync(transactionId2);
+        this.ScopedUnitOfWork.EndTransactionScope();
+        this.ScopedUnitOfWork.EndTransactionScope();
 
         Assert.True(this.context.Database.CurrentTransaction == null);
     }
@@ -36,20 +36,20 @@ public class TransactionScopeAsyncTests : EfUnitOfWorkTest
     [Fact]
     public async Task Should_rollback_changes_in_a_transaction()
     {
-        await this.unitOfWork.BeginTransactionScopeAsync(IsolationLevel.ReadCommitted);
+        this.ScopedUnitOfWork.BeginTransactionScope(IsolationLevel.ReadCommitted);
 
         var text = Guid.NewGuid().ToString();
 
-        await this.unitOfWork.Repository.AddAsync(new TestEntity { Text = text });
+        await this.ScopedUnitOfWork.Repository.AddAsync(new TestEntity { Text = text });
 
-        var entities = await this.unitOfWork.Repository.Get<TestEntity>().ToArrayAsync();
+        var entities = await this.ScopedUnitOfWork.Repository.Get<TestEntity>().ToArrayAsync();
 
         Assert.Single(entities);
         Assert.Equal(text, entities.Single().Text);
 
-        await this.unitOfWork.RollbackCurrentTransactionScopeAsync();
+        this.ScopedUnitOfWork.RollbackCurrentTransactionScope();
 
-        entities = await this.unitOfWork.Repository.Get<TestEntity>().ToArrayAsync();
+        entities = await this.ScopedUnitOfWork.Repository.Get<TestEntity>().ToArrayAsync();
 
         Assert.Empty(entities);
     }
@@ -57,19 +57,19 @@ public class TransactionScopeAsyncTests : EfUnitOfWorkTest
     [Fact]
     public async Task Should_ignore_rolling_back_of_a_closed_transaction()
     {
-        var transactionId = await this.unitOfWork.BeginTransactionScopeAsync(IsolationLevel.ReadCommitted);
+        var transactionId = this.ScopedUnitOfWork.BeginTransactionScope(IsolationLevel.ReadCommitted);
 
         var text = Guid.NewGuid().ToString();
 
-        await this.unitOfWork.Repository.AddAsync(new TestEntity { Text = text });
+        await this.ScopedUnitOfWork.Repository.AddAsync(new TestEntity { Text = text });
 
-        await this.unitOfWork.EndTransactionScopeAsync(transactionId);
+        this.ScopedUnitOfWork.EndTransactionScope();
 
         Assert.Null(this.context.Database.CurrentTransaction);
 
-        await this.unitOfWork.RollbackCurrentTransactionScopeAsync();
+        this.ScopedUnitOfWork.RollbackCurrentTransactionScope();
 
-        var entities = await this.unitOfWork.Repository.Get<TestEntity>().ToArrayAsync();
+        var entities = await this.ScopedUnitOfWork.Repository.Get<TestEntity>().ToArrayAsync();
 
         Assert.Single(entities);
         Assert.Equal(text, entities.Single().Text);

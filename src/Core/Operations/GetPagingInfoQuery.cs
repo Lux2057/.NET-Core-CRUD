@@ -55,20 +55,17 @@ public class GetPagingInfoQuery : QueryBase<PagingInfoDto>
 
         protected override async Task<PagingInfoDto> Execute(GetPagingInfoQuery request, CancellationToken cancellationToken)
         {
-            return await Task.Run(() =>
-                                  {
-                                      var pageSize = new[] { request.PageSize.GetValueOrDefault(defaultPageSize), 1 }.Max();
-                                      var totalPages = new[] { 1, (int)Math.Ceiling((decimal)request.TotalCount / pageSize) }.Max();
-                                      var currentPage = new[] { new[] { request.Page.GetValueOrDefault(defaultPage), 1 }.Max(), totalPages }.Min();
+            var pageSize = new[] { request.PageSize.GetValueOrDefault(defaultPageSize), 1 }.Max();
+            var totalPages = new[] { 1, (int)Math.Ceiling((decimal)request.TotalCount / pageSize) }.Max();
+            var currentPage = new[] { new[] { request.Page.GetValueOrDefault(defaultPage), 1 }.Max(), totalPages }.Min();
 
-                                      return new PagingInfoDto
-                                             {
-                                                     CurrentPage = currentPage,
-                                                     TotalPages = totalPages,
-                                                     TotalItemsCount = request.TotalCount,
-                                                     PageSize = pageSize
-                                             };
-                                  }, cancellationToken);
+            return await Task.FromResult(new PagingInfoDto
+                                         {
+                                                 CurrentPage = currentPage,
+                                                 TotalPages = totalPages,
+                                                 TotalItemsCount = request.TotalCount,
+                                                 PageSize = pageSize
+                                         });
         }
     }
 

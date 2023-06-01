@@ -55,7 +55,8 @@ public class NHibernateRepository : IRepository
         if (!entitiesArray.Any())
             return;
 
-        await this._session.SaveAsync(entitiesArray, cancellationToken);
+        foreach (var entity in entitiesArray)
+            await this._session.SaveAsync(entity, cancellationToken);
     }
 
     public async Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
@@ -73,7 +74,8 @@ public class NHibernateRepository : IRepository
         if (!entitiesArray.Any())
             return;
 
-        await this._session.UpdateAsync(entitiesArray, cancellationToken);
+        foreach (var entity in entitiesArray)
+            await this._session.UpdateAsync(entity, cancellationToken);
     }
 
     public async Task DeleteAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
@@ -91,7 +93,8 @@ public class NHibernateRepository : IRepository
         if (!entitiesArray.Any())
             return;
 
-        await this._session.DeleteAsync(entitiesArray, cancellationToken);
+        foreach (var entity in entitiesArray)
+            await this._session.DeleteAsync(entity, cancellationToken);
     }
 
     #endregion

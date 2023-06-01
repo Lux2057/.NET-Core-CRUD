@@ -78,19 +78,19 @@
                     queryable = queryable.Skip(pagingInfo.PageSize * (pagingInfo.CurrentPage - 1)).Take(pagingInfo.PageSize);
                 }
 
-                var items = await queryable.ToArrayAsync(cancellationToken);
+                var items = queryable.ToArray();
 
-                return new PaginatedResponseDto<TResponseDto>
-                       {
-                               Items = items,
-                               PagingInfo = pagingInfo ?? new PagingInfoDto
-                                                          {
-                                                                  PageSize = items.Length,
-                                                                  CurrentPage = 1,
-                                                                  TotalPages = 1,
-                                                                  TotalItemsCount = items.Length
-                                                          }
-                       };
+                return await Task.FromResult(new PaginatedResponseDto<TResponseDto>
+                                             {
+                                                     Items = items,
+                                                     PagingInfo = pagingInfo ?? new PagingInfoDto
+                                                                                {
+                                                                                        PageSize = items.Length,
+                                                                                        CurrentPage = 1,
+                                                                                        TotalPages = 1,
+                                                                                        TotalItemsCount = items.Length
+                                                                                }
+                                             });
             }
         }
 

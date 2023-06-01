@@ -10,7 +10,6 @@
     using CRUD.CQRS;
     using CRUD.DAL;
     using CRUD.Extensions;
-    using Microsoft.EntityFrameworkCore;
 
     #endregion
 
@@ -53,7 +52,7 @@
 
             protected override async Task Execute(DeleteEntitiesCommand<TEntity, TId> command, CancellationToken cancellationToken)
             {
-                var entities = await Repository.Get(new FindEntitiesByIds<TEntity, TId>(command.Ids)).ToArrayAsync(cancellationToken);
+                var entities = Repository.Get(new FindEntitiesByIds<TEntity, TId>(command.Ids)).ToArray();
 
                 await Repository.DeleteAsync(entities, cancellationToken);
 

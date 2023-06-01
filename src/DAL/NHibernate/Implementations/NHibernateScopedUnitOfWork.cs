@@ -54,6 +54,8 @@ public class NHibernateScopedUnitOfWork : IScopedUnitOfWork
         if (currentTransaction == null)
             return;
 
+        this._session.Flush();
+
         currentTransaction.Commit();
         currentTransaction.Dispose();
 

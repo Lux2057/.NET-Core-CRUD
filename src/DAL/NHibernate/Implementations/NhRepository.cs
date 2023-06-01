@@ -12,7 +12,7 @@ using NHibernate;
 
 #endregion
 
-public class NHibernateRepository : IRepository
+public class NhRepository : IRepository
 {
     #region Properties
 
@@ -22,7 +22,7 @@ public class NHibernateRepository : IRepository
 
     #region Constructors
 
-    public NHibernateRepository(ISession session)
+    public NhRepository(ISession session)
     {
         this._session = session;
     }

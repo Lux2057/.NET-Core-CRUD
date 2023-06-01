@@ -7,9 +7,13 @@
     using System;
     using System.Reflection;
     using CRUD.DAL;
+    using FluentNHibernate.Cfg;
+    using FluentNHibernate.Cfg.Db;
     using FluentValidation;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using NHibernate;
+    using NHibernate.Tool.hbm2ddl;
 
     #endregion
 
@@ -35,6 +39,49 @@
             services.AddScoped(typeof(IReadRepository), typeof(EfRepository));
             services.AddScoped(typeof(IRepository), typeof(EfRepository));
             services.AddScoped<IScopedUnitOfWork, EfScopedUnitOfWork>();
+
+            services.addCommonServices(mediatorAssemblies: mediatorAssemblies,
+                                       validatorAssemblies: validatorAssemblies,
+                                       automapperAssemblies: automapperAssemblies);
+        }
+
+        /// <summary>
+        ///     Add all dependencies for Fluent NHibernate based implementations
+        /// </summary>
+        /// <param name="fluentMappingsAssemblies"></param>
+        /// <param name="mediatorAssemblies">Assemblies that contain Queries/Commands and their handlers</param>
+        /// <param name="validatorAssemblies">Assemblies that contain Queries/Commands FluentValidators</param>
+        /// <param name="automapperAssemblies">Assemblies that contains Queries/Commands Automapper.Profiles</param>
+        /// <param name="services"></param>
+        /// <param name="dbConfig"></param>
+        public static void AddNhInfrastructure(this IServiceCollection services,
+                                               IPersistenceConfigurer dbConfig,
+                                               Assembly[] fluentMappingsAssemblies,
+                                               Assembly[] mediatorAssemblies,
+                                               Assembly[] validatorAssemblies,
+                                               Assembly[] automapperAssemblies)
+        {
+            services.AddSingleton(_ => Fluently.Configure()
+                                               .Database(dbConfig)
+                                               .Mappings(mappings =>
+                                                         {
+                                                             foreach (var fluentMappingsAssembly in fluentMappingsAssemblies)
+                                                                 mappings.FluentMappings.AddFromAssembly(fluentMappingsAssembly);
+                                                         })
+                                               .ExposeConfiguration(cfg => new SchemaExport(cfg).Create(false, true))
+                                               .BuildSessionFactory());
+
+            services.AddScoped(provider =>
+                               {
+                                   var session = provider.GetService<ISessionFactory>()!.OpenSession();
+                                   session.FlushMode = FlushMode.Manual;
+
+                                   return session;
+                               });
+
+            services.AddScoped(typeof(IReadRepository), typeof(NhRepository));
+            services.AddScoped(typeof(IRepository), typeof(NhRepository));
+            services.AddScoped<IScopedUnitOfWork, NhScopedUnitOfWork>();
 
             services.addCommonServices(mediatorAssemblies: mediatorAssemblies,
                                        validatorAssemblies: validatorAssemblies,

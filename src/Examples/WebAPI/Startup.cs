@@ -5,6 +5,7 @@ namespace Examples.WebAPI
     using CRUD.Core;
     using CRUD.CQRS;
     using CRUD.WebAPI;
+    using FluentNHibernate.Cfg.Db;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -39,7 +40,26 @@ namespace Examples.WebAPI
                                        c.OrderActionsBy(r => r.GroupName);
                                    });
 
-            services.AddEfInfrastructure<ExampleDbContext>
+            services.AddNhInfrastructure(PostgreSQLConfiguration.Standard.ConnectionString(Configuration.GetConnectionString("DefaultConnection")),
+                                         fluentMappingsAssemblies: new[]
+                                                                   {
+                                                                           typeof(ExampleEntity).Assembly
+                                                                   },
+                                         mediatorAssemblies: new[]
+                                                             {
+                                                                     typeof(CreateOrUpdateEntitiesCommand<,,>).Assembly,
+                                                                     typeof(GetExampleTextsByIdsQueryBase).Assembly
+                                                             },
+                                         validatorAssemblies: new[]
+                                                              {
+                                                                      typeof(ExampleEntity).Assembly
+                                                              },
+                                         automapperAssemblies: new[]
+                                                               {
+                                                                       typeof(ExampleEntity).Assembly
+                                                               });
+
+            /*services.AddEfInfrastructure<ExampleDbContext>
                     (dbContextOptions: options =>
                                        {
                                            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
@@ -58,14 +78,14 @@ namespace Examples.WebAPI
                      automapperAssemblies: new[]
                                            {
                                                    typeof(ExampleEntity).Assembly
-                                           });
+                                           });*/
 
             services.AddEntityCRUD<ExampleEntity, int, ExampleDto>();
         }
 
-        public void Configure(IApplicationBuilder app, ExampleDbContext dbContext)
+        public void Configure(IApplicationBuilder app/*, ExampleDbContext dbContext*/)
         {
-            dbContext.Database.Migrate();
+            //dbContext.Database.Migrate();
 
             app.UseDeveloperExceptionPage();
 

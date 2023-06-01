@@ -11,7 +11,7 @@ using NHibernate;
 /// <summary>
 ///     EntityFrameworkCore based implementation of the IUnitOfWork interface
 /// </summary>
-public class NHibernateScopedUnitOfWork : IScopedUnitOfWork
+public class NhScopedUnitOfWork : IScopedUnitOfWork
 {
     #region Properties
 
@@ -27,7 +27,7 @@ public class NHibernateScopedUnitOfWork : IScopedUnitOfWork
 
     #region Constructors
 
-    public NHibernateScopedUnitOfWork(ISession session, IRepository repository)
+    public NhScopedUnitOfWork(ISession session, IRepository repository)
     {
         this._session = session;
         Repository = repository;

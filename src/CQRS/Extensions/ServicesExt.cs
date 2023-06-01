@@ -30,11 +30,11 @@
         /// <param name="mediatorAssemblies">Assemblies that contain Queries/Commands and their handlers</param>
         /// <param name="validatorAssemblies">Assemblies that contain Queries/Commands FluentValidators</param>
         /// <param name="automapperAssemblies">Assemblies that contains Queries/Commands Automapper.Profiles</param>
-        public static void AddEfInfrastructure<TDbContext>(this IServiceCollection services,
-                                                           Action<DbContextOptionsBuilder> dbContextOptions,
-                                                           Assembly[] mediatorAssemblies,
-                                                           Assembly[] validatorAssemblies,
-                                                           Assembly[] automapperAssemblies)
+        public static void AddEntityFrameworkDAL<TDbContext>(this IServiceCollection services,
+                                                             Action<DbContextOptionsBuilder> dbContextOptions,
+                                                             Assembly[] mediatorAssemblies,
+                                                             Assembly[] validatorAssemblies,
+                                                             Assembly[] automapperAssemblies)
                 where TDbContext : DbContext, IEfDbContext
         {
             services.AddDbContext<TDbContext>(dbContextOptions);
@@ -43,9 +43,9 @@
             services.AddScoped(typeof(IRepository), typeof(EfRepository));
             services.AddScoped<IScopedUnitOfWork, EfScopedUnitOfWork>();
 
-            services.addCommonServices(mediatorAssemblies: mediatorAssemblies,
-                                       validatorAssemblies: validatorAssemblies,
-                                       automapperAssemblies: automapperAssemblies);
+            services.AddCQRS(mediatorAssemblies: mediatorAssemblies,
+                             validatorAssemblies: validatorAssemblies,
+                             automapperAssemblies: automapperAssemblies);
         }
 
         /// <summary>
@@ -57,12 +57,12 @@
         /// <param name="validatorAssemblies">Assemblies that contain Queries/Commands FluentValidators</param>
         /// <param name="automapperAssemblies">Assemblies that contains Queries/Commands Automapper.Profiles</param>
         /// <param name="dbConfig">NHibernate DB configuration</param>
-        public static void AddNhInfrastructure(this IServiceCollection services,
-                                               IPersistenceConfigurer dbConfig,
-                                               Assembly[] fluentMappingsAssemblies,
-                                               Assembly[] mediatorAssemblies,
-                                               Assembly[] validatorAssemblies,
-                                               Assembly[] automapperAssemblies)
+        public static void AddNHibernateDAL(this IServiceCollection services,
+                                            IPersistenceConfigurer dbConfig,
+                                            Assembly[] fluentMappingsAssemblies,
+                                            Assembly[] mediatorAssemblies,
+                                            Assembly[] validatorAssemblies,
+                                            Assembly[] automapperAssemblies)
         {
             services.AddSingleton(_ =>
                                   {
@@ -97,15 +97,15 @@
             services.AddScoped(typeof(IRepository), typeof(NhRepository));
             services.AddScoped<IScopedUnitOfWork, NhScopedUnitOfWork>();
 
-            services.addCommonServices(mediatorAssemblies: mediatorAssemblies,
-                                       validatorAssemblies: validatorAssemblies,
-                                       automapperAssemblies: automapperAssemblies);
+            services.AddCQRS(mediatorAssemblies: mediatorAssemblies,
+                             validatorAssemblies: validatorAssemblies,
+                             automapperAssemblies: automapperAssemblies);
         }
 
-        static void addCommonServices(this IServiceCollection services,
-                                      Assembly[] mediatorAssemblies,
-                                      Assembly[] validatorAssemblies,
-                                      Assembly[] automapperAssemblies)
+        public static void AddCQRS(this IServiceCollection services,
+                                   Assembly[] mediatorAssemblies,
+                                   Assembly[] validatorAssemblies,
+                                   Assembly[] automapperAssemblies)
         {
             services.AddScoped<IReadDispatcher, DefaultDispatcher>();
             services.AddScoped<IDispatcher, DefaultDispatcher>();

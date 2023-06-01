@@ -21,7 +21,7 @@ public class Startup
                                .Build().GetConnectionString("DefaultConnection");
 
         var currentAssembly = new[] { typeof(Startup).Assembly };
-        services.AddEfInfrastructure<TestDbContext>(dbContextOptions: options =>
+        services.AddEntityFrameworkDAL<TestDbContext>(dbContextOptions: options =>
                                                                       {
                                                                           options.UseNpgsql(connectionString);
                                                                           options.EnableSensitiveDataLogging();

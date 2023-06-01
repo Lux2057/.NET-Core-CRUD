@@ -26,7 +26,7 @@ public class Startup
                                       typeof(CreateOrUpdateEntitiesCommand<,,>).Assembly
                               };
 
-        services.AddEfInfrastructure<TestDbContext>(dbContextOptions: options =>
+        services.AddEntityFrameworkDAL<TestDbContext>(dbContextOptions: options =>
                                                                       {
                                                                           options.UseNpgsql(connectionString);
                                                                           options.EnableSensitiveDataLogging();

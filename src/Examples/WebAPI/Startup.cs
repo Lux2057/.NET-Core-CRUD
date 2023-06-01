@@ -2,7 +2,6 @@ namespace Examples.WebAPI
 {
     #region << Using >>
 
-    using System;
     using CRUD.Core;
     using CRUD.CQRS;
     using CRUD.WebAPI;
@@ -43,26 +42,26 @@ namespace Examples.WebAPI
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            /*services.AddNhInfrastructure(PostgreSQLConfiguration.Standard.ConnectionString(connectionString),
-                                         fluentMappingsAssemblies: new[]
-                                                                   {
-                                                                           typeof(ExampleEntity).Assembly
-                                                                   },
-                                         mediatorAssemblies: new[]
-                                                             {
-                                                                     typeof(CreateOrUpdateEntitiesCommand<,,>).Assembly,
-                                                                     typeof(GetExampleTextsByIdsQueryBase).Assembly
-                                                             },
-                                         validatorAssemblies: new[]
-                                                              {
-                                                                      typeof(ExampleEntity).Assembly
-                                                              },
-                                         automapperAssemblies: new[]
-                                                               {
-                                                                       typeof(ExampleEntity).Assembly
-                                                               });*/
+            /*services.AddNHibernateDAL(PostgreSQLConfiguration.Standard.ConnectionString(connectionString),
+                                      fluentMappingsAssemblies: new[]
+                                                                {
+                                                                        typeof(ExampleEntity).Assembly
+                                                                },
+                                      mediatorAssemblies: new[]
+                                                          {
+                                                                  typeof(CreateOrUpdateEntitiesCommand<,,>).Assembly,
+                                                                  typeof(GetExampleTextsByIdsQueryBase).Assembly
+                                                          },
+                                      validatorAssemblies: new[]
+                                                           {
+                                                                   typeof(ExampleEntity).Assembly
+                                                           },
+                                      automapperAssemblies: new[]
+                                                            {
+                                                                    typeof(ExampleEntity).Assembly
+                                                            });*/
 
-            services.AddEfInfrastructure<ExampleDbContext>
+            services.AddEntityFrameworkDAL<ExampleDbContext>
                     (dbContextOptions: options =>
                                        {
                                            options.UseNpgsql(connectionString);

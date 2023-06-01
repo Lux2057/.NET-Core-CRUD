@@ -69,7 +69,7 @@
         {
             public NhMapping()
             {
-                Id(r => r.Id).PostgreSqlAutoincrement();
+                Id(r => r.Id).GeneratedId();
                 Map(x => x.Text).TextSqlType().Nullable();
                 Map(x => x.Number).Not.Nullable();
                 Map(x => x.Flag).Not.Nullable();

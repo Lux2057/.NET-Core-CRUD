@@ -2,11 +2,13 @@ namespace Examples.WebAPI
 {
     #region << Using >>
 
+    using System;
     using CRUD.Core;
     using CRUD.CQRS;
     using CRUD.WebAPI;
     using FluentNHibernate.Cfg.Db;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Swashbuckle.AspNetCore.SwaggerUI;
@@ -39,7 +41,9 @@ namespace Examples.WebAPI
                                        c.OrderActionsBy(r => r.GroupName);
                                    });
 
-            services.AddNhInfrastructure(PostgreSQLConfiguration.Standard.ConnectionString(Configuration.GetConnectionString("DefaultConnection")),
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            /*services.AddNhInfrastructure(PostgreSQLConfiguration.Standard.ConnectionString(connectionString),
                                          fluentMappingsAssemblies: new[]
                                                                    {
                                                                            typeof(ExampleEntity).Assembly
@@ -56,12 +60,12 @@ namespace Examples.WebAPI
                                          automapperAssemblies: new[]
                                                                {
                                                                        typeof(ExampleEntity).Assembly
-                                                               });
+                                                               });*/
 
-            /*services.AddEfInfrastructure<ExampleDbContext>
+            services.AddEfInfrastructure<ExampleDbContext>
                     (dbContextOptions: options =>
                                        {
-                                           options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+                                           options.UseNpgsql(connectionString);
                                            options.UseLazyLoadingProxies();
                                            options.EnableSensitiveDataLogging();
                                        },
@@ -77,15 +81,13 @@ namespace Examples.WebAPI
                      automapperAssemblies: new[]
                                            {
                                                    typeof(ExampleEntity).Assembly
-                                           });*/
+                                           });
 
             services.AddEntityCRUD<ExampleEntity, int, ExampleDto>();
         }
 
-        public void Configure(IApplicationBuilder app /*, ExampleDbContext dbContext*/)
+        public void Configure(IApplicationBuilder app)
         {
-            //dbContext.Database.Migrate();
-
             app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();

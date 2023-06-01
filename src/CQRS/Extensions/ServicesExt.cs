@@ -13,6 +13,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using NHibernate;
+    using NHibernate.Cfg;
     using NHibernate.Tool.hbm2ddl;
 
     #endregion
@@ -24,6 +25,8 @@
         /// <summary>
         ///     Add all dependencies for EntityFrameworkCore based implementations
         /// </summary>
+        /// <param name="services"></param>
+        /// <param name="dbContextOptions">EntityFrameworkCore DB configuration</param>
         /// <param name="mediatorAssemblies">Assemblies that contain Queries/Commands and their handlers</param>
         /// <param name="validatorAssemblies">Assemblies that contain Queries/Commands FluentValidators</param>
         /// <param name="automapperAssemblies">Assemblies that contains Queries/Commands Automapper.Profiles</param>
@@ -48,12 +51,12 @@
         /// <summary>
         ///     Add all dependencies for Fluent NHibernate based implementations
         /// </summary>
+        /// <param name="services"></param>
         /// <param name="fluentMappingsAssemblies"></param>
         /// <param name="mediatorAssemblies">Assemblies that contain Queries/Commands and their handlers</param>
         /// <param name="validatorAssemblies">Assemblies that contain Queries/Commands FluentValidators</param>
         /// <param name="automapperAssemblies">Assemblies that contains Queries/Commands Automapper.Profiles</param>
-        /// <param name="services"></param>
-        /// <param name="dbConfig"></param>
+        /// <param name="dbConfig">NHibernate DB configuration</param>
         public static void AddNhInfrastructure(this IServiceCollection services,
                                                IPersistenceConfigurer dbConfig,
                                                Assembly[] fluentMappingsAssemblies,
@@ -61,15 +64,26 @@
                                                Assembly[] validatorAssemblies,
                                                Assembly[] automapperAssemblies)
         {
-            services.AddSingleton(_ => Fluently.Configure()
-                                               .Database(dbConfig)
-                                               .Mappings(mappings =>
-                                                         {
-                                                             foreach (var fluentMappingsAssembly in fluentMappingsAssemblies)
-                                                                 mappings.FluentMappings.AddFromAssembly(fluentMappingsAssembly);
-                                                         })
-                                               .ExposeConfiguration(cfg => new SchemaExport(cfg).Create(false, true))
-                                               .BuildSessionFactory());
+            services.AddSingleton(_ =>
+                                  {
+                                      var config = new Configuration();
+
+                                      if (dbConfig.GetType() == typeof(PostgreSQLConfiguration))
+                                          config.SetNamingStrategy(new DefaultPostgreSqlNamingStrategy());
+
+                                      return Fluently.Configure(config)
+                                                     .Database(dbConfig)
+                                                     .Mappings(mappings =>
+                                                               {
+                                                                   foreach (var fluentMappingsAssembly in fluentMappingsAssemblies)
+                                                                       mappings.FluentMappings.AddFromAssembly(fluentMappingsAssembly);
+                                                               })
+                                                     .ExposeConfiguration(cfg =>
+                                                                          {
+                                                                              new SchemaUpdate(cfg).Execute(false, true);
+                                                                          })
+                                                     .BuildSessionFactory();
+                                  });
 
             services.AddScoped(provider =>
                                {

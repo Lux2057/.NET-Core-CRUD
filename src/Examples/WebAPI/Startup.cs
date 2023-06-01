@@ -7,7 +7,6 @@ namespace Examples.WebAPI
     using CRUD.WebAPI;
     using FluentNHibernate.Cfg.Db;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Swashbuckle.AspNetCore.SwaggerUI;
@@ -83,7 +82,7 @@ namespace Examples.WebAPI
             services.AddEntityCRUD<ExampleEntity, int, ExampleDto>();
         }
 
-        public void Configure(IApplicationBuilder app/*, ExampleDbContext dbContext*/)
+        public void Configure(IApplicationBuilder app /*, ExampleDbContext dbContext*/)
         {
             //dbContext.Database.Migrate();
 

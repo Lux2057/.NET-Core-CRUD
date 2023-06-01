@@ -69,13 +69,14 @@
         {
             public NhMapping()
             {
-                Table("TEST_Nh");
-                Id(r => r.Id).CustomSqlType("Serial").GeneratedBy.Native();
+                Id(r => r.Id).PostgreSqlAutoincrement();
                 Map(x => x.Text).TextSqlType().Nullable();
                 Map(x => x.Number).Not.Nullable();
                 Map(x => x.Flag).Not.Nullable();
                 Map(x => x.EnumValue).Not.Nullable();
             }
+
+
         }
 
         #endregion

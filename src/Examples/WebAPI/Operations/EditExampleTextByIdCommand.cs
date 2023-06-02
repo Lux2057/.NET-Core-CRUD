@@ -7,7 +7,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using CRUD.CQRS;
-    using CRUD.DAL;
+    using CRUD.DAL.Abstractions;
     using FluentValidation;
 
     #endregion

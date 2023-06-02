@@ -2,7 +2,9 @@
 {
     #region << Using >>
 
-    using CRUD.DAL;
+    using CRUD.DAL.Abstractions;
+    using CRUD.DAL.EntityFramework;
+    using CRUD.DAL.NHibernate;
     using FluentNHibernate.Mapping;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -67,6 +69,8 @@
 
         public class NhMapping : ClassMap<ExampleEntity>
         {
+            #region Constructors
+
             public NhMapping()
             {
                 Id(r => r.Id).GeneratedId();
@@ -76,7 +80,7 @@
                 Map(x => x.EnumValue).Not.Nullable();
             }
 
-
+            #endregion
         }
 
         #endregion

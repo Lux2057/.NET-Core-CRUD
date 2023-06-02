@@ -34,6 +34,7 @@ public class NhRepository : IRepository
             return;
 
         await this._session.SaveAsync(entity, cancellationToken);
+        await this._session.FlushAsync();
     }
 
     public async Task AddAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new()
@@ -45,6 +46,8 @@ public class NhRepository : IRepository
 
         foreach (var entity in entitiesArray)
             await this._session.SaveAsync(entity, cancellationToken);
+
+        await this._session.FlushAsync();
     }
 
     public async Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
@@ -53,6 +56,8 @@ public class NhRepository : IRepository
             return;
 
         await this._session.UpdateAsync(entity, cancellationToken);
+
+        await this._session.FlushAsync();
     }
 
     public async Task UpdateAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new()
@@ -64,6 +69,8 @@ public class NhRepository : IRepository
 
         foreach (var entity in entitiesArray)
             await this._session.UpdateAsync(entity, cancellationToken);
+
+        await this._session.FlushAsync();
     }
 
     public async Task DeleteAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
@@ -72,6 +79,8 @@ public class NhRepository : IRepository
             return;
 
         await this._session.DeleteAsync(entity, cancellationToken);
+
+        await this._session.FlushAsync();
     }
 
     public async Task DeleteAsync<TEntity>(TEntity[] entities, CancellationToken cancellationToken = default) where TEntity : class, new()
@@ -83,9 +92,9 @@ public class NhRepository : IRepository
 
         foreach (var entity in entitiesArray)
             await this._session.DeleteAsync(entity, cancellationToken);
-    }
 
-    #endregion
+        await this._session.FlushAsync();
+    }
 
     public IQueryable<TEntity> Get<TEntity>(Specification<TEntity> specification = default,
                                             IEnumerable<OrderSpecification<TEntity>> orderSpecifications = default)
@@ -93,6 +102,10 @@ public class NhRepository : IRepository
     {
         var queryable = this._session.Query<TEntity>();
 
-        return (specification == null ? queryable : queryable.Where(specification)).ApplyOrderSpecifications(orderSpecifications);
+        var expression = specification?.ToExpression();
+
+        return (expression == null ? queryable : queryable.Where(expression)).ApplyOrderSpecifications(orderSpecifications);
     }
+
+    #endregion
 }

@@ -14,15 +14,15 @@
     {
         #region Properties
 
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
 
-        public DateTime CrDt { get; set; }
+        public virtual DateTime CrDt { get; set; }
 
-        public LogLevel LogLevel { get; set; }
+        public virtual LogLevel LogLevel { get; set; }
 
-        public string Message { get; set; }
+        public virtual string Message { get; set; }
 
-        public string Exception { get; set; }
+        public virtual string Exception { get; set; }
 
         #endregion
 

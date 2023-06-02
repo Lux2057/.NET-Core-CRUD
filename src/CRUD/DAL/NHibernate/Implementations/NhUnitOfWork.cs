@@ -11,15 +11,15 @@ using global::NHibernate;
 /// <summary>
 ///     EntityFrameworkCore based implementation of the IUnitOfWork interface
 /// </summary>
-public class NhScopedUnitOfWork : IScopedUnitOfWork
+public class NhUnitOfWork : IUnitOfWork
 {
     #region Properties
 
     public IRepository Repository { get; }
 
-    public string OpenedScopeId { get; private set; }
+    public string OpenedTransactionId { get; private set; }
 
-    public bool IsOpened { get; private set; }
+    public bool IsTransactionOpened { get; private set; }
 
     private readonly ISession _session;
 
@@ -27,7 +27,7 @@ public class NhScopedUnitOfWork : IScopedUnitOfWork
 
     #region Constructors
 
-    public NhScopedUnitOfWork(ISession session, IRepository repository)
+    public NhUnitOfWork(ISession session, IRepository repository)
     {
         this._session = session;
         Repository = repository;
@@ -37,17 +37,17 @@ public class NhScopedUnitOfWork : IScopedUnitOfWork
 
     #region Interface Implementations
 
-    public void OpenScope(IsolationLevel isolationLevel)
+    public void OpenTransaction(IsolationLevel isolationLevel)
     {
         if (this._session.GetCurrentTransaction() != null)
             return;
 
         this._session.BeginTransaction(isolationLevel);
-        OpenedScopeId = Guid.NewGuid().ToString();
-        IsOpened = true;
+        OpenedTransactionId = Guid.NewGuid().ToString();
+        IsTransactionOpened = true;
     }
 
-    public void CloseScope()
+    public void CloseTransaction()
     {
         var currentTransaction = this._session.GetCurrentTransaction();
 
@@ -59,19 +59,22 @@ public class NhScopedUnitOfWork : IScopedUnitOfWork
         currentTransaction.Commit();
         currentTransaction.Dispose();
 
-        this._session.Close();
-
-        OpenedScopeId = string.Empty;
-        IsOpened = false;
+        OpenedTransactionId = string.Empty;
+        IsTransactionOpened = false;
     }
 
-    public void RollbackAndCloseScope()
+    public void RollbackTransaction()
     {
-        if (this._session.GetCurrentTransaction() == null)
+        var currentTransaction = this._session.GetCurrentTransaction();
+
+        if (currentTransaction == null)
             return;
 
-        this._session.GetCurrentTransaction().Rollback();
-        this._session.Close();
+        currentTransaction.Rollback();
+        currentTransaction.Dispose();
+
+        OpenedTransactionId = string.Empty;
+        IsTransactionOpened = false;
     }
 
     #endregion

@@ -20,16 +20,16 @@ public class DefaultDispatcher : IDispatcher, IDisposable
 
     private readonly IMediator _mediator;
 
-    private readonly IScopedUnitOfWork scopedUnitOfWork;
+    private readonly IUnitOfWork unitOfWork;
 
     #endregion
 
     #region Constructors
 
-    public DefaultDispatcher(IMediator mediator, IScopedUnitOfWork scopedUnitOfWork)
+    public DefaultDispatcher(IMediator mediator, IUnitOfWork unitOfWork)
     {
         this._mediator = mediator;
-        this.scopedUnitOfWork = scopedUnitOfWork;
+        this.unitOfWork = unitOfWork;
     }
 
     #endregion
@@ -38,8 +38,8 @@ public class DefaultDispatcher : IDispatcher, IDisposable
 
     public async Task PushAsync<TCommand>(TCommand command, CancellationToken cancellationToken = default) where TCommand : CommandBase
     {
-        if (!this.scopedUnitOfWork.IsOpened)
-            this.scopedUnitOfWork.OpenScope(IsolationLevel.ReadCommitted);
+        if (!this.unitOfWork.IsTransactionOpened)
+            this.unitOfWork.OpenTransaction(IsolationLevel.ReadCommitted);
 
         try
         {
@@ -47,7 +47,7 @@ public class DefaultDispatcher : IDispatcher, IDisposable
         }
         catch
         {
-            this.scopedUnitOfWork.RollbackAndCloseScope();
+            this.unitOfWork.RollbackTransaction();
             throw;
         }
     }
@@ -60,14 +60,14 @@ public class DefaultDispatcher : IDispatcher, IDisposable
         }
         catch
         {
-            this.scopedUnitOfWork.RollbackAndCloseScope();
+            this.unitOfWork.RollbackTransaction();
             throw;
         }
     }
 
     public void Dispose()
     {
-        this.scopedUnitOfWork.CloseScope();
+        this.unitOfWork.CloseTransaction();
     }
 
     #endregion

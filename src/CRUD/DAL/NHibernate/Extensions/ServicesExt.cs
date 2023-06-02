@@ -21,27 +21,59 @@ public static class ServicesExt
     /// <param name="services"></param>
     /// <param name="fluentMappingsAssemblies"></param>
     /// <param name="dbConfig">NHibernate DB configuration</param>
+    /// <param name="dbSchemaMode">DB schema usage mode</param>
+    /// <param name="useScopedSessionFactory">Register ISessionFactory as scoped service</param>
     public static void AddNHibernateDAL(this IServiceCollection services,
                                         IPersistenceConfigurer dbConfig,
-                                        Assembly[] fluentMappingsAssemblies)
+                                        Assembly[] fluentMappingsAssemblies,
+                                        NhDbSchemaMode dbSchemaMode = NhDbSchemaMode.Update,
+                                        bool useScopedSessionFactory = false)
     {
-        services.AddSingleton(_ =>
-                              {
-                                  var config = new Configuration();
+        Func<IServiceProvider, ISessionFactory> sessionFactory =
+                _ =>
+                {
+                    var config = new Configuration();
 
-                                  if (dbConfig.GetType() == typeof(PostgreSQLConfiguration))
-                                      config.SetNamingStrategy(new DefaultPostgreSqlNamingStrategy());
+                    if (dbConfig.GetType() == typeof(PostgreSQLConfiguration))
+                        config.SetNamingStrategy(new DefaultPostgreSqlNamingStrategy());
 
-                                  return Fluently.Configure(config)
-                                                 .Database(dbConfig)
-                                                 .Mappings(mappings =>
-                                                           {
-                                                               foreach (var fluentMappingsAssembly in fluentMappingsAssemblies)
-                                                                   mappings.FluentMappings.AddFromAssembly(fluentMappingsAssembly);
-                                                           })
-                                                 .ExposeConfiguration(cfg => new SchemaUpdate(cfg).Execute(false, true))
-                                                 .BuildSessionFactory();
-                              });
+                    var fluentConfiguration = Fluently.Configure(config)
+                                                      .Database(dbConfig)
+                                                      .Mappings(mappings =>
+                                                                {
+                                                                    foreach (var fluentMappingsAssembly in fluentMappingsAssemblies)
+                                                                        mappings.FluentMappings.AddFromAssembly(fluentMappingsAssembly);
+                                                                });
+
+                    switch (dbSchemaMode)
+                    {
+                        case NhDbSchemaMode.DropCreate:
+                            fluentConfiguration.ExposeConfiguration(cfg =>
+                                                                    {
+                                                                        new SchemaExport(cfg).Drop(false, true);
+                                                                        new SchemaExport(cfg).Create(true, true);
+                                                                    });
+
+                            break;
+
+                        case NhDbSchemaMode.Update:
+                            fluentConfiguration.ExposeConfiguration(cfg => new SchemaUpdate(cfg).Execute(false, true));
+                            break;
+
+                        case NhDbSchemaMode.UseExisting:
+                            break;
+
+                        default:
+                            throw new NotImplementedException($"Value '{dbSchemaMode}' in '{typeof(NhDbSchemaMode)}' is not handled!");
+                    }
+
+                    return fluentConfiguration.BuildSessionFactory();
+                };
+
+        if (useScopedSessionFactory)
+            services.AddScoped(sessionFactory);
+        else
+            services.AddSingleton(sessionFactory);
 
         services.AddScoped(provider =>
                            {
@@ -53,6 +85,6 @@ public static class ServicesExt
 
         services.AddScoped(typeof(IReadRepository), typeof(NhRepository));
         services.AddScoped(typeof(IRepository), typeof(NhRepository));
-        services.AddScoped<IScopedUnitOfWork, NhScopedUnitOfWork>();
+        services.AddScoped<IUnitOfWork, NhUnitOfWork>();
     }
 }

@@ -9,31 +9,31 @@
     /// <summary>
     ///     Unit of work pattern interface for transaction scope support
     /// </summary>
-    public interface IScopedUnitOfWork
+    public interface IUnitOfWork
     {
         #region Properties
 
         public IRepository Repository { get; }
 
-        public string OpenedScopeId { get; }
+        public string OpenedTransactionId { get; }
 
-        public bool IsOpened { get; }
+        public bool IsTransactionOpened { get; }
 
         #endregion
 
         /// <summary>
-        ///     Opens a transaction scope
+        ///     Opens a transaction
         /// </summary>
-        public void OpenScope(IsolationLevel isolationLevel);
+        public void OpenTransaction(IsolationLevel isolationLevel);
 
         /// <summary>
-        ///     Closes currently opened transaction scope
+        ///     Closes currently opened transaction
         /// </summary>
-        public void CloseScope();
+        public void CloseTransaction();
 
         /// <summary>
-        ///     Rolls back all changes in currently opened transaction scope
+        ///     Rolls back all changes in currently opened transaction
         /// </summary>
-        public void RollbackAndCloseScope();
+        public void RollbackTransaction();
     }
 }

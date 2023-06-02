@@ -11,15 +11,15 @@
     /// <summary>
     ///     EntityFrameworkCore based implementation of the IUnitOfWork interface
     /// </summary>
-    public class EfScopedUnitOfWork : IScopedUnitOfWork
+    public class EfUnitOfWork : IUnitOfWork
     {
         #region Properties
 
         public IRepository Repository { get; }
 
-        public string OpenedScopeId { get; private set; }
+        public string OpenedTransactionId { get; private set; }
 
-        public bool IsOpened { get; private set; }
+        public bool IsTransactionOpened { get; private set; }
 
         private readonly IEfDbContext _dbContext;
 
@@ -27,7 +27,7 @@
 
         #region Constructors
 
-        public EfScopedUnitOfWork(IRepository repository, IEfDbContext efDbContext)
+        public EfUnitOfWork(IRepository repository, IEfDbContext efDbContext)
         {
             this._dbContext = efDbContext;
             Repository = repository;
@@ -37,34 +37,34 @@
 
         #region Interface Implementations
 
-        public void OpenScope(IsolationLevel isolationLevel)
+        public void OpenTransaction(IsolationLevel isolationLevel)
         {
             if (this._dbContext.Database.CurrentTransaction != null)
                 return;
 
             var transaction = this._dbContext.Database.BeginTransaction(isolationLevel);
-            OpenedScopeId = transaction.TransactionId.ToString();
-            IsOpened = true;
+            OpenedTransactionId = transaction.TransactionId.ToString();
+            IsTransactionOpened = true;
         }
 
-        public void CloseScope()
+        public void CloseTransaction()
         {
             if (this._dbContext.Database.CurrentTransaction == null)
                 return;
 
             this._dbContext.Database.CurrentTransaction.Commit();
-            OpenedScopeId = string.Empty;
-            IsOpened = false;
+            OpenedTransactionId = string.Empty;
+            IsTransactionOpened = false;
         }
 
-        public void RollbackAndCloseScope()
+        public void RollbackTransaction()
         {
             if (this._dbContext.Database.CurrentTransaction == null)
                 return;
 
             this._dbContext.Database.CurrentTransaction.Rollback();
-            OpenedScopeId = string.Empty;
-            IsOpened = false;
+            OpenedTransactionId = string.Empty;
+            IsTransactionOpened = false;
         }
 
         #endregion

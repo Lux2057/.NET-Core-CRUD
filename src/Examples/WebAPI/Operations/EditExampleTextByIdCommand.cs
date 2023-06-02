@@ -50,7 +50,7 @@
             {
                 var id = command.Dto.Id.GetValueOrDefault(0);
 
-                var entity = Repository.Get(new FindEntityById<ExampleEntity, int>(id)).SingleOrDefault();
+                var entity = Repository.Get(new FindEntityByIntId<ExampleEntity>(id)).SingleOrDefault();
 
                 if (entity == null)
                 {

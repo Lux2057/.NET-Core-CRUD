@@ -1,3 +1,5 @@
+// ReSharper disable RedundantUsingDirective
+
 namespace Examples.WebAPI
 {
     #region << Using >>
@@ -5,8 +7,10 @@ namespace Examples.WebAPI
     using CRUD.Core;
     using CRUD.CQRS;
     using CRUD.DAL.EntityFramework;
+    using CRUD.DAL.NHibernate;
     using CRUD.Logging.Common;
     using CRUD.WebAPI;
+    using FluentNHibernate.Cfg.Db;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;

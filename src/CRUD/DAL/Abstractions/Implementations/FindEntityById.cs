@@ -8,19 +8,19 @@
     #endregion
 
     /// <summary>
-    ///     Finds an entity by specified id
+    ///     Finds an entity by specified Int id
     /// </summary>
-    public class FindEntityById<TEntity, TId> : Specification<TEntity> where TEntity : IId<TId>
+    public class FindEntityByIntId<TEntity> : Specification<TEntity> where TEntity : IId<int>
     {
         #region Properties
 
-        private readonly TId id;
+        private readonly int id;
 
         #endregion
 
         #region Constructors
 
-        public FindEntityById(TId id)
+        public FindEntityByIntId(int id)
         {
             this.id = id;
         }
@@ -29,7 +29,7 @@
 
         public override Expression<Func<TEntity, bool>> ToExpression()
         {
-            return x => Equals(x.Id, this.id);
+            return x => x.Id == this.id;
         }
     }
 }

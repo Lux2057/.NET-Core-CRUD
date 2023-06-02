@@ -55,3 +55,18 @@ src/Tests/EntityFramework/EfCore/obj/
 
 src/Tests/EntityFramework/EfLogging/bin/
 src/Tests/EntityFramework/EfLogging/obj/
+
+src/Tests/NHibernate/NhDAL/bin/
+src/Tests/NHibernate/NhDAL/obj/
+
+src/Tests/NHibernate/NhCQRS/bin/
+src/Tests/NHibernate/NhCQRS/obj/
+
+src/Tests/NHibernate/NhCore/bin/
+src/Tests/NHibernate/NhCore/obj/
+
+src/Tests/NHibernate/NhCore/bin/
+src/Tests/NHibernate/NhCore/obj/
+
+src/Tests/NHibernate/NhLogging/bin/
+src/Tests/NHibernate/NhLogging/obj/

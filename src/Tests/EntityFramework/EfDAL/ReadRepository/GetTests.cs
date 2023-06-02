@@ -42,7 +42,8 @@ public class GetTests : EfReadRepositoryTest
         await this.context.SaveChangesAsync();
 
         Assert.Single(this.repository.Get<TestEntity>().ToArray());
-        Assert.Equal(1, this.repository.Get(new FindEntityById<TestEntity, int>(1)).Single().Id);
+        Assert.Equal(1, this.repository.Get(new FindEntityByIntId<TestEntity>(1)).Single().Id);
+        Assert.Equal(1, this.repository.Get(new FindEntitiesByIds<TestEntity, int>(new[] { 1 })).Single().Id);
         Assert.Equal(text, this.repository.Get<TestEntity>().Single().Text);
     }
 

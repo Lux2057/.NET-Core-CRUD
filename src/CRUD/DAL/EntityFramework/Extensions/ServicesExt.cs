@@ -23,6 +23,6 @@ public static class ServicesExt
         services.AddScoped(provider => provider.GetService(typeof(TDbContext)) as IEfDbContext);
         services.AddScoped(typeof(IReadRepository), typeof(EfRepository));
         services.AddScoped(typeof(IRepository), typeof(EfRepository));
-        services.AddScoped<IScopedUnitOfWork, EfScopedUnitOfWork>();
+        services.AddScoped<IUnitOfWork, EfUnitOfWork>();
     }
 }

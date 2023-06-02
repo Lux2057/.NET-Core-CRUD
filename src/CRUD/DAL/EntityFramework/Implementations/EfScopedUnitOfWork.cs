@@ -63,6 +63,8 @@
                 return;
 
             this._dbContext.Database.CurrentTransaction.Rollback();
+            OpenedScopeId = string.Empty;
+            IsOpened = false;
         }
 
         #endregion

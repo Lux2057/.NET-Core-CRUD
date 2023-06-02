@@ -1,8 +1,8 @@
-﻿namespace EfTests.Core;
+﻿namespace EfTests.DAL;
 
 #region << Using >>
 
-using CRUD.Core;
+using CRUD.DAL.Abstractions;
 
 #endregion
 
@@ -17,6 +17,19 @@ public class EnumerableExtTests
                                      new TestEntity { Id = 1 },
                                      new TestEntity { Id = 2 },
                                      new TestEntity { Id = 3 }
+                             },
+
+                             new[] { 1, 2, 3 }
+                     };
+
+        yield return new object[]
+                     {
+                             new[]
+                             {
+                                     new TestEntity { Id = 1 },
+                                     new TestEntity { Id = 2 },
+                                     new TestEntity { Id = 3 },
+                                     new TestEntity { Id = 3 },
                              },
 
                              new[] { 1, 2, 3 }

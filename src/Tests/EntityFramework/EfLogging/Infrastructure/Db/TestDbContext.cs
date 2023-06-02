@@ -1,8 +1,9 @@
-﻿namespace Tests.Models;
+﻿namespace EfTests.Logging;
 
 #region << Using >>
 
-using CRUD.DAL;
+using CRUD.DAL.EntityFramework;
+using CRUD.Logging.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 #endregion
@@ -23,6 +24,6 @@ public sealed class TestDbContext : DbContext, IEfDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(TestEntity).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(LogMapping).Assembly);
     }
 }

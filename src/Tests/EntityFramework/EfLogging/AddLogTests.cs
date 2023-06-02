@@ -1,4 +1,4 @@
-﻿namespace EfTests.Core;
+﻿namespace EfTests.Logging;
 
 #region << Using >>
 

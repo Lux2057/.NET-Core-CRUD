@@ -3,7 +3,6 @@
 #region << Using >>
 
 using CRUD.DAL.EntityFramework;
-using CRUD.Logging.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 #endregion
@@ -25,6 +24,5 @@ public sealed class TestDbContext : DbContext, IEfDbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(TestEntity).Assembly);
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(LogMapping).Assembly);
     }
 }

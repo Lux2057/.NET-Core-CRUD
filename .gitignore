@@ -49,3 +49,9 @@ src/Tests/EntityFramework/EfCQRS/obj/
 
 src/Tests/EntityFramework/EfCore/bin/
 src/Tests/EntityFramework/EfCore/obj/
+
+src/Tests/EntityFramework/EfCore/bin/
+src/Tests/EntityFramework/EfCore/obj/
+
+src/Tests/EntityFramework/EfLogging/bin/
+src/Tests/EntityFramework/EfLogging/obj/

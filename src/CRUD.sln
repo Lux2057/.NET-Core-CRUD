@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.Logging.EntityFramewor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.Logging.NHibernate", "CRUD\Logging\NHibernate\CRUD.Logging.NHibernate.csproj", "{CA1C9FE1-1AFA-4709-BA8D-6D59E2D4BD8F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfTests.Logging", "Tests\EntityFramework\EfLogging\EfTests.Logging.csproj", "{0A33FA00-FDD6-4203-B865-9F84F783DACE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{CA1C9FE1-1AFA-4709-BA8D-6D59E2D4BD8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA1C9FE1-1AFA-4709-BA8D-6D59E2D4BD8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA1C9FE1-1AFA-4709-BA8D-6D59E2D4BD8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A33FA00-FDD6-4203-B865-9F84F783DACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A33FA00-FDD6-4203-B865-9F84F783DACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A33FA00-FDD6-4203-B865-9F84F783DACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A33FA00-FDD6-4203-B865-9F84F783DACE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +143,7 @@ Global
 		{15C7DBC0-CCC1-4084-A362-03B2791F501D} = {8382DA59-2329-441D-B1D9-3E6D67D160C4}
 		{36D75D6E-DA06-47E1-856D-C030AC3BFA66} = {50127F62-3C2B-42E3-A309-E9EFA8561184}
 		{CA1C9FE1-1AFA-4709-BA8D-6D59E2D4BD8F} = {50127F62-3C2B-42E3-A309-E9EFA8561184}
+		{0A33FA00-FDD6-4203-B865-9F84F783DACE} = {6F08EAD8-C029-4470-A36C-C9CF22EC379D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9B5FC98-635A-4080-8B4C-CE648D40636A}

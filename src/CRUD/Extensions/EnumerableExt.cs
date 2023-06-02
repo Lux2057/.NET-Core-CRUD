@@ -11,7 +11,7 @@ public static class EnumerableExt
     #endregion
 
     /// <summary>
-    ///     Returns an array that contains the elements from the input sequence or
+    ///     Returns an array which contains elements from the input sequence or
     ///     an empty array in case when the sequence is null or empty
     /// </summary>
     public static T[] ToArrayOrEmpty<T>(this IEnumerable<T>? enumerable)
@@ -20,7 +20,7 @@ public static class EnumerableExt
     }
 
     /// <summary>
-    ///     Returns an distinct array that contains the elements from the input sequence or
+    ///     Returns an distinct array which contains elements from the input sequence or
     ///     an empty array in case when the sequence is null or empty
     /// </summary>
     public static T[] ToDistinctArrayOrEmpty<T>(this IEnumerable<T>? enumerable)

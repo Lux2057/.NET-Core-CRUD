@@ -122,8 +122,8 @@ public class UpdateAsyncTests : NhRepositoryTest
     [Fact]
     public async Task Should_be_updated_explicitly_only()
     {
-        var oldText = Guid.NewGuid().ToString();
-        var newText = Guid.NewGuid().ToString();
+        const string oldText = "old text";
+        const string newText = "new text";
 
         var entities = new[]
                        {
@@ -133,13 +133,11 @@ public class UpdateAsyncTests : NhRepositoryTest
 
         await this.repository.AddAsync(entities);
 
-        var entitiesInDb = this.repository.Get<TestEntity>().ToArray();
-
-        foreach (var entity in entitiesInDb)
+        foreach (var entity in entities)
             entity.Text = newText;
 
-        entitiesInDb = this.repository.Get<TestEntity>().ToArray();
+        entities = this.repository.Get<TestEntity>().ToArray();
 
-        Assert.True(entitiesInDb.All(x => x.Text == oldText));
+        Assert.True(entities.All(x => x.Text == oldText));
     }
 }

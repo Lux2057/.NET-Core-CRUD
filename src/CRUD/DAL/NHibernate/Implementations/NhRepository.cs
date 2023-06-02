@@ -33,6 +33,8 @@ public class NhRepository : IRepository
         if (entity == null)
             return;
 
+        this._session.Clear();
+
         await this._session.SaveAsync(entity, cancellationToken);
         await this._session.FlushAsync();
     }
@@ -43,6 +45,8 @@ public class NhRepository : IRepository
 
         if (!entitiesArray.Any())
             return;
+
+        this._session.Clear();
 
         foreach (var entity in entitiesArray)
             await this._session.SaveAsync(entity, cancellationToken);
@@ -55,8 +59,9 @@ public class NhRepository : IRepository
         if (entity == null)
             return;
 
-        await this._session.UpdateAsync(entity, cancellationToken);
+        this._session.Clear();
 
+        await this._session.UpdateAsync(entity, cancellationToken);
         await this._session.FlushAsync();
     }
 
@@ -66,6 +71,8 @@ public class NhRepository : IRepository
 
         if (!entitiesArray.Any())
             return;
+
+        this._session.Clear();
 
         foreach (var entity in entitiesArray)
             await this._session.UpdateAsync(entity, cancellationToken);
@@ -77,6 +84,8 @@ public class NhRepository : IRepository
     {
         if (entity == null)
             return;
+
+        this._session.Clear();
 
         await this._session.DeleteAsync(entity, cancellationToken);
 
@@ -90,6 +99,8 @@ public class NhRepository : IRepository
         if (!entitiesArray.Any())
             return;
 
+        this._session.Clear();
+
         foreach (var entity in entitiesArray)
             await this._session.DeleteAsync(entity, cancellationToken);
 
@@ -100,6 +111,8 @@ public class NhRepository : IRepository
                                             IEnumerable<OrderSpecification<TEntity>> orderSpecifications = default)
             where TEntity : class, new()
     {
+        this._session.Clear();
+
         var queryable = this._session.Query<TEntity>();
 
         var expression = specification?.ToExpression();

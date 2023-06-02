@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="ComplexTests.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="appsettings.json" />
   </ItemGroup>
 

@@ -11,8 +11,8 @@ public class AddAsyncTests : NhRepositoryTest
 {
     #region Constructors
 
-    public AddAsyncTests(ISession session, IRepository repository)
-            : base(session, repository) { }
+    public AddAsyncTests(ISessionFactory sessionFactory, IRepository repository)
+            : base(sessionFactory, repository) { }
 
     #endregion
 
@@ -23,7 +23,11 @@ public class AddAsyncTests : NhRepositoryTest
 
         await this.repository.AddAsync(new TestEntity { Text = text });
 
-        var entitiesInDb = this.session.Query<TestEntity>().ToArray();
+        TestEntity[] entitiesInDb;
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            entitiesInDb = session.Query<TestEntity>().ToArray();
+        }
 
         Assert.Single(entitiesInDb);
         Assert.Equal(text, entitiesInDb[0].Text);
@@ -34,7 +38,11 @@ public class AddAsyncTests : NhRepositoryTest
     {
         await this.repository.AddAsync((TestEntity)null);
 
-        var entitiesInDb = this.session.Query<TestEntity>().ToArray();
+        TestEntity[] entitiesInDb;
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            entitiesInDb = session.Query<TestEntity>().ToArray();
+        }
 
         Assert.Empty(entitiesInDb);
     }
@@ -51,7 +59,11 @@ public class AddAsyncTests : NhRepositoryTest
                                                null
                                        });
 
-        var entitiesInDb = this.session.Query<TestEntity>().ToArray();
+        TestEntity[] entitiesInDb;
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            entitiesInDb = session.Query<TestEntity>().ToArray();
+        }
 
         Assert.Equal(2, entitiesInDb.Length);
         Assert.True(entitiesInDb.All(r => r.Text == text));
@@ -62,7 +74,11 @@ public class AddAsyncTests : NhRepositoryTest
     {
         await this.repository.AddAsync(new[] { (TestEntity)null });
 
-        var entitiesInDb = this.session.Query<TestEntity>().ToArray();
+        TestEntity[] entitiesInDb;
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            entitiesInDb = session.Query<TestEntity>().ToArray();
+        }
 
         Assert.Empty(entitiesInDb);
     }

@@ -102,33 +102,22 @@ public class UpdateAsyncTests : EfRepositoryTest
     [Fact]
     public async Task Should_be_updated_explicitly_only()
     {
-        var oldText = Guid.NewGuid().ToString();
-        var newText = Guid.NewGuid().ToString();
+        const string oldText = "old text";
+        const string newText = "new text";
 
         var entities = new[]
                        {
-                               new TestEntity
-                               {
-                                       Text = oldText
-                               },
-                               new TestEntity
-                               {
-                                       Text = oldText
-                               },
-                               null
+                               new TestEntity { Text = oldText },
+                               new TestEntity { Text = oldText }
                        };
 
-        var dbSet = this.context.Set<TestEntity>();
-        await dbSet.AddRangeAsync(entities.Where(r => r != null));
-        await this.context.SaveChangesAsync();
+        await this.repository.AddAsync(entities);
 
-        var entitiesInDb = await this.repository.Get<TestEntity>().ToArrayAsync();
-
-        foreach (var entity in entitiesInDb)
+        foreach (var entity in entities)
             entity.Text = newText;
 
-        entitiesInDb = await this.repository.Get<TestEntity>().ToArrayAsync();
+        entities = this.repository.Get<TestEntity>().ToArray();
 
-        Assert.True(entitiesInDb.All(x => x.Text == oldText));
+        Assert.True(entities.All(x => x.Text == oldText));
     }
 }

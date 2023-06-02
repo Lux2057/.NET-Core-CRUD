@@ -13,16 +13,16 @@ public abstract class NhReadRepositoryTest : DbTest
 
     protected readonly IReadRepository repository;
 
-    protected readonly ISession session;
+    protected ISessionFactory sessionFactory;
 
     #endregion
 
     #region Constructors
 
-    protected NhReadRepositoryTest(ISession session, IReadRepository repository)
+    protected NhReadRepositoryTest(IReadRepository repository, ISessionFactory sessionFactory)
     {
-        this.session = session;
         this.repository = repository;
+        this.sessionFactory = sessionFactory;
     }
 
     #endregion

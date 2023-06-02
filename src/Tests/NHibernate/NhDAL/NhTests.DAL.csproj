@@ -10,11 +10,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ReadRepository\GetTests.cs" />
+    <Compile Remove="ReadWriteRepository\**" />
+    <EmbeddedResource Remove="ReadWriteRepository\**" />
+    <None Remove="ReadWriteRepository\**" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="ReadWriteRepository\AddAsyncTests.cs" />
+    <Compile Include="ReadWriteRepository\DeleteAsyncTests.cs" />
+    <Compile Include="ReadWriteRepository\UpdateAsyncTests.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,10 +49,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\CRUD\DAL\NHibernate\CRUD.DAL.NHibernate.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ReadRepository\" />
   </ItemGroup>
 
 </Project>

@@ -11,8 +11,8 @@ public class UpdateAsyncTests : NhRepositoryTest
 {
     #region Constructors
 
-    public UpdateAsyncTests(ISession session, IRepository repository)
-            : base(session, repository) { }
+    public UpdateAsyncTests(ISessionFactory sessionFactory, IRepository repository)
+            : base(sessionFactory, repository) { }
 
     #endregion
 
@@ -24,13 +24,23 @@ public class UpdateAsyncTests : NhRepositoryTest
 
         var entity = new TestEntity { Text = oldText };
 
-        await this.session.SaveAsync(entity);
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            await session.SaveAsync(entity);
+            await session.FlushAsync();
+        }
 
         entity.Text = newText;
         await this.repository.UpdateAsync(entity);
 
-        var entityFromDb = this.session.Query<TestEntity>().Single();
-        Assert.Equal(newText, entityFromDb.Text);
+        TestEntity[] entitiesInDb;
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            entitiesInDb = session.Query<TestEntity>().ToArray();
+        }
+
+        Assert.Single(entitiesInDb);
+        Assert.Equal(newText, entitiesInDb[0].Text);
     }
 
     [Fact]
@@ -38,7 +48,11 @@ public class UpdateAsyncTests : NhRepositoryTest
     {
         await this.repository.UpdateAsync((TestEntity)null);
 
-        var entitiesInDb = this.session.Query<TestEntity>().ToArray();
+        TestEntity[] entitiesInDb;
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            entitiesInDb = session.Query<TestEntity>().ToArray();
+        }
 
         Assert.Empty(entitiesInDb);
     }
@@ -69,15 +83,23 @@ public class UpdateAsyncTests : NhRepositoryTest
                                null
                        };
 
-        foreach (var entity in entities.Where(r => r != null))
-            await this.session.SaveAsync(entity);
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            foreach (var entity in entities.Where(r => r != null))
+                await session.SaveAsync(entity);
 
-        await this.session.FlushAsync();
+            await session.FlushAsync();
+        }
 
         firstEntity.Text = newText;
         await this.repository.UpdateAsync(entities);
 
-        var entitiesInDb = this.session.Query<TestEntity>().ToArray();
+        TestEntity[] entitiesInDb;
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            entitiesInDb = session.Query<TestEntity>().ToArray();
+        }
+
         Assert.Equal(2, entitiesInDb.Length);
         Assert.True(entitiesInDb.Count(r => r.Text == oldText) == 1);
         Assert.True(entitiesInDb.Count(r => r.Text == newText) == 1);
@@ -88,7 +110,13 @@ public class UpdateAsyncTests : NhRepositoryTest
     {
         await this.repository.UpdateAsync(new TestEntity[] { null });
 
-        Assert.Empty(this.session.Query<TestEntity>().ToArray());
+        TestEntity[] entitiesInDb;
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            entitiesInDb = session.Query<TestEntity>().ToArray();
+        }
+
+        Assert.Empty(entitiesInDb);
     }
 
     [Fact]
@@ -103,16 +131,14 @@ public class UpdateAsyncTests : NhRepositoryTest
                                new TestEntity { Text = oldText }
                        };
 
-        foreach (var entity in entities)
-            await this.session.SaveAsync(entity);
-        await this.session.FlushAsync();
+        await this.repository.AddAsync(entities);
 
-        var entitiesInDb = this.session.Query<TestEntity>().ToArray();
+        var entitiesInDb = this.repository.Get<TestEntity>().ToArray();
 
         foreach (var entity in entitiesInDb)
             entity.Text = newText;
 
-        entitiesInDb = this.session.Query<TestEntity>().ToArray();
+        entitiesInDb = this.repository.Get<TestEntity>().ToArray();
 
         Assert.True(entitiesInDb.All(x => x.Text == oldText));
     }

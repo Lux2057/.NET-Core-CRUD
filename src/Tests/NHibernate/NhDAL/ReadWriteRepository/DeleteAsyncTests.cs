@@ -11,32 +11,51 @@ public class DeleteAsyncTests : NhRepositoryTest
 {
     #region Constructors
 
-    public DeleteAsyncTests(ISession session, IRepository repository)
-            : base(session, repository) { }
+    public DeleteAsyncTests(ISessionFactory sessionFactory, IRepository repository)
+            : base(sessionFactory, repository) { }
 
     #endregion
 
     [Fact]
     public async Task Should_ignore_null_entity()
     {
-        await this.session.SaveAsync(new TestEntity { Text = Guid.NewGuid().ToString() });
-        await this.session.FlushAsync();
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            await session.SaveAsync(new TestEntity { Text = Guid.NewGuid().ToString() });
+            await session.FlushAsync();
+        }
 
         await this.repository.DeleteAsync((TestEntity)null);
 
-        Assert.Single(this.session.Query<TestEntity>().ToArray());
+        TestEntity[] entitiesInDb;
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            entitiesInDb = session.Query<TestEntity>().ToArray();
+        }
+
+        Assert.Single(entitiesInDb);
     }
 
     [Fact]
     public async Task Should_delete_an_entity()
     {
         var entity = new TestEntity { Text = Guid.NewGuid().ToString() };
-        await this.session.SaveAsync(entity);
-        await this.session.FlushAsync();
+
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            await session.SaveAsync(entity);
+            await session.FlushAsync();
+        }
 
         await this.repository.DeleteAsync(entity);
 
-        Assert.Empty(this.session.Query<TestEntity>().ToArray());
+        TestEntity[] entitiesInDb;
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            entitiesInDb = session.Query<TestEntity>().ToArray();
+        }
+
+        Assert.Empty(entitiesInDb);
     }
 
     [Fact]
@@ -61,12 +80,23 @@ public class DeleteAsyncTests : NhRepositoryTest
                                null
                        };
 
-        foreach (var entity in entities.Where(r => r != null))
-            await this.session.SaveAsync(entity);
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            foreach (var entity in entities.Where(r => r != null))
+                await session.SaveAsync(entity);
+
+            await session.FlushAsync();
+        }
 
         await this.repository.DeleteAsync(entities);
 
-        Assert.Empty(this.session.Query<TestEntity>().ToArray());
+        TestEntity[] entitiesInDb;
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            entitiesInDb = session.Query<TestEntity>().ToArray();
+        }
+
+        Assert.Empty(entitiesInDb);
     }
 
     [Fact]
@@ -74,6 +104,12 @@ public class DeleteAsyncTests : NhRepositoryTest
     {
         await this.repository.DeleteAsync(new TestEntity[] { null });
 
-        Assert.Empty(this.session.Query<TestEntity>().ToArray());
+        TestEntity[] entitiesInDb;
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            entitiesInDb = session.Query<TestEntity>().ToArray();
+        }
+
+        Assert.Empty(entitiesInDb);
     }
 }

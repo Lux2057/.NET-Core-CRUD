@@ -11,8 +11,8 @@ public class GetTests : NhReadRepositoryTest
 {
     #region Constructors
 
-    public GetTests(ISession session, IReadRepository repository)
-            : base(session, repository) { }
+    public GetTests(IReadRepository repository, ISessionFactory sessionFactory)
+            : base(repository, sessionFactory) { }
 
     #endregion
 
@@ -23,8 +23,11 @@ public class GetTests : NhReadRepositoryTest
 
         var testEntity = new TestEntity { Text = text };
 
-        await this.session.SaveAsync(testEntity);
-        await this.session.FlushAsync();
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            await session.SaveAsync(testEntity);
+            await session.FlushAsync();
+        }
 
         Assert.Single(this.repository.Get<TestEntity>().ToArray());
         Assert.Equal(1, this.repository.Get<TestEntity>().Single().Id);
@@ -38,8 +41,11 @@ public class GetTests : NhReadRepositoryTest
 
         var testEntity = new TestEntity { Text = text };
 
-        await this.session.SaveAsync(testEntity);
-        await this.session.FlushAsync();
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            await session.SaveAsync(testEntity);
+            await session.FlushAsync();
+        }
 
         var testEntities = this.repository.Get<TestEntity>().ToArray();
         Assert.Single(testEntities);
@@ -70,10 +76,13 @@ public class GetTests : NhReadRepositoryTest
                                    new TestEntity { Text = text2 }
                            };
 
-        foreach (var testEntity in testEntities)
-            await this.session.SaveAsync(testEntity);
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            foreach (var testEntity in testEntities)
+                await session.SaveAsync(testEntity);
 
-        await this.session.FlushAsync();
+            await session.FlushAsync();
+        }
 
         Assert.Equal(3, this.repository.Get<TestEntity>().Count());
         Assert.Equal(2, this.repository.Get(new TestByTextSpecification(text1)).Count());
@@ -93,10 +102,13 @@ public class GetTests : NhReadRepositoryTest
                                    new TestEntity { Text = text2 }
                            };
 
-        foreach (var testEntity in testEntities)
-            await this.session.SaveAsync(testEntity);
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            foreach (var testEntity in testEntities)
+                await session.SaveAsync(testEntity);
 
-        await this.session.FlushAsync();
+            await session.FlushAsync();
+        }
 
         Assert.Equal(3, this.repository.Get(new FindEntitiesByIds<TestEntity, int>(new[] { 1, 2, 3 })).Count());
     }
@@ -113,10 +125,13 @@ public class GetTests : NhReadRepositoryTest
                                    new TestEntity { Text = text }
                            };
 
-        foreach (var testEntity in testEntities)
-            await this.session.SaveAsync(testEntity);
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            foreach (var testEntity in testEntities)
+                await session.SaveAsync(testEntity);
 
-        await this.session.FlushAsync();
+            await session.FlushAsync();
+        }
 
         var entitiesInDb = this.repository.Get(orderSpecifications: new[] { new OrderById<TestEntity, int>(false) }).ToArray();
 
@@ -143,10 +158,13 @@ public class GetTests : NhReadRepositoryTest
                                    new TestEntity { Text = 2.ToString() }
                            };
 
-        foreach (var testEntity in testEntities)
-            await this.session.SaveAsync(testEntity);
+        using (var session = this.sessionFactory.OpenSession())
+        {
+            foreach (var testEntity in testEntities)
+                await session.SaveAsync(testEntity);
 
-        await this.session.FlushAsync();
+            await session.FlushAsync();
+        }
 
         var entitiesInDb = this.repository.Get(orderSpecifications: new OrderSpecification<TestEntity>[]
                                                                     {

@@ -23,15 +23,13 @@ public class GetTests : NhReadRepositoryTest
 
         var testEntity = new TestEntity { Text = text };
 
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            await session.SaveAsync(testEntity);
-            await session.FlushAsync();
-        }
+        await SessionFactory.AddEntitiesAsync(new[] { testEntity });
 
-        Assert.Single(this.repository.Get<TestEntity>().ToArray());
-        Assert.Equal(1, this.repository.Get<TestEntity>().Single().Id);
-        Assert.Equal(text, this.repository.Get<TestEntity>().Single().Text);
+        var entities = Repository.Get<TestEntity>().ToArray();
+
+        Assert.Single(entities);
+        Assert.Equal(testEntity.Id, entities.Single().Id);
+        Assert.Equal(text, entities.Single().Text);
     }
 
     [Fact]
@@ -41,23 +39,19 @@ public class GetTests : NhReadRepositoryTest
 
         var testEntity = new TestEntity { Text = text };
 
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            await session.SaveAsync(testEntity);
-            await session.FlushAsync();
-        }
+        await SessionFactory.AddEntitiesAsync(new[] { testEntity });
 
-        var testEntities = this.repository.Get<TestEntity>().ToArray();
+        var testEntities = Repository.Get<TestEntity>().ToArray();
         Assert.Single(testEntities);
 
         var id = testEntities[0].Id;
 
-        var entityById = this.repository.Get(new FindEntityByIntId<TestEntity>(id)).Single();
+        var entityById = Repository.Get(new FindEntityByIntId<TestEntity>(id)).Single();
 
         Assert.Equal(id, entityById.Id);
         Assert.Equal(text, entityById.Text);
 
-        entityById = this.repository.Get(new FindEntitiesByIds<TestEntity, int>(new[] { id })).Single();
+        entityById = Repository.Get(new FindEntitiesByIds<TestEntity, int>(new[] { id })).Single();
 
         Assert.Equal(id, entityById.Id);
         Assert.Equal(text, entityById.Text);
@@ -76,17 +70,11 @@ public class GetTests : NhReadRepositoryTest
                                    new TestEntity { Text = text2 }
                            };
 
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            foreach (var testEntity in testEntities)
-                await session.SaveAsync(testEntity);
+        await SessionFactory.AddEntitiesAsync(testEntities);
 
-            await session.FlushAsync();
-        }
-
-        Assert.Equal(3, this.repository.Get<TestEntity>().Count());
-        Assert.Equal(2, this.repository.Get(new TestByTextSpecification(text1)).Count());
-        Assert.Equal(1, this.repository.Get(new TestByTextSpecification(text2)).Count());
+        Assert.Equal(3, Repository.Get<TestEntity>().Count());
+        Assert.Equal(2, Repository.Get(new TestByTextSpecification(text1)).Count());
+        Assert.Equal(1, Repository.Get(new TestByTextSpecification(text2)).Count());
     }
 
     [Fact]
@@ -102,15 +90,9 @@ public class GetTests : NhReadRepositoryTest
                                    new TestEntity { Text = text2 }
                            };
 
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            foreach (var testEntity in testEntities)
-                await session.SaveAsync(testEntity);
+        await SessionFactory.AddEntitiesAsync(testEntities);
 
-            await session.FlushAsync();
-        }
-
-        Assert.Equal(3, this.repository.Get(new FindEntitiesByIds<TestEntity, int>(new[] { 1, 2, 3 })).Count());
+        Assert.Equal(3, Repository.Get(new FindEntitiesByIds<TestEntity, int>(new[] { 1, 2, 3 })).Count());
     }
 
     [Fact]
@@ -125,22 +107,16 @@ public class GetTests : NhReadRepositoryTest
                                    new TestEntity { Text = text }
                            };
 
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            foreach (var testEntity in testEntities)
-                await session.SaveAsync(testEntity);
+        await SessionFactory.AddEntitiesAsync(testEntities);
 
-            await session.FlushAsync();
-        }
-
-        var entitiesInDb = this.repository.Get(orderSpecifications: new[] { new OrderById<TestEntity, int>(false) }).ToArray();
+        var entitiesInDb = Repository.Get(orderSpecifications: new[] { new OrderById<TestEntity, int>(false) }).ToArray();
 
         Assert.Equal(3, entitiesInDb.Length);
         Assert.Equal(1, entitiesInDb[0].Id);
         Assert.Equal(2, entitiesInDb[1].Id);
         Assert.Equal(3, entitiesInDb[2].Id);
 
-        entitiesInDb = this.repository.Get(orderSpecifications: new[] { new OrderById<TestEntity, int>(true) }).ToArray();
+        entitiesInDb = Repository.Get(orderSpecifications: new[] { new OrderById<TestEntity, int>(true) }).ToArray();
 
         Assert.Equal(3, entitiesInDb.Length);
         Assert.Equal(1, entitiesInDb[2].Id);
@@ -158,30 +134,24 @@ public class GetTests : NhReadRepositoryTest
                                    new TestEntity { Text = 2.ToString() }
                            };
 
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            foreach (var testEntity in testEntities)
-                await session.SaveAsync(testEntity);
+        await SessionFactory.AddEntitiesAsync(testEntities);
 
-            await session.FlushAsync();
-        }
-
-        var entitiesInDb = this.repository.Get(orderSpecifications: new OrderSpecification<TestEntity>[]
-                                                                    {
-                                                                            new OrderByTextTestSpecification(true),
-                                                                            new OrderById<TestEntity, int>(false)
-                                                                    }).ToArray();
+        var entitiesInDb = Repository.Get(orderSpecifications: new OrderSpecification<TestEntity>[]
+                                                               {
+                                                                       new OrderByTextTestSpecification(true),
+                                                                       new OrderById<TestEntity, int>(false)
+                                                               }).ToArray();
 
         Assert.Equal(3, entitiesInDb.Length);
         Assert.Equal(2, entitiesInDb[0].Id);
         Assert.Equal(3, entitiesInDb[1].Id);
         Assert.Equal(1, entitiesInDb[2].Id);
 
-        entitiesInDb = this.repository.Get(orderSpecifications: new OrderSpecification<TestEntity>[]
-                                                                {
-                                                                        new OrderByTextTestSpecification(true),
-                                                                        new OrderById<TestEntity, int>(true)
-                                                                }).ToArray();
+        entitiesInDb = Repository.Get(orderSpecifications: new OrderSpecification<TestEntity>[]
+                                                           {
+                                                                   new OrderByTextTestSpecification(true),
+                                                                   new OrderById<TestEntity, int>(true)
+                                                           }).ToArray();
 
         Assert.Equal(3, entitiesInDb.Length);
         Assert.Equal(3, entitiesInDb[0].Id);

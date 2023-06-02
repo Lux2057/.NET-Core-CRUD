@@ -19,19 +19,11 @@ public class DeleteAsyncTests : NhRepositoryTest
     [Fact]
     public async Task Should_ignore_null_entity()
     {
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            await session.SaveAsync(new TestEntity { Text = Guid.NewGuid().ToString() });
-            await session.FlushAsync();
-        }
+        await SessionFactory.AddEntitiesAsync(new[] { new TestEntity { Text = Guid.NewGuid().ToString() } });
 
-        await this.repository.DeleteAsync((TestEntity)null);
+        await Repository.DeleteAsync((TestEntity)null);
 
-        TestEntity[] entitiesInDb;
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            entitiesInDb = session.Query<TestEntity>().ToArray();
-        }
+        var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
         Assert.Single(entitiesInDb);
     }
@@ -41,19 +33,11 @@ public class DeleteAsyncTests : NhRepositoryTest
     {
         var entity = new TestEntity { Text = Guid.NewGuid().ToString() };
 
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            await session.SaveAsync(entity);
-            await session.FlushAsync();
-        }
+        await SessionFactory.AddEntitiesAsync(new[] { entity });
 
-        await this.repository.DeleteAsync(entity);
+        await Repository.DeleteAsync(entity);
 
-        TestEntity[] entitiesInDb;
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            entitiesInDb = session.Query<TestEntity>().ToArray();
-        }
+        var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
         Assert.Empty(entitiesInDb);
     }
@@ -63,11 +47,11 @@ public class DeleteAsyncTests : NhRepositoryTest
     {
         await Assert.ThrowsAsync<StaleStateException>
                 (async () =>
-                         await this.repository.DeleteAsync(new TestEntity
-                                                           {
-                                                                   Id = 1,
-                                                                   Text = Guid.NewGuid().ToString()
-                                                           }));
+                         await Repository.DeleteAsync(new TestEntity
+                                                      {
+                                                              Id = 1,
+                                                              Text = Guid.NewGuid().ToString()
+                                                      }));
     }
 
     [Fact]
@@ -80,21 +64,11 @@ public class DeleteAsyncTests : NhRepositoryTest
                                null
                        };
 
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            foreach (var entity in entities.Where(r => r != null))
-                await session.SaveAsync(entity);
+        await SessionFactory.AddEntitiesAsync(entities.Where(r => r != null));
 
-            await session.FlushAsync();
-        }
+        await Repository.DeleteAsync(entities);
 
-        await this.repository.DeleteAsync(entities);
-
-        TestEntity[] entitiesInDb;
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            entitiesInDb = session.Query<TestEntity>().ToArray();
-        }
+        var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
         Assert.Empty(entitiesInDb);
     }
@@ -102,13 +76,9 @@ public class DeleteAsyncTests : NhRepositoryTest
     [Fact]
     public async Task Should_ignore_empty_collection()
     {
-        await this.repository.DeleteAsync(new TestEntity[] { null });
+        await Repository.DeleteAsync(new TestEntity[] { null });
 
-        TestEntity[] entitiesInDb;
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            entitiesInDb = session.Query<TestEntity>().ToArray();
-        }
+        var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
         Assert.Empty(entitiesInDb);
     }

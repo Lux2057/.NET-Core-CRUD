@@ -24,20 +24,12 @@ public class UpdateAsyncTests : NhRepositoryTest
 
         var entity = new TestEntity { Text = oldText };
 
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            await session.SaveAsync(entity);
-            await session.FlushAsync();
-        }
+        await SessionFactory.AddEntitiesAsync(new[] { entity });
 
         entity.Text = newText;
-        await this.repository.UpdateAsync(entity);
+        await this.Repository.UpdateAsync(entity);
 
-        TestEntity[] entitiesInDb;
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            entitiesInDb = session.Query<TestEntity>().ToArray();
-        }
+        var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
         Assert.Single(entitiesInDb);
         Assert.Equal(newText, entitiesInDb[0].Text);
@@ -46,13 +38,9 @@ public class UpdateAsyncTests : NhRepositoryTest
     [Fact]
     public async Task Should_ignore_null()
     {
-        await this.repository.UpdateAsync((TestEntity)null);
+        await this.Repository.UpdateAsync((TestEntity)null);
 
-        TestEntity[] entitiesInDb;
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            entitiesInDb = session.Query<TestEntity>().ToArray();
-        }
+        var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
         Assert.Empty(entitiesInDb);
     }
@@ -61,7 +49,7 @@ public class UpdateAsyncTests : NhRepositoryTest
     public async Task Should_throw_exception_for_nonexistent_entity()
     {
         await Assert.ThrowsAsync<StaleObjectStateException>
-                (async () => await this.repository
+                (async () => await this.Repository
                                        .UpdateAsync(new TestEntity
                                                     {
                                                             Id = 1,
@@ -83,22 +71,12 @@ public class UpdateAsyncTests : NhRepositoryTest
                                null
                        };
 
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            foreach (var entity in entities.Where(r => r != null))
-                await session.SaveAsync(entity);
-
-            await session.FlushAsync();
-        }
+        await SessionFactory.AddEntitiesAsync(entities.Where(r => r != null));
 
         firstEntity.Text = newText;
-        await this.repository.UpdateAsync(entities);
+        await this.Repository.UpdateAsync(entities);
 
-        TestEntity[] entitiesInDb;
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            entitiesInDb = session.Query<TestEntity>().ToArray();
-        }
+        var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
         Assert.Equal(2, entitiesInDb.Length);
         Assert.True(entitiesInDb.Count(r => r.Text == oldText) == 1);
@@ -108,13 +86,9 @@ public class UpdateAsyncTests : NhRepositoryTest
     [Fact]
     public async Task Should_ignore_empty_collection()
     {
-        await this.repository.UpdateAsync(new TestEntity[] { null });
+        await this.Repository.UpdateAsync(new TestEntity[] { null });
 
-        TestEntity[] entitiesInDb;
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            entitiesInDb = session.Query<TestEntity>().ToArray();
-        }
+        var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
         Assert.Empty(entitiesInDb);
     }
@@ -131,12 +105,12 @@ public class UpdateAsyncTests : NhRepositoryTest
                                new TestEntity { Text = oldText }
                        };
 
-        await this.repository.AddAsync(entities);
+        await this.Repository.AddAsync(entities);
 
         foreach (var entity in entities)
             entity.Text = newText;
 
-        entities = this.repository.Get<TestEntity>().ToArray();
+        entities = this.Repository.Get<TestEntity>().ToArray();
 
         Assert.True(entities.All(x => x.Text == oldText));
     }

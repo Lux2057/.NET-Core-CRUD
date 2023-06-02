@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="ComplexTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.json" />
   </ItemGroup>
 
@@ -49,6 +53,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\CRUD\DAL\NHibernate\CRUD.DAL.NHibernate.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Infrastructure\Extensions\" />
   </ItemGroup>
 
 </Project>

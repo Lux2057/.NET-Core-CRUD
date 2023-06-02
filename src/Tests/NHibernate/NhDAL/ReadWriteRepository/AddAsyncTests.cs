@@ -21,13 +21,9 @@ public class AddAsyncTests : NhRepositoryTest
     {
         var text = Guid.NewGuid().ToString();
 
-        await this.repository.AddAsync(new TestEntity { Text = text });
+        await Repository.AddAsync(new TestEntity { Text = text });
 
-        TestEntity[] entitiesInDb;
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            entitiesInDb = session.Query<TestEntity>().ToArray();
-        }
+        var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
         Assert.Single(entitiesInDb);
         Assert.Equal(text, entitiesInDb[0].Text);
@@ -36,13 +32,9 @@ public class AddAsyncTests : NhRepositoryTest
     [Fact]
     public async Task Should_ignore_null_entity()
     {
-        await this.repository.AddAsync((TestEntity)null);
+        await Repository.AddAsync((TestEntity)null);
 
-        TestEntity[] entitiesInDb;
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            entitiesInDb = session.Query<TestEntity>().ToArray();
-        }
+        var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
         Assert.Empty(entitiesInDb);
     }
@@ -52,18 +44,14 @@ public class AddAsyncTests : NhRepositoryTest
     {
         var text = Guid.NewGuid().ToString();
 
-        await this.repository.AddAsync(new TestEntity[]
-                                       {
-                                               new TestEntity { Text = text },
-                                               new TestEntity { Text = text },
-                                               null
-                                       });
+        await Repository.AddAsync(new TestEntity[]
+                                  {
+                                          new TestEntity { Text = text },
+                                          new TestEntity { Text = text },
+                                          null
+                                  });
 
-        TestEntity[] entitiesInDb;
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            entitiesInDb = session.Query<TestEntity>().ToArray();
-        }
+        var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
         Assert.Equal(2, entitiesInDb.Length);
         Assert.True(entitiesInDb.All(r => r.Text == text));
@@ -72,13 +60,9 @@ public class AddAsyncTests : NhRepositoryTest
     [Fact]
     public async Task Should_ignore_empty_collection()
     {
-        await this.repository.AddAsync(new[] { (TestEntity)null });
+        await Repository.AddAsync(new[] { (TestEntity)null });
 
-        TestEntity[] entitiesInDb;
-        using (var session = this.sessionFactory.OpenSession())
-        {
-            entitiesInDb = session.Query<TestEntity>().ToArray();
-        }
+        var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
         Assert.Empty(entitiesInDb);
     }

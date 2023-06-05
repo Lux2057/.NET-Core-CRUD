@@ -2,6 +2,7 @@
 
 #region << Using >>
 
+using System.ComponentModel.DataAnnotations.Schema;
 using CRUD.DAL.NHibernate;
 using CRUD.Logging.Common;
 using FluentNHibernate.Mapping;
@@ -14,6 +15,7 @@ public class LogMapping : ClassMap<LogEntity>
 
     public LogMapping()
     {
+        Table("Logs");
         Id(r => r.Id).GeneratedId();
         Map(x => x.CrDt).Not.Nullable();
         Map(x => x.LogLevel).Not.Nullable();

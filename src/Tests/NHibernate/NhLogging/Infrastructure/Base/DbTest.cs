@@ -1,4 +1,4 @@
-﻿namespace EfTests.Logging;
+﻿namespace NhTests.Logging;
 
-[Collection("EfTests.Logging")]
+[Collection("NhTests.Logging")]
 public abstract class DbTest { }

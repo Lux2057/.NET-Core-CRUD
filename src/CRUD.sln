@@ -59,6 +59,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NhTests.CQRS", "Tests\NHibe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NhTests.Core", "Tests\NHibernate\NhCore\NhTests.Core.csproj", "{B360215F-0A31-46BA-9D0B-0056838F2888}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NhTests.Logging", "Tests\NHibernate\NhLogging\NhTests.Logging.csproj", "{ED173629-0218-4AF5-8EE3-6FD6557E6833}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,6 +151,10 @@ Global
 		{B360215F-0A31-46BA-9D0B-0056838F2888}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B360215F-0A31-46BA-9D0B-0056838F2888}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B360215F-0A31-46BA-9D0B-0056838F2888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED173629-0218-4AF5-8EE3-6FD6557E6833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED173629-0218-4AF5-8EE3-6FD6557E6833}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED173629-0218-4AF5-8EE3-6FD6557E6833}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED173629-0218-4AF5-8EE3-6FD6557E6833}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,6 +185,7 @@ Global
 		{F43C9441-D5A9-4CB4-9672-0A4492855BC3} = {6F08EAD8-C029-4470-A36C-C9CF22EC379D}
 		{190DF686-3DE1-42CD-8415-63947C6B2DDC} = {15C7DBC0-CCC1-4084-A362-03B2791F501D}
 		{B360215F-0A31-46BA-9D0B-0056838F2888} = {15C7DBC0-CCC1-4084-A362-03B2791F501D}
+		{ED173629-0218-4AF5-8EE3-6FD6557E6833} = {15C7DBC0-CCC1-4084-A362-03B2791F501D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9B5FC98-635A-4080-8B4C-CE648D40636A}

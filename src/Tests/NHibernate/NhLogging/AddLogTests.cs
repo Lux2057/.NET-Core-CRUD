@@ -1,11 +1,10 @@
-﻿namespace EfTests.Logging;
+﻿namespace NhTests.Logging;
 
 #region << Using >>
 
 using CRUD.CQRS;
 using CRUD.Extensions;
 using CRUD.Logging.Common;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 #endregion
@@ -14,8 +13,7 @@ public class AddLogTests : DispatcherTest
 {
     #region Constructors
 
-    public AddLogTests(TestDbContext context, IDispatcher dispatcher)
-            : base(context, dispatcher) { }
+    public AddLogTests(IDispatcher dispatcher) : base(dispatcher) { }
 
     #endregion
 
@@ -26,14 +24,14 @@ public class AddLogTests : DispatcherTest
         const string message = "TEST";
         var exception = new Exception(message);
 
-        await this.dispatcher.PushAsync(new AddLogCommand
-                                        {
-                                                Exception = exception,
-                                                LogLevel = logLevel,
-                                                Message = message
-                                        });
+        await Dispatcher.PushAsync(new AddLogCommand
+                                   {
+                                           Exception = exception,
+                                           LogLevel = logLevel,
+                                           Message = message
+                                   });
 
-        var logsInDb = await this.context.Set<LogEntity>().ToArrayAsync();
+        var logsInDb = await Dispatcher.QueryAsync(new GetLogsQuery());
 
         Assert.Single(logsInDb);
         Assert.Equal(message, logsInDb.Single().Message);

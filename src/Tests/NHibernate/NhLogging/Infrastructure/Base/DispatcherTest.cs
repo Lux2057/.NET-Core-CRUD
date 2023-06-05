@@ -1,4 +1,4 @@
-﻿namespace EfTests.Logging;
+﻿namespace NhTests.Logging;
 
 #region << Using >>
 
@@ -10,18 +10,15 @@ public abstract class DispatcherTest : DbTest
 {
     #region Properties
 
-    protected readonly IDispatcher dispatcher;
-
-    protected readonly TestDbContext context;
+    protected IDispatcher Dispatcher { get; }
 
     #endregion
 
     #region Constructors
 
-    protected DispatcherTest(TestDbContext context, IDispatcher dispatcher)
+    protected DispatcherTest(IDispatcher dispatcher)
     {
-        this.context = context;
-        this.dispatcher = dispatcher;
+        Dispatcher = dispatcher;
     }
 
     #endregion

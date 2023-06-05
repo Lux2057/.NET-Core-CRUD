@@ -19,11 +19,6 @@ public class Startup
                                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                                .Build().GetConnectionString("DefaultConnection");
 
-        services.AddDbContext<TestDbContext>(options => options.UseNpgsql(connectionString));
-
-        services.AddScoped(provider => provider.GetService(typeof(TestDbContext)) as IEfDbContext);
-        services.AddScoped(typeof(IReadRepository), typeof(EfRepository));
-        services.AddScoped(typeof(IRepository), typeof(EfRepository));
-        services.AddScoped<IUnitOfWork, EfUnitOfWork>();
+        services.AddEntityFrameworkDAL<TestDbContext>(options => options.UseNpgsql(connectionString));
     }
 }

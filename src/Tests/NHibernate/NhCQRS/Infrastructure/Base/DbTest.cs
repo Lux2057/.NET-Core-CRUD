@@ -6,5 +6,5 @@ using Xunit;
 
 #endregion
 
-[Collection("EfTests.CQRS")]
+[Collection("NhTests.CQRS")]
 public abstract class DbTest { }

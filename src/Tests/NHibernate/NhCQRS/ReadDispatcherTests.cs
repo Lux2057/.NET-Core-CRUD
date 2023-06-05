@@ -1,9 +1,11 @@
-﻿namespace EfTests.CQRS;
+﻿namespace NhTests.CQRS;
 
 #region << Using >>
 
 using CRUD.CQRS;
 using FluentValidation;
+using NHibernate;
+using NhTests.Shared;
 
 #endregion
 
@@ -11,8 +13,8 @@ public class ReadDispatcherTests : ReadDispatcherTest
 {
     #region Constructors
 
-    public ReadDispatcherTests(TestDbContext context, IReadDispatcher dispatcher)
-            : base(context, dispatcher) { }
+    public ReadDispatcherTests(ISessionFactory sessionFactory, IReadDispatcher dispatcher)
+            : base(sessionFactory, dispatcher) { }
 
     #endregion
 
@@ -20,25 +22,14 @@ public class ReadDispatcherTests : ReadDispatcherTest
     public async Task Should_return_entities_from_db()
     {
         var text = Guid.NewGuid().ToString();
-        await this.context.Set<TestEntity>().AddRangeAsync(new[]
-                                                           {
-                                                                   new TestEntity
-                                                                   {
-                                                                           Text = text
-                                                                   },
-                                                                   new TestEntity
-                                                                   {
-                                                                           Text = text
-                                                                   },
-                                                                   new TestEntity
-                                                                   {
-                                                                           Text = text
-                                                                   }
-                                                           });
+        await SessionFactory.AddEntitiesAsync(new[]
+                                              {
+                                                      new TestEntity { Text = text },
+                                                      new TestEntity { Text = text },
+                                                      new TestEntity { Text = text }
+                                              });
 
-        await this.context.SaveChangesAsync();
-
-        var dtos = await this.dispatcher.QueryAsync(new GetTestEntitiesByIdsQueryBase(Array.Empty<int>()));
+        var dtos = await Dispatcher.QueryAsync(new GetTestEntitiesByIdsQueryBase(Array.Empty<int>()));
 
         Assert.Equal(3, dtos.Length);
         Assert.True(dtos.All(x => x.Text == text));
@@ -47,12 +38,12 @@ public class ReadDispatcherTests : ReadDispatcherTest
     [Fact]
     public async Task Should_throw_validation_exception()
     {
-        await Assert.ThrowsAsync<ValidationException>(async () => await this.dispatcher.QueryAsync(new GetTestEntitiesByIdsQueryBase(null)));
+        await Assert.ThrowsAsync<ValidationException>(async () => await Dispatcher.QueryAsync(new GetTestEntitiesByIdsQueryBase(null)));
     }
 
     [Fact]
     public async Task Should_throw_test_exception()
     {
-        await Assert.ThrowsAsync<Exception>(async () => await this.dispatcher.QueryAsync(new TestThrowingExceptionQueryBase()));
+        await Assert.ThrowsAsync<Exception>(async () => await Dispatcher.QueryAsync(new TestThrowingExceptionQueryBase()));
     }
 }

@@ -1,16 +1,17 @@
-﻿namespace EfTests.CQRS;
+﻿namespace NhTests.CQRS;
 
 #region << Using >>
 
 using CRUD.CQRS;
+using NhTests.Shared;
 
 #endregion
 
-public class TestGenericCommand<T> : CommandBase where T : TestEntity
+public class TestGenericCommand<T> : CommandBase where T : TestEntity, new()
 {
-    #region Constants
+    #region Properties
 
-    public const string TestText = "TEST GENERIC COMMAND";
+    public string Text { get; set; }
 
     #endregion
 
@@ -28,7 +29,7 @@ public class TestGenericCommand<T> : CommandBase where T : TestEntity
         {
             await Repository.AddAsync(new TestEntity
                                       {
-                                              Text = TestText
+                                              Text = command.Text
                                       }, cancellationToken);
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace EfTests.CQRS;
+﻿namespace NhTests.CQRS;
 
 #region << Using >>
 

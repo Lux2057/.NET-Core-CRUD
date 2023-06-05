@@ -35,5 +35,18 @@ public class TestEntity : IId<int>
         #endregion
     }
 
+    [UsedImplicitly]
+    public class Profile : AutoMapper.Profile
+    {
+        #region Constructors
+
+        public Profile()
+        {
+            CreateMap<TestEntity, TestEntityDto>();
+        }
+
+        #endregion
+    }
+
     #endregion
 }

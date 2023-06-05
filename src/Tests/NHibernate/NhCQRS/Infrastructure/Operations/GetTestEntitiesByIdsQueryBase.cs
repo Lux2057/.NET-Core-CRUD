@@ -1,12 +1,11 @@
-﻿namespace EfTests.CQRS;
+﻿namespace NhTests.CQRS;
 
 #region << Using >>
 
 using CRUD.CQRS;
-using CRUD.Extensions;
 using FluentValidation;
 using JetBrains.Annotations;
-using Microsoft.EntityFrameworkCore;
+using NhTests.Shared;
 
 #endregion
 
@@ -55,9 +54,9 @@ internal class GetTestEntitiesByIdsQueryBase : QueryBase<TestEntityDto[]>
         {
             var hasIds = request.Ids!.Any();
 
-            var entities = await Repository.Get<TestEntity>().Where(r => !hasIds || request.Ids.Contains(r.Id)).ToArrayAsync(cancellationToken);
+            var entities = Repository.Get<TestEntity>().Where(r => !hasIds || request.Ids!.Contains(r.Id)).ToArray();
 
-            return Mapper.Map<TestEntityDto[]>(entities);
+            return await Task.FromResult(Mapper.Map<TestEntityDto[]>(entities));
         }
     }
 

@@ -1,10 +1,11 @@
-﻿namespace EfTests.CQRS;
+﻿namespace NhTests.CQRS;
 
 #region << Using >>
 
 using CRUD.CQRS;
 using FluentValidation;
 using JetBrains.Annotations;
+using NhTests.Shared;
 
 #endregion
 

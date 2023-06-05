@@ -4,6 +4,7 @@
 
     using CRUD.Core;
     using CRUD.DAL;
+    using CRUD.DAL.Abstractions;
 
     #endregion
 

@@ -2,8 +2,8 @@
 {
     #region << Using >>
 
-    using CRUD.Core;
-    using CRUD.DAL;
+    using CRUD.DAL.EntityFramework;
+    using CRUD.Logging.EntityFramework;
     using Microsoft.EntityFrameworkCore;
 
     #endregion
@@ -24,7 +24,7 @@
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ExampleEntity).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(LogEntity).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(LogMapping).Assembly);
         }
     }
 }

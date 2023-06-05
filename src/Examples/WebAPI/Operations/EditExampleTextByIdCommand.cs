@@ -3,12 +3,12 @@
     #region << Using >>
 
     using System;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using CRUD.CQRS;
-    using CRUD.DAL;
+    using CRUD.DAL.Abstractions;
     using FluentValidation;
-    using Microsoft.EntityFrameworkCore;
 
     #endregion
 
@@ -50,7 +50,7 @@
             {
                 var id = command.Dto.Id.GetValueOrDefault(0);
 
-                var entity = await Repository.Get(new FindEntityById<ExampleEntity, int>(id)).SingleOrDefaultAsync(cancellationToken);
+                var entity = Repository.Get(new FindEntityByIntId<ExampleEntity>(id)).SingleOrDefault();
 
                 if (entity == null)
                 {

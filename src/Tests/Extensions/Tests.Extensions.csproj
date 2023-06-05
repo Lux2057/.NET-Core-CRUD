@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Extensions\CRUD.Extensions.csproj" />
+    <ProjectReference Include="..\..\CRUD\Extensions\CRUD.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

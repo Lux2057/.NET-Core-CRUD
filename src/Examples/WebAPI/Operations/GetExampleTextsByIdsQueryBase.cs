@@ -6,11 +6,9 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using CRUD.Core;
     using CRUD.CQRS;
-    using CRUD.DAL;
+    using CRUD.DAL.Abstractions;
     using CRUD.Extensions;
-    using Microsoft.EntityFrameworkCore;
 
     #endregion
 
@@ -36,14 +34,14 @@
 
             protected override async Task<ExampleTextDto[]> Execute(GetExampleTextsByIdsQueryBase request, CancellationToken cancellationToken)
             {
-                var entities = await Repository.Get(new FindEntitiesByIds<ExampleEntity, int>(request.Ids)).ToArrayAsync(cancellationToken);
+                var entities = Repository.Get(new FindEntitiesByIds<ExampleEntity, int>(request.Ids)).ToArray();
 
-                var dtos = this.Mapper.Map<ExampleTextDto[]>(entities).OrderBy(r => r.Text).ToArrayOrEmpty();
+                var dtos = Mapper.Map<ExampleTextDto[]>(entities).OrderBy(r => r.Text).ToArrayOrEmpty();
 
                 if (request.ToUpper)
                     Parallel.ForEach(dtos, dto => dto.Text = dto.Text.ToUpper());
 
-                return dtos;
+                return await Task.FromResult(dtos);
             }
         }
 

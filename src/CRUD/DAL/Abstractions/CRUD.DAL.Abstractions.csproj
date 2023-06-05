@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <PackageId>XulBenet.CRUD.DAL.Abstractions</PackageId>
+    <Title>.NET Core CRUD DAL abstractions package</Title>
+    <Version>1.3.0</Version>
+    <Authors>XulBenet</Authors>
+    <PackageProjectUrl>https://github.com/Lux2057/.NET-Core-CRUD</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Lux2057/.NET-Core-CRUD</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="LinqSpecs" Version="3.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Extensions\CRUD.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <UserSecretsId>a4255aad-4a7c-4268-88d7-8ee2fa3f61bb</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\WebAPI\CRUD.WebAPI.csproj" />
+    <ProjectReference Include="..\..\CRUD\DAL\EntityFramework\CRUD.DAL.EntityFramework.csproj" />
+    <ProjectReference Include="..\..\CRUD\DAL\NHibernate\CRUD.DAL.NHibernate.csproj" />
+    <ProjectReference Include="..\..\CRUD\Logging\EntityFramework\CRUD.Logging.EntityFramework.csproj" />
+    <ProjectReference Include="..\..\CRUD\Logging\NHibernate\CRUD.Logging.NHibernate.csproj" />
+    <ProjectReference Include="..\..\CRUD\WebAPI\CRUD.WebAPI.csproj" />
   </ItemGroup>
 
 </Project>

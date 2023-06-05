@@ -4,6 +4,7 @@
 
 using System.Linq.Expressions;
 using CRUD.DAL.Abstractions;
+using NhTests.Shared;
 
 #endregion
 

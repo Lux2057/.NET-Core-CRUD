@@ -2,8 +2,8 @@
 
 #region << Using >>
 
-using CRUD.DAL.Abstractions;
 using CRUD.DAL.EntityFramework;
+using EfTests.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

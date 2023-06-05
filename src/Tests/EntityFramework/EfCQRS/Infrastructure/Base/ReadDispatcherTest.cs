@@ -3,6 +3,7 @@
 #region << Using >>
 
 using CRUD.CQRS;
+using EfTests.Shared;
 
 #endregion
 
@@ -10,9 +11,9 @@ public class ReadDispatcherTest : DbTest
 {
     #region Properties
 
-    protected TestDbContext context;
+    protected readonly TestDbContext context;
 
-    protected IReadDispatcher dispatcher;
+    protected readonly IReadDispatcher dispatcher;
 
     #endregion
 

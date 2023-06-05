@@ -10,9 +10,9 @@ public abstract class DispatcherTest : DbTest
 {
     #region Properties
 
-    protected readonly IDispatcher dispatcher;
-
     protected readonly TestDbContext context;
+
+    protected readonly IDispatcher dispatcher;
 
     #endregion
 

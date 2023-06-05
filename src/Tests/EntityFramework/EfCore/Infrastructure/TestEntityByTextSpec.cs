@@ -3,6 +3,7 @@
 #region << Using >>
 
 using System.Linq.Expressions;
+using EfTests.Shared;
 using LinqSpecs;
 
 #endregion

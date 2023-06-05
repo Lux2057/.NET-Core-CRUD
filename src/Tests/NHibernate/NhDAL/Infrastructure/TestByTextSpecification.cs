@@ -4,6 +4,7 @@
 
 using System.Linq.Expressions;
 using LinqSpecs;
+using NhTests.Shared;
 
 #endregion
 

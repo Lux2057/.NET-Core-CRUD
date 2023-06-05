@@ -1,12 +1,20 @@
-﻿namespace EfTests.CQRS;
+﻿namespace EfTests.Shared;
 
-public class TestEntityDto
+#region << Using >>
+
+using CRUD.DAL.Abstractions;
+
+#endregion
+
+public class TestEntityDto : IId<int>
 {
     #region Properties
 
-    public int Id { get; init; }
+    public int Id { get; set; }
 
-    public string Text { get; init; }
+    public DateTime CrDt { get; set; }
+
+    public string Text { get; set; }
 
     #endregion
 

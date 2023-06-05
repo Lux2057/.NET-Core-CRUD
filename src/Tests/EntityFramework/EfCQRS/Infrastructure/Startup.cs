@@ -5,6 +5,7 @@
 using CRUD.CQRS;
 using CRUD.DAL.EntityFramework;
 using CRUD.Extensions;
+using EfTests.Shared;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +22,12 @@ public class Startup
                                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                                .Build().GetConnectionString("DefaultConnection");
 
-        var currentAssembly = new[] { typeof(Startup).Assembly };
+        var currentAssembly = new[]
+                              {
+                                      typeof(Startup).Assembly,
+                                      typeof(TestEntity).Assembly
+                              };
+
         services.AddEntityFrameworkDAL<TestDbContext>(dbContextOptions: options =>
                                                                         {
                                                                             options.UseNpgsql(connectionString);

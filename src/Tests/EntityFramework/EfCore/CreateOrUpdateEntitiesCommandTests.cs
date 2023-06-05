@@ -4,6 +4,7 @@
 
 using CRUD.Core;
 using CRUD.CQRS;
+using EfTests.Shared;
 
 #endregion
 

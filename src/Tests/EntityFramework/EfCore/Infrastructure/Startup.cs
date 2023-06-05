@@ -6,6 +6,7 @@ using CRUD.Core;
 using CRUD.CQRS;
 using CRUD.DAL.EntityFramework;
 using CRUD.Extensions;
+using EfTests.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,7 @@ public class Startup
 
         var currentAssembly = new[]
                               {
-                                      typeof(Startup).Assembly,
+                                      typeof(TestEntity).Assembly,
                                       typeof(CreateOrUpdateEntitiesCommand<,,>).Assembly
                               };
 

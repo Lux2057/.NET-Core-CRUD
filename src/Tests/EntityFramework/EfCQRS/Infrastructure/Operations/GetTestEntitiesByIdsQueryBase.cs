@@ -3,7 +3,7 @@
 #region << Using >>
 
 using CRUD.CQRS;
-using CRUD.Extensions;
+using EfTests.Shared;
 using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;

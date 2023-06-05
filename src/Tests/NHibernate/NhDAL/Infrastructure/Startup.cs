@@ -6,6 +6,7 @@ using CRUD.DAL.NHibernate;
 using FluentNHibernate.Cfg.Db;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NhTests.Shared;
 
 #endregion
 

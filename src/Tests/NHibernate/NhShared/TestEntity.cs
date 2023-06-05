@@ -1,4 +1,4 @@
-﻿namespace NhTests.DAL;
+﻿namespace NhTests.Shared;
 
 #region << Using >>
 

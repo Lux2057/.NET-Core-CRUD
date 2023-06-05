@@ -1,4 +1,4 @@
-﻿namespace EfTests.DAL;
+﻿namespace EfTests.Shared;
 
 #region << Using >>
 
@@ -29,6 +29,18 @@ public class TestEntity : IId<int>
             builder.HasKey(r => r.Id);
             builder.Property(r => r.Id).ValueGeneratedOnAdd();
             builder.Property(r => r.Text);
+        }
+
+        #endregion
+    }
+
+    public class Profile : AutoMapper.Profile
+    {
+        #region Constructors
+
+        public Profile()
+        {
+            CreateMap<TestEntity, TestEntityDto>();
         }
 
         #endregion

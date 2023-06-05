@@ -48,11 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\CRUD\DAL\NHibernate\CRUD.DAL.NHibernate.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Infrastructure\Extensions\" />
+    <ProjectReference Include="..\NhShared\NhTests.Shared.csproj" />
   </ItemGroup>
 
 </Project>

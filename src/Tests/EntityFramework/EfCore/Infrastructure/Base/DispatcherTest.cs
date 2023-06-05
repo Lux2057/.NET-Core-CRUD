@@ -3,6 +3,7 @@
 #region << Using >>
 
 using CRUD.CQRS;
+using EfTests.Shared;
 
 #endregion
 

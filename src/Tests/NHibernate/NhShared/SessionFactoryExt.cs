@@ -1,4 +1,4 @@
-﻿namespace NhTests.DAL;
+﻿namespace NhTests.Shared;
 
 #region << Using >>
 
@@ -7,7 +7,7 @@ using NHibernate;
 
 #endregion
 
-internal static class SessionFactoryExt
+public static class SessionFactoryExt
 {
     public static async Task AddEntitiesAsync<TEntity>(this ISessionFactory sessionFactory, IEnumerable<TEntity> enumerable)
     {

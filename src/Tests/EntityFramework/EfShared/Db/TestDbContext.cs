@@ -1,4 +1,4 @@
-﻿namespace EfTests.DAL;
+﻿namespace EfTests.Shared;
 
 #region << Using >>
 

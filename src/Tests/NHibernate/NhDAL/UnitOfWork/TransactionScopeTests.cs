@@ -5,6 +5,7 @@
 using System.Data;
 using CRUD.DAL.Abstractions;
 using NHibernate;
+using NhTests.Shared;
 
 #endregion
 

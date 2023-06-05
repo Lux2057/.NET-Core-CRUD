@@ -38,7 +38,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\CRUD\CQRS\CRUD.CQRS.csproj" />
-    <ProjectReference Include="..\..\..\CRUD\DAL\EntityFramework\CRUD.DAL.EntityFramework.csproj" />
+    <ProjectReference Include="..\EfShared\EfTests.Shared.csproj" />
   </ItemGroup>
 
 </Project>

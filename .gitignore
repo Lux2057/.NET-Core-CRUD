@@ -56,6 +56,9 @@ src/Tests/EntityFramework/EfCore/obj/
 src/Tests/EntityFramework/EfLogging/bin/
 src/Tests/EntityFramework/EfLogging/obj/
 
+src/Tests/EntityFramework/EfShared/bin/
+src/Tests/EntityFramework/EfShared/obj/
+
 src/Tests/NHibernate/NhDAL/bin/
 src/Tests/NHibernate/NhDAL/obj/
 
@@ -70,3 +73,6 @@ src/Tests/NHibernate/NhCore/obj/
 
 src/Tests/NHibernate/NhLogging/bin/
 src/Tests/NHibernate/NhLogging/obj/
+
+src/Tests/NHibernate/NhShared/bin/
+src/Tests/NHibernate/NhShared/obj/

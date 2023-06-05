@@ -3,6 +3,7 @@
 #region << Using >>
 
 using CRUD.DAL.Abstractions;
+using EfTests.Shared;
 using Microsoft.EntityFrameworkCore;
 
 #endregion

@@ -1,14 +1,15 @@
-﻿namespace EfTests.Core;
+﻿namespace NhTests.Core;
 
 #region << Using >>
 
 using CRUD.Core;
 using CRUD.CQRS;
-using CRUD.DAL.EntityFramework;
+using CRUD.DAL.NHibernate;
 using CRUD.Extensions;
-using Microsoft.EntityFrameworkCore;
+using FluentNHibernate.Cfg.Db;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NhTests.Shared;
 
 #endregion
 
@@ -24,14 +25,14 @@ public class Startup
         var currentAssembly = new[]
                               {
                                       typeof(Startup).Assembly,
-                                      typeof(CreateOrUpdateEntitiesCommand<,,>).Assembly
+                                      typeof(CreateOrUpdateEntitiesCommand<,,>).Assembly,
+                                      typeof(TestEntity).Assembly
                               };
 
-        services.AddEntityFrameworkDAL<TestDbContext>(dbContextOptions: options =>
-                                                                        {
-                                                                            options.UseNpgsql(connectionString);
-                                                                            options.EnableSensitiveDataLogging();
-                                                                        });
+        services.AddNHibernateDAL(dbConfig: PostgreSQLConfiguration.Standard.ConnectionString(connectionString),
+                                  fluentMappingsAssemblies: new[] { typeof(TestEntity.Mapping).Assembly },
+                                  dbSchemaMode: NhDbSchemaMode.DropCreate,
+                                  useScopedSessionFactory: true);
 
         services.AddCQRS(mediatorAssemblies: currentAssembly,
                          validatorAssemblies: currentAssembly,

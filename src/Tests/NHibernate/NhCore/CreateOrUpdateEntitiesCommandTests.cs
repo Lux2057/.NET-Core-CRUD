@@ -1,9 +1,11 @@
-﻿namespace EfTests.Core;
+﻿namespace NhTests.Core;
 
 #region << Using >>
 
 using CRUD.Core;
 using CRUD.CQRS;
+using NHibernate;
+using NhTests.Shared;
 
 #endregion
 
@@ -11,8 +13,8 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
 {
     #region Constructors
 
-    public CreateOrUpdateEntitiesCommandTests(TestDbContext context, IDispatcher dispatcher)
-            : base(context, dispatcher) { }
+    public CreateOrUpdateEntitiesCommandTests(ISessionFactory sessionFactory, IDispatcher dispatcher)
+            : base(sessionFactory, dispatcher) { }
 
     #endregion
 
@@ -28,11 +30,11 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
                                                                                                     new TestEntityDto { Text = text1 }
                                                                                             });
 
-        await this.dispatcher.PushAsync(addCommand1);
+        await this.Dispatcher.PushAsync(addCommand1);
 
         Assert.Equal(new[] { 1, 2, 3 }, addCommand1.Result);
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
+        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Equal(3, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text1));
@@ -42,16 +44,15 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
     public async Task Should_update_entities()
     {
         var text1 = Guid.NewGuid().ToString();
-        await this.context.Set<TestEntity>().AddRangeAsync(new[]
-                                                            {
-                                                                    new TestEntity { Text = text1 },
-                                                                    new TestEntity { Text = text1 },
-                                                                    new TestEntity { Text = text1 }
-                                                            });
 
-        await this.context.SaveChangesAsync();
+        await SessionFactory.AddEntitiesAsync(new[]
+                                              {
+                                                      new TestEntity { Text = text1 },
+                                                      new TestEntity { Text = text1 },
+                                                      new TestEntity { Text = text1 }
+                                              });
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
+        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Equal(3, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text1));
@@ -61,11 +62,11 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
         Parallel.ForEach(dtosInDb.Items, dto => dto.Text = text2);
 
         var updateCommand = new CreateOrUpdateEntitiesCommand<TestEntity, int, TestEntityDto>(dtosInDb.Items);
-        await this.dispatcher.PushAsync(updateCommand);
+        await this.Dispatcher.PushAsync(updateCommand);
 
         Assert.Equal(new[] { 1, 2, 3 }, updateCommand.Result);
 
-        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
+        dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Equal(3, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text2));
@@ -83,11 +84,11 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
                                                                                                     new TestEntityDto { Text = text1 }
                                                                                             });
 
-        await this.dispatcher.PushAsync(addCommand1);
+        await this.Dispatcher.PushAsync(addCommand1);
 
         Assert.Equal(new[] { 1, 2, 3 }, addCommand1.Result);
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
+        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Equal(3, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text1));
@@ -97,11 +98,11 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
         Parallel.ForEach(dtosInDb.Items, dto => dto.Text = text2);
 
         var updateCommand = new CreateOrUpdateEntitiesCommand<TestEntity, int, TestEntityDto>(dtosInDb.Items);
-        await this.dispatcher.PushAsync(updateCommand);
+        await this.Dispatcher.PushAsync(updateCommand);
 
         Assert.Equal(new[] { 1, 2, 3 }, updateCommand.Result);
 
-        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
+        dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Equal(3, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text2));
@@ -113,11 +114,11 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
                                                                                                     new TestEntityDto { Text = text1 }
                                                                                             });
 
-        await this.dispatcher.PushAsync(addCommand2);
+        await this.Dispatcher.PushAsync(addCommand2);
 
         Assert.Equal(new[] { 4, 5, 6 }, addCommand2.Result);
 
-        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
+        dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Equal(6, dtosInDb.Items.Length);
         Assert.Equal(3, dtosInDb.Items.Count(x => x.Text == text1));
@@ -128,11 +129,11 @@ public class CreateOrUpdateEntitiesCommandTests : DispatcherTest
     public async Task Should_ignore_empty_params()
     {
         var command = new CreateOrUpdateEntitiesCommand<TestEntity, int, TestEntityDto>(Array.Empty<TestEntityDto>());
-        await this.dispatcher.PushAsync(command);
+        await this.Dispatcher.PushAsync(command);
 
         Assert.Null(command.Result);
 
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
+        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>());
 
         Assert.Empty(dtosInDb.Items);
     }

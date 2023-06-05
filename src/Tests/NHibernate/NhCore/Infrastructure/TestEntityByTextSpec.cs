@@ -1,9 +1,10 @@
-﻿namespace EfTests.Core;
+﻿namespace NhTests.Core;
 
 #region << Using >>
 
 using System.Linq.Expressions;
 using LinqSpecs;
+using NhTests.Shared;
 
 #endregion
 

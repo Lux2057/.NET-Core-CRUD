@@ -1,4 +1,4 @@
-﻿namespace EfTests.Core;
+﻿namespace NhTests.Core;
 
-[Collection("EfTests.Core")]
+[Collection("NhTests.Core")]
 public abstract class DbTest { }

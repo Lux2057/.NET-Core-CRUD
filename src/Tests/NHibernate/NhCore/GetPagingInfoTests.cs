@@ -1,10 +1,11 @@
-﻿namespace EfTests.Core;
+﻿namespace NhTests.Core;
 
 #region << Using >>
 
 using CRUD.Core;
 using CRUD.CQRS;
 using CRUD.Extensions;
+using NHibernate;
 
 #endregion
 
@@ -12,8 +13,8 @@ public class GetPagingInfoTests : ReadDispatcherTest
 {
     #region Constructors
 
-    public GetPagingInfoTests(IReadDispatcher dispatcher, TestDbContext context)
-            : base(dispatcher, context) { }
+    public GetPagingInfoTests(IReadDispatcher dispatcher, ISessionFactory sessionFactory)
+            : base(dispatcher, sessionFactory) { }
 
     #endregion
 
@@ -148,7 +149,7 @@ public class GetPagingInfoTests : ReadDispatcherTest
     [MemberData(nameof(AssertionData))]
     public async Task Should_be_equal_to_expected(int totalCount, int? page, int? pageSize, string expected)
     {
-        var pagingInfo = await this.dispatcher.QueryAsync(new GetPagingInfoQuery(page, pageSize, totalCount));
+        var pagingInfo = await Dispatcher.QueryAsync(new GetPagingInfoQuery(page, pageSize, totalCount));
 
         Assert.Equal(expected, pagingInfo.ToJsonString());
     }

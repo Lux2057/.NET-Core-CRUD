@@ -1,10 +1,11 @@
-﻿namespace EfTests.Core;
+﻿namespace NhTests.Core;
 
 #region << Using >>
 
 using CRUD.Core;
 using CRUD.CQRS;
-using Microsoft.EntityFrameworkCore;
+using NHibernate;
+using NhTests.Shared;
 
 #endregion
 
@@ -12,29 +13,27 @@ public class DeleteEntitiesCommandTests : DispatcherTest
 {
     #region Constructors
 
-    public DeleteEntitiesCommandTests(TestDbContext context, IDispatcher dispatcher)
-            : base(context, dispatcher) { }
+    public DeleteEntitiesCommandTests(ISessionFactory sessionFactory, IDispatcher dispatcher)
+            : base(sessionFactory, dispatcher) { }
 
     #endregion
 
     [Fact]
     public async Task Should_delete_entities()
     {
-        await this.context.Set<TestEntity>().AddRangeAsync(new[]
-                                                           {
-                                                                   new TestEntity { Text = Guid.NewGuid().ToString() },
-                                                                   new TestEntity { Text = Guid.NewGuid().ToString() },
-                                                                   new TestEntity { Text = Guid.NewGuid().ToString() }
-                                                           });
-
-        await this.context.SaveChangesAsync();
+        await SessionFactory.AddEntitiesAsync(new[]
+                                              {
+                                                      new TestEntity { Text = Guid.NewGuid().ToString() },
+                                                      new TestEntity { Text = Guid.NewGuid().ToString() },
+                                                      new TestEntity { Text = Guid.NewGuid().ToString() }
+                                              });
 
         var command = new DeleteEntitiesCommand<TestEntity, int>(new[] { 1, 2, 3 });
-        await this.dispatcher.PushAsync(command);
+        await Dispatcher.PushAsync(command);
 
         Assert.True(command.Result);
 
-        var entitiesInDb = await this.context.Set<TestEntity>().ToArrayAsync();
+        var entitiesInDb = (await Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>())).Items;
 
         Assert.Empty(entitiesInDb);
     }
@@ -42,6 +41,6 @@ public class DeleteEntitiesCommandTests : DispatcherTest
     [Fact]
     public async Task Should_throw_exception()
     {
-        await Assert.ThrowsAsync<ArgumentNullException>(async () => await this.dispatcher.PushAsync(new DeleteEntitiesCommand<TestEntity, int>(Array.Empty<int>())));
+        await Assert.ThrowsAsync<ArgumentNullException>(async () => await Dispatcher.PushAsync(new DeleteEntitiesCommand<TestEntity, int>(Array.Empty<int>())));
     }
 }

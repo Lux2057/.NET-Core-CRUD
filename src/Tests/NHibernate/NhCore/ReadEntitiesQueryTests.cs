@@ -1,4 +1,4 @@
-﻿namespace EfTests.Core;
+﻿namespace NhTests.Core;
 
 #region << Using >>
 
@@ -6,6 +6,8 @@ using CRUD.Core;
 using CRUD.CQRS;
 using CRUD.DAL.Abstractions;
 using CRUD.Extensions;
+using NHibernate;
+using NhTests.Shared;
 
 #endregion
 
@@ -13,8 +15,8 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
 {
     #region Constructors
 
-    public ReadEntitiesQueryTests(IReadDispatcher dispatcher, TestDbContext context)
-            : base(dispatcher, context) { }
+    public ReadEntitiesQueryTests(IReadDispatcher dispatcher, ISessionFactory sessionFactory)
+            : base(dispatcher, sessionFactory) { }
 
     #endregion
 
@@ -23,16 +25,14 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
     {
         var text = Guid.NewGuid().ToString();
 
-        await this.context.Set<TestEntity>().AddRangeAsync(new[]
-                                                           {
-                                                                   new TestEntity { Text = text },
-                                                                   new TestEntity { Text = text },
-                                                                   new TestEntity { Text = text }
-                                                           });
+        await SessionFactory.AddEntitiesAsync(new[]
+                                              {
+                                                      new TestEntity { Text = text },
+                                                      new TestEntity { Text = text },
+                                                      new TestEntity { Text = text }
+                                              });
 
-        await this.context.SaveChangesAsync();
-
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
                                                         {
                                                                 OrderSpecifications = new[] { new OrderById<TestEntity, int>(false) }
                                                         });
@@ -58,16 +58,14 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
     {
         var text = Guid.NewGuid().ToString();
 
-        await this.context.Set<TestEntity>().AddRangeAsync(new[]
-                                                           {
-                                                                   new TestEntity { Text = text },
-                                                                   new TestEntity { Text = text },
-                                                                   new TestEntity { Text = text }
-                                                           });
+        await SessionFactory.AddEntitiesAsync(new[]
+                                              {
+                                                      new TestEntity { Text = text },
+                                                      new TestEntity { Text = text },
+                                                      new TestEntity { Text = text }
+                                              });
 
-        await this.context.SaveChangesAsync();
-
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>(new[] { 1 }));
+        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>(new[] { 1 }));
 
         Assert.Single(dtosInDb.Items);
         Assert.Equal(text, dtosInDb.Items.Single().Text);
@@ -88,17 +86,15 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
         var text1 = Guid.NewGuid().ToString();
         var text2 = Guid.NewGuid().ToString();
 
-        await this.context.Set<TestEntity>().AddRangeAsync(new[]
-                                                           {
-                                                                   new TestEntity { Text = text1 },
-                                                                   new TestEntity { Text = text1 },
-                                                                   new TestEntity { Text = text2 },
-                                                                   new TestEntity { Text = text2 }
-                                                           });
+        await SessionFactory.AddEntitiesAsync(new[]
+                                              {
+                                                      new TestEntity { Text = text1 },
+                                                      new TestEntity { Text = text1 },
+                                                      new TestEntity { Text = text2 },
+                                                      new TestEntity { Text = text2 }
+                                              });
 
-        await this.context.SaveChangesAsync();
-
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
                                                         {
                                                                 Page = 1,
                                                                 PageSize = 2
@@ -116,7 +112,7 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
                      }.ToJsonString(),
                      dtosInDb.PagingInfo.ToJsonString());
 
-        dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+        dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
                                                     {
                                                             Page = 2,
                                                             PageSize = 2
@@ -140,19 +136,17 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
     {
         var text = Guid.NewGuid().ToString();
 
-        await this.context.Set<TestEntity>().AddRangeAsync(new[]
-                                                           {
-                                                                   new TestEntity { Text = text },
-                                                                   new TestEntity { Text = text },
-                                                                   new TestEntity { Text = text },
-                                                                   new TestEntity { Text = text },
-                                                                   new TestEntity { Text = text },
-                                                                   new TestEntity { Text = text }
-                                                           });
+        await SessionFactory.AddEntitiesAsync(new[]
+                                              {
+                                                      new TestEntity { Text = text },
+                                                      new TestEntity { Text = text },
+                                                      new TestEntity { Text = text },
+                                                      new TestEntity { Text = text },
+                                                      new TestEntity { Text = text },
+                                                      new TestEntity { Text = text }
+                                              });
 
-        await this.context.SaveChangesAsync();
-
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
                                                         {
                                                                 Page = 1,
                                                                 PageSize = 2,
@@ -178,17 +172,15 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
         var text1 = Guid.NewGuid().ToString();
         var text2 = Guid.NewGuid().ToString();
 
-        await this.context.Set<TestEntity>().AddRangeAsync(new[]
-                                                           {
-                                                                   new TestEntity { Text = text1 },
-                                                                   new TestEntity { Text = text1 },
-                                                                   new TestEntity { Text = text2 },
-                                                                   new TestEntity { Text = text2 }
-                                                           });
+        await SessionFactory.AddEntitiesAsync(new[]
+                                              {
+                                                      new TestEntity { Text = text1 },
+                                                      new TestEntity { Text = text1 },
+                                                      new TestEntity { Text = text2 },
+                                                      new TestEntity { Text = text2 }
+                                              });
 
-        await this.context.SaveChangesAsync();
-
-        var dtosInDb = await this.dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
                                                         {
                                                                 DisablePaging = true,
                                                                 Specification = new TestEntityByTextSpec(text1)

@@ -1,8 +1,9 @@
-﻿namespace EfTests.Core;
+﻿namespace NhTests.Core;
 
 #region << Using >>
 
 using CRUD.CQRS;
+using NHibernate;
 
 #endregion
 
@@ -10,18 +11,18 @@ public abstract class DispatcherTest : DbTest
 {
     #region Properties
 
-    protected readonly IDispatcher dispatcher;
+    protected IDispatcher Dispatcher { get; }
 
-    protected readonly TestDbContext context;
+    protected ISessionFactory SessionFactory { get; }
 
     #endregion
 
     #region Constructors
 
-    protected DispatcherTest(TestDbContext context, IDispatcher dispatcher)
+    protected DispatcherTest(ISessionFactory sessionFactory, IDispatcher dispatcher)
     {
-        this.context = context;
-        this.dispatcher = dispatcher;
+        SessionFactory = sessionFactory;
+        Dispatcher = dispatcher;
     }
 
     #endregion

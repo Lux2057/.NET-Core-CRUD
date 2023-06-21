@@ -8,7 +8,7 @@ using CRUD.Extensions;
 
 public class ToArrayOrEmptyTests
 {
-    public static IEnumerable<object?[]> AssertionData()
+    public static IEnumerable<object[]> AssertionData()
     {
         yield return new object[] { null, Array.Empty<object>() };
         yield return new object[] { new int[] { }, Array.Empty<int>() };

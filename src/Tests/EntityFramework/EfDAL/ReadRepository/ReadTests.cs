@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 
-public class GetTests : EfReadRepositoryTest
+public class ReadTests : EfReadRepositoryTest
 {
     #region Constructors
 
-    public GetTests(TestDbContext context, IReadRepository repository)
+    public ReadTests(TestDbContext context, IReadRepository repository)
             : base(context, repository) { }
 
     #endregion
@@ -27,9 +27,9 @@ public class GetTests : EfReadRepositoryTest
         await this.context.Set<TestEntity>().AddAsync(testEntity);
         await this.context.SaveChangesAsync();
 
-        Assert.Single(this.repository.Get<TestEntity>().ToArray());
-        Assert.Equal(1, this.repository.Get<TestEntity>().Single().Id);
-        Assert.Equal(text, this.repository.Get<TestEntity>().Single().Text);
+        Assert.Single(this.repository.Read<TestEntity>().ToArray());
+        Assert.Equal(1, this.repository.Read<TestEntity>().Single().Id);
+        Assert.Equal(text, this.repository.Read<TestEntity>().Single().Text);
     }
 
     [Fact]
@@ -42,10 +42,10 @@ public class GetTests : EfReadRepositoryTest
         await this.context.Set<TestEntity>().AddAsync(testEntity);
         await this.context.SaveChangesAsync();
 
-        Assert.Single(this.repository.Get<TestEntity>().ToArray());
-        Assert.Equal(1, this.repository.Get(new FindEntityByIntId<TestEntity>(1)).Single().Id);
-        Assert.Equal(1, this.repository.Get(new FindEntitiesByIds<TestEntity, int>(new[] { 1 })).Single().Id);
-        Assert.Equal(text, this.repository.Get<TestEntity>().Single().Text);
+        Assert.Single(this.repository.Read<TestEntity>().ToArray());
+        Assert.Equal(1, this.repository.Read(new FindEntityByIntId<TestEntity>(1)).Single().Id);
+        Assert.Equal(1, this.repository.Read(new FindEntitiesByIds<TestEntity, int>(new[] { 1 })).Single().Id);
+        Assert.Equal(text, this.repository.Read<TestEntity>().Single().Text);
     }
 
     [Fact]
@@ -69,9 +69,9 @@ public class GetTests : EfReadRepositoryTest
 
         await this.context.SaveChangesAsync();
 
-        Assert.Equal(3, this.repository.Get<TestEntity>().Count());
-        Assert.Equal(2, this.repository.Get(new TestByTextSpecification(text1)).Count());
-        Assert.Equal(1, this.repository.Get(new TestByTextSpecification(text2)).Count());
+        Assert.Equal(3, this.repository.Read<TestEntity>().Count());
+        Assert.Equal(2, this.repository.Read(new TestByTextSpecification(text1)).Count());
+        Assert.Equal(1, this.repository.Read(new TestByTextSpecification(text2)).Count());
     }
 
     [Fact]
@@ -95,7 +95,7 @@ public class GetTests : EfReadRepositoryTest
 
         await this.context.SaveChangesAsync();
 
-        Assert.Equal(3, this.repository.Get(new FindEntitiesByIds<TestEntity, int>(new[] { 1, 2, 3 })).Count());
+        Assert.Equal(3, this.repository.Read(new FindEntitiesByIds<TestEntity, int>(new[] { 1, 2, 3 })).Count());
     }
 
     [Fact]
@@ -109,14 +109,14 @@ public class GetTests : EfReadRepositoryTest
 
         await this.context.SaveChangesAsync();
 
-        var entitiesInDb = await this.repository.Get(orderSpecifications: new[] { new OrderById<TestEntity, int>(false) }).ToArrayAsync();
+        var entitiesInDb = await this.repository.Read(orderSpecifications: new[] { new OrderById<TestEntity, int>(false) }).ToArrayAsync();
 
         Assert.Equal(3, entitiesInDb.Length);
         Assert.Equal(1, entitiesInDb[0].Id);
         Assert.Equal(2, entitiesInDb[1].Id);
         Assert.Equal(3, entitiesInDb[2].Id);
 
-        entitiesInDb = await this.repository.Get(orderSpecifications: new[] { new OrderById<TestEntity, int>(true) }).ToArrayAsync();
+        entitiesInDb = await this.repository.Read(orderSpecifications: new[] { new OrderById<TestEntity, int>(true) }).ToArrayAsync();
 
         Assert.Equal(3, entitiesInDb.Length);
         Assert.Equal(1, entitiesInDb[2].Id);
@@ -133,7 +133,7 @@ public class GetTests : EfReadRepositoryTest
 
         await this.context.SaveChangesAsync();
 
-        var entitiesInDb = await this.repository.Get(orderSpecifications: new OrderSpecification<TestEntity>[]
+        var entitiesInDb = await this.repository.Read(orderSpecifications: new OrderSpecification<TestEntity>[]
                                                                           {
                                                                                   new OrderByTextTestSpecification(true),
                                                                                   new OrderById<TestEntity, int>(false)
@@ -144,7 +144,7 @@ public class GetTests : EfReadRepositoryTest
         Assert.Equal(3, entitiesInDb[1].Id);
         Assert.Equal(1, entitiesInDb[2].Id);
 
-        entitiesInDb = await this.repository.Get(orderSpecifications: new OrderSpecification<TestEntity>[]
+        entitiesInDb = await this.repository.Read(orderSpecifications: new OrderSpecification<TestEntity>[]
                                                                       {
                                                                               new OrderByTextTestSpecification(true),
                                                                               new OrderById<TestEntity, int>(true)

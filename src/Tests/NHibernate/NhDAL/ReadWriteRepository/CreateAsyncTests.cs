@@ -8,21 +8,21 @@ using NhTests.Shared;
 
 #endregion
 
-public class AddAsyncTests : NhRepositoryTest
+public class CreateAsyncTests : NhRepositoryTest
 {
     #region Constructors
 
-    public AddAsyncTests(ISessionFactory sessionFactory, IRepository repository)
+    public CreateAsyncTests(ISessionFactory sessionFactory, IRepository repository)
             : base(sessionFactory, repository) { }
 
     #endregion
 
     [Fact]
-    public async Task Should_add_single_entity()
+    public async Task Should_create_single_entity()
     {
         var text = Guid.NewGuid().ToString();
 
-        await Repository.AddAsync(new TestEntity { Text = text });
+        await Repository.CreateAsync(new TestEntity { Text = text });
 
         var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
@@ -33,7 +33,7 @@ public class AddAsyncTests : NhRepositoryTest
     [Fact]
     public async Task Should_ignore_null_entity()
     {
-        await Repository.AddAsync((TestEntity)null);
+        await Repository.CreateAsync((TestEntity)null);
 
         var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 
@@ -41,11 +41,11 @@ public class AddAsyncTests : NhRepositoryTest
     }
 
     [Fact]
-    public async Task Should_add_several_non_null_entities()
+    public async Task Should_create_several_non_null_entities()
     {
         var text = Guid.NewGuid().ToString();
 
-        await Repository.AddAsync(new TestEntity[]
+        await Repository.CreateAsync(new TestEntity[]
                                   {
                                           new TestEntity { Text = text },
                                           new TestEntity { Text = text },
@@ -61,7 +61,7 @@ public class AddAsyncTests : NhRepositoryTest
     [Fact]
     public async Task Should_ignore_empty_collection()
     {
-        await Repository.AddAsync(new[] { (TestEntity)null });
+        await Repository.CreateAsync(new[] { (TestEntity)null });
 
         var entitiesInDb = await SessionFactory.GetEntitiesAsync<TestEntity>();
 

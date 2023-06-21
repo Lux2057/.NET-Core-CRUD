@@ -112,12 +112,12 @@ public class UpdateAsyncTests : EfRepositoryTest
                                new TestEntity { Text = oldText }
                        };
 
-        await this.repository.AddAsync(entities);
+        await this.repository.CreateAsync(entities);
 
         foreach (var entity in entities)
             entity.Text = newText;
 
-        entities = this.repository.Get<TestEntity>().ToArray();
+        entities = this.repository.Read<TestEntity>().ToArray();
 
         Assert.True(entities.All(x => x.Text == oldText));
     }

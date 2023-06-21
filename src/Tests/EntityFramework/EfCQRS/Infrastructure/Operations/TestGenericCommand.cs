@@ -27,7 +27,7 @@ public class TestGenericCommand<T> : CommandBase where T : TestEntity
 
         protected override async Task Execute(TestGenericCommand<T> command, CancellationToken cancellationToken)
         {
-            await Repository.AddAsync(new TestEntity
+            await Repository.CreateAsync(new TestEntity
                                       {
                                               Text = TestText
                                       }, cancellationToken);

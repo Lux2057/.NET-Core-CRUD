@@ -13,13 +13,13 @@ internal class GetTestEntitiesByIdsQueryBase : QueryBase<TestEntityDto[]>
 {
     #region Properties
 
-    public int[]? Ids { get; }
+    public int[] Ids { get; }
 
     #endregion
 
     #region Constructors
 
-    public GetTestEntitiesByIdsQueryBase(IEnumerable<int>? ids)
+    public GetTestEntitiesByIdsQueryBase(IEnumerable<int> ids)
     {
         Ids = ids?.ToArray();
     }
@@ -54,7 +54,7 @@ internal class GetTestEntitiesByIdsQueryBase : QueryBase<TestEntityDto[]>
         {
             var hasIds = request.Ids!.Any();
 
-            var entities = Repository.Get<TestEntity>().Where(r => !hasIds || request.Ids!.Contains(r.Id)).ToArray();
+            var entities = Repository.Read<TestEntity>().Where(r => !hasIds || request.Ids!.Contains(r.Id)).ToArray();
 
             return await Task.FromResult(Mapper.Map<TestEntityDto[]>(entities));
         }

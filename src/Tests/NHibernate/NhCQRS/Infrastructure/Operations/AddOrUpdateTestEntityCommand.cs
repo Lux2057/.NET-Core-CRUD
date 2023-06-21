@@ -58,7 +58,7 @@ internal class AddOrUpdateTestEntityCommand : CommandBase
                                  Text = command.Text
                          };
 
-                await Repository.AddAsync(entity, cancellationToken);
+                await Repository.CreateAsync(entity, cancellationToken);
             }
             else
             {

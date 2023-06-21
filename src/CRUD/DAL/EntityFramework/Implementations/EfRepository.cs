@@ -28,8 +28,8 @@ public class EfRepository : IRepository
 
     #region Interface Implementations
 
-    public IQueryable<TEntity> Get<TEntity>(Specification<TEntity> specification = default,
-                                            IEnumerable<OrderSpecification<TEntity>> orderSpecifications = default)
+    public IQueryable<TEntity> Read<TEntity>(Specification<TEntity> specification = default,
+                                             IEnumerable<OrderSpecification<TEntity>> orderSpecifications = default)
             where TEntity : class, new()
     {
         var dbSet = this._context.Set<TEntity>();
@@ -37,24 +37,24 @@ public class EfRepository : IRepository
         return (specification == null ? dbSet : dbSet.Where(specification)).ApplyOrderSpecifications(orderSpecifications).AsNoTracking();
     }
 
-    public async Task AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task CreateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
     {
         if (entity == null)
             return;
 
-        _dbSet<TEntity>().Add(entity);
+        dbSet<TEntity>().Add(entity);
 
         await this._context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task AddAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task CreateAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new()
     {
         var entitiesArray = entities.Where(r => r != null).ToArrayOrEmpty();
 
         if (!entitiesArray.Any())
             return;
 
-        await _dbSet<TEntity>().AddRangeAsync(entitiesArray, cancellationToken);
+        await dbSet<TEntity>().AddRangeAsync(entitiesArray, cancellationToken);
 
         await this._context.SaveChangesAsync(cancellationToken);
     }
@@ -64,7 +64,7 @@ public class EfRepository : IRepository
         if (entity == null)
             return;
 
-        _dbSet<TEntity>().Update(entity);
+        dbSet<TEntity>().Update(entity);
 
         await this._context.SaveChangesAsync(cancellationToken);
     }
@@ -76,7 +76,7 @@ public class EfRepository : IRepository
         if (!entitiesArray.Any())
             return;
 
-        _dbSet<TEntity>().UpdateRange(entitiesArray);
+        dbSet<TEntity>().UpdateRange(entitiesArray);
 
         await this._context.SaveChangesAsync(cancellationToken);
     }
@@ -86,7 +86,7 @@ public class EfRepository : IRepository
         if (entity == null)
             return;
 
-        _dbSet<TEntity>().Remove(entity);
+        dbSet<TEntity>().Remove(entity);
 
         await this._context.SaveChangesAsync(cancellationToken);
     }
@@ -98,14 +98,14 @@ public class EfRepository : IRepository
         if (!entitiesArray.Any())
             return;
 
-        _dbSet<TEntity>().RemoveRange(entitiesArray);
+        dbSet<TEntity>().RemoveRange(entitiesArray);
 
         await this._context.SaveChangesAsync(cancellationToken);
     }
 
     #endregion
 
-    private DbSet<TEntity> _dbSet<TEntity>() where TEntity : class, new()
+    private DbSet<TEntity> dbSet<TEntity>() where TEntity : class, new()
     {
         //Force tracking disable
         this._context.ChangeTracker.Clear();

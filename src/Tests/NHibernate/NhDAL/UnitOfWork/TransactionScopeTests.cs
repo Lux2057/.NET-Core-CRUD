@@ -54,16 +54,16 @@ public class TransactionScopeTests : EfUnitOfWorkTest
 
         var text = Guid.NewGuid().ToString();
 
-        await this.UnitOfWork.Repository.AddAsync(new TestEntity { Text = text });
+        await this.UnitOfWork.Repository.CreateAsync(new TestEntity { Text = text });
 
-        var entities = this.UnitOfWork.Repository.Get<TestEntity>().ToArray();
+        var entities = this.UnitOfWork.Repository.Read<TestEntity>().ToArray();
 
         Assert.Single(entities);
         Assert.Equal(text, entities.Single().Text);
 
         this.UnitOfWork.RollbackTransaction();
 
-        entities = this.UnitOfWork.Repository.Get<TestEntity>().ToArray();
+        entities = this.UnitOfWork.Repository.Read<TestEntity>().ToArray();
 
         Assert.Empty(entities);
     }
@@ -75,7 +75,7 @@ public class TransactionScopeTests : EfUnitOfWorkTest
 
         var text = Guid.NewGuid().ToString();
 
-        await this.UnitOfWork.Repository.AddAsync(new TestEntity { Text = text });
+        await this.UnitOfWork.Repository.CreateAsync(new TestEntity { Text = text });
 
         this.UnitOfWork.CloseTransaction();
 
@@ -83,7 +83,7 @@ public class TransactionScopeTests : EfUnitOfWorkTest
 
         this.UnitOfWork.RollbackTransaction();
 
-        var entities = this.UnitOfWork.Repository.Get<TestEntity>().ToArray();
+        var entities = this.UnitOfWork.Repository.Read<TestEntity>().ToArray();
 
         Assert.Single(entities);
         Assert.Equal(text, entities.Single().Text);
@@ -98,7 +98,7 @@ public class TransactionScopeTests : EfUnitOfWorkTest
         this.UnitOfWork.OpenTransaction(IsolationLevel.ReadCommitted);
 
         var entity = new TestEntity { Text = text1 };
-        await this.UnitOfWork.Repository.AddAsync(entity);
+        await this.UnitOfWork.Repository.CreateAsync(entity);
 
         entity.Text = text2;
 
@@ -113,7 +113,7 @@ public class TransactionScopeTests : EfUnitOfWorkTest
 
         this.UnitOfWork.OpenTransaction(IsolationLevel.ReadCommitted);
 
-        await this.UnitOfWork.Repository.AddAsync(new TestEntity { Text = text2 });
+        await this.UnitOfWork.Repository.CreateAsync(new TestEntity { Text = text2 });
 
         entity.Text = text1;
 
@@ -134,7 +134,7 @@ public class TransactionScopeTests : EfUnitOfWorkTest
 
         await this.UnitOfWork.Repository.UpdateAsync(entitiesInDb);
 
-        await this.UnitOfWork.Repository.AddAsync(new TestEntity { Text = text1 });
+        await this.UnitOfWork.Repository.CreateAsync(new TestEntity { Text = text1 });
 
         this.UnitOfWork.CloseTransaction();
 

@@ -5,7 +5,7 @@ public static class StringExt
     /// <summary>
     ///     A wrapper for String.IsNullOrEmpty function
     /// </summary>
-    public static bool IsNullOrEmpty(this string? value)
+    public static bool IsNullOrEmpty(this string value)
     {
         return string.IsNullOrEmpty(value);
     }
@@ -29,7 +29,7 @@ public static class StringExt
     /// <summary>
     ///     A wrapper for String.Join function
     /// </summary>
-    public static string ToJoinedString(this IEnumerable<string> enumerable, string? separator = default)
+    public static string ToJoinedString(this IEnumerable<string> enumerable, string separator = default)
     {
         var enumerableArray = enumerable.ToArrayOrEmpty();
         var currentSeparator = separator.IsNullOrEmpty() ? string.Empty : separator;

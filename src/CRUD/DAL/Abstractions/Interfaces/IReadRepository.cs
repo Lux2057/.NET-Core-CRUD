@@ -11,7 +11,7 @@
         /// <summary>
         ///     Returns a IQueryable response from a data storage
         /// </summary>
-        IQueryable<TEntity> Get<TEntity>(Specification<TEntity> specification = default,
+        IQueryable<TEntity> Read<TEntity>(Specification<TEntity> specification = default,
                                          IEnumerable<OrderSpecification<TEntity>> orderSpecifications = default)
                 where TEntity : class, new();
     }

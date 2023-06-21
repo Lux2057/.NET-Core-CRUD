@@ -8,21 +8,21 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 
-public class AddAsyncTests : EfRepositoryTest
+public class CreateAsyncTests : EfRepositoryTest
 {
     #region Constructors
 
-    public AddAsyncTests(TestDbContext context, IRepository repository)
+    public CreateAsyncTests(TestDbContext context, IRepository repository)
             : base(context, repository) { }
 
     #endregion
 
     [Fact]
-    public async Task Should_add_single_entity()
+    public async Task Should_create_single_entity()
     {
         var text = Guid.NewGuid().ToString();
 
-        await this.repository.AddAsync(new TestEntity { Text = text });
+        await this.repository.CreateAsync(new TestEntity { Text = text });
 
         var entitiesInDb = await this.context.Set<TestEntity>().ToArrayAsync();
 
@@ -33,7 +33,7 @@ public class AddAsyncTests : EfRepositoryTest
     [Fact]
     public async Task Should_ignore_null_entity()
     {
-        await this.repository.AddAsync((TestEntity)null);
+        await this.repository.CreateAsync((TestEntity)null);
 
         var entitiesInDb = await this.context.Set<TestEntity>().ToArrayAsync();
 
@@ -41,11 +41,11 @@ public class AddAsyncTests : EfRepositoryTest
     }
 
     [Fact]
-    public async Task Should_add_several_non_null_entities()
+    public async Task Should_create_several_non_null_entities()
     {
         var text = Guid.NewGuid().ToString();
 
-        await this.repository.AddAsync(new TestEntity[]
+        await this.repository.CreateAsync(new TestEntity[]
                                        {
                                                new TestEntity
                                                {
@@ -67,7 +67,7 @@ public class AddAsyncTests : EfRepositoryTest
     [Fact]
     public async Task Should_ignore_empty_collection()
     {
-        await this.repository.AddAsync(new[] { (TestEntity)null });
+        await this.repository.CreateAsync(new[] { (TestEntity)null });
 
         var entitiesInDb = await this.context.Set<TestEntity>().ToArrayAsync();
 

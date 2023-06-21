@@ -23,7 +23,7 @@ public class GetTestEntitiesTestQuery : QueryBase<TestEntity[]>
 
         protected override async Task<TestEntity[]> Execute(GetTestEntitiesTestQuery request, CancellationToken cancellationToken)
         {
-            return await Task.FromResult(Repository.Get<TestEntity>().ToArray());
+            return await Task.FromResult(Repository.Read<TestEntity>().ToArray());
         }
     }
 

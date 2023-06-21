@@ -45,16 +45,16 @@ public class TransactionScopeTests : EfUnitOfWorkTest
 
         var text = Guid.NewGuid().ToString();
 
-        await this.UnitOfWork.Repository.AddAsync(new TestEntity { Text = text });
+        await this.UnitOfWork.Repository.CreateAsync(new TestEntity { Text = text });
 
-        var entities = await this.UnitOfWork.Repository.Get<TestEntity>().ToArrayAsync();
+        var entities = await this.UnitOfWork.Repository.Read<TestEntity>().ToArrayAsync();
 
         Assert.Single(entities);
         Assert.Equal(text, entities.Single().Text);
 
         this.UnitOfWork.RollbackTransaction();
 
-        entities = await this.UnitOfWork.Repository.Get<TestEntity>().ToArrayAsync();
+        entities = await this.UnitOfWork.Repository.Read<TestEntity>().ToArrayAsync();
 
         Assert.Empty(entities);
     }
@@ -66,7 +66,7 @@ public class TransactionScopeTests : EfUnitOfWorkTest
 
         var text = Guid.NewGuid().ToString();
 
-        await this.UnitOfWork.Repository.AddAsync(new TestEntity { Text = text });
+        await this.UnitOfWork.Repository.CreateAsync(new TestEntity { Text = text });
 
         this.UnitOfWork.CloseTransaction();
 
@@ -74,7 +74,7 @@ public class TransactionScopeTests : EfUnitOfWorkTest
 
         this.UnitOfWork.RollbackTransaction();
 
-        var entities = await this.UnitOfWork.Repository.Get<TestEntity>().ToArrayAsync();
+        var entities = await this.UnitOfWork.Repository.Read<TestEntity>().ToArrayAsync();
 
         Assert.Single(entities);
         Assert.Equal(text, entities.Single().Text);

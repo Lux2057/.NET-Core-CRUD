@@ -106,12 +106,12 @@ public class UpdateAsyncTests : NhRepositoryTest
                                new TestEntity { Text = oldText }
                        };
 
-        await this.Repository.AddAsync(entities);
+        await this.Repository.CreateAsync(entities);
 
         foreach (var entity in entities)
             entity.Text = newText;
 
-        entities = this.Repository.Get<TestEntity>().ToArray();
+        entities = this.Repository.Read<TestEntity>().ToArray();
 
         Assert.True(entities.All(x => x.Text == oldText));
     }

@@ -23,7 +23,7 @@ public class GetLogsQuery : QueryBase<LogEntity[]>
 
         protected override async Task<LogEntity[]> Execute(GetLogsQuery request, CancellationToken cancellationToken)
         {
-            return await Task.FromResult(Repository.Get<LogEntity>().ToArray());
+            return await Task.FromResult(Repository.Read<LogEntity>().ToArray());
         }
     }
 

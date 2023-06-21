@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="ReadWriteRepository\AddAsyncTests.cs" />
+    <Compile Include="ReadWriteRepository\CreateAsyncTests.cs" />
     <Compile Include="ReadWriteRepository\DeleteAsyncTests.cs" />
     <Compile Include="ReadWriteRepository\UpdateAsyncTests.cs" />
   </ItemGroup>

@@ -63,7 +63,7 @@
                 if (request.Specification != null)
                     specification = specification && request.Specification;
 
-                var queryable = Repository.Get(specification: specification,
+                var queryable = Repository.Read(specification: specification,
                                                orderSpecifications: request.OrderSpecifications);
 
                 PagingInfoDto pagingInfo = null;

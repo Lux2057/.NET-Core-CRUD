@@ -14,7 +14,7 @@ public static class EnumerableExt
     ///     Returns an array which contains elements from the input sequence or
     ///     an empty array in case when the sequence is null or empty
     /// </summary>
-    public static T[] ToArrayOrEmpty<T>(this IEnumerable<T>? enumerable)
+    public static T[] ToArrayOrEmpty<T>(this IEnumerable<T> enumerable)
     {
         return enumerable == null ? Array.Empty<T>() : enumerable.ToArray();
     }
@@ -23,7 +23,7 @@ public static class EnumerableExt
     ///     Returns an distinct array which contains elements from the input sequence or
     ///     an empty array in case when the sequence is null or empty
     /// </summary>
-    public static T[] ToDistinctArrayOrEmpty<T>(this IEnumerable<T>? enumerable)
+    public static T[] ToDistinctArrayOrEmpty<T>(this IEnumerable<T> enumerable)
     {
         return enumerable?.Distinct().ToArrayOrEmpty() ?? Array.Empty<T>();
     }

@@ -34,7 +34,7 @@
 
             protected override async Task Execute(AddLogCommand command, CancellationToken cancellationToken)
             {
-                await Repository.AddAsync(new LogEntity
+                await Repository.CreateAsync(new LogEntity
                                           {
                                                   CrDt = DateTime.UtcNow,
                                                   LogLevel = command.LogLevel,

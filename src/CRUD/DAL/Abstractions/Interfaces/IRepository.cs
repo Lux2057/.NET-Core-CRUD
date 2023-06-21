@@ -13,12 +13,12 @@ public interface IRepository : IReadRepository
     /// <summary>
     ///     Adds an entity to a data storage
     /// </summary>
-    Task AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new();
+    Task CreateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new();
 
     /// <summary>
     ///     Adds entities to a data storage
     /// </summary>
-    Task AddAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new();
+    Task CreateAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new();
 
     /// <summary>
     ///     Updates an entity in a data storage

@@ -28,7 +28,7 @@ public class NhRepository : IRepository
 
     #region Interface Implementations
 
-    public async Task AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task CreateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
     {
         if (entity == null)
             return;
@@ -39,7 +39,7 @@ public class NhRepository : IRepository
         await this._session.FlushAsync();
     }
 
-    public async Task AddAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task CreateAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new()
     {
         var entitiesArray = entities.Where(r => r != null).ToArrayOrEmpty();
 
@@ -107,7 +107,7 @@ public class NhRepository : IRepository
         await this._session.FlushAsync();
     }
 
-    public IQueryable<TEntity> Get<TEntity>(Specification<TEntity> specification = default,
+    public IQueryable<TEntity> Read<TEntity>(Specification<TEntity> specification = default,
                                             IEnumerable<OrderSpecification<TEntity>> orderSpecifications = default)
             where TEntity : class, new()
     {

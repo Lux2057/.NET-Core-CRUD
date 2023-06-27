@@ -1,11 +1,10 @@
-﻿namespace WebAPI.API;
+﻿namespace WebAPI_Template_EF;
 
 #region << Using >>
 
 using CRUD.CQRS;
 using CRUD.WebAPI;
 using Microsoft.AspNetCore.Mvc;
-using WebAPI.API.Entities;
 
 #endregion
 

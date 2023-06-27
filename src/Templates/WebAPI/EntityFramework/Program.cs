@@ -7,8 +7,8 @@ using CRUD.Logging.Common;
 using CRUD.WebAPI;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using WebAPI.API;
-using WebAPI.API.Entities;
+using WebAPI;
+using WebAPI_Template_EF;
 
 #endregion
 

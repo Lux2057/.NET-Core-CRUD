@@ -1,4 +1,4 @@
-﻿namespace WebAPI.API.Entities;
+﻿namespace WebAPI_Template_EF;
 
 public interface IDt
 {

@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Templates.WebAPI.EF.csproj.DotSettings" />
     <None Remove="WebAPI.API.csproj.DotSettings" />
+    <None Remove="WebAPI.csproj.DotSettings" />
+    <None Remove="WebAPI_Template_EF.csproj.DotSettings" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,11 +1,10 @@
-﻿namespace WebAPI.API;
+﻿namespace WebAPI_Template_EF;
 
 #region << Using >>
 
 using CRUD.DAL.EntityFramework;
 using CRUD.Logging.EntityFramework;
 using Microsoft.EntityFrameworkCore;
-using WebAPI.API.Entities;
 
 #endregion
 

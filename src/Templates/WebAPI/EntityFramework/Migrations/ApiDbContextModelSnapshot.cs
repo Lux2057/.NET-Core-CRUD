@@ -10,6 +10,8 @@ using WebAPI.API;
 
 namespace WebAPI.API.Migrations
 {
+    using WebAPI_Template_EF;
+
     [DbContext(typeof(ApiDbContext))]
     partial class ApiDbContextModelSnapshot : ModelSnapshot
     {

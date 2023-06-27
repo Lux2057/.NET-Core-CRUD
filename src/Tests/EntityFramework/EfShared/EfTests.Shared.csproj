@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="EfTests.Shared.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\CRUD\DAL\EntityFramework\CRUD.DAL.EntityFramework.csproj" />
   </ItemGroup>
 

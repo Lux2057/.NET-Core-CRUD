@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="NhTests.DAL.csproj.DotSettings" />
   </ItemGroup>
 
   <ItemGroup>

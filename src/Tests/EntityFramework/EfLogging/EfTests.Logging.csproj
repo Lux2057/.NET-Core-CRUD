@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="EfTests.Logging.csproj.DotSettings" />
   </ItemGroup>
 
   <ItemGroup>

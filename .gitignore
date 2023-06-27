@@ -76,3 +76,7 @@ src/Tests/NHibernate/NhLogging/obj/
 
 src/Tests/NHibernate/NhShared/bin/
 src/Tests/NHibernate/NhShared/obj/
+
+src/Templates/WebAPI/EntityFramework/.vs/
+src/Templates/WebAPI/EntityFramework/bin/
+src/Templates/WebAPI/EntityFramework/obj/

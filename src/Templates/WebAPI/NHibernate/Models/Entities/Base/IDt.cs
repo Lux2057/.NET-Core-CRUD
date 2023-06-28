@@ -1,4 +1,4 @@
-﻿namespace Templates.WebAPI.EF;
+﻿namespace Templates.WebAPI.NH;
 
 public interface IDt
 {

@@ -2,13 +2,12 @@
 
 using CRUD.Core;
 using CRUD.CQRS;
-using CRUD.DAL.EntityFramework;
+using CRUD.DAL.NHibernate;
 using CRUD.Logging.Common;
 using CRUD.WebAPI;
-using Microsoft.EntityFrameworkCore;
+using FluentNHibernate.Cfg.Db;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using Templates.WebAPI.EF;
-using WebAPI;
+using Templates.WebAPI.NH;
 
 #endregion
 
@@ -26,11 +25,12 @@ builder.Services.AddSwaggerGen(c =>
 
 var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 
-builder.Services.AddEntityFrameworkDAL<ApiDbContext>(dbContextOptions: options =>
-                                                                       {
-                                                                           options.UseNpgsql(defaultConnectionString);
-                                                                           options.UseLazyLoadingProxies();
-                                                                       });
+builder.Services.AddNHibernateDAL(PostgreSQLConfiguration.Standard.ConnectionString(defaultConnectionString),
+                                  fluentMappingsAssemblies: new[]
+                                                            {
+                                                                    typeof(Program).Assembly,
+                                                                    typeof(CRUD.Logging.NHibernate.LogMapping).Assembly
+                                                            });
 
 builder.Services.AddCQRS(mediatorAssemblies: new[]
                                              {
@@ -76,14 +76,5 @@ app.UseMiddleware<ValidationErrorsHandlerMiddleware>();
 app.UseMiddleware<ExceptionsHandlerMiddleware>();
 
 app.MapControllers();
-
-using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
-{
-    using (var context = serviceScope.ServiceProvider.GetService<ApiDbContext>())
-    {
-        context.Database.EnsureCreated();
-        context.Database.Migrate();
-    }
-}
 
 app.Run();

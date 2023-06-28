@@ -1,4 +1,4 @@
-﻿namespace WebAPI_Template_EF;
+﻿namespace Templates.WebAPI.EF;
 
 #region << Using >>
 

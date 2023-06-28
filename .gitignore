@@ -84,3 +84,11 @@ src/Templates/WebAPI/EntityFramework/obj/
 src/Templates/WebAPI/NHibernate/.vs/
 src/Templates/WebAPI/NHibernate/bin/
 src/Templates/WebAPI/NHibernate/obj/
+
+src/Templates/WebAPI/EntityFramework.VSIX/.vs/
+src/Templates/WebAPI/EntityFramework.VSIX/bin/
+src/Templates/WebAPI/EntityFramework.VSIX/obj/
+
+src/Templates/WebAPI/NHibernate.VSIX/.vs/
+src/Templates/WebAPI/NHibernate.VSIX/bin/
+src/Templates/WebAPI/NHibernate.VSIX/obj/

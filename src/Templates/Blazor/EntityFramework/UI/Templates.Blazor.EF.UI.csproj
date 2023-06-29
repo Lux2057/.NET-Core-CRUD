@@ -24,11 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Flux\States\" />
-    <Folder Include="Flux\Workflows\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Localization\Resource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

@@ -21,11 +21,11 @@ public static class ApiExt
         return array.Select(r => $"{paramName}={r}").ToJoinedString("&");
     }
 
-    public static async Task<PaginatedResponseDto<ToDoListDto>> ReadToDoListsAsync<T>(this HttpClient http, int page)
+    public static async Task<PaginatedResponseDto<T>> ReadToDoListsAsync<T>(this HttpClient http, int page) where T : ToDoListDto
     {
         var uri = $"{ApiRoutes.ReadToDoLists}?{nameof(ApiRoutes.Params.page)}={page}";
 
-        return await http.GetFromJsonAsync<PaginatedResponseDto<ToDoListDto>>(uri);
+        return await http.GetFromJsonAsync<PaginatedResponseDto<T>>(uri);
     }
 
     public static async Task CreateOrUpdateToDoListAsync(this HttpClient http, ToDoListDto dto)

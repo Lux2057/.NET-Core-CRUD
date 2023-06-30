@@ -36,11 +36,12 @@ public partial class ToDoListsPage : PageBase<ToDoListsState>
 
     private void GoToPage(int page)
     {
-        Dispatcher.Dispatch(new ReadToDoListsWf.FetchPageAction(page));
+        Dispatcher.Dispatch(new ReadToDoListsWf.InitAction(page));
     }
 
     void create()
     {
-        Dispatcher.Dispatch(new CreateOrUpdateToDoListWf.CreateOrUpdateToDoListAction(-1, NewToDoListName));
+        void callBack() => Dispatcher.Dispatch(new ReadToDoListsWf.InitAction(1));
+        Dispatcher.Dispatch(new CreateOrUpdateToDoListWf.InitAction(-1, NewToDoListName, callBack));
     }
 }

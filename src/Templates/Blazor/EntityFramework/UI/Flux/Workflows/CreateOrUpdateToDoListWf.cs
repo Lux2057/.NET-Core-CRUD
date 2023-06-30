@@ -19,9 +19,9 @@ public class CreateOrUpdateToDoListWf : HttpBase
 
     #region Nested Classes
 
-    public record CreateOrUpdateToDoListAction(int Id, string Name);
+    public record InitAction(int Id, string Name, Action callback);
 
-    public record ToDoListCreatedOrUpdatedAction(int Id, string Name, bool isNew);
+    public record SuccessAction(int Id, string Name, Action callback);
 
     #endregion
 
@@ -45,7 +45,7 @@ public class CreateOrUpdateToDoListWf : HttpBase
 
     [ReducerMethod]
     [UsedImplicitly]
-    public static ToDoListsState OnCreateOrUpdate(ToDoListsState state, CreateOrUpdateToDoListAction action)
+    public static ToDoListsState OnInit(ToDoListsState state, InitAction action)
     {
         var isCreating = state.ToDoLists.Items.All(r => r.Id != action.Id);
 
@@ -56,22 +56,20 @@ public class CreateOrUpdateToDoListWf : HttpBase
 
     [EffectMethod]
     [UsedImplicitly]
-    public async Task HandleCreateOrUpdate(CreateOrUpdateToDoListAction action, IDispatcher dispatcher)
+    public async Task HandleInit(InitAction action, IDispatcher dispatcher)
     {
-        var response = await this.Http.CreateOrUpdateToDoListAsync(new ToDoListDto
-                                                                   {
-                                                                           Id = action.Id,
-                                                                           Name = action.Name
-                                                                   });
+        await this.Http.CreateOrUpdateToDoListAsync(new ToDoListDto
+                                                    {
+                                                            Id = action.Id,
+                                                            Name = action.Name
+                                                    });
 
-        var id = int.Parse(await response.Content.ReadAsStringAsync());
-
-        dispatcher.Dispatch(new ToDoListCreatedOrUpdatedAction(action.Id, action.Name, id != action.Id));
+        dispatcher.Dispatch(new SuccessAction(action.Id, action.Name, action.callback));
     }
 
     [ReducerMethod]
     [UsedImplicitly]
-    public static ToDoListsState OnCreatedOrUpdated(ToDoListsState state, ToDoListCreatedOrUpdatedAction action)
+    public static ToDoListsState OnSuccess(ToDoListsState state, SuccessAction action)
     {
         return new ToDoListsState(isLoading: state.IsLoading,
                                   isCreating: false,
@@ -80,10 +78,9 @@ public class CreateOrUpdateToDoListWf : HttpBase
 
     [EffectMethod]
     [UsedImplicitly]
-    public Task HandleCreatedOrUpdated(ToDoListCreatedOrUpdatedAction action, IDispatcher dispatcher)
+    public Task HandleSuccess(SuccessAction action, IDispatcher dispatcher)
     {
-        if (action.isNew)
-            dispatcher.Dispatch(new ReadToDoListsWf.FetchPageAction(1));
+        action.callback?.Invoke();
 
         return Task.CompletedTask;
     }

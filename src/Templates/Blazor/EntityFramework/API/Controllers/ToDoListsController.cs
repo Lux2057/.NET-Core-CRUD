@@ -4,6 +4,7 @@
 
 using CRUD.Core;
 using CRUD.CQRS;
+using CRUD.DAL.Abstractions;
 using CRUD.WebAPI;
 using Microsoft.AspNetCore.Mvc;
 using Templates.Blazor.EF.Shared;
@@ -22,14 +23,25 @@ public class ToDoListsController : EntityReadControllerBase<ToDoListEntity, int,
     [Route("~/" + ApiRoutes.ReadToDoLists)]
     [HttpGet]
     [ProducesResponseType(typeof(PaginatedResponseDto<ToDoListDto>), 200)]
-    public override Task<IActionResult> Read([FromQuery(Name = ApiRoutes.Params.ids)] int[] ids,
-                                             [FromQuery(Name = ApiRoutes.Params.page)]
-                                             int? page,
-                                             [FromQuery(Name = ApiRoutes.Params.pageSize)]
-                                             int? pageSize,
-                                             CancellationToken cancellationToken = new())
+    public override async Task<IActionResult> Read([FromQuery(Name = ApiRoutes.Params.ids)] int[] ids,
+                                                   [FromQuery(Name = ApiRoutes.Params.page)]
+                                                   int? page,
+                                                   [FromQuery(Name = ApiRoutes.Params.pageSize)]
+                                                   int? pageSize,
+                                                   CancellationToken cancellationToken = new())
     {
-        return base.Read(ids, page, pageSize, cancellationToken);
+        var response = await Dispatcher.QueryAsync(new ReadEntitiesQuery<ToDoListEntity, int, ToDoListDto>
+                                                   {
+                                                           PageSize = pageSize,
+                                                           Page = page,
+                                                           OrderSpecifications = new[]
+                                                                                 {
+                                                                                         new OrderById<ToDoListEntity, int>(false)
+                                                                                 },
+                                                           Specification = new FindEntitiesByIds<ToDoListEntity, int>(ids)
+                                                   });
+
+        return Ok(response);
     }
 
     [Route("~/" + ApiRoutes.CreateOrUpdateToDoLists)]

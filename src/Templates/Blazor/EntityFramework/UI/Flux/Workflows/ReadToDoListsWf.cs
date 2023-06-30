@@ -18,15 +18,15 @@ public class ReadToDoListsWf : HttpBase
 
     #region Nested Classes
 
-    public record FetchPageAction(int Page);
+    public record InitAction(int Page);
 
-    public record PageFetchedAction(PaginatedResponseDto<ToDoListSI> ToDoLists);
+    public record SuccessAction(PaginatedResponseDto<ToDoListSI> ToDoLists);
 
     #endregion
 
     [ReducerMethod]
     [UsedImplicitly]
-    public static ToDoListsState OnFetchPage(ToDoListsState state, FetchPageAction action)
+    public static ToDoListsState OnInit(ToDoListsState state, InitAction action)
     {
         return new ToDoListsState(isLoading: true,
                                   isCreating: state.IsCreating,
@@ -35,16 +35,16 @@ public class ReadToDoListsWf : HttpBase
 
     [EffectMethod]
     [UsedImplicitly]
-    public async Task HandleFetchPage(FetchPageAction action, IDispatcher dispatcher)
+    public async Task HandleInit(InitAction action, IDispatcher dispatcher)
     {
         var pageData = await this.Http.ReadToDoListsAsync<ToDoListSI>(action.Page);
 
-        dispatcher.Dispatch(new PageFetchedAction(pageData));
+        dispatcher.Dispatch(new SuccessAction(pageData));
     }
 
     [ReducerMethod]
     [UsedImplicitly]
-    public static ToDoListsState OnPageFetched(ToDoListsState state, PageFetchedAction action)
+    public static ToDoListsState OnSuccess(ToDoListsState state, SuccessAction action)
     {
         return new ToDoListsState(isLoading: false,
                                   isCreating: state.IsCreating,

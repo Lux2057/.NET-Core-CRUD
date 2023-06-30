@@ -33,9 +33,15 @@
             </div>
         </div>
         <div class="card-footer">
-            @if (IsConfirmingDeleting)
-            {
-                <div class="d-flex">
+            <div class="d-flex">
+                @if (Model.IsUpdating)
+                {
+                    <div class="ms-auto p-1">
+                        <LoaderComponent IsInline="true" IsSmall="true" />
+                    </div>
+                }
+                else if(IsConfirmingDeleting)
+                {
                     <div class="p-1">
                         <span>@Localization[nameof(Resource.Are_you_sure_you_want_delete_this_item__)]</span>
                     </div>
@@ -49,11 +55,9 @@
                             <span class="oi oi-circle-x"></span>
                         </button>
                     </div>
-                </div>
-            }
-            else
-            {
-                <div class="d-flex">
+                }
+                else
+                {
                     <div class="p-1">
                         @if (IsEditing)
                         {
@@ -85,8 +89,8 @@
                             </button>
                         }
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     </div>
 </div>

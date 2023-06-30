@@ -17,6 +17,10 @@ public partial class ToDoListComponent : UI.ComponentBase
     [EditorRequired]
     public ToDoListSI Model { get; set; }
 
+    [Parameter]
+    [EditorRequired]
+    public Action OnDeletedCallback { get; set; }
+
     bool IsEditing { get; set; }
 
     bool IsConfirmingDeleting { get; set; }
@@ -25,12 +29,14 @@ public partial class ToDoListComponent : UI.ComponentBase
 
     void edit()
     {
-        Dispatcher.Dispatch(new CreateOrUpdateToDoListWf.CreateOrUpdateToDoListAction(Model.Id, Model.Name));
+        IsEditing = false;
+        Dispatcher.Dispatch(new CreateOrUpdateToDoListWf.InitAction(Model.Id, Model.Name, null));
     }
 
     void delete()
     {
-        Dispatcher.Dispatch(new DeleteToDoListWf.DeleteAction(Model.Id));
+        IsConfirmingDeleting = false;
+        Dispatcher.Dispatch(new DeleteToDoListWf.InitAction(Model.Id, OnDeletedCallback));
     }
 
     void toggleIsEditing()

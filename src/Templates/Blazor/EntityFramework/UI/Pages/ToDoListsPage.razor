@@ -34,7 +34,7 @@
         {
             @foreach (var session in State.ToDoLists.Items)
             {
-                <ToDoListComponent Model="session"/>
+                <ToDoListComponent Model="session" OnDeletedCallback="() => GoToPage(1)"/>
             }
         }
     }

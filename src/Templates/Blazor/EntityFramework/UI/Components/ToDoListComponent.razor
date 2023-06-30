@@ -19,14 +19,14 @@
                     <div class="fw-bold">
                         @Localization[nameof(Resource.Name)]:
                     </div>
-                    <div class="ms-1 text-truncate" title="@Model.Name">
+                    <div class="ms-1 text-truncate" title="@State.Name">
                         @if (IsEditing)
                         {
-                            <input @bind="Model.Name" class="form-control" type="text"/>
+                            <input @bind="State.Name" class="form-control" type="text"/>
                         }
                         else
                         {
-                            @Model.Name
+                            @State.Name
                         }
                     </div>
                 </div>
@@ -34,7 +34,7 @@
         </div>
         <div class="card-footer">
             <div class="d-flex">
-                @if (Model.IsUpdating)
+                @if (State.IsUpdating)
                 {
                     <div class="ms-auto p-1">
                         <LoaderComponent IsInline="true" IsSmall="true" />

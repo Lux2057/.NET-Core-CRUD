@@ -3,6 +3,7 @@
 #region << Using >>
 
 using Microsoft.AspNetCore.Components;
+using Templates.Blazor.EF.Shared;
 
 #endregion
 
@@ -17,6 +18,8 @@ public partial class ToDoListComponent : UI.ComponentBase
     [EditorRequired]
     public ToDoListSI Model { get; set; }
 
+    private ToDoListSI State { get; set; }
+
     [Parameter]
     [EditorRequired]
     public Action OnDeletedCallback { get; set; }
@@ -27,10 +30,17 @@ public partial class ToDoListComponent : UI.ComponentBase
 
     #endregion
 
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        State = (ToDoListSI)Model.Clone();
+    }
+
     void edit()
     {
         IsEditing = false;
-        Dispatcher.Dispatch(new CreateOrUpdateToDoListWf.InitAction(Model));
+        Dispatcher.Dispatch(new CreateOrUpdateToDoListWf.InitAction(State));
     }
 
     void delete()
@@ -42,6 +52,12 @@ public partial class ToDoListComponent : UI.ComponentBase
     void toggleIsEditing()
     {
         IsEditing = !IsEditing;
+
+        if (IsEditing)
+            return;
+
+        State = (ToDoListSI)Model.Clone();
+        StateHasChanged();
     }
 
     void toggleIsConfirmingDeleting()

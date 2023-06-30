@@ -19,22 +19,22 @@ public class CreateOrUpdateToDoListWf : HttpBase
 
     #region Nested Classes
 
-    public record InitAction(int Id, string Name, Action callback);
+    public record InitAction(ToDoListDto dto, Action callback = null);
 
-    public record SuccessAction(int Id, string Name, Action callback);
+    public record SuccessAction(ToDoListDto dto, Action callback);
 
     #endregion
 
-    static PaginatedResponseDto<ToDoListSI> copy(PaginatedResponseDto<ToDoListSI> toDoLists, int id, string name, bool isUpdating)
+    static PaginatedResponseDto<ToDoListSI> copy(PaginatedResponseDto<ToDoListSI> toDoLists, ToDoListDto dto, bool isUpdating)
     {
         return new PaginatedResponseDto<ToDoListSI>
                {
                        Items = toDoLists.Items.Select(r =>
                                                       {
-                                                          if (r.Id == id)
+                                                          if (r.Id == dto.Id)
                                                           {
                                                               r.IsUpdating = isUpdating;
-                                                              r.Name = name;
+                                                              r.Name = dto.Name;
                                                           }
 
                                                           return r;
@@ -47,24 +47,20 @@ public class CreateOrUpdateToDoListWf : HttpBase
     [UsedImplicitly]
     public static ToDoListsState OnInit(ToDoListsState state, InitAction action)
     {
-        var isCreating = state.ToDoLists.Items.All(r => r.Id != action.Id);
+        var isCreating = state.ToDoLists.Items.All(r => r.Id != action.dto.Id);
 
         return new ToDoListsState(isLoading: state.IsLoading,
                                   isCreating: isCreating,
-                                  toDoLists: copy(state.ToDoLists, action.Id, action.Name, true));
+                                  toDoLists: copy(state.ToDoLists, action.dto, true));
     }
 
     [EffectMethod]
     [UsedImplicitly]
     public async Task HandleInit(InitAction action, IDispatcher dispatcher)
     {
-        await this.Http.CreateOrUpdateToDoListAsync(new ToDoListDto
-                                                    {
-                                                            Id = action.Id,
-                                                            Name = action.Name
-                                                    });
+        await this.Http.CreateOrUpdateToDoListAsync(action.dto);
 
-        dispatcher.Dispatch(new SuccessAction(action.Id, action.Name, action.callback));
+        dispatcher.Dispatch(new SuccessAction(action.dto, action.callback));
     }
 
     [ReducerMethod]
@@ -73,7 +69,7 @@ public class CreateOrUpdateToDoListWf : HttpBase
     {
         return new ToDoListsState(isLoading: state.IsLoading,
                                   isCreating: false,
-                                  toDoLists: copy(state.ToDoLists, action.Id, action.Name, false));
+                                  toDoLists: copy(state.ToDoLists, action.dto, false));
     }
 
     [EffectMethod]

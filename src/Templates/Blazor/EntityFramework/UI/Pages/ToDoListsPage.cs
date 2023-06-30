@@ -4,6 +4,7 @@
 
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Components;
+using Templates.Blazor.EF.Shared;
 
 #endregion
 
@@ -23,7 +24,7 @@ public partial class ToDoListsPage : PageBase<ToDoListsState>
 
     #region Properties
 
-    private string NewToDoListName { get; set; }
+    private ToDoListDto NewToDoList { get; set; } = new() { Id = -1 };
 
     #endregion
 
@@ -41,7 +42,6 @@ public partial class ToDoListsPage : PageBase<ToDoListsState>
 
     void create()
     {
-        void callBack() => Dispatcher.Dispatch(new ReadToDoListsWf.InitAction(1));
-        Dispatcher.Dispatch(new CreateOrUpdateToDoListWf.InitAction(-1, NewToDoListName, callBack));
+        Dispatcher.Dispatch(new CreateOrUpdateToDoListWf.InitAction(NewToDoList, () => Dispatcher.Dispatch(new ReadToDoListsWf.InitAction(1))));
     }
 }

@@ -30,7 +30,7 @@ public partial class ToDoListComponent : UI.ComponentBase
     void edit()
     {
         IsEditing = false;
-        Dispatcher.Dispatch(new CreateOrUpdateToDoListWf.InitAction(Model.Id, Model.Name, null));
+        Dispatcher.Dispatch(new CreateOrUpdateToDoListWf.InitAction(Model));
     }
 
     void delete()

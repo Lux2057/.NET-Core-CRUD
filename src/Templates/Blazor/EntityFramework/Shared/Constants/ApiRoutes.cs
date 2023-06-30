@@ -30,6 +30,11 @@ public static class ApiRoutes
         public const string ids = "ids";
 
         /// <summary>
+        ///     Type: int
+        /// </summary>
+        public const string id = "id";
+
+        /// <summary>
         ///     Type: int?
         /// </summary>
         public const string page = "page";
@@ -38,11 +43,6 @@ public static class ApiRoutes
         ///     Type: int?
         /// </summary>
         public const string pageSize = "pageSize";
-
-        /// <summary>
-        ///     Type: workflow specific Dto model
-        /// </summary>
-        public const string dtos = "dtos";
 
         #endregion
     }

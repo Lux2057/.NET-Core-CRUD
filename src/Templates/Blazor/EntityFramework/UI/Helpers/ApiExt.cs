@@ -28,17 +28,17 @@ public static class ApiExt
         return await http.GetFromJsonAsync<PaginatedResponseDto<T>>(uri);
     }
 
-    public static async Task CreateOrUpdateToDoListAsync(this HttpClient http, ToDoListDto dto)
+    public static async Task<HttpResponseMessage> CreateOrUpdateToDoListAsync(this HttpClient http, ToDoListDto dto)
     {
-        var uri = ApiRoutes.CreateOrUpdateToDoLists;
+        const string uri = ApiRoutes.CreateOrUpdateToDoLists;
 
-        await http.PostAsJsonAsync(uri, dto);
+        return await http.PostAsJsonAsync(uri, dto);
     }
 
-    public static async Task DeleteToDoListAsync(this HttpClient http, int id)
+    public static async Task<HttpResponseMessage> DeleteToDoListAsync(this HttpClient http, int id)
     {
-        var uri = $"{ApiRoutes.DeleteToDoLists}?{new[] { id }.ToApiParams(nameof(ApiRoutes.Params.ids))}";
+        var uri = $"{ApiRoutes.DeleteToDoLists}?{nameof(ApiRoutes.Params.id)}={id}";
 
-        await http.DeleteAsync(uri);
+        return await http.DeleteAsync(uri);
     }
 }

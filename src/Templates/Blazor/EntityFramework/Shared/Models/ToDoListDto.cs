@@ -14,5 +14,7 @@ public class ToDoListDto : IId<int>
 
     public string Name { get; set; }
 
+    public DateTime CrDt { get; set; }
+
     #endregion
 }

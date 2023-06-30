@@ -21,7 +21,7 @@ public class CreateOrUpdateToDoListWf : HttpBase
 
     public record CreateOrUpdateToDoListAction(int Id, string Name);
 
-    public record ToDoListCreatedOrUpdatedAction(int Id, string Name);
+    public record ToDoListCreatedOrUpdatedAction(int Id, string Name, bool isNew);
 
     #endregion
 
@@ -47,7 +47,10 @@ public class CreateOrUpdateToDoListWf : HttpBase
     [UsedImplicitly]
     public static ToDoListsState OnCreateOrUpdate(ToDoListsState state, CreateOrUpdateToDoListAction action)
     {
+        var isCreating = state.ToDoLists.Items.All(r => r.Id != action.Id);
+
         return new ToDoListsState(isLoading: state.IsLoading,
+                                  isCreating: isCreating,
                                   toDoLists: copy(state.ToDoLists, action.Id, action.Name, true));
     }
 
@@ -55,13 +58,15 @@ public class CreateOrUpdateToDoListWf : HttpBase
     [UsedImplicitly]
     public async Task HandleCreateOrUpdate(CreateOrUpdateToDoListAction action, IDispatcher dispatcher)
     {
-        await this.Http.CreateOrUpdateToDoListAsync(new ToDoListDto
-                                                    {
-                                                            Id = action.Id,
-                                                            Name = action.Name
-                                                    });
+        var response = await this.Http.CreateOrUpdateToDoListAsync(new ToDoListDto
+                                                                   {
+                                                                           Id = action.Id,
+                                                                           Name = action.Name
+                                                                   });
 
-        dispatcher.Dispatch(new ToDoListCreatedOrUpdatedAction(action.Id, action.Name));
+        var id = int.Parse(await response.Content.ReadAsStringAsync());
+
+        dispatcher.Dispatch(new ToDoListCreatedOrUpdatedAction(action.Id, action.Name, id != action.Id));
     }
 
     [ReducerMethod]
@@ -69,6 +74,17 @@ public class CreateOrUpdateToDoListWf : HttpBase
     public static ToDoListsState OnCreatedOrUpdated(ToDoListsState state, ToDoListCreatedOrUpdatedAction action)
     {
         return new ToDoListsState(isLoading: state.IsLoading,
+                                  isCreating: false,
                                   toDoLists: copy(state.ToDoLists, action.Id, action.Name, false));
+    }
+
+    [EffectMethod]
+    [UsedImplicitly]
+    public Task HandleCreatedOrUpdated(ToDoListCreatedOrUpdatedAction action, IDispatcher dispatcher)
+    {
+        if (action.isNew)
+            dispatcher.Dispatch(new ReadToDoListsWf.FetchPageAction(1));
+
+        return Task.CompletedTask;
     }
 }

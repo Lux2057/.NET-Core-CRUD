@@ -29,6 +29,7 @@ public class ReadToDoListsWf : HttpBase
     public static ToDoListsState OnFetchPage(ToDoListsState state, FetchPageAction action)
     {
         return new ToDoListsState(isLoading: true,
+                                  isCreating: state.IsCreating,
                                   toDoLists: state.ToDoLists);
     }
 
@@ -46,6 +47,7 @@ public class ReadToDoListsWf : HttpBase
     public static ToDoListsState OnPageFetched(ToDoListsState state, PageFetchedAction action)
     {
         return new ToDoListsState(isLoading: false,
+                                  isCreating: state.IsCreating,
                                   toDoLists: action.ToDoLists);
     }
 }

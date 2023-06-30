@@ -11,7 +11,7 @@ using Templates.Blazor.EF.Shared;
 #endregion
 
 [Route("[controller]/[action]")]
-public class ToDoListsController : EntityCRUDControllerBase<ToDoListEntity, int, ToDoListDto>
+public class ToDoListsController : EntityReadControllerBase<ToDoListEntity, int, ToDoListDto>
 {
     #region Constructors
 
@@ -35,18 +35,24 @@ public class ToDoListsController : EntityCRUDControllerBase<ToDoListEntity, int,
     [Route("~/" + ApiRoutes.CreateOrUpdateToDoLists)]
     [HttpPost]
     [ProducesResponseType(200)]
-    public override Task<IActionResult> CreateOrUpdate([FromQuery(Name = ApiRoutes.Params.dtos)] ToDoListDto[] dtos,
-                                                       CancellationToken cancellationToken = new())
+    public async Task<IActionResult> CreateOrUpdate([FromBody] ToDoListDto dto,
+                                                    CancellationToken cancellationToken = new())
     {
-        return base.CreateOrUpdate(dtos, cancellationToken);
+        var command = new CreateOrUpdateToDoListCommand { Dto = dto };
+        await Dispatcher.PushAsync(command, cancellationToken);
+
+        return Ok(command.Result);
     }
 
     [Route("~/" + ApiRoutes.DeleteToDoLists)]
     [HttpDelete]
     [ProducesResponseType(200)]
-    public override Task<IActionResult> Delete([FromQuery(Name = ApiRoutes.Params.ids)] int[] ids,
-                                               CancellationToken cancellationToken = new())
+    public async Task<IActionResult> Delete([FromQuery(Name = ApiRoutes.Params.id)] int id,
+                                            CancellationToken cancellationToken = new())
     {
-        return base.Delete(ids, cancellationToken);
+        var command = new DeleteToDoListCommand { Id = id };
+        await Dispatcher.PushAsync(command, cancellationToken);
+
+        return Ok(command.Result);
     }
 }

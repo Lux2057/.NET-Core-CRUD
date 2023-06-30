@@ -31,3 +31,12 @@ public class PageBase<TState> : Fluxor.Blazor.Web.Components.FluxorComponent
 
     #endregion
 }
+
+public class PageBase : Microsoft.AspNetCore.Components.ComponentBase
+{
+    [Inject]
+    protected IStringLocalizer<Resource> Localization { get; set; }
+
+    [Inject]
+    protected IJSRuntime JS { get; set; }
+}

@@ -46,6 +46,7 @@ public class DeleteToDoListWf : HttpBase
     public static ToDoListsState OnDelete(ToDoListsState state, DeleteAction action)
     {
         return new ToDoListsState(isLoading: state.IsLoading,
+                                  isCreating: state.IsCreating,
                                   toDoLists: copy(state.ToDoLists, action.Id, false));
     }
 
@@ -63,6 +64,7 @@ public class DeleteToDoListWf : HttpBase
     public static ToDoListsState OnDeleted(ToDoListsState state, DeletedAction action)
     {
         return new ToDoListsState(isLoading: state.IsLoading,
+                                  isCreating: state.IsCreating,
                                   toDoLists: copy(state.ToDoLists, action.Id, true));
     }
 }

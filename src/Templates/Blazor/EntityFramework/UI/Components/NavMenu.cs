@@ -3,11 +3,10 @@
 #region << Using >>
 
 using Microsoft.AspNetCore.Components;
-using ComponentBase = Templates.Blazor.EF.UI.ComponentBase;
 
 #endregion
 
-public partial class NavMenu : ComponentBase
+public partial class NavMenu : UI.ComponentBase
 {
     #region Properties
 

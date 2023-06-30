@@ -42,6 +42,7 @@ public class ToDoListEntity : ApiEntityBase, NameProp.Interface
             CreateMap<ToDoListEntity, ToDoListDto>()
                     .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))
                     .ForMember(r => r.Name, r => r.MapFrom(x => x.Name))
+                    .ForMember(r => r.CrDt, r => r.MapFrom(x => x.CrDt))
                     .ReverseMap();
         }
 

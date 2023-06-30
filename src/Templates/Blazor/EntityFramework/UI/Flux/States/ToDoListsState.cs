@@ -15,6 +15,10 @@ public class ToDoListsState : ILoadingStatus
 
     public bool IsLoading { get; }
 
+    public bool IsCreating { get; }
+
+    public bool IsEmpty => ToDoLists?.Items?.Any() != true;
+
     public PaginatedResponseDto<ToDoListSI> ToDoLists { get; }
 
     #endregion
@@ -25,6 +29,7 @@ public class ToDoListsState : ILoadingStatus
     ToDoListsState()
     {
         IsLoading = false;
+        IsCreating = false;
         ToDoLists = new PaginatedResponseDto<ToDoListSI>
                     {
                             Items = Array.Empty<ToDoListSI>(),
@@ -38,9 +43,10 @@ public class ToDoListsState : ILoadingStatus
                     };
     }
 
-    public ToDoListsState(bool isLoading, PaginatedResponseDto<ToDoListSI> toDoLists)
+    public ToDoListsState(bool isLoading, bool isCreating, PaginatedResponseDto<ToDoListSI> toDoLists)
     {
         IsLoading = isLoading;
+        IsCreating = isCreating;
         ToDoLists = toDoLists;
     }
 

@@ -50,8 +50,7 @@ builder.Services.AddCQRS(mediatorAssemblies: new[]
                                                });
 
 builder.Services.AddEntityRead<LogEntity, int, LogDto>();
-builder.Services.AddEntityCRUD<ToDoListEntity, int, ToDoListDto>();
-builder.Services.AddEntityCRUD<ToDoListItemEntity, int, ToDoListItemDto>();
+builder.Services.AddEntityRead<ToDoListEntity, int, ToDoListDto>();
 
 #endregion
 

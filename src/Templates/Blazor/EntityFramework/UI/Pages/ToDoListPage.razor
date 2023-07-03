@@ -1,0 +1,109 @@
+﻿@using Templates.Blazor.EF.UI.Localization
+@inherits PageBase<ToDoListState>
+
+<PageTitle>@Localization[nameof(Resource.ToDo_list)] #@Id</PageTitle>
+
+<div class="d-flex mb-2">
+    <div class="p-2">
+        <h4>@(Localization[nameof(Resource.Items)])</h4>
+    </div>
+    <div class="align-content-center p-2">
+        <div class="badge d-flex text-bg-dark" data-bs-target="#@createToDoListItemModalId" data-bs-toggle="modal"
+             role="button" title="@Localization[nameof(Resource.Create)]">
+            <div>
+                <span class="me-1 oi oi-plus"></span>
+            </div>
+        </div>
+    </div>
+    <div class="p-2">
+        @if (State.IsLoading || State.IsCreating)
+        {
+            <LoaderComponent IsInline="true" IsSmall="true"/>
+        }
+    </div>
+</div>
+<div class="d-flex flex-wrap">
+    @if (!State.IsLoading)
+    {
+        @if (State.IsEmpty)
+        {
+            <div class="p-1">
+                <h3>@Localization[nameof(Resource.There_is_no_data)]</h3>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in State.Items.Items)
+            {
+                <ToDoListItemComponent Model="item" OnDeletedCallback="() => GoToPage(1)"/>
+            }
+        }
+    }
+</div>
+<div class="d-flex justify-content-center">
+    @if (!State.IsEmpty && State.Items.PagingInfo is { TotalPages: > 1 })
+    {
+        <ul class="pagination">
+            @for (var i = 1; i <= State.Items.PagingInfo.TotalPages; i++)
+            {
+                var pageNumber = i;
+
+                if (pageNumber == State.Items.PagingInfo.CurrentPage)
+                {
+                    <li class="active page-item">
+                        <button class="page-link shadow-none" type="button">@pageNumber</button>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <button class="page-link shadow-none" @onclick="() => GoToPage(pageNumber)" type="button">@pageNumber</button>
+                    </li>
+                }
+            }
+        </ul>
+    }
+</div>
+
+<div aria-hidden="true" aria-labelledby="@createToDoListItemLabelId" class="fade modal" id="@createToDoListItemModalId" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="fs-5 modal-title" id="@createToDoListItemLabelId">
+                    <span class="me-1">
+                        @Localization[nameof(Resource.Create)]
+                    </span>
+                </h1>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex flex-column">
+                    <div class="mb-1 p-1">
+                        <label class="form-label" for="@newToDoListItemDescriptionLabelId">@Localization[nameof(Resource.Description)]</label>
+                        <input @bind="NewToDoListItem.Description"
+                               class="form-control"
+                               id="@newToDoListItemDescriptionLabelId"
+                               type="text"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="d-flex">
+                    <div class="ms-auto p-1">
+                        @if (!State.IsLoading && !State.IsCreating)
+                        {
+                            <button class="btn btn-outline-primary btn-sm shadow-none"
+                                    data-bs-placement="top"
+                                    data-bs-toggle="tooltip"
+                                    @onclick="@create"
+                                    title="@Localization[nameof(Resource.Create)]"
+                                    type="button">
+                                @Localization[nameof(Resource.Create)]
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

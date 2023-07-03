@@ -7,18 +7,15 @@ using Templates.Blazor.EF.Shared;
 
 #endregion
 
-public partial class ToDoListComponent : UI.ComponentBase
+public partial class ToDoListItemComponent : UI.ComponentBase
 {
     #region Properties
 
-    [Inject]
-    private NavigationManager navigation { get; set; }
-
     [Parameter]
     [EditorRequired]
-    public ToDoListSI Model { get; set; }
+    public ToDoListItemSI Model { get; set; }
 
-    private ToDoListSI State { get; set; }
+    private ToDoListItemSI State { get; set; }
 
     [Parameter]
     [EditorRequired]
@@ -34,19 +31,19 @@ public partial class ToDoListComponent : UI.ComponentBase
     {
         base.OnParametersSet();
 
-        State = (ToDoListSI)Model.Clone();
+        State = (ToDoListItemSI)Model.Clone();
     }
 
     void edit()
     {
         IsEditing = false;
-        Dispatcher.Dispatch(new CreateOrUpdateToDoListWf.InitAction(State));
+        Dispatcher.Dispatch(new CreateOrUpdateToDoListItemWf.InitAction(State));
     }
 
     void delete()
     {
         IsConfirmingDeleting = false;
-        Dispatcher.Dispatch(new DeleteToDoListWf.InitAction(Model.Id, OnDeletedCallback));
+        Dispatcher.Dispatch(new DeleteToDoListItemWf.InitAction(Model.Id, OnDeletedCallback));
     }
 
     void toggleIsEditing()
@@ -56,17 +53,12 @@ public partial class ToDoListComponent : UI.ComponentBase
         if (IsEditing)
             return;
 
-        State = (ToDoListSI)Model.Clone();
+        State = (ToDoListItemSI)Model.Clone();
         StateHasChanged();
     }
 
     void toggleIsConfirmingDeleting()
     {
         IsConfirmingDeleting = !IsConfirmingDeleting;
-    }
-
-    void openToDoList()
-    {
-        navigation.NavigateTo(UiRoutes.ToDoListRoute(State.Id));
     }
 }

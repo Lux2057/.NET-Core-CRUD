@@ -6,15 +6,15 @@ public static class ApiRoutes
 
     public const string ReadToDoLists = "ToDoLists/Read";
 
-    public const string CreateOrUpdateToDoLists = "ToDoLists/CreatOrUpdate";
+    public const string CreateOrUpdateToDoList = "ToDoLists/CreatOrUpdate";
 
-    public const string DeleteToDoLists = "ToDoLists/Delete";
+    public const string DeleteToDoList = "ToDoLists/Delete";
 
     public const string ReadToDoListItems = "ToDoListItems/Read";
 
-    public const string CreateOrUpdateToDoListItems = "ToDoListItems/CreatOrUpdate";
+    public const string CreateOrUpdateToDoListItem = "ToDoListItems/CreatOrUpdate";
 
-    public const string DeleteToDoListItems = "ToDoListItems/Delete";
+    public const string DeleteToDoListItem = "ToDoListItems/Delete";
 
     #endregion
 
@@ -43,6 +43,11 @@ public static class ApiRoutes
         ///     Type: int?
         /// </summary>
         public const string pageSize = "pageSize";
+
+        /// <summary>
+        ///     Type: int
+        /// </summary>
+        public const string toDoListId = "toDoListId";
 
         #endregion
     }

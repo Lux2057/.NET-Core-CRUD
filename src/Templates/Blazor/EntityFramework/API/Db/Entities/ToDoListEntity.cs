@@ -9,7 +9,7 @@ using Templates.Blazor.EF.Shared;
 
 #endregion
 
-[Table("ToDoList")]
+[Table("ToDoListEF")]
 public class ToDoListEntity : ApiEntityBase, NameProp.Interface
 {
     #region Properties

@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Templates.Blazor.EF.API.csproj.DotSettings" />
+    <None Remove="Templates.Blazor.NH.API.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.8" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+    <PackageReference Include="XulBenet.CRUD.DAL.NHibernate" Version="1.3.1" />
+    <PackageReference Include="XulBenet.CRUD.Logging.NHibernate" Version="1.3.1" />
+    <PackageReference Include="XulBenet.CRUD.WebAPI" Version="1.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Db\Entities\" />
+    <Folder Include="Db\Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Templates.Blazor.NH.Shared.csproj" />
+    <ProjectReference Include="..\UI\Templates.Blazor.NH.UI.csproj" />
+  </ItemGroup>
+
+
+</Project>

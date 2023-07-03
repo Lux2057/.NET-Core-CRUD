@@ -10,7 +10,7 @@ using Templates.Blazor.EF.Shared;
 
 #endregion
 
-[Table("ToDoListItem")]
+[Table("ToDoListItemEF")]
 public class ToDoListItemEntity : ApiEntityBase, 
                                   DescriptionProp.Interface,
                                   StatusProp.Interface,

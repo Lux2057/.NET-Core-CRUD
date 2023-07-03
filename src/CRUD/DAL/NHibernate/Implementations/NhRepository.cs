@@ -92,7 +92,7 @@ public class NhRepository : IRepository
         await this._session.FlushAsync();
     }
 
-    public async Task DeleteAsync<TEntity>(TEntity[] entities, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task DeleteAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new()
     {
         var entitiesArray = entities.Where(r => r != null).ToArrayOrEmpty();
 

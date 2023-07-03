@@ -38,5 +38,5 @@ public interface IRepository : IReadRepository
     /// <summary>
     ///     Deletes entities from a data storage
     /// </summary>
-    Task DeleteAsync<TEntity>(TEntity[] entities, CancellationToken cancellationToken = default) where TEntity : class, new();
+    Task DeleteAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new();
 }

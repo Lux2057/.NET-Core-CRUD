@@ -35,9 +35,6 @@ src/CRUD/Logging/NHibernate/obj/
 src/CRUD/WebAPI/bin/
 src/CRUD/WebAPI/obj/
 
-src/Examples/WebAPI/bin/
-src/Examples/WebAPI/obj/
-
 src/Tests/Extensions/bin/
 src/Tests/Extensions/obj/
 

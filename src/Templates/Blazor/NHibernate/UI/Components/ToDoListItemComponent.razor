@@ -1,0 +1,121 @@
+﻿@using Templates.Blazor.NH.UI.Localization
+@using Templates.Blazor.NH.Shared
+@inherits UI.ComponentBase
+
+<div class="p-2 w-25">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex">
+                <div class="p-1">
+                    <span>@Localization[nameof(Resource.Item)] #@Model.Id</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-column p-1">
+                <div class="d-flex flex-row p-1">
+                    <div class="fw-bold">
+                        @Localization[nameof(Resource.Name)]:
+                    </div>
+                    <div class="ms-1 text-truncate" title="@State.Description">
+                        @if (IsEditing)
+                        {
+                            <input @bind="State.Description" class="form-control" type="text"/>
+                        }
+                        else
+                        {
+                            @State.Description
+                        }
+                    </div>
+                </div>
+                <div class="d-flex flex-row p-1">
+                    <div class="fw-bold">
+                        @Localization[nameof(Resource.Status)]:
+                    </div>
+                    <div class="ms-1 text-truncate" title="@State.Status">
+                        @if (IsEditing)
+                        {
+                            <select class="form-control" @bind="State.Status" @onvolumechange="edit">
+                                @foreach (var status in Enum.GetValues(typeof(ItemStatus)).Cast<ItemStatus>())
+                                {
+                                    if (status == State.Status)
+                                    {
+                                        <option selected="selected" value="@status">@status</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@status">@status</option>
+                                    }
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            @State.Status
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex">
+                @if (State.IsUpdating)
+                {
+                    <div class="ms-auto p-1">
+                        <LoaderComponent IsInline="true" IsSmall="true"/>
+                    </div>
+                }
+                else if (IsConfirmingDeleting)
+                {
+                    <div class="p-1">
+                        <span>@Localization[nameof(Resource.Are_you_sure_you_want_delete_this_item__)]</span>
+                    </div>
+                    <div class="ms-auto mt-auto p-1">
+                        <button class="btn btn-outline-success btn-sm me-2" @onclick="@delete" title="@Localization[nameof(Resource.Delete)]">
+                            <span class="oi oi-circle-check"></span>
+                        </button>
+                    </div>
+                    <div class="mt-auto p-1">
+                        <button class="btn btn-outline-secondary btn-sm" @onclick="@toggleIsConfirmingDeleting" title="@Localization[nameof(Resource.Cancel)]">
+                            <span class="oi oi-circle-x"></span>
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="p-1">
+                        @if (IsEditing)
+                        {
+                            <div class="d-flex">
+                                <div class="me-2 ms-auto">
+                                    <button class="btn btn-outline-success btn-sm" @onclick="edit" title="@Localization[nameof(Resource.Save)]" type="button">
+                                        <span class="oi oi-check"></span>
+                                    </button>
+                                </div>
+                                <div>
+                                    <button class="btn btn-outline-secondary btn-sm" @onclick="toggleIsEditing" title="@Localization[nameof(Resource.Cancel)]" type="button">
+                                        <span class="oi oi-circle-x"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <button class="btn btn-outline-primary btn-sm" @onclick="toggleIsEditing" title="@Localization[nameof(Resource.Edit)]" type="button">
+                                <span class="oi oi-pencil"></span>
+                            </button>
+                        }
+                    </div>
+                    <div class="p-1">
+                        @if (!IsEditing)
+                        {
+                            <button class="btn btn-outline-danger btn-sm ms-3" @onclick="@toggleIsConfirmingDeleting" title="@Localization[nameof(Resource.Delete)]" type="button">
+                                <span class="oi oi-trash"></span>
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

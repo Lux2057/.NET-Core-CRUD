@@ -4,6 +4,7 @@ using CRUD.Core;
 using CRUD.CQRS;
 using CRUD.DAL.EntityFramework;
 using CRUD.Logging.Common;
+using CRUD.WebAPI;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using Templates.Blazor.EF.API;
@@ -84,6 +85,7 @@ app.UseSwaggerUI(c =>
 
 app.UseRouting();
 
+app.UseMiddleware<ValidationErrorsHandlerMiddleware>();
 app.UseMiddleware<ExceptionsHandlerMiddleware>();
 
 app.MapRazorPages();

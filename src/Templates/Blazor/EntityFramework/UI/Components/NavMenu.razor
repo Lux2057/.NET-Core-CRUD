@@ -1,0 +1,26 @@
+﻿@using Templates.Blazor.EF.UI.Localization
+@inherits UI.ComponentBase
+
+<div class="navbar navbar-dark ps-3 top-row">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Oscillator</a>
+        <button class="navbar-toggler" @onclick="ToggleNavMenu" title="Navigation menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="@UiRoutes.ToDoLists" Match="NavLinkMatch.All">
+                <span aria-hidden="true" class="oi oi-list-rich"></span> @Localization[nameof(Resource.ToDo_lists)]
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="@UiRoutes.About">
+                <span class="oi oi-list-rich"></span> @Localization[nameof(Resource.About)]
+            </NavLink>
+        </div>
+    </nav>
+</div>

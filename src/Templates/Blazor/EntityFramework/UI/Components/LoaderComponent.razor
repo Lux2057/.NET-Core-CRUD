@@ -1,0 +1,21 @@
+﻿@using Templates.Blazor.EF.UI.Localization
+@inherits UI.ComponentBase
+
+@if (IsInline)
+{
+    <span class="spinner-border @cssClass" role="status">
+        <span class="visually-hidden">
+            <em>@(Localization[nameof(Resource.Loading)])...</em>
+        </span>
+    </span>
+}
+else
+{
+    <div class="d-flex justify-content-center">
+        <span class="spinner-border @cssClass" role="status">
+            <span class="visually-hidden">
+                <em>@(Localization[nameof(Resource.Loading)])...</em>
+            </span>
+        </span>
+    </div>
+}

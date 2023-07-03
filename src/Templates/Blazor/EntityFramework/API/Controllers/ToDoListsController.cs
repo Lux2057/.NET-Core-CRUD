@@ -12,7 +12,7 @@ using Templates.Blazor.EF.Shared;
 #endregion
 
 [Route("[controller]/[action]")]
-public class ToDoListsController : EntityReadControllerBase<ToDoListEntity, int, ToDoListDto>
+public class ToDoListsController : DispatcherControllerBase
 {
     #region Constructors
 
@@ -23,12 +23,12 @@ public class ToDoListsController : EntityReadControllerBase<ToDoListEntity, int,
     [Route("~/" + ApiRoutes.ReadToDoLists)]
     [HttpGet]
     [ProducesResponseType(typeof(PaginatedResponseDto<ToDoListDto>), 200)]
-    public override async Task<IActionResult> Read([FromQuery(Name = ApiRoutes.Params.ids)] int[] ids,
-                                                   [FromQuery(Name = ApiRoutes.Params.page)]
-                                                   int? page,
-                                                   [FromQuery(Name = ApiRoutes.Params.pageSize)]
-                                                   int? pageSize,
-                                                   CancellationToken cancellationToken = new())
+    public async Task<IActionResult> Read([FromQuery(Name = ApiRoutes.Params.ids)] int[] ids,
+                                          [FromQuery(Name = ApiRoutes.Params.page)]
+                                          int? page,
+                                          [FromQuery(Name = ApiRoutes.Params.pageSize)]
+                                          int? pageSize,
+                                          CancellationToken cancellationToken = new())
     {
         var response = await Dispatcher.QueryAsync(new ReadEntitiesQuery<ToDoListEntity, int, ToDoListDto>
                                                    {

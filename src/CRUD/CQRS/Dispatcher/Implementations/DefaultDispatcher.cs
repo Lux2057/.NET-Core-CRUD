@@ -2,7 +2,6 @@
 
 #region << Using >>
 
-using System;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +13,7 @@ using MediatR;
 /// <summary>
 ///     MediatR based implementation of the IDispatcher interface
 /// </summary>
-public class DefaultDispatcher : IDispatcher, IDisposable
+public class DefaultDispatcher : IDispatcher
 {
     #region Properties
 

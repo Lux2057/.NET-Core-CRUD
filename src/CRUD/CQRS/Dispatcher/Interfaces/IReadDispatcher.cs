@@ -2,6 +2,7 @@
 {
     #region << Using >>
 
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@
     /// <summary>
     ///     A dispatcher interface to perform read-based operations
     /// </summary>
-    public interface IReadDispatcher
+    public interface IReadDispatcher : IDisposable
     {
         public Task<TResponse> QueryAsync<TResponse>(QueryBase<TResponse> queryBase, CancellationToken cancellationToken = default);
     }

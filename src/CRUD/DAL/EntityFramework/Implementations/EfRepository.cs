@@ -3,7 +3,7 @@
 #region << Using >>
 
 using CRUD.DAL.Abstractions;
-using CRUD.Extensions;
+using Extensions;
 using LinqSpecs;
 using Microsoft.EntityFrameworkCore;
 

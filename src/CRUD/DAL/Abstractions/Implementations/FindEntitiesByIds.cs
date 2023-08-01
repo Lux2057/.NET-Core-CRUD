@@ -3,7 +3,7 @@
     #region << Using >>
 
     using System.Linq.Expressions;
-    using CRUD.Extensions;
+    using Extensions;
     using LinqSpecs;
 
     #endregion

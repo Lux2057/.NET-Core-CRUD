@@ -3,7 +3,7 @@
 #region << Using >>
 
 using CRUD.DAL.Abstractions;
-using CRUD.Extensions;
+using Extensions;
 using global::NHibernate;
 using LinqSpecs;
 
@@ -108,7 +108,7 @@ public class NhRepository : IRepository
     }
 
     public IQueryable<TEntity> Read<TEntity>(Specification<TEntity> specification = default,
-                                            IEnumerable<OrderSpecification<TEntity>> orderSpecifications = default)
+                                             IEnumerable<OrderSpecification<TEntity>> orderSpecifications = default)
             where TEntity : class, new()
     {
         this._session.Clear();

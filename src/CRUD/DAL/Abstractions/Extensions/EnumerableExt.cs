@@ -2,7 +2,7 @@
 
 #region << Using >>
 
-using CRUD.Extensions;
+using Extensions;
 
 #endregion
 

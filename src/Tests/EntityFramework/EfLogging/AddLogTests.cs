@@ -3,8 +3,8 @@
 #region << Using >>
 
 using CRUD.CQRS;
-using CRUD.Extensions;
 using CRUD.Logging.Common;
+using Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

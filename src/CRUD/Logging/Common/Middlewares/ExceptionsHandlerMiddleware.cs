@@ -4,7 +4,7 @@
 
     using System.Net;
     using CRUD.CQRS;
-    using CRUD.Extensions;
+    using Extensions;
     using JetBrains.Annotations;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;

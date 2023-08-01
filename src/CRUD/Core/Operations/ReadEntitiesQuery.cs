@@ -9,7 +9,7 @@
     using System.Threading.Tasks;
     using CRUD.CQRS;
     using CRUD.DAL.Abstractions;
-    using CRUD.Extensions;
+    using Extensions;
     using LinqSpecs;
 
     #endregion

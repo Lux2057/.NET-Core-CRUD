@@ -5,8 +5,8 @@
 using CRUD.Core;
 using CRUD.CQRS;
 using CRUD.DAL.Abstractions;
-using CRUD.Extensions;
 using EfTests.Shared;
+using Extensions;
 
 #endregion
 

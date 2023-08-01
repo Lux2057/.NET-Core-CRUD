@@ -5,7 +5,7 @@
 using CRUD.Core;
 using CRUD.CQRS;
 using CRUD.DAL.NHibernate;
-using CRUD.Extensions;
+using Extensions;
 using FluentNHibernate.Cfg.Db;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

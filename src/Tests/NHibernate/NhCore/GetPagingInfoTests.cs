@@ -4,7 +4,7 @@
 
 using CRUD.Core;
 using CRUD.CQRS;
-using CRUD.Extensions;
+using Extensions;
 using NHibernate;
 
 #endregion

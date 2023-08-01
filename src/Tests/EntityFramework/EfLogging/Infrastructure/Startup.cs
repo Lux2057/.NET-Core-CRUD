@@ -4,9 +4,9 @@
 
 using CRUD.CQRS;
 using CRUD.DAL.EntityFramework;
-using CRUD.Extensions;
 using CRUD.Logging.Common;
 using CRUD.Logging.EntityFramework;
+using Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

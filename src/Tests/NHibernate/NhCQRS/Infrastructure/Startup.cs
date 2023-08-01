@@ -4,7 +4,7 @@
 
 using CRUD.CQRS;
 using CRUD.DAL.NHibernate;
-using CRUD.Extensions;
+using Extensions;
 using FluentNHibernate.Cfg.Db;
 using MediatR;
 using Microsoft.Extensions.Configuration;

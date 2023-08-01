@@ -4,9 +4,9 @@
 
 using CRUD.CQRS;
 using CRUD.DAL.NHibernate;
-using CRUD.Extensions;
 using CRUD.Logging.Common;
 using CRUD.Logging.NHibernate;
+using Extensions;
 using FluentNHibernate.Cfg.Db;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

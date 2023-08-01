@@ -5,7 +5,7 @@
 using CRUD.Core;
 using CRUD.CQRS;
 using CRUD.DAL.Abstractions;
-using CRUD.Extensions;
+using Extensions;
 using NHibernate;
 using NhTests.Shared;
 
@@ -32,10 +32,10 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
                                                       new TestEntity { Text = text }
                                               });
 
-        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
-                                                        {
-                                                                OrderSpecifications = new[] { new OrderById<TestEntity, int>(false) }
-                                                        });
+        var dtosInDb = await Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+                                                   {
+                                                           OrderSpecifications = new[] { new OrderById<TestEntity, int>(false) }
+                                                   });
 
         Assert.Equal(3, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text));
@@ -65,7 +65,7 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
                                                       new TestEntity { Text = text }
                                               });
 
-        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>(new[] { 1 }));
+        var dtosInDb = await Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>(new[] { 1 }));
 
         Assert.Single(dtosInDb.Items);
         Assert.Equal(text, dtosInDb.Items.Single().Text);
@@ -94,11 +94,11 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
                                                       new TestEntity { Text = text2 }
                                               });
 
-        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
-                                                        {
-                                                                Page = 1,
-                                                                PageSize = 2
-                                                        });
+        var dtosInDb = await Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+                                                   {
+                                                           Page = 1,
+                                                           PageSize = 2
+                                                   });
 
         Assert.Equal(2, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text1));
@@ -112,11 +112,11 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
                      }.ToJsonString(),
                      dtosInDb.PagingInfo.ToJsonString());
 
-        dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
-                                                    {
-                                                            Page = 2,
-                                                            PageSize = 2
-                                                    });
+        dtosInDb = await Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+                                               {
+                                                       Page = 2,
+                                                       PageSize = 2
+                                               });
 
         Assert.Equal(2, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text2));
@@ -146,12 +146,12 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
                                                       new TestEntity { Text = text }
                                               });
 
-        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
-                                                        {
-                                                                Page = 1,
-                                                                PageSize = 2,
-                                                                DisablePaging = true
-                                                        });
+        var dtosInDb = await Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+                                                   {
+                                                           Page = 1,
+                                                           PageSize = 2,
+                                                           DisablePaging = true
+                                                   });
 
         Assert.Equal(6, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text));
@@ -180,11 +180,11 @@ public class ReadEntitiesQueryTests : ReadDispatcherTest
                                                       new TestEntity { Text = text2 }
                                               });
 
-        var dtosInDb = await this.Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
-                                                        {
-                                                                DisablePaging = true,
-                                                                Specification = new TestEntityByTextSpec(text1)
-                                                        });
+        var dtosInDb = await Dispatcher.QueryAsync(new ReadEntitiesQuery<TestEntity, int, TestEntityDto>
+                                                   {
+                                                           DisablePaging = true,
+                                                           Specification = new TestEntityByTextSpec(text1)
+                                                   });
 
         Assert.Equal(2, dtosInDb.Items.Length);
         Assert.True(dtosInDb.Items.All(x => x.Text == text1));

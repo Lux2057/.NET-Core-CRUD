@@ -4,8 +4,8 @@
 
 using CRUD.CQRS;
 using CRUD.DAL.EntityFramework;
-using CRUD.Extensions;
 using EfTests.Shared;
+using Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

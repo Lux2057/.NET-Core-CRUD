@@ -9,7 +9,7 @@ using global::NHibernate;
 #endregion
 
 /// <summary>
-///     EntityFrameworkCore based implementation of the IUnitOfWork interface
+///     NHibernate based implementation of the IUnitOfWork interface.
 /// </summary>
 public class NhUnitOfWork : IUnitOfWork
 {

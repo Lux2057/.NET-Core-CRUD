@@ -11,7 +11,7 @@
     public static class ServicesExt
     {
         /// <summary>
-        ///     Add dependencies for an Entity CRUD operations
+        ///     Add dependencies for an Entity CRUD operations.
         /// </summary>
         public static void AddEntityCRUD<TEntity, TId, TDto>(this IServiceCollection services)
                 where TEntity : class, IId<TId>, new()
@@ -23,7 +23,7 @@
         }
 
         /// <summary>
-        ///     Add dependency for an Entity Read operation
+        ///     Add dependency for an Entity Read operation.
         /// </summary>
         public static void AddEntityRead<TEntity, TId, TDto>(this IServiceCollection services)
                 where TEntity : class, IId<TId>, new()

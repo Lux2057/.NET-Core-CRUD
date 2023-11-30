@@ -8,6 +8,9 @@ using LinqToDB.Data;
 
 #endregion
 
+/// <summary>
+///     LINQ2DB based implementation of the IUnitOfWork interface.
+/// </summary>
 public class Linq2DbUnitOfWork : IUnitOfWork
 {
     #region Properties

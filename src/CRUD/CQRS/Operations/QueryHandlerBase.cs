@@ -14,7 +14,7 @@
     #endregion
 
     /// <summary>
-    ///     Base Query handler which implements transaction scoped handling of a Query
+    ///     Base Query handler which implements transaction scoped handling of a Query.
     /// </summary>
     public abstract class QueryHandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, TResponse> where TRequest : QueryBase<TResponse>
     {

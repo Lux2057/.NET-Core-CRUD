@@ -9,7 +9,7 @@
     #endregion
 
     /// <summary>
-    ///     EntityFrameworkCore based implementation of the IUnitOfWork interface
+    ///     EntityFrameworkCore based implementation of the IUnitOfWork interface.
     /// </summary>
     public class EfUnitOfWork : IUnitOfWork
     {

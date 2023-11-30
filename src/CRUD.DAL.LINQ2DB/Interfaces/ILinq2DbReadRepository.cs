@@ -10,8 +10,8 @@ using LinqSpecs;
 public interface ILinq2DbReadRepository : IReadRepository
 {
     /// <summary>
-    ///     Supported only by LINQ2DB
-    ///     Returns a IQueryable response from a data storage
+    ///     Supported only by LINQ2DB.
+    ///     Returns a IQueryable response from a data storage.
     /// </summary>
     IQueryable<TEntity> Read<TEntity>(Specification<TEntity> specification = default,
                                       string tableName = default,

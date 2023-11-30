@@ -10,7 +10,7 @@ using LinqToDB.Data;
 
 #endregion
 
-public class ReadTestsSpecific : ReadRepositoryTest
+public class ReadTestsSpecific : Linq2DbReadRepositoryTest
 {
     #region Constructors
 

@@ -8,7 +8,7 @@ using LinqToDB.Data;
 
 #endregion
 
-public abstract class ReadRepositoryTest : DbTest
+public abstract class Linq2DbReadRepositoryTest : DbTest
 {
     #region Properties
 
@@ -22,7 +22,7 @@ public abstract class ReadRepositoryTest : DbTest
 
     #region Constructors
 
-    protected ReadRepositoryTest(ILinq2DbRepository repository, DataConnection connection)
+    protected Linq2DbReadRepositoryTest(ILinq2DbRepository repository, DataConnection connection)
     {
         Repository = repository;
         Linq2DbRepository = repository;

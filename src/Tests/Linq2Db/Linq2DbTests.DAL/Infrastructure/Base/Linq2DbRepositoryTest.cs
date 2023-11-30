@@ -4,11 +4,10 @@
 
 using CRUD.DAL.Abstractions;
 using CRUD.DAL.Linq2Db;
-using LinqToDB.Data;
 
 #endregion
 
-public abstract class RepositoryTest : DbTest
+public abstract class Linq2DbRepositoryTest : DbTest
 {
     #region Properties
 
@@ -16,13 +15,13 @@ public abstract class RepositoryTest : DbTest
 
     protected IRepository Repository { get; }
 
-    protected DataConnection Connection { get; }
+    protected TestDataConnection Connection { get; }
 
     #endregion
 
     #region Constructors
 
-    protected RepositoryTest(DataConnection connection, ILinq2DbRepository repository)
+    protected Linq2DbRepositoryTest(TestDataConnection connection, ILinq2DbRepository repository)
     {
         Connection = connection;
         Repository = repository;

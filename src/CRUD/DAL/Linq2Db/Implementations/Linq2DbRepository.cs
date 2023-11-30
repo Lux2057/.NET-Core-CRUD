@@ -50,6 +50,9 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     public async Task CreateAsync<TEntity>(TEntity entity,
                                            CancellationToken cancellationToken = default) where TEntity : class, new()
     {
+        if (entity == null)
+            return;
+
         await this._connection.InsertAsync(obj: entity,
                                            token: cancellationToken);
     }
@@ -57,7 +60,13 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     public async Task CreateAsync<TEntity>(IEnumerable<TEntity> entities,
                                            CancellationToken cancellationToken = default) where TEntity : class, new()
     {
-        var entitiesArray = entities.ToArray();
+        if (entities == null)
+            return;
+
+        var entitiesArray = entities.Where(r => r != null).ToArray();
+
+        if (entitiesArray.Length == 0)
+            return;
 
         var result = await this._connection.BulkCopyAsync(options: new BulkCopyOptions { BulkCopyType = BulkCopyType.MultipleRows },
                                                           source: entitiesArray,
@@ -70,6 +79,9 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     public async Task UpdateAsync<TEntity>(TEntity entity,
                                            CancellationToken cancellationToken = default) where TEntity : class, new()
     {
+        if (entity == null)
+            return;
+
         await this._connection.UpdateAsync(obj: entity,
                                            token: cancellationToken);
     }
@@ -77,7 +89,15 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     public async Task UpdateAsync<TEntity>(IEnumerable<TEntity> entities,
                                            CancellationToken cancellationToken = default) where TEntity : class, new()
     {
-        foreach (var entity in entities)
+        if (entities == null)
+            return;
+
+        var entitiesArray = entities.Where(r => r != null).ToArray();
+
+        if (entitiesArray.Length == 0)
+            return;
+
+        foreach (var entity in entitiesArray)
             await this._connection.UpdateAsync(obj: entity,
                                                token: cancellationToken);
     }
@@ -85,6 +105,9 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     public async Task DeleteAsync<TEntity>(TEntity entity,
                                            CancellationToken cancellationToken = default) where TEntity : class, new()
     {
+        if (entity == null)
+            return;
+
         await this._connection.DeleteAsync(obj: entity,
                                            token: cancellationToken);
     }
@@ -92,7 +115,15 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     public async Task DeleteAsync<TEntity>(IEnumerable<TEntity> entities,
                                            CancellationToken cancellationToken = default) where TEntity : class, new()
     {
-        foreach (var entity in entities)
+        if (entities == null)
+            return;
+
+        var entitiesArray = entities.Where(r => r != null).ToArray();
+
+        if (entitiesArray.Length == 0)
+            return;
+
+        foreach (var entity in entitiesArray)
             await this._connection.DeleteAsync(obj: entity,
                                                token: cancellationToken);
     }
@@ -101,6 +132,9 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
                                            string tableName,
                                            CancellationToken cancellationToken = default) where TEntity : class, new()
     {
+        if (entity == null)
+            return;
+
         await this._connection.InsertAsync(obj: entity,
                                            tableName: tableName,
                                            token: cancellationToken);
@@ -110,7 +144,13 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
                                            string tableName,
                                            CancellationToken cancellationToken = default) where TEntity : class, new()
     {
-        var entitiesArray = entities.ToArray();
+        if (entities == null)
+            return;
+
+        var entitiesArray = entities.Where(r => r != null).ToArray();
+
+        if (entitiesArray.Length == 0)
+            return;
 
         var result = await this._connection.BulkCopyAsync(options: new BulkCopyOptions
                                                                    {
@@ -128,6 +168,9 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
                                            string tableName,
                                            CancellationToken cancellationToken = default) where TEntity : class, new()
     {
+        if (entity == null)
+            return;
+
         await this._connection.UpdateAsync(obj: entity,
                                            tableName: tableName,
                                            token: cancellationToken);
@@ -137,7 +180,15 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
                                            string tableName,
                                            CancellationToken cancellationToken = default) where TEntity : class, new()
     {
-        foreach (var entity in entities)
+        if (entities == null)
+            return;
+
+        var entitiesArray = entities.Where(r => r != null).ToArray();
+
+        if (entitiesArray.Length == 0)
+            return;
+
+        foreach (var entity in entitiesArray)
             await this._connection.UpdateAsync(obj: entity,
                                                tableName: tableName,
                                                token: cancellationToken);
@@ -147,6 +198,9 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
                                            string tableName,
                                            CancellationToken cancellationToken = default) where TEntity : class, new()
     {
+        if (entity == null)
+            return;
+
         await this._connection.DeleteAsync(obj: entity,
                                            tableName: tableName,
                                            token: cancellationToken);
@@ -156,7 +210,15 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
                                            string tableName,
                                            CancellationToken cancellationToken = default) where TEntity : class, new()
     {
-        foreach (var entity in entities)
+        if (entities == null)
+            return;
+
+        var entitiesArray = entities.Where(r => r != null).ToArray();
+
+        if (entitiesArray.Length == 0)
+            return;
+
+        foreach (var entity in entitiesArray)
             await this._connection.DeleteAsync(obj: entity,
                                                tableName: tableName,
                                                token: cancellationToken);

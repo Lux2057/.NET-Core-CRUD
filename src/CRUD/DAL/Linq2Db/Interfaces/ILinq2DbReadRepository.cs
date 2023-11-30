@@ -1,4 +1,4 @@
-﻿namespace CRUD.DAL.LINQ2DB;
+﻿namespace CRUD.DAL.Linq2Db;
 
 #region << Using >>
 
@@ -10,7 +10,7 @@ using LinqSpecs;
 public interface ILinq2DbReadRepository : IReadRepository
 {
     /// <summary>
-    ///     Supported only by LINQ2DB.
+    ///     Supported only by Linq2Db.
     ///     Returns a IQueryable response from a data storage.
     /// </summary>
     IQueryable<TEntity> Read<TEntity>(Specification<TEntity> specification = default,

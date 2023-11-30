@@ -1,4 +1,4 @@
-﻿namespace CRUD.DAL.LINQ2DB;
+﻿namespace CRUD.DAL.Linq2Db;
 
 #region << Using >>
 
@@ -10,7 +10,7 @@ using LinqToDB;
 public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
 {
     /// <summary>
-    ///     Supported only by LINQ2DB.
+    ///     Supported only by Linq2Db.
     ///     Adds an entity to a data storage.
     /// </summary>
     Task CreateAsync<TEntity>(TEntity entity,
@@ -18,7 +18,7 @@ public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
                               CancellationToken cancellationToken = default) where TEntity : class, new();
 
     /// <summary>
-    ///     Supported only by LINQ2DB.
+    ///     Supported only by Linq2Db.
     ///     Adds entities to a data storage.
     /// </summary>
     Task CreateAsync<TEntity>(IEnumerable<TEntity> entities,
@@ -26,7 +26,7 @@ public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
                               CancellationToken cancellationToken = default) where TEntity : class, new();
 
     /// <summary>
-    ///     Supported only by LINQ2DB.
+    ///     Supported only by Linq2Db.
     ///     Updates an entity in a data storage.
     /// </summary>
     Task UpdateAsync<TEntity>(TEntity entity,
@@ -34,7 +34,7 @@ public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
                               CancellationToken cancellationToken = default) where TEntity : class, new();
 
     /// <summary>
-    ///     Supported only by LINQ2DB.
+    ///     Supported only by Linq2Db.
     ///     Updates entities in a data storage.
     /// </summary>
     Task UpdateAsync<TEntity>(IEnumerable<TEntity> entities,
@@ -42,7 +42,7 @@ public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
                               CancellationToken cancellationToken = default) where TEntity : class, new();
 
     /// <summary>
-    ///     Supported only by LINQ2DB.
+    ///     Supported only by Linq2Db.
     ///     Deletes an entity from a data storage.
     /// </summary>
     Task DeleteAsync<TEntity>(TEntity entity,
@@ -50,7 +50,7 @@ public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
                               CancellationToken cancellationToken = default) where TEntity : class, new();
 
     /// <summary>
-    ///     Supported only by LINQ2DB.
+    ///     Supported only by Linq2Db.
     ///     Deletes entities from a data storage.
     /// </summary>
     Task DeleteAsync<TEntity>(IEnumerable<TEntity> entities,
@@ -58,8 +58,8 @@ public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
                               CancellationToken cancellationToken = default) where TEntity : class, new();
 
     /// <summary>
-    ///     Supported only by LINQ2DB.
-    ///     Returns LINQ2DB ITable.
+    ///     Supported only by Linq2Db.
+    ///     Returns Linq2Db ITable.
     /// </summary>
     ITable<TEntity> GetTable<TEntity>(string tableName) where TEntity : class, new();
 }

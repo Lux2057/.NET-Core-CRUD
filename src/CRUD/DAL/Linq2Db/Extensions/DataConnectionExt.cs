@@ -1,4 +1,4 @@
-﻿namespace CRUD.DAL.LINQ2DB;
+﻿namespace CRUD.DAL.Linq2Db;
 
 #region << Using >>
 

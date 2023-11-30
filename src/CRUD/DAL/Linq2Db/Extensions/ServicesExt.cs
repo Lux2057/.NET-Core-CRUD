@@ -1,4 +1,4 @@
-﻿namespace CRUD.DAL.LINQ2DB;
+﻿namespace CRUD.DAL.Linq2Db;
 
 #region << Using >>
 
@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 public static class ServicesExt
 {
     /// <summary>
-    ///     Add all dependencies for LINQ2DB based implementations.
+    ///     Add all dependencies for Linq2Db based implementations.
     /// </summary>
     public static void AddLinq2DbDAL<TDataConnection>(this IServiceCollection services,
                                                       Func<IServiceProvider, DataOptions, DataOptions> options,

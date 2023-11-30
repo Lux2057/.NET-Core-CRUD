@@ -1,4 +1,4 @@
-﻿namespace CRUD.DAL.LINQ2DB;
+﻿namespace CRUD.DAL.Linq2Db;
 
 #region << Using >>
 
@@ -9,7 +9,7 @@ using LinqToDB.Data;
 #endregion
 
 /// <summary>
-///     LINQ2DB based implementation of the IUnitOfWork interface.
+///     Linq2Db based implementation of the IUnitOfWork interface.
 /// </summary>
 public class Linq2DbUnitOfWork : IUnitOfWork
 {

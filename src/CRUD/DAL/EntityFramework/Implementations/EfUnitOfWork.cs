@@ -15,8 +15,6 @@
     {
         #region Properties
 
-        public IRepository Repository { get; }
-
         public string OpenedTransactionId { get; private set; }
 
         public bool IsTransactionOpened { get; private set; }
@@ -27,10 +25,9 @@
 
         #region Constructors
 
-        public EfUnitOfWork(IRepository repository, IEfDbContext efDbContext)
+        public EfUnitOfWork(IEfDbContext efDbContext)
         {
             this._dbContext = efDbContext;
-            Repository = repository;
         }
 
         #endregion

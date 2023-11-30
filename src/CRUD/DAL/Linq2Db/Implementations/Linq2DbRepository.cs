@@ -9,17 +9,17 @@ using LinqToDB.Data;
 
 #endregion
 
-public class Linq2DbRepository : ILinq2DbRepository
+public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TDataConnection : DataConnection
 {
     #region Properties
 
-    readonly DataConnection _connection;
+    readonly TDataConnection _connection;
 
     #endregion
 
     #region Constructors
 
-    public Linq2DbRepository(DataConnection connection)
+    public Linq2DbRepository(TDataConnection connection)
     {
         this._connection = connection;
     }

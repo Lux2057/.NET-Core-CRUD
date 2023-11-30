@@ -15,8 +15,6 @@ public class Linq2DbUnitOfWork : IUnitOfWork
 {
     #region Properties
 
-    public IRepository Repository { get; }
-
     public string OpenedTransactionId { get; private set; }
 
     public bool IsTransactionOpened { get; private set; }
@@ -27,10 +25,9 @@ public class Linq2DbUnitOfWork : IUnitOfWork
 
     #region Constructors
 
-    public Linq2DbUnitOfWork(IRepository repository, DataConnection connection)
+    public Linq2DbUnitOfWork(DataConnection connection)
     {
         this._connection = connection;
-        Repository = repository;
     }
 
     #endregion

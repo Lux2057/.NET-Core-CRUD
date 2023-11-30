@@ -13,8 +13,6 @@
     {
         #region Properties
 
-        public IRepository Repository { get; }
-
         public string OpenedTransactionId { get; }
 
         public bool IsTransactionOpened { get; }

@@ -13,16 +13,21 @@ public class EfUnitOfWorkTest : DbTest
 
     protected readonly TestDbContext context;
 
+    protected readonly IRepository Repository;
+
     protected readonly IUnitOfWork UnitOfWork;
 
     #endregion
 
     #region Constructors
 
-    public EfUnitOfWorkTest(IUnitOfWork unitOfWork, TestDbContext context)
+    public EfUnitOfWorkTest(IUnitOfWork unitOfWork, 
+                            IRepository repository, 
+                            TestDbContext context)
     {
         this.UnitOfWork = unitOfWork;
         this.context = context;
+        this.Repository = repository;
     }
 
     #endregion

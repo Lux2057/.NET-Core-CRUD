@@ -15,8 +15,6 @@ public class NhUnitOfWork : IUnitOfWork
 {
     #region Properties
 
-    public IRepository Repository { get; }
-
     public string OpenedTransactionId { get; private set; }
 
     public bool IsTransactionOpened { get; private set; }
@@ -27,10 +25,9 @@ public class NhUnitOfWork : IUnitOfWork
 
     #region Constructors
 
-    public NhUnitOfWork(ISession session, IRepository repository)
+    public NhUnitOfWork(ISession session)
     {
         this._session = session;
-        Repository = repository;
     }
 
     #endregion

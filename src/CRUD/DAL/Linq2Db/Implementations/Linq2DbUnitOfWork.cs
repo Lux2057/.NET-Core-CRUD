@@ -11,7 +11,7 @@ using LinqToDB.Data;
 /// <summary>
 ///     Linq2Db based implementation of the IUnitOfWork interface.
 /// </summary>
-public class Linq2DbUnitOfWork : IUnitOfWork
+public class Linq2DbUnitOfWork<TDataConnection> : IUnitOfWork where TDataConnection : DataConnection
 {
     #region Properties
 
@@ -19,13 +19,13 @@ public class Linq2DbUnitOfWork : IUnitOfWork
 
     public bool IsTransactionOpened { get; private set; }
 
-    readonly DataConnection _connection;
+    readonly TDataConnection _connection;
 
     #endregion
 
     #region Constructors
 
-    public Linq2DbUnitOfWork(DataConnection connection)
+    public Linq2DbUnitOfWork(TDataConnection connection)
     {
         this._connection = connection;
     }
@@ -36,7 +36,7 @@ public class Linq2DbUnitOfWork : IUnitOfWork
 
     public void OpenTransaction(IsolationLevel isolationLevel)
     {
-        if (this._connection.Transaction != null)
+        if (this.IsTransactionOpened)
             return;
 
         this._connection.BeginTransaction(isolationLevel);
@@ -48,7 +48,7 @@ public class Linq2DbUnitOfWork : IUnitOfWork
     {
         var transaction = this._connection.Transaction;
 
-        if (transaction == null)
+        if (transaction == null || !IsTransactionOpened)
             return;
 
         transaction.Commit();
@@ -62,7 +62,7 @@ public class Linq2DbUnitOfWork : IUnitOfWork
     {
         var transaction = this._connection.Transaction;
 
-        if (transaction == null)
+        if (transaction == null || !IsTransactionOpened)
             return;
 
         transaction.Rollback();

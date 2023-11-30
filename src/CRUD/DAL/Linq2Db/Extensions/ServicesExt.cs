@@ -33,6 +33,6 @@ public static class ServicesExt
             services.AddScoped(typeof(IRepository), typeof(Linq2DbRepository<TDataConnection>));
         }
 
-        services.AddScoped<IUnitOfWork, Linq2DbUnitOfWork>();
+        services.AddScoped<IUnitOfWork, Linq2DbUnitOfWork<TDataConnection>>();
     }
 }

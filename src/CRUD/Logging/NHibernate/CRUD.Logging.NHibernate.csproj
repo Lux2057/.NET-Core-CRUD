@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="CRUD.Logging.NHibernate.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\DAL\NHibernate\CRUD.DAL.NHibernate.csproj" />
     <ProjectReference Include="..\Common\CRUD.Logging.Common.csproj" />
   </ItemGroup>

@@ -11,10 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 public static class ServicesExt
 {
     /// <summary>
-    ///     Add all dependencies for EntityFrameworkCore based implementations
+    ///     Add all dependencies for EntityFrameworkCore based implementations.
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="dbContextOptions">EntityFrameworkCore DB configuration</param>
     public static void AddEntityFrameworkDAL<TDbContext>(this IServiceCollection services,
                                                          Action<DbContextOptionsBuilder> dbContextOptions)
             where TDbContext : DbContext, IEfDbContext

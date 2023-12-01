@@ -1,28 +1,43 @@
-﻿namespace CRUD.Logging.Common
+﻿namespace CRUD.Logging.Linq2Db
 {
     #region << Using >>
 
-    using System.ComponentModel.DataAnnotations.Schema;
     using CRUD.DAL.Abstractions;
     using JetBrains.Annotations;
+    using LinqToDB;
+    using LinqToDB.Mapping;
     using Microsoft.Extensions.Logging;
 
     #endregion
 
     [Table("Logs")]
-    public class LogEntity : IId<int>
+    public class LogEntity : IId<string>
     {
         #region Properties
 
-        public virtual int Id { get; set; }
+        [PrimaryKey]
+        public string Id { get; set; }
 
-        public virtual DateTime CrDt { get; set; }
+        [Column]
+        public DateTime CrDt { get; set; }
 
-        public virtual LogLevel LogLevel { get; set; }
+        [Column]
+        public LogLevel LogLevel { get; set; }
 
-        public virtual string Message { get; set; }
+        [Column, DataType(DataType.Text)]
+        public string Message { get; set; }
 
-        public virtual string Exception { get; set; }
+        [Column, DataType(DataType.Text)]
+        public string Exception { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        public LogEntity()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
 
         #endregion
 

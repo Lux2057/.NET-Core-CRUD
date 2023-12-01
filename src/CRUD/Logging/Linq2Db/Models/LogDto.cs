@@ -1,4 +1,4 @@
-﻿namespace CRUD.Logging.Common
+﻿namespace CRUD.Logging.Linq2Db
 {
     #region << Using >>
 
@@ -6,11 +6,11 @@
 
     #endregion
 
-    public class LogDto : IId<int>
+    public class LogDto : IId<string>
     {
         #region Properties
 
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public DateTime CrDt { get; set; }
 

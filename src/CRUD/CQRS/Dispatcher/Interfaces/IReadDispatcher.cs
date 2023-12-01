@@ -9,7 +9,7 @@
     #endregion
 
     /// <summary>
-    ///     A dispatcher interface to perform read-based operations
+    ///     A dispatcher interface to perform read-based operations.
     /// </summary>
     public interface IReadDispatcher : IDisposable
     {

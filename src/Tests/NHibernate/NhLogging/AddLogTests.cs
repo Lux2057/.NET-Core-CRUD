@@ -3,7 +3,7 @@
 #region << Using >>
 
 using CRUD.CQRS;
-using CRUD.Logging.Common;
+using CRUD.Logging.NHibernate;
 using Extensions;
 using Microsoft.Extensions.Logging;
 

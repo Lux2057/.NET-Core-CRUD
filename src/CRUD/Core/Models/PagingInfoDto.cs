@@ -5,7 +5,7 @@ public class PagingInfoDto
     #region Properties
 
     /// <summary>
-    /// Starts from 1
+    /// Starts from 1.
     /// </summary>
     public int CurrentPage { get; set; }
 

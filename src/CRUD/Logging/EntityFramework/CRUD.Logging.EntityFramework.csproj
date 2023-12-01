@@ -13,6 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="CRUD.Logging.EntityFramework.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\DAL\EntityFramework\CRUD.DAL.EntityFramework.csproj" />
     <ProjectReference Include="..\Common\CRUD.Logging.Common.csproj" />
   </ItemGroup>

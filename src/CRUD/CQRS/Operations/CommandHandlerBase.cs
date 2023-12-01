@@ -14,7 +14,7 @@
     #endregion
 
     /// <summary>
-    ///     Base Command handler which implements transaction scoped handling of a Command
+    ///     Base Command handler which implements transaction scoped handling of a Command.
     /// </summary>
     public abstract class CommandHandlerBase<TNotification> : INotificationHandler<TNotification> where TNotification : CommandBase
     {

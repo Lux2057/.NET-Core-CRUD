@@ -11,7 +11,7 @@ using MediatR;
 #endregion
 
 /// <summary>
-///     MediatR based implementation of the IDispatcher interface
+///     MediatR based implementation of the IDispatcher interface.
 /// </summary>
 public class DefaultDispatcher : IDispatcher
 {

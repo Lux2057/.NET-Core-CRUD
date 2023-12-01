@@ -3,7 +3,6 @@
     #region << Using >>
 
     using System.Net;
-    using CRUD.CQRS;
     using Extensions;
     using JetBrains.Annotations;
     using Microsoft.AspNetCore.Http;
@@ -24,6 +23,10 @@
         #endregion
 
         #region Properties
+
+        public Action<HttpContext, Exception> LogAction { get; set; }
+
+        public Func<Exception, int> ErrorStatus { get; set; }
 
         private readonly RequestDelegate _next;
 
@@ -47,16 +50,9 @@
             }
             catch (Exception pipelineException)
             {
-                var dispatcher = context.RequestServices.GetService<IDispatcher>()!;
-
                 try
                 {
-                    await dispatcher.PushAsync(new AddLogCommand
-                                               {
-                                                       LogLevel = LogLevel.Error,
-                                                       Message = pipelineException.Message,
-                                                       Exception = pipelineException
-                                               });
+                    LogAction?.Invoke(context, pipelineException);
                 }
                 catch (Exception addLogException)
                 {
@@ -88,10 +84,11 @@
                 var response = context.Response;
                 response.ContentType = applicationJson;
 
-                response.StatusCode = pipelineException switch
-                {
-                        _ => (int)HttpStatusCode.InternalServerError
-                };
+                response.StatusCode = ErrorStatus?.Invoke(pipelineException) ??
+                                      pipelineException switch
+                                      {
+                                              _ => (int)HttpStatusCode.InternalServerError
+                                      };
 
                 var result = JsonSerializer.Serialize(new { message = pipelineException.Message });
                 await response.WriteAsync(result);

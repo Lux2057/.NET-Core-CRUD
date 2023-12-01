@@ -8,7 +8,7 @@
     #endregion
 
     /// <summary>
-    ///     Finds an entity by specified Int id
+    ///     Finds an entity by specified Int id.
     /// </summary>
     public class FindEntityByIntId<TEntity> : Specification<TEntity> where TEntity : IId<int>
     {

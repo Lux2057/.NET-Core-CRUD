@@ -17,6 +17,15 @@ public class TestEntityDto : IId<string>
 
     #endregion
 
+    #region Constructors
+
+    public TestEntityDto()
+    {
+        Id = Guid.NewGuid().ToString();
+    }
+
+    #endregion
+
     #region Nested Classes
 
     [UsedImplicitly]

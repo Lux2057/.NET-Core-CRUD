@@ -38,7 +38,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\CRUD\DAL\Linq2Db\CRUD.DAL.Linq2Db.csproj" />
-    <ProjectReference Include="..\Linq2DbShared\Linq2DbTests.Shared.csproj" />
+    <ProjectReference Include="..\Linq2DbTests.Shared\Linq2DbTests.Shared.csproj" />
   </ItemGroup>
 
 </Project>

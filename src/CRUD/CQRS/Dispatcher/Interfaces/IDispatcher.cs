@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 #endregion
 
 /// <summary>
-///     A dispatcher interface to perform read- and write-based operations
+///     A dispatcher interface to perform read- and write-based operations.
 /// </summary>
 public interface IDispatcher : IReadDispatcher
 {

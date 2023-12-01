@@ -9,12 +9,16 @@
     <RepositoryUrl>https://github.com/Lux2057/.NET-Core-CRUD</RepositoryUrl>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageId>XulBenet.CRUD.WebAPI</PackageId>
-    <Version>1.3.6</Version>
+    <Version>1.3.7</Version>
     <Authors>XulBenet</Authors>
     <Deterministic>false</Deterministic>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="CRUD.WebAPI.csproj.DotSettings" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.12" />

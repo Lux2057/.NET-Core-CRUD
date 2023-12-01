@@ -16,13 +16,13 @@ using Microsoft.Extensions.DependencyInjection;
 public static class ServicesExt
 {
     /// <summary>
-    ///     Add all dependencies for Fluent NHibernate based DAL implementations
+    ///     Add all dependencies for Fluent NHibernate based DAL implementations.
     /// </summary>
     /// <param name="services"></param>
     /// <param name="fluentMappingsAssemblies"></param>
-    /// <param name="dbConfig">NHibernate DB configuration</param>
-    /// <param name="dbSchemaMode">DB schema usage mode</param>
-    /// <param name="useScopedSessionFactory">Register ISessionFactory as scoped service</param>
+    /// <param name="dbConfig">NHibernate DB configuration.</param>
+    /// <param name="dbSchemaMode">DB schema usage mode.</param>
+    /// <param name="useScopedSessionFactory">Register ISessionFactory as scoped service.</param>
     public static void AddNHibernateDAL(this IServiceCollection services,
                                         IPersistenceConfigurer dbConfig,
                                         Assembly[] fluentMappingsAssemblies,

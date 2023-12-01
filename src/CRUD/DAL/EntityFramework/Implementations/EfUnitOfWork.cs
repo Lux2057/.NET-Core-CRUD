@@ -9,13 +9,11 @@
     #endregion
 
     /// <summary>
-    ///     EntityFrameworkCore based implementation of the IUnitOfWork interface
+    ///     EntityFrameworkCore based implementation of the IUnitOfWork interface.
     /// </summary>
     public class EfUnitOfWork : IUnitOfWork
     {
         #region Properties
-
-        public IRepository Repository { get; }
 
         public string OpenedTransactionId { get; private set; }
 
@@ -27,10 +25,9 @@
 
         #region Constructors
 
-        public EfUnitOfWork(IRepository repository, IEfDbContext efDbContext)
+        public EfUnitOfWork(IEfDbContext efDbContext)
         {
             this._dbContext = efDbContext;
-            Repository = repository;
         }
 
         #endregion

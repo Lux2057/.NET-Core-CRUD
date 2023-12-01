@@ -3,7 +3,6 @@
 #region << Using >>
 
 using CRUD.DAL.EntityFramework;
-using CRUD.Logging.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,6 +14,7 @@ public class LogMapping : IEntityTypeConfiguration<LogEntity>
 
     public void Configure(EntityTypeBuilder<LogEntity> builder)
     {
+        builder.ToTable("Logs");
         builder.HasKey(r => r.Id);
         builder.Property(r => r.Id).ValueGeneratedOnAdd();
         builder.Property(r => r.CrDt).IsRequired();

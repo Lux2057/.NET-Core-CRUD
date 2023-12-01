@@ -7,21 +7,26 @@ using NHibernate;
 
 #endregion
 
-public class EfUnitOfWorkTest : DbTest
+public class NhUnitOfWorkTest : DbTest
 {
     #region Properties
 
+    protected readonly ISession session;
+
     protected readonly IUnitOfWork UnitOfWork;
 
-    protected readonly ISession session;
+    protected IRepository Repository;
 
     #endregion
 
     #region Constructors
 
-    public EfUnitOfWorkTest(IUnitOfWork unitOfWork, ISession session)
+    public NhUnitOfWorkTest(IUnitOfWork unitOfWork,
+                            IRepository repository,
+                            ISession session)
     {
         this.UnitOfWork = unitOfWork;
+        this.Repository = repository;
         this.session = session;
     }
 

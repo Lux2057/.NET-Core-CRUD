@@ -4,6 +4,7 @@
 
 using CRUD.CQRS;
 using CRUD.Logging.Common;
+using CRUD.Logging.NHibernate;
 using JetBrains.Annotations;
 
 #endregion

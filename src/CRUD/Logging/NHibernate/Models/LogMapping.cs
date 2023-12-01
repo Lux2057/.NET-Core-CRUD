@@ -2,9 +2,7 @@
 
 #region << Using >>
 
-using System.ComponentModel.DataAnnotations.Schema;
 using CRUD.DAL.NHibernate;
-using CRUD.Logging.Common;
 using FluentNHibernate.Mapping;
 
 #endregion

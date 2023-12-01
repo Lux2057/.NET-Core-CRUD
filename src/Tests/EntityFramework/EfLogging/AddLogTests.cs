@@ -4,6 +4,7 @@
 
 using CRUD.CQRS;
 using CRUD.Logging.Common;
+using CRUD.Logging.EntityFramework;
 using Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

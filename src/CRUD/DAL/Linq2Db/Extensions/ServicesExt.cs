@@ -27,11 +27,9 @@ public static class ServicesExt
             services.AddScoped(typeof(ILinq2DbReadRepository), typeof(Linq2DbRepository<TDataConnection>));
             services.AddScoped(typeof(ILinq2DbRepository), typeof(Linq2DbRepository<TDataConnection>));
         }
-        else
-        {
-            services.AddScoped(typeof(IReadRepository), typeof(Linq2DbRepository<TDataConnection>));
-            services.AddScoped(typeof(IRepository), typeof(Linq2DbRepository<TDataConnection>));
-        }
+
+        services.AddScoped(typeof(IReadRepository), typeof(Linq2DbRepository<TDataConnection>));
+        services.AddScoped(typeof(IRepository), typeof(Linq2DbRepository<TDataConnection>));
 
         services.AddScoped<IUnitOfWork, Linq2DbUnitOfWork<TDataConnection>>();
     }

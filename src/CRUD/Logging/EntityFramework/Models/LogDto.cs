@@ -1,4 +1,4 @@
-﻿namespace CRUD.Logging.Common
+﻿namespace CRUD.Logging.EntityFramework
 {
     #region << Using >>
 

@@ -1,4 +1,4 @@
-﻿namespace CRUD.Logging.Common
+﻿namespace CRUD.Logging.NHibernate
 {
     #region << Using >>
 
@@ -9,7 +9,6 @@
 
     #endregion
 
-    [Table("Logs")]
     public class LogEntity : IId<int>
     {
         #region Properties

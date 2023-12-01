@@ -59,7 +59,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD.DAL.Linq2Db", "CRUD\DA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Linq2DbTests.Shared", "Tests\Linq2Db\Linq2DbShared\Linq2DbTests.Shared.csproj", "{2B09AFCC-DFE5-460F-ACE0-9075A3548AD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq2DbTests.DAL", "Tests\Linq2Db\Linq2DbTests.DAL\Linq2DbTests.DAL.csproj", "{54DEAFC7-E7A9-498D-8697-8C52E6B9E117}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Linq2DbTests.DAL", "Tests\Linq2Db\Linq2DbTests.DAL\Linq2DbTests.DAL.csproj", "{54DEAFC7-E7A9-498D-8697-8C52E6B9E117}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

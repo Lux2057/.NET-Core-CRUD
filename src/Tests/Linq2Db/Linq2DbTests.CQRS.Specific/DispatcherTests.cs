@@ -88,7 +88,7 @@ public class DispatcherTests : DispatcherTest
 
         await Assert.ThrowsAsync<Exception>(async () => await Dispatcher.PushAsync(new TestRollbackChangesCommand(tableName)));
 
-        var entitiesInDb = await Connection.GetTable<TestEntity>().ToArrayAsync();
+        var entitiesInDb = await Connection.GetTable<TestEntity>().TableName(tableName).ToArrayAsync();
 
         Assert.Empty(entitiesInDb);
     }
@@ -123,7 +123,7 @@ public class DispatcherTests : DispatcherTest
 
         await Assert.ThrowsAnyAsync<Exception>(async () => await Dispatcher.PushAsync(new TestEntitiesCreationRollbackCommand(tableName)));
 
-        var entitiesInDb = await Connection.GetTable<TestEntity>().ToArrayAsync();
+        var entitiesInDb = await Connection.GetTable<TestEntity>().TableName(tableName).ToArrayAsync();
 
         Assert.Empty(entitiesInDb);
     }

@@ -7,11 +7,11 @@ using JetBrains.Annotations;
 
 #endregion
 
-public class TestEntityDto : IId<int>
+public class TestEntityDto : IId<string>
 {
     #region Properties
 
-    public int Id { get; set; }
+    public string Id { get; set; }
 
     public string Text { get; set; }
 

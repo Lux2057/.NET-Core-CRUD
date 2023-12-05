@@ -5,6 +5,7 @@
 using CRUD.CQRS;
 using JetBrains.Annotations;
 using Linq2DbTests.Shared;
+using LinqToDB.Data;
 
 #endregion
 
@@ -46,7 +47,11 @@ public class TestEntitiesCreationRollbackCommand : CommandBase
                                                            new TestEntity { Text = text },
                                                            new TestEntity { Text = text }
                                                    },
-                                         tableName: command.TableName,
+                                         new BulkCopyOptions
+                                         {
+                                                 TableName = command.TableName,
+                                                 BulkCopyType = BulkCopyType.MultipleRows
+                                         },
                                          cancellationToken: cancellationToken);
 
             throw new Exception("Test rollback");

@@ -5,6 +5,7 @@
 using CRUD.DAL.Linq2Db;
 using Linq2DbTests.Shared;
 using LinqToDB;
+using LinqToDB.Data;
 
 #endregion
 
@@ -96,7 +97,12 @@ public class DeleteAsyncTestsSpecific : Linq2DbRepositoryTest
                                    null
                            };
 
-            await Linq2DbRepository.CreateAsync(entities, tableName: tableName);
+            await Linq2DbRepository.CreateAsync(entities,
+                                                new BulkCopyOptions
+                                                {
+                                                        TableName = tableName,
+                                                        BulkCopyType = BulkCopyType.MultipleRows
+                                                });
 
             await Linq2DbRepository.DeleteAsync(entities, tableName: tableName);
 

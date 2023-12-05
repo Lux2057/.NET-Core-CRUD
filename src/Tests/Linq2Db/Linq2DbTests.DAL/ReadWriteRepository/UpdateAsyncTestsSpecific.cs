@@ -155,7 +155,12 @@ public class UpdateAsyncTestsSpecific : Linq2DbRepositoryTest
                                    new TestEntity { Text = oldText }
                            };
 
-            await Linq2DbRepository.CreateAsync(entities, tableName: tableName);
+            await Linq2DbRepository.CreateAsync(entities,
+                                                new BulkCopyOptions
+                                                {
+                                                        TableName = tableName,
+                                                        BulkCopyType = BulkCopyType.MultipleRows
+                                                });
 
             foreach (var entity in entities)
                 entity.Text = newText;

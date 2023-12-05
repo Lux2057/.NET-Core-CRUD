@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/Lux2057/.NET-Core-CRUD</RepositoryUrl>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageId>XulBenet.CRUD.WebAPI</PackageId>
-    <Version>1.3.7</Version>
+    <Version>1.3.8</Version>
     <Authors>XulBenet</Authors>
     <Deterministic>false</Deterministic>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>

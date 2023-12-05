@@ -5,6 +5,7 @@
 using CRUD.DAL.Linq2Db;
 using Linq2DbTests.Shared;
 using LinqToDB;
+using LinqToDB.Data;
 
 #endregion
 
@@ -68,12 +69,17 @@ public class CreateAsyncTestsSpecific : Linq2DbRepositoryTest
 
             var text = Guid.NewGuid().ToString();
 
-            await Linq2DbRepository.CreateAsync(new TestEntity[]
+            await Linq2DbRepository.CreateAsync(new[]
                                                 {
                                                         new TestEntity { Text = text },
                                                         new TestEntity { Text = text },
                                                         null
-                                                }, tableName: tableName);
+                                                },
+                                                new BulkCopyOptions
+                                                {
+                                                        TableName = tableName,
+                                                        BulkCopyType = BulkCopyType.MultipleRows
+                                                });
 
             var entitiesInDb = await Connection.GetTable<TestEntity>().TableName(tableName).ToArrayAsync();
 
@@ -90,7 +96,12 @@ public class CreateAsyncTestsSpecific : Linq2DbRepositoryTest
         {
             Connection.TryCreateTable<TestEntity>(tableName, true);
 
-            await Linq2DbRepository.CreateAsync(new[] { (TestEntity)null }, tableName: tableName);
+            await Linq2DbRepository.CreateAsync(new[] { (TestEntity)null },
+                                                new BulkCopyOptions
+                                                {
+                                                        TableName = tableName,
+                                                        BulkCopyType = BulkCopyType.MultipleRows
+                                                });
 
             var entitiesInDb = await Connection.GetTable<TestEntity>().TableName(tableName).ToArrayAsync();
 

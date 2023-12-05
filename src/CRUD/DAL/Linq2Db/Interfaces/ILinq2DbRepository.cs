@@ -4,6 +4,7 @@
 
 using CRUD.DAL.Abstractions;
 using LinqToDB;
+using LinqToDB.Data;
 
 #endregion
 
@@ -22,7 +23,7 @@ public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
     ///     Adds entities to a data storage.
     /// </summary>
     Task CreateAsync<TEntity>(IEnumerable<TEntity> entities,
-                              string tableName,
+                              BulkCopyOptions options,
                               CancellationToken cancellationToken = default) where TEntity : class, new();
 
     /// <summary>

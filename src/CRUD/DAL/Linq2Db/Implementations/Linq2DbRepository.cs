@@ -141,7 +141,7 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     }
 
     public async Task CreateAsync<TEntity>(IEnumerable<TEntity> entities,
-                                           string tableName,
+                                           BulkCopyOptions options,
                                            CancellationToken cancellationToken = default) where TEntity : class, new()
     {
         if (entities == null)
@@ -152,11 +152,7 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
         if (entitiesArray.Length == 0)
             return;
 
-        var result = await this._connection.BulkCopyAsync(options: new BulkCopyOptions
-                                                                   {
-                                                                           BulkCopyType = BulkCopyType.MultipleRows,
-                                                                           TableName = tableName
-                                                                   },
+        var result = await this._connection.BulkCopyAsync(options: options,
                                                           source: entitiesArray,
                                                           cancellationToken: cancellationToken);
 

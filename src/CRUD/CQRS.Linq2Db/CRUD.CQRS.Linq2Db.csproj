@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <PackageId>XulBenet.CRUD.CQRS.Linq2Db</PackageId>
     <Title>.NET Core CRUD CQRS Linq2Db based package</Title>
-    <Version>1.3.8</Version>
+    <Version>2.0.0</Version>
     <Authors>XulBenet</Authors>
     <PackageProjectUrl>https://github.com/Lux2057/.NET-Core-CRUD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Lux2057/.NET-Core-CRUD</RepositoryUrl>

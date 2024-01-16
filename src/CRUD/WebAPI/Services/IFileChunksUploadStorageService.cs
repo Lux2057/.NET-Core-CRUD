@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Http;
 /// <summary>
 ///     A service to support split to chunks files upload
 /// </summary>
-public interface IFileChunksStorageService
+public interface IFileChunksUploadStorageService
 {
     #region Properties
 
     public TimeSpan Expiration { get; init; }
 
-    public FileChunksStorageStatusDto[] Statuses { get; }
+    public FileChunksUploadStorageStatusDto[] Statuses { get; }
 
     #endregion
 
@@ -27,4 +27,6 @@ public interface IFileChunksStorageService
                               bool isLast,
                               Action<byte[]> uploadCompletedCallback,
                               CancellationToken cancellationToken);
+
+    public void Remove(string uid);
 }

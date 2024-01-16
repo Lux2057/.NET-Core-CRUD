@@ -1,6 +1,6 @@
 ﻿namespace CRUD.WebAPI;
 
-public class FileChunksStorageStatusDto
+public class FileChunksUploadStorageStatusDto
 {
     #region Properties
 
@@ -8,6 +8,9 @@ public class FileChunksStorageStatusDto
 
     public DateTime UpdDt { get; set; }
 
+    /// <summary>
+    ///     Key: index, Value: length
+    /// </summary>
     public Dictionary<int, int> Chunks { get; set; }
 
     #endregion

@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.Http;
 
 #endregion
 
-public class FileChunksStorageService : IFileChunksStorageService
+public class FileChunksUploadStorageService : IFileChunksUploadStorageService
 {
     #region Properties
 
     public TimeSpan Expiration { get; init; } = TimeSpan.FromMinutes(30);
 
-    public FileChunksStorageStatusDto[] Statuses =>
+    public FileChunksUploadStorageStatusDto[] Statuses =>
             this._storageDict
-                .Select(r => new FileChunksStorageStatusDto
+                .Select(r => new FileChunksUploadStorageStatusDto
                              {
                                      UID = r.Key,
                                      UpdDt = r.Value.UpdDt,
@@ -88,6 +88,14 @@ public class FileChunksStorageService : IFileChunksStorageService
         this._storageDict.Remove(uid, out storage);
 
         uploadCompletedCallback?.Invoke(file);
+    }
+
+    public void Remove(string uid)
+    {
+        if (!this._storageDict.ContainsKey(uid))
+            return;
+
+        this._storageDict.Remove(uid, out var val);
     }
 
     #endregion

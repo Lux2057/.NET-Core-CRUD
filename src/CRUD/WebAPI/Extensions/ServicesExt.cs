@@ -15,7 +15,7 @@ public static class ServicesExt
     /// <param name="expiration">TimeSpan to define max interval between chunks uploads of a single file</param>
     public static void AddFileChunksStorage(this IServiceCollection services, TimeSpan expiration)
     {
-        services.AddSingleton<IFileChunksStorageService>(new FileChunksStorageService
+        services.AddSingleton<IFileChunksUploadStorageService>(new FileChunksUploadStorageService
                                                          {
                                                                  Expiration = expiration
                                                          });

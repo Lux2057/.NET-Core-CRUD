@@ -19,7 +19,7 @@ public class Startup
         var connectionString = new ConfigurationBuilder()
                                .SetBasePath(PathHelper.GetApplicationRootOrDefault())
                                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                               .Build().GetConnectionString("DefaultConnection");
+                               .Build().GetConnectionString("DefaultConnection")!;
 
         var currentAssembly = new[]
                               {

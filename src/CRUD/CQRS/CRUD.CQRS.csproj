@@ -9,7 +9,7 @@
     <PackageId>XulBenet.CRUD.CQRS</PackageId>
     <Authors>XulBenet</Authors>
     <Company />
-    <Version>2.0.0</Version>
+    <Version>2.0.1</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 

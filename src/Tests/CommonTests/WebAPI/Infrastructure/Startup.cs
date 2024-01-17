@@ -11,12 +11,12 @@ public class Startup
 {
     #region Constants
 
-    public static TimeSpan FileChunksStorageExpiration = TimeSpan.FromMilliseconds(100);
+    public static TimeSpan ChunksStorageExpiration = TimeSpan.FromMilliseconds(100);
 
     #endregion
 
     public virtual void ConfigureServices(IServiceCollection services)
     {
-        services.AddFileChunksStorage(FileChunksStorageExpiration);
+        services.AddChunksStorage(ChunksStorageExpiration);
     }
 }

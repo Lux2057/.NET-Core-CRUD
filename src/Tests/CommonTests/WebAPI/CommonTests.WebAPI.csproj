@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CRUD\WebAPI\CRUD.WebAPI.csproj" />
+    <ProjectReference Include="..\..\..\CRUD\WebAPI\CRUD.WebAPI.csproj" />
   </ItemGroup>
 
 </Project>

@@ -9,15 +9,18 @@ using Microsoft.Extensions.DependencyInjection;
 public static class ServicesExt
 {
     /// <summary>
-    ///     Adds FileChunksStorage dependencies
+    ///     Adds ChunksStorage dependencies
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="expiration">TimeSpan to define max interval between chunks uploads of a single file</param>
-    public static void AddFileChunksStorage(this IServiceCollection services, TimeSpan expiration)
+    /// <param name="expiration">
+    ///     TimeSpan to define max interval between DateTime.UtcNow and
+    ///     respective UpDt to consider chunks collection as expired
+    /// </param>
+    public static void AddChunksStorage(this IServiceCollection services, TimeSpan expiration)
     {
-        services.AddSingleton<IFileChunksUploadStorageService>(new FileChunksUploadStorageService
-                                                         {
-                                                                 Expiration = expiration
-                                                         });
+        services.AddSingleton<IChunksStorageService>(new ChunksStorageService
+                                                     {
+                                                             Expiration = expiration
+                                                     });
     }
 }

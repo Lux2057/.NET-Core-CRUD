@@ -14,14 +14,12 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddFluxor(o =>
                            {
-                               o.ScanAssemblies(typeof(Program).Assembly, typeof(ReadToDoListsWf).Assembly);
+                               o.ScanAssemblies(typeof(Program).Assembly, typeof(SetIsLoadingStatusWf).Assembly);
                                o.UseReduxDevTools(rdt =>
                                                   {
-                                                      rdt.Name = "Templates.Blazor.EF.UI";
+                                                      rdt.Name = "Samples.UploadBigFile.UI";
                                                       rdt.EnableStackTrace();
                                                   });
                            });
-
-builder.Services.AddLocalization();
 
 await builder.Build().RunAsync();

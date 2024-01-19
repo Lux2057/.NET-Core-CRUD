@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
-    <PackageReference Include="XulBenet.CRUD.Core" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +21,5 @@
 
   <ItemGroup>
     <Folder Include="Constants\" />
-    <Folder Include="Enums\" />
   </ItemGroup>
 </Project>

@@ -1,13 +1,8 @@
 #region << Using >>
 
-using CRUD.Core;
-using CRUD.CQRS;
-using CRUD.DAL.EntityFramework;
-using CRUD.Logging.Common;
-using CRUD.Logging.EntityFramework;
-using Microsoft.EntityFrameworkCore;
-using Samples.UploadBigFile.API;
-using Samples.UploadBigFile.Shared;
+using CRUD.WebAPI;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 #endregion
@@ -15,6 +10,23 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 var builder = WebApplication.CreateBuilder(args);
 
 #region Services config
+
+builder.Services.Configure<IISServerOptions>(options =>
+                                             {
+                                                 options.MaxRequestBodySize = int.MaxValue;
+                                             });
+
+builder.Services.Configure<KestrelServerOptions>(options =>
+                                                 {
+                                                     options.Limits.MaxRequestBodySize = int.MaxValue;
+                                                 });
+
+builder.Services.Configure<FormOptions>(options =>
+                                        {
+                                            options.ValueLengthLimit = int.MaxValue;
+                                            options.MultipartBodyLengthLimit = int.MaxValue;
+                                            options.MultipartHeadersLengthLimit = int.MaxValue;
+                                        });
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -24,35 +36,7 @@ builder.Services.AddSwaggerGen(c =>
                                    c.OrderActionsBy(r => r.GroupName);
                                });
 
-var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
-
-builder.Services.AddEntityFrameworkDAL<ApiDbContext>(dbContextOptions: options =>
-                                                                       {
-                                                                           options.UseNpgsql(defaultConnectionString);
-                                                                           options.UseLazyLoadingProxies();
-                                                                       });
-
-builder.Services.AddCQRS(mediatorAssemblies: new[]
-                                             {
-                                                     typeof(AddLogCommand).Assembly,
-                                                     typeof(ReadEntitiesQuery<,,>).Assembly,
-                                                     typeof(Program).Assembly
-                                             },
-                         validatorAssemblies: new[]
-                                              {
-                                                      typeof(AddLogCommand).Assembly,
-                                                      typeof(ReadEntitiesQuery<,,>).Assembly,
-                                                      typeof(Program).Assembly
-                                              },
-                         automapperAssemblies: new[]
-                                               {
-                                                       typeof(LogEntity).Assembly,
-                                                       typeof(Program).Assembly
-                                               });
-
-builder.Services.AddEntityRead<LogEntity, int, LogDto>();
-builder.Services.AddEntityRead<ToDoListEntity, int, ToDoListDto>();
-builder.Services.AddEntityCRUD<ToDoListItemEntity, int, ToDoListItemDto>();
+builder.Services.AddChunksStorage(TimeSpan.FromMinutes(5));
 
 #endregion
 
@@ -85,21 +69,10 @@ app.UseSwaggerUI(c =>
 
 app.UseRouting();
 
-app.UseMiddleware<ExceptionsHandlerMiddleware>();
-
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 
 #endregion
-
-using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
-{
-    using (var context = serviceScope.ServiceProvider.GetService<ApiDbContext>()!)
-    {
-        context.Database.EnsureCreated();
-        context.Database.Migrate();
-    }
-}
 
 app.Run();

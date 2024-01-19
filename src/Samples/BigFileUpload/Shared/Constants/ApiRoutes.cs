@@ -4,52 +4,17 @@ public static class ApiRoutes
 {
     #region Constants
 
-    public const string ReadToDoLists = "ToDoLists/Read";
-
-    public const string CreateOrUpdateToDoList = "ToDoLists/CreatOrUpdate";
-
-    public const string DeleteToDoList = "ToDoLists/Delete";
-
-    public const string ReadToDoListItems = "ToDoListItems/Read";
-
-    public const string CreateOrUpdateToDoListItem = "ToDoListItems/CreatOrUpdate";
-
-    public const string DeleteToDoListItem = "ToDoListItems/Delete";
-
-    #endregion
-
-    #region Nested Classes
+    public const string UploadFile = "";
 
     public static class Params
     {
-        #region Constants
+        public const string Data = "Data";
 
-        /// <summary>
-        ///     Type: int[]
-        /// </summary>
-        public const string ids = "ids";
+        public const string UID = "uid";
 
-        /// <summary>
-        ///     Type: int
-        /// </summary>
-        public const string id = "id";
+        public const string Order = "order";
 
-        /// <summary>
-        ///     Type: int?
-        /// </summary>
-        public const string page = "page";
-
-        /// <summary>
-        ///     Type: int?
-        /// </summary>
-        public const string pageSize = "pageSize";
-
-        /// <summary>
-        ///     Type: int
-        /// </summary>
-        public const string toDoListId = "toDoListId";
-
-        #endregion
+        public const string IsLast = "isLast";
     }
 
     #endregion

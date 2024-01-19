@@ -14,20 +14,9 @@ public class ErrorModel : PageModel
 {
     #region Properties
 
-    public string? RequestId { get; set; }
+    public string RequestId { get; set; }
 
     public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-
-    private readonly ILogger<ErrorModel> _logger;
-
-    #endregion
-
-    #region Constructors
-
-    public ErrorModel(ILogger<ErrorModel> logger)
-    {
-        this._logger = logger;
-    }
 
     #endregion
 

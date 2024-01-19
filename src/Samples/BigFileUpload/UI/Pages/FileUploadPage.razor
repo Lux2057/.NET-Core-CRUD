@@ -1,0 +1,17 @@
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+<PageTitle>File upload</PageTitle>
+
+<div class="p-2">
+    @if (State.Value.IsLoading)
+    {
+        <span class="spinner-border" role="status">
+            <span class="visually-hidden">
+                <em>Loading...</em>
+            </span>
+        </span>
+    }
+    else
+    {
+        <InputFile accept="*" multiple OnChange="@UploadFiles"/>
+    }
+</div>

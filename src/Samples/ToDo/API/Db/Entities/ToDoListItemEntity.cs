@@ -11,7 +11,7 @@ using Samples.ToDo.Shared;
 #endregion
 
 [Table("ToDoListItem")]
-public class ToDoListItemEntity : ApiEntityBase,
+public class ToDoListItemEntity : EntityBase,
                                   DescriptionProp.Interface,
                                   StatusProp.Interface,
                                   ToDoListIdProp.Interface
@@ -31,7 +31,7 @@ public class ToDoListItemEntity : ApiEntityBase,
     #region Nested Classes
 
     [UsedImplicitly]
-    private class Mapping : ApiMappingBase<ToDoListItemEntity>
+    private class Mapping : MappingBase<ToDoListItemEntity>
     {
         public override void Configure(EntityTypeBuilder<ToDoListItemEntity> builder)
         {

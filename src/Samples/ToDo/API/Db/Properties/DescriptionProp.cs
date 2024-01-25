@@ -19,7 +19,7 @@ public abstract class DescriptionProp
         #endregion
     }
 
-    public class FindByEqualTo<TEntity> : ApiSpecificationBase<TEntity> where TEntity : ApiEntityBase, Interface, new()
+    public class FindByEqualTo<TEntity> : SpecificationBase<TEntity> where TEntity : EntityBase, Interface, new()
     {
         #region Properties
 
@@ -48,7 +48,7 @@ public abstract class DescriptionProp
         }
     }
 
-    public class FindByContainedTerm<TEntity> : ApiSpecificationBase<TEntity> where TEntity : ApiEntityBase, Interface, new()
+    public class FindByContainedTerm<TEntity> : SpecificationBase<TEntity> where TEntity : EntityBase, Interface, new()
     {
         #region Properties
 

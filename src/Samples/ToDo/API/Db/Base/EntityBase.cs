@@ -7,7 +7,7 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public abstract class ApiEntityBase : IId<int>, IDt
+public abstract class EntityBase : IId<int>, IDt
 {
     #region Properties
 

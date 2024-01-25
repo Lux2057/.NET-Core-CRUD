@@ -10,7 +10,7 @@ using Samples.ToDo.Shared;
 #endregion
 
 [Table("ToDoList")]
-public class ToDoListEntity : ApiEntityBase, NameProp.Interface
+public class ToDoListEntity : EntityBase, NameProp.Interface
 {
     #region Properties
 
@@ -23,7 +23,7 @@ public class ToDoListEntity : ApiEntityBase, NameProp.Interface
     #region Nested Classes
 
     [UsedImplicitly]
-    private class Mapping : ApiMappingBase<ToDoListEntity>
+    private class Mapping : MappingBase<ToDoListEntity>
     {
         public override void Configure(EntityTypeBuilder<ToDoListEntity> builder)
         {

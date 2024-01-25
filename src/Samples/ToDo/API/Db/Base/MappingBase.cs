@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 #endregion
 
-public abstract class ApiMappingBase<T> : IEntityTypeConfiguration<T> where T : ApiEntityBase, new()
+public abstract class MappingBase<T> : IEntityTypeConfiguration<T> where T : EntityBase, new()
 {
     #region Interface Implementations
 

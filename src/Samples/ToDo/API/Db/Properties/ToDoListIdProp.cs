@@ -20,7 +20,7 @@ public abstract class ToDoListIdProp
         #endregion
     }
 
-    public class FindByValue<TEntity> : ApiSpecificationBase<TEntity> where TEntity : ApiEntityBase, Interface, new()
+    public class FindByValue<TEntity> : SpecificationBase<TEntity> where TEntity : EntityBase, Interface, new()
     {
         #region Properties
 
@@ -43,7 +43,7 @@ public abstract class ToDoListIdProp
         }
     }
 
-    public class FindByContainsIn<TEntity> : ApiSpecificationBase<TEntity> where TEntity : ApiEntityBase, Interface, new()
+    public class FindByContainsIn<TEntity> : SpecificationBase<TEntity> where TEntity : EntityBase, Interface, new()
     {
         #region Properties
 

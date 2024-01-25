@@ -20,53 +20,60 @@ public abstract class ToDoListIdProp
         #endregion
     }
 
-    public class FindByValue<TEntity> : SpecificationBase<TEntity> where TEntity : EntityBase, Interface, new()
+    public abstract class FindBy
     {
-        #region Properties
+        #region Nested Classes
 
-        private readonly int value;
-
-        #endregion
-
-        #region Constructors
-
-        public FindByValue(int value)
+        public class EqualTo<TEntity> : SpecificationBase<TEntity> where TEntity : EntityBase, Interface, new()
         {
-            this.value = value;
+            #region Properties
+
+            private readonly int value;
+
+            #endregion
+
+            #region Constructors
+
+            public EqualTo(int value)
+            {
+                this.value = value;
+            }
+
+            #endregion
+
+            public override Expression<Func<TEntity, bool>> ToExpression()
+            {
+                return x => x.ToDoListId == this.value;
+            }
+        }
+
+        public class ContainedIn<TEntity> : SpecificationBase<TEntity> where TEntity : EntityBase, Interface, new()
+        {
+            #region Properties
+
+            private readonly int[] values;
+
+            #endregion
+
+            #region Constructors
+
+            public ContainedIn(IEnumerable<int> values)
+            {
+                this.values = values.ToDistinctArrayOrEmpty();
+            }
+
+            #endregion
+
+            public override Expression<Func<TEntity, bool>> ToExpression()
+            {
+                if (!this.values.Any())
+                    return x => true;
+
+                return x => this.values.Contains(x.ToDoListId);
+            }
         }
 
         #endregion
-
-        public override Expression<Func<TEntity, bool>> ToExpression()
-        {
-            return x => x.ToDoListId == this.value;
-        }
-    }
-
-    public class FindByContainsIn<TEntity> : SpecificationBase<TEntity> where TEntity : EntityBase, Interface, new()
-    {
-        #region Properties
-
-        private readonly int[] values;
-
-        #endregion
-
-        #region Constructors
-
-        public FindByContainsIn(IEnumerable<int> values)
-        {
-            this.values = values.ToDistinctArrayOrEmpty();
-        }
-
-        #endregion
-
-        public override Expression<Func<TEntity, bool>> ToExpression()
-        {
-            if (!this.values.Any())
-                return x => true;
-
-            return x => this.values.Contains(x.ToDoListId);
-        }
     }
 
     #endregion

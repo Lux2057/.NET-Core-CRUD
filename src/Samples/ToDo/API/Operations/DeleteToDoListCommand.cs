@@ -40,7 +40,7 @@ public class DeleteToDoListCommand : CommandBase
                 return;
             }
 
-            var toDoListItems = await Repository.Read(new ToDoListIdProp.FindByValue<ToDoListItemEntity>(command.Id)).ToArrayAsync();
+            var toDoListItems = await Repository.Read(new ToDoListIdProp.FindBy.EqualTo<ToDoListItemEntity>(command.Id)).ToArrayAsync();
 
             await Repository.DeleteAsync(toDoListItems, cancellationToken);
 

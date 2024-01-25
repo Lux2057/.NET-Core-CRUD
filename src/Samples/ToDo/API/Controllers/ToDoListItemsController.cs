@@ -38,7 +38,7 @@ public class ToDoListItemsController : DispatcherControllerBase
                                                                                  {
                                                                                          new OrderById<ToDoListItemEntity, int>(false)
                                                                                  },
-                                                           Specification = new ToDoListIdProp.FindByValue<ToDoListItemEntity>(toDoListId)
+                                                           Specification = new ToDoListIdProp.FindBy.EqualTo<ToDoListItemEntity>(toDoListId)
                                                    }, cancellationToken);
 
         return Ok(response);

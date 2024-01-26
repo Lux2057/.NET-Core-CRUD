@@ -16,7 +16,7 @@ public abstract class MappingBase<T> : IEntityTypeConfiguration<T> where T : Ent
         builder.HasKey(r => r.Id);
         builder.Property(r => r.Id).ValueGeneratedOnAdd();
         builder.Property(r => r.CrDt).IsRequired();
-        builder.Property(r => r.UpDt);
+        builder.Property(r => r.IsDeleted).IsRequired().HasDefaultValue(false);
     }
 
     #endregion

@@ -7,7 +7,7 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public abstract class EntityBase : IId<int>, IDt
+public abstract class EntityBase : IId<int>, ICrDt, IsDeletedProp.Interface
 {
     #region Properties
 
@@ -15,7 +15,7 @@ public abstract class EntityBase : IId<int>, IDt
 
     public DateTime CrDt { get; set; }
 
-    public DateTime? UpDt { get; set; }
+    public bool IsDeleted { get; set; }
 
     #endregion
 }

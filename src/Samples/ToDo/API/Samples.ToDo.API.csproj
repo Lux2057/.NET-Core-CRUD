@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Db\Entities\" />
     <Folder Include="Db\Properties\" />
     <Folder Include="Migrations\" />
   </ItemGroup>

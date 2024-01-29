@@ -1,98 +1,94 @@
-﻿namespace CRUD.Logging.Common
-{
-    #region << Using >>
+﻿namespace CRUD.Logging.Common;
 
-    using System.Net;
-    using Extensions;
-    using JetBrains.Annotations;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
-    using Newtonsoft.Json;
-    using JsonSerializer = System.Text.Json.JsonSerializer;
+#region << Using >>
+
+using System.Net;
+using CRUD.CQRS;
+using Extensions;
+using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
+
+#endregion
+
+public class ExceptionsHandlerMiddleware<TLogCommand> where TLogCommand : CommandBase, IAddLogCommand, new()
+{
+    #region Constants
+
+    private const string applicationJson = "application/json";
 
     #endregion
 
-    public class ExceptionsHandlerMiddleware
+    #region Properties
+
+    private readonly RequestDelegate _next;
+
+    #endregion
+
+    #region Constructors
+
+    public ExceptionsHandlerMiddleware(RequestDelegate next)
     {
-        #region Constants
+        this._next = next;
+    }
 
-        private const string applicationJson = "application/json";
+    #endregion
 
-        #endregion
-
-        #region Properties
-
-        public Action<HttpContext, Exception> LogAction { get; set; }
-
-        public Func<Exception, int> ErrorStatus { get; set; }
-
-        private readonly RequestDelegate _next;
-
-        #endregion
-
-        #region Constructors
-
-        public ExceptionsHandlerMiddleware(RequestDelegate next)
+    [UsedImplicitly]
+    public async Task Invoke(HttpContext context, IDispatcher dispatcher)
+    {
+        try
         {
-            this._next = next;
+            await this._next(context);
         }
-
-        #endregion
-
-        [UsedImplicitly]
-        public async Task Invoke(HttpContext context)
+        catch (Exception pipelineException)
         {
             try
             {
-                await this._next(context);
+                await dispatcher.PushAsync(new TLogCommand
+                                           {
+                                                   LogLevel = LogLevel.Error,
+                                                   Exception = pipelineException,
+                                                   Message = pipelineException.Message
+                                           });
             }
-            catch (Exception pipelineException)
+            catch (Exception addLogException)
             {
-                try
-                {
-                    LogAction?.Invoke(context, pipelineException);
-                }
-                catch (Exception addLogException)
-                {
-                    var relativeFileLogPath = context.RequestServices.GetService<IOptions<PathOptions>>()?.Value.RelativeFileLogPath ?? "Logs";
-                    var logsFolder = Path.Combine(PathHelper.GetApplicationRootOrDefault(), relativeFileLogPath);
+                var relativeFileLogPath = context.RequestServices.GetService<IOptions<PathOptions>>()?.Value.RelativeFileLogPath ?? "Logs";
+                var logsFolder = Path.Combine(PathHelper.GetApplicationRootOrDefault(), relativeFileLogPath);
 
-                    if (!Directory.Exists(logsFolder))
-                        Directory.CreateDirectory(logsFolder);
+                if (!Directory.Exists(logsFolder))
+                    Directory.CreateDirectory(logsFolder);
 
-                    var logPath = Path.Combine(logsFolder, $"Log_{DateTime.UtcNow.ToShortDateString()}.txt");
+                var logPath = Path.Combine(logsFolder, $"Log_{DateTime.UtcNow.ToShortDateString()}.txt");
 
-                    var pipelineExceptionJson = pipelineException.ToJsonString(new JsonSerializerSettings
-                                                                               {
-                                                                                       ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                                                                               });
+                var pipelineExceptionJson = pipelineException.ToJsonString(new JsonSerializerSettings
+                                                                           {
+                                                                                   ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                                                                           });
 
-                    var messages = new[]
-                                   {
-                                           $"Can't save log to the DB: {Environment.NewLine}{addLogException.ToJsonString()}",
-                                           $"{Environment.NewLine}",
-                                           $"LogLevel: {LogLevel.Error}{Environment.NewLine}"
-                                         + $"Message: {pipelineException.Message}{Environment.NewLine}"
-                                         + $"Exception: {pipelineExceptionJson}"
-                                   }.ToJoinedString(Environment.NewLine);
+                var messages = new[]
+                               {
+                                       $"Can't save log to the DB: {Environment.NewLine}{addLogException.ToJsonString()}",
+                                       $"{Environment.NewLine}",
+                                       $"LogLevel: {LogLevel.Error}{Environment.NewLine}"
+                                     + $"Message: {pipelineException.Message}{Environment.NewLine}"
+                                     + $"Exception: {pipelineExceptionJson}"
+                               }.ToJoinedString(Environment.NewLine);
 
-                    await File.AppendAllTextAsync(logPath, messages);
-                }
-
-                var response = context.Response;
-                response.ContentType = applicationJson;
-
-                response.StatusCode = ErrorStatus?.Invoke(pipelineException) ??
-                                      pipelineException switch
-                                      {
-                                              _ => (int)HttpStatusCode.InternalServerError
-                                      };
-
-                var result = JsonSerializer.Serialize(new { message = pipelineException.Message });
-                await response.WriteAsync(result);
+                await File.AppendAllTextAsync(logPath, messages);
             }
+
+            var response = context.Response;
+            response.ContentType = applicationJson;
+            response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+            var result = JsonSerializer.Serialize(new { message = pipelineException.Message });
+            await response.WriteAsync(result);
         }
     }
 }

@@ -1,35 +1,34 @@
-﻿namespace CRUD.DAL.Abstractions
-{
-    #region << Using >>
+﻿namespace CRUD.DAL.Abstractions;
 
-    using System.Linq.Expressions;
-    using LinqSpecs;
+#region << Using >>
+
+using System.Linq.Expressions;
+using LinqSpecs;
+
+#endregion
+
+/// <summary>
+///     Finds an entity by specified Int id.
+/// </summary>
+public class FindEntityByIntId<TEntity> : Specification<TEntity> where TEntity : IId<int>
+{
+    #region Properties
+
+    private readonly int id;
 
     #endregion
 
-    /// <summary>
-    ///     Finds an entity by specified Int id.
-    /// </summary>
-    public class FindEntityByIntId<TEntity> : Specification<TEntity> where TEntity : IId<int>
+    #region Constructors
+
+    public FindEntityByIntId(int id)
     {
-        #region Properties
+        this.id = id;
+    }
 
-        private readonly int id;
+    #endregion
 
-        #endregion
-
-        #region Constructors
-
-        public FindEntityByIntId(int id)
-        {
-            this.id = id;
-        }
-
-        #endregion
-
-        public override Expression<Func<TEntity, bool>> ToExpression()
-        {
-            return x => x.Id == this.id;
-        }
+    public override Expression<Func<TEntity, bool>> ToExpression()
+    {
+        return x => x.Id == this.id;
     }
 }

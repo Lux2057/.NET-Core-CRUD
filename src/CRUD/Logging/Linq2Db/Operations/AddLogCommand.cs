@@ -1,53 +1,53 @@
-﻿namespace CRUD.Logging.Linq2Db
-{
-    #region << Using >>
+﻿namespace CRUD.Logging.Linq2Db;
 
-    using CRUD.CQRS;
-    using JetBrains.Annotations;
-    using Microsoft.Extensions.Logging;
-    using Newtonsoft.Json;
+#region << Using >>
+
+using CRUD.CQRS;
+using CRUD.Logging.Common;
+using JetBrains.Annotations;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+
+#endregion
+
+public class AddLogCommand : CommandBase, IAddLogCommand
+{
+    #region Properties
+
+    public LogLevel LogLevel { get; init; }
+
+    public string Message { get; init; }
+
+    public Exception Exception { get; init; }
 
     #endregion
 
-    public class AddLogCommand : CommandBase
+    #region Nested Classes
+
+    [UsedImplicitly]
+    class Handler : CommandHandlerBase<AddLogCommand>
     {
-        #region Properties
+        #region Constructors
 
-        public LogLevel LogLevel { get; init; }
-
-        public string Message { get; init; }
-
-        public Exception Exception { get; init; }
+        public Handler(IServiceProvider serviceProvider) : base(serviceProvider) { }
 
         #endregion
 
-        #region Nested Classes
-
-        [UsedImplicitly]
-        class Handler : CommandHandlerBase<AddLogCommand>
+        protected override async Task Execute(AddLogCommand command, CancellationToken cancellationToken)
         {
-            #region Constructors
-
-            public Handler(IServiceProvider serviceProvider) : base(serviceProvider) { }
-
-            #endregion
-
-            protected override async Task Execute(AddLogCommand command, CancellationToken cancellationToken)
-            {
-                await Repository.CreateAsync(new LogEntity
-                                          {
-                                                  CrDt = DateTime.UtcNow,
-                                                  LogLevel = command.LogLevel,
-                                                  Message = command.Message,
-                                                  Exception = JsonConvert.SerializeObject(command.Exception,
-                                                                                          new JsonSerializerSettings
-                                                                                          {
-                                                                                                  ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                                                                                          })
-                                          }, cancellationToken);
-            }
+            await Repository.CreateAsync(new LogEntity
+                                         {
+                                                 CrDt = DateTime.UtcNow,
+                                                 LogLevel = command.LogLevel,
+                                                 Message = command.Message,
+                                                 Exception = JsonConvert.SerializeObject(command.Exception,
+                                                                                         new JsonSerializerSettings
+                                                                                         {
+                                                                                                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                                                                                         })
+                                         }, cancellationToken);
         }
-
-        #endregion
     }
+
+    #endregion
 }

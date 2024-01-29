@@ -1,37 +1,36 @@
-﻿namespace CRUD.DAL.Abstractions
-{
-    #region << Using >>
+﻿namespace CRUD.DAL.Abstractions;
 
-    using System.Data;
+#region << Using >>
+
+using System.Data;
+
+#endregion
+
+/// <summary>
+///     Unit of work pattern interface for transaction scope support.
+/// </summary>
+public interface IUnitOfWork
+{
+    #region Properties
+
+    public string OpenedTransactionId { get; }
+
+    public bool IsTransactionOpened { get; }
 
     #endregion
 
     /// <summary>
-    ///     Unit of work pattern interface for transaction scope support.
+    ///     Opens a transaction.
     /// </summary>
-    public interface IUnitOfWork
-    {
-        #region Properties
+    public void OpenTransaction(IsolationLevel isolationLevel);
 
-        public string OpenedTransactionId { get; }
+    /// <summary>
+    ///     Closes currently opened transaction.
+    /// </summary>
+    public void CloseTransaction();
 
-        public bool IsTransactionOpened { get; }
-
-        #endregion
-
-        /// <summary>
-        ///     Opens a transaction.
-        /// </summary>
-        public void OpenTransaction(IsolationLevel isolationLevel);
-
-        /// <summary>
-        ///     Closes currently opened transaction.
-        /// </summary>
-        public void CloseTransaction();
-
-        /// <summary>
-        ///     Rolls back all changes in currently opened transaction.
-        /// </summary>
-        public void RollbackTransaction();
-    }
+    /// <summary>
+    ///     Rolls back all changes in currently opened transaction.
+    /// </summary>
+    public void RollbackTransaction();
 }

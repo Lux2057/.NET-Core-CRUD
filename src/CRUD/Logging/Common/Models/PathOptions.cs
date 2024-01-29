@@ -1,17 +1,16 @@
-﻿namespace CRUD.Logging.Common
+﻿namespace CRUD.Logging.Common;
+
+public class PathOptions
 {
-    public class PathOptions
-    {
-        #region Constants
+    #region Constants
 
-        public const string SectionName = "Paths";
+    public const string SectionName = "Paths";
 
-        #endregion
+    #endregion
 
-        #region Properties
+    #region Properties
 
-        public string RelativeFileLogPath { get; set; }
+    public string RelativeFileLogPath { get; set; }
 
-        #endregion
-    }
+    #endregion
 }

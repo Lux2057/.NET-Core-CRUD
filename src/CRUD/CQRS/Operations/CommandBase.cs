@@ -1,17 +1,16 @@
-﻿namespace CRUD.CQRS
-{
-    #region << Using >>
+﻿namespace CRUD.CQRS;
 
-    using MediatR;
+#region << Using >>
+
+using MediatR;
+
+#endregion
+
+public abstract class CommandBase : INotification
+{
+    #region Properties
+
+    public virtual object Result { get; set; }
 
     #endregion
-
-    public abstract class CommandBase : INotification
-    {
-        #region Properties
-
-        public virtual object Result { get; set; }
-
-        #endregion
-    }
 }

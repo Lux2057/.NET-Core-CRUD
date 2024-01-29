@@ -3,6 +3,7 @@
 #region << Using >>
 
 using System.ComponentModel.DataAnnotations.Schema;
+using AutoMapper;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -36,6 +37,22 @@ public class StatusEntity : EntityBase,
             builder.Property(r => r.Name).IsRequired();
             builder.HasOne(r => r.User).WithMany(r => r.Statuses).HasForeignKey(r => r.UserId);
         }
+    }
+
+    [UsedImplicitly]
+    public class Automap : Profile
+    {
+        #region Constructors
+
+        protected Automap()
+        {
+            CreateMap<StatusEntity, StatusDto>()
+                    .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))
+                    .ForMember(r => r.Name, r => r.MapFrom(x => x.Name))
+                    .ReverseMap();
+        }
+
+        #endregion
     }
 
     #endregion

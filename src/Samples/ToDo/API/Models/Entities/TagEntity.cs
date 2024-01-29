@@ -3,6 +3,7 @@
 #region << Using >>
 
 using System.ComponentModel.DataAnnotations.Schema;
+using AutoMapper;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -31,6 +32,22 @@ public class TagEntity : EntityBase, NameProp.Interface
             base.Configure(builder);
             builder.Property(t => t.Name).IsRequired();
         }
+    }
+
+    [UsedImplicitly]
+    public class Automap : Profile
+    {
+        #region Constructors
+
+        protected Automap()
+        {
+            CreateMap<TagEntity, TagDto>()
+                    .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))
+                    .ForMember(r => r.Name, r => r.MapFrom(x => x.Name))
+                    .ReverseMap();
+        }
+
+        #endregion
     }
 
     #endregion

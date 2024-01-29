@@ -3,6 +3,7 @@
 #region << Using >>
 
 using System.ComponentModel.DataAnnotations.Schema;
+using AutoMapper;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -40,6 +41,22 @@ public class UserEntity : EntityBase
             builder.Property(r => r.Login).IsRequired();
             builder.Property(r => r.PasswordHash).IsRequired();
         }
+    }
+
+    [UsedImplicitly]
+    public class Automap : Profile
+    {
+        #region Constructors
+
+        protected Automap()
+        {
+            CreateMap<UserEntity, UserDto>()
+                    .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))
+                    .ForMember(r => r.Login, r => r.MapFrom(x => x.Login))
+                    .ReverseMap();
+        }
+
+        #endregion
     }
 
     #endregion

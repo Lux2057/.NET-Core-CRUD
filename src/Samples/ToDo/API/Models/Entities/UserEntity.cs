@@ -3,7 +3,9 @@
 #region << Using >>
 
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq.Expressions;
 using AutoMapper;
+using Extensions;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -48,12 +50,51 @@ public class UserEntity : EntityBase
     {
         #region Constructors
 
-        protected Automap()
+        public Automap()
         {
             CreateMap<UserEntity, UserDto>()
                     .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))
                     .ForMember(r => r.Login, r => r.MapFrom(x => x.Login))
                     .ReverseMap();
+        }
+
+        #endregion
+    }
+
+    public abstract class FindBy
+    {
+        #region Nested Classes
+
+        public class LoginEqualTo : SpecificationBase<UserEntity>
+        {
+            #region Properties
+
+            private readonly bool caseSensitive;
+
+            private readonly string login;
+
+            #endregion
+
+            #region Constructors
+
+            public LoginEqualTo(string login, bool caseSensitive = true)
+            {
+                this.login = login;
+                this.caseSensitive = caseSensitive;
+            }
+
+            #endregion
+
+            public override Expression<Func<UserEntity, bool>> ToExpression()
+            {
+                if (this.login.IsNullOrWhitespace())
+                    return x => true;
+
+                if (this.caseSensitive)
+                    return x => x.Login == this.login;
+
+                return x => x.Login.ToLower() == this.login.ToLower();
+            }
         }
 
         #endregion

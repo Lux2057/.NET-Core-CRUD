@@ -62,7 +62,7 @@ public class TaskEntity : EntityBase,
     {
         #region Constructors
 
-        protected Automap()
+        public Automap()
         {
             CreateMap<TaskEntity, TaskDto>()
                     .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))

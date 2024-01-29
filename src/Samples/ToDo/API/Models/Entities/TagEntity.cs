@@ -39,7 +39,7 @@ public class TagEntity : EntityBase, NameProp.Interface
     {
         #region Constructors
 
-        protected Automap()
+        public Automap()
         {
             CreateMap<TagEntity, TagDto>()
                     .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))

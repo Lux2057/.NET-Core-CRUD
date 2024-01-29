@@ -54,7 +54,7 @@ public class ProjectEntity : EntityBase,
     {
         #region Constructors
 
-        protected Automap()
+        public Automap()
         {
             CreateMap<ProjectEntity, ProjectDto>()
                     .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))

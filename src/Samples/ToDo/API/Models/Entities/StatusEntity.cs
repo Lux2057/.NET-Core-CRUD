@@ -44,7 +44,7 @@ public class StatusEntity : EntityBase,
     {
         #region Constructors
 
-        protected Automap()
+        public Automap()
         {
             CreateMap<StatusEntity, StatusDto>()
                     .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))

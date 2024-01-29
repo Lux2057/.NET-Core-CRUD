@@ -87,7 +87,7 @@ app.UseSwaggerUI(c =>
 app.UseRouting();
 
 app.UseMiddleware<ValidationErrorsHandlerMiddleware>();
-app.UseMiddleware<ExceptionsHandlerMiddleware>();
+app.UseMiddleware<ExceptionsHandlerMiddleware<AddLogCommand>>();
 
 app.MapRazorPages();
 app.MapControllers();

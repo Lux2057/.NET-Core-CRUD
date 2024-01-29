@@ -1,10 +1,9 @@
-﻿namespace CRUD.CQRS
-{
-    #region << Using >>
+﻿namespace CRUD.CQRS;
 
-    using MediatR;
+#region << Using >>
 
-    #endregion
+using MediatR;
 
-    public abstract class QueryBase<TResponse> : IRequest<TResponse> { }
-}
+#endregion
+
+public abstract class QueryBase<TResponse> : IRequest<TResponse> { }

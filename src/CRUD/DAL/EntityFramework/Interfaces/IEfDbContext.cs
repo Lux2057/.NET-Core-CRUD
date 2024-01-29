@@ -1,25 +1,24 @@
-﻿namespace CRUD.DAL.EntityFramework
-{
-    #region << Using >>
+﻿namespace CRUD.DAL.EntityFramework;
 
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.ChangeTracking;
-    using Microsoft.EntityFrameworkCore.Infrastructure;
+#region << Using >>
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+
+#endregion
+
+public interface IEfDbContext
+{
+    #region Properties
+
+    public DatabaseFacade Database { get; }
+
+    public ChangeTracker ChangeTracker { get; }
 
     #endregion
 
-    public interface IEfDbContext
-    {
-        #region Properties
+    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
-        public DatabaseFacade Database { get; }
-
-        public ChangeTracker ChangeTracker { get; }
-
-        #endregion
-
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-
-        public DbSet<TEntity> Set<TEntity>() where TEntity : class;
-    }
+    public DbSet<TEntity> Set<TEntity>() where TEntity : class;
 }

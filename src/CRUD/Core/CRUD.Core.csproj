@@ -8,7 +8,7 @@
     <PackageId>XulBenet.CRUD.Core</PackageId>
     <PackageProjectUrl>https://github.com/Lux2057/.NET-Core-CRUD</PackageProjectUrl>
     <Authors>XulBenet</Authors>
-    <Version>2.0.1</Version>
+    <Version>2.0.2</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 

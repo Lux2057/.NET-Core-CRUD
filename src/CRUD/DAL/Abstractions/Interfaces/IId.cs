@@ -1,11 +1,10 @@
-﻿namespace CRUD.DAL.Abstractions
+﻿namespace CRUD.DAL.Abstractions;
+
+public interface IId<TId>
 {
-    public interface IId<TId>
-    {
-        #region Properties
+    #region Properties
 
-        public TId Id { get; set; }
+    public TId Id { get; set; }
 
-        #endregion
-    }
+    #endregion
 }

@@ -1,96 +1,95 @@
-﻿namespace CRUD.Core
-{
-    #region << Using >>
+﻿namespace CRUD.Core;
 
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using CRUD.CQRS;
-    using CRUD.DAL.Abstractions;
-    using Extensions;
-    using LinqSpecs;
+#region << Using >>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CRUD.CQRS;
+using CRUD.DAL.Abstractions;
+using Extensions;
+using LinqSpecs;
+
+#endregion
+
+/// <summary>
+///     Returns a page collection of Entities by specified id collection.
+///     If id collection is null or empty, returns all Entities from data storage.
+/// </summary>
+public class ReadEntitiesQuery<TEntity, TId, TResponseDto> : QueryBase<PaginatedResponseDto<TResponseDto>>
+        where TEntity : class, IId<TId>, new()
+        where TResponseDto : class, new()
+{
+    #region Properties
+
+    public TId[] Ids { get; }
+
+    public int? Page { get; init; }
+
+    public int? PageSize { get; init; }
+
+    public bool DisablePaging { get; init; }
+
+    public Specification<TEntity> Specification { get; init; }
+
+    public IEnumerable<OrderSpecification<TEntity>> OrderSpecifications { get; init; }
 
     #endregion
 
-    /// <summary>
-    ///     Returns a page collection of Entities by specified id collection.
-    ///     If id collection is null or empty, returns all Entities from data storage.
-    /// </summary>
-    public class ReadEntitiesQuery<TEntity, TId, TResponseDto> : QueryBase<PaginatedResponseDto<TResponseDto>>
-            where TEntity : class, IId<TId>, new()
-            where TResponseDto : class, new()
+    #region Constructors
+
+    public ReadEntitiesQuery(IEnumerable<TId> ids = null)
     {
-        #region Properties
+        Ids = ids.ToArrayOrEmpty();
+    }
 
-        public TId[] Ids { get; }
+    #endregion
 
-        public int? Page { get; init; }
+    #region Nested Classes
 
-        public int? PageSize { get; init; }
-
-        public bool DisablePaging { get; init; }
-
-        public Specification<TEntity> Specification { get; init; }
-
-        public IEnumerable<OrderSpecification<TEntity>> OrderSpecifications { get; init; }
-
-        #endregion
-
+    internal class Handler : QueryHandlerBase<ReadEntitiesQuery<TEntity, TId, TResponseDto>, PaginatedResponseDto<TResponseDto>>
+    {
         #region Constructors
 
-        public ReadEntitiesQuery(IEnumerable<TId> ids = null)
-        {
-            Ids = ids.ToArrayOrEmpty();
-        }
+        public Handler(IServiceProvider serviceProvider) : base(serviceProvider) { }
 
         #endregion
 
-        #region Nested Classes
-
-        internal class Handler : QueryHandlerBase<ReadEntitiesQuery<TEntity, TId, TResponseDto>, PaginatedResponseDto<TResponseDto>>
+        protected override async Task<PaginatedResponseDto<TResponseDto>> Execute(ReadEntitiesQuery<TEntity, TId, TResponseDto> request, CancellationToken cancellationToken)
         {
-            #region Constructors
+            Specification<TEntity> specification = new FindEntitiesByIds<TEntity, TId>(request.Ids);
+            if (request.Specification != null)
+                specification = specification && request.Specification;
 
-            public Handler(IServiceProvider serviceProvider) : base(serviceProvider) { }
+            var queryable = Repository.Read(specification: specification,
+                                            orderSpecifications: request.OrderSpecifications);
 
-            #endregion
-
-            protected override async Task<PaginatedResponseDto<TResponseDto>> Execute(ReadEntitiesQuery<TEntity, TId, TResponseDto> request, CancellationToken cancellationToken)
+            PagingInfoDto pagingInfo = null;
+            if (!request.DisablePaging)
             {
-                Specification<TEntity> specification = new FindEntitiesByIds<TEntity, TId>(request.Ids);
-                if (request.Specification != null)
-                    specification = specification && request.Specification;
+                var totalCount = queryable.Count();
+                pagingInfo = await Dispatcher.QueryAsync(new GetPagingInfoQuery(request.Page, request.PageSize, totalCount), cancellationToken);
 
-                var queryable = Repository.Read(specification: specification,
-                                               orderSpecifications: request.OrderSpecifications);
-
-                PagingInfoDto pagingInfo = null;
-                if (!request.DisablePaging)
-                {
-                    var totalCount = queryable.Count();
-                    pagingInfo = await Dispatcher.QueryAsync(new GetPagingInfoQuery(request.Page, request.PageSize, totalCount), cancellationToken);
-
-                    queryable = queryable.Skip(pagingInfo.PageSize * (pagingInfo.CurrentPage - 1)).Take(pagingInfo.PageSize);
-                }
-
-                var items = Mapper.Map<TResponseDto[]>(queryable.ToArray());
-
-                return await Task.FromResult(new PaginatedResponseDto<TResponseDto>
-                                             {
-                                                     Items = items,
-                                                     PagingInfo = pagingInfo ?? new PagingInfoDto
-                                                                                {
-                                                                                        PageSize = items.Length,
-                                                                                        CurrentPage = 1,
-                                                                                        TotalPages = 1,
-                                                                                        TotalItemsCount = items.Length
-                                                                                }
-                                             });
+                queryable = queryable.Skip(pagingInfo.PageSize * (pagingInfo.CurrentPage - 1)).Take(pagingInfo.PageSize);
             }
-        }
 
-        #endregion
+            var items = Mapper.Map<TResponseDto[]>(queryable.ToArray());
+
+            return await Task.FromResult(new PaginatedResponseDto<TResponseDto>
+                                         {
+                                                 Items = items,
+                                                 PagingInfo = pagingInfo ?? new PagingInfoDto
+                                                                            {
+                                                                                    PageSize = items.Length,
+                                                                                    CurrentPage = 1,
+                                                                                    TotalPages = 1,
+                                                                                    TotalItemsCount = items.Length
+                                                                            }
+                                         });
+        }
     }
+
+    #endregion
 }

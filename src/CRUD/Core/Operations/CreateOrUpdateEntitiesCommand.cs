@@ -1,69 +1,68 @@
-﻿namespace CRUD.Core
-{
-    #region << Using >>
+﻿namespace CRUD.Core;
 
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using CRUD.CQRS;
-    using CRUD.DAL.Abstractions;
-    using Extensions;
+#region << Using >>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CRUD.CQRS;
+using CRUD.DAL.Abstractions;
+using Extensions;
+
+#endregion
+
+/// <summary>
+///     Creates new Entities by specified Dtos if data storage doesn't contain entries by specified ids,
+///     otherwise updates existing Entities. Entity and Dto classes must have Automapper.Profiles for two way mapping.
+/// </summary>
+public class CreateOrUpdateEntitiesCommand<TEntity, TId, TDto> : CommandBase
+        where TEntity : class, IId<TId>, new()
+        where TDto : class, IId<TId>, new()
+{
+    #region Properties
+
+    public TDto[] Dtos { get; }
+
+    public new TId[] Result { get; set; }
 
     #endregion
 
-    /// <summary>
-    ///     Creates new Entities by specified Dtos if data storage doesn't contain entries by specified ids,
-    ///     otherwise updates existing Entities. Entity and Dto classes must have Automapper.Profiles for two way mapping.
-    /// </summary>
-    public class CreateOrUpdateEntitiesCommand<TEntity, TId, TDto> : CommandBase
-            where TEntity : class, IId<TId>, new()
-            where TDto : class, IId<TId>, new()
+    #region Constructors
+
+    public CreateOrUpdateEntitiesCommand(IEnumerable<TDto> dtos)
     {
-        #region Properties
+        Dtos = dtos.ToArrayOrEmpty();
+    }
 
-        public TDto[] Dtos { get; }
+    #endregion
 
-        public new TId[] Result { get; set; }
+    #region Nested Classes
 
-        #endregion
-
+    internal class Handler : CommandHandlerBase<CreateOrUpdateEntitiesCommand<TEntity, TId, TDto>>
+    {
         #region Constructors
 
-        public CreateOrUpdateEntitiesCommand(IEnumerable<TDto> dtos)
-        {
-            Dtos = dtos.ToArrayOrEmpty();
-        }
+        public Handler(IServiceProvider serviceProvider) : base(serviceProvider) { }
 
         #endregion
 
-        #region Nested Classes
-
-        internal class Handler : CommandHandlerBase<CreateOrUpdateEntitiesCommand<TEntity, TId, TDto>>
+        protected override async Task Execute(CreateOrUpdateEntitiesCommand<TEntity, TId, TDto> command, CancellationToken cancellationToken)
         {
-            #region Constructors
+            if (!command.Dtos.Any())
+                return;
 
-            public Handler(IServiceProvider serviceProvider) : base(serviceProvider) { }
+            var entities = Mapper.Map<TEntity[]>(command.Dtos);
 
-            #endregion
+            var existingEntitiesIds = Repository.Read(new FindEntitiesByIds<TEntity, TId>(entities.GetIds<TEntity, TId>())).Select(r => r.Id).ToArray();
 
-            protected override async Task Execute(CreateOrUpdateEntitiesCommand<TEntity, TId, TDto> command, CancellationToken cancellationToken)
-            {
-                if (!command.Dtos.Any())
-                    return;
+            await Repository.CreateAsync(entities.Where(r => !existingEntitiesIds.Contains(r.Id)), cancellationToken);
+            await Repository.UpdateAsync(entities.Where(r => existingEntitiesIds.Contains(r.Id)), cancellationToken);
 
-                var entities = Mapper.Map<TEntity[]>(command.Dtos);
-
-                var existingEntitiesIds = Repository.Read(new FindEntitiesByIds<TEntity, TId>(entities.GetIds<TEntity, TId>())).Select(r => r.Id).ToArray();
-
-                await Repository.CreateAsync(entities.Where(r => !existingEntitiesIds.Contains(r.Id)), cancellationToken);
-                await Repository.UpdateAsync(entities.Where(r => existingEntitiesIds.Contains(r.Id)), cancellationToken);
-
-                command.Result = entities.GetIds<TEntity, TId>();
-            }
+            command.Result = entities.GetIds<TEntity, TId>();
         }
-
-        #endregion
     }
+
+    #endregion
 }

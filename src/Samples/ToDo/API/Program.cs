@@ -5,6 +5,7 @@ using CRUD.CQRS;
 using CRUD.DAL.EntityFramework;
 using CRUD.Logging.Common;
 using CRUD.Logging.EntityFramework;
+using CRUD.WebAPI;
 using Microsoft.EntityFrameworkCore;
 using Samples.ToDo.API;
 using Samples.ToDo.Shared;
@@ -85,6 +86,7 @@ app.UseSwaggerUI(c =>
 
 app.UseRouting();
 
+app.UseMiddleware<ValidationErrorsHandlerMiddleware>();
 app.UseMiddleware<ExceptionsHandlerMiddleware>();
 
 app.MapRazorPages();

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 
-public class IsUserLoginUniqueQuery : QueryBase<bool>
+public class IsLoginUniqueQuery : QueryBase<bool>
 {
     #region Properties
 
@@ -19,7 +19,7 @@ public class IsUserLoginUniqueQuery : QueryBase<bool>
 
     #region Constructors
 
-    public IsUserLoginUniqueQuery(string login)
+    public IsLoginUniqueQuery(string login)
     {
         Login = login;
     }
@@ -29,7 +29,7 @@ public class IsUserLoginUniqueQuery : QueryBase<bool>
     #region Nested Classes
 
     [UsedImplicitly]
-    class Handler : QueryHandlerBase<IsUserLoginUniqueQuery, bool>
+    class Handler : QueryHandlerBase<IsLoginUniqueQuery, bool>
     {
         #region Constructors
 
@@ -37,7 +37,7 @@ public class IsUserLoginUniqueQuery : QueryBase<bool>
 
         #endregion
 
-        protected override async Task<bool> Execute(IsUserLoginUniqueQuery request, CancellationToken cancellationToken)
+        protected override async Task<bool> Execute(IsLoginUniqueQuery request, CancellationToken cancellationToken)
         {
             if (request.Login.IsNullOrWhitespace())
                 return false;

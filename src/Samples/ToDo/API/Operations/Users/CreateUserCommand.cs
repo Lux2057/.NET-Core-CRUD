@@ -43,7 +43,7 @@ public class CreateUserCommand : CommandBase
                  {
                      RuleFor(r => r.Dto.Login).NotEmpty().Must(s =>
                                                                {
-                                                                   var task = dispatcher.QueryAsync(new IsUserLoginUniqueQuery(s));
+                                                                   var task = dispatcher.QueryAsync(new IsLoginUniqueQuery(s));
                                                                    task.Wait();
 
                                                                    return task.Result;

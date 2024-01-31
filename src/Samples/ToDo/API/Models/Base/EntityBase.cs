@@ -18,4 +18,13 @@ public abstract class EntityBase : IId<int>, ICrDt, IsDeletedProp.Interface
     public bool IsDeleted { get; set; }
 
     #endregion
+
+    #region Constructors
+
+    protected EntityBase()
+    {
+        CrDt = DateTime.UtcNow;
+    }
+
+    #endregion
 }

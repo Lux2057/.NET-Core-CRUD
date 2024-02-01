@@ -18,20 +18,4 @@ public class TaskDto
     public int StatusId { get; set; }
 
     #endregion
-
-    [UsedImplicitly]
-    public class Validator : AbstractValidator<TaskDto>
-    {
-        #region Constructors
-
-        public Validator()
-        {
-            RuleFor(r => r.Id).NotEmpty();
-            RuleFor(r => r.Name).NotEmpty();
-            RuleFor(r => r.Description).NotEmpty();
-            RuleFor(r => r.StatusId).NotEmpty();
-        }
-
-        #endregion
-    }
 }

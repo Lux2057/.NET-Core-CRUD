@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 
-public class DeleteEntitiesCommand<TEntity> : CommandBase where TEntity : EntityBase, new()
+public class MarkEntitiesAsDeletedCommand<TEntity> : CommandBase where TEntity : EntityBase, new()
 {
     #region Properties
 
@@ -21,7 +21,7 @@ public class DeleteEntitiesCommand<TEntity> : CommandBase where TEntity : Entity
 
     #region Constructors
 
-    public DeleteEntitiesCommand(IEnumerable<int> ids)
+    public MarkEntitiesAsDeletedCommand(IEnumerable<int> ids)
     {
         Ids = ids.ToDistinctArrayOrEmpty();
     }
@@ -31,7 +31,7 @@ public class DeleteEntitiesCommand<TEntity> : CommandBase where TEntity : Entity
     #region Nested Classes
 
     [UsedImplicitly]
-    class Handler : CommandHandlerBase<DeleteEntitiesCommand<TEntity>>
+    class Handler : CommandHandlerBase<MarkEntitiesAsDeletedCommand<TEntity>>
     {
         #region Constructors
 
@@ -39,12 +39,12 @@ public class DeleteEntitiesCommand<TEntity> : CommandBase where TEntity : Entity
 
         #endregion
 
-        protected override async Task Execute(DeleteEntitiesCommand<TEntity> command, CancellationToken cancellationToken)
+        protected override async Task Execute(MarkEntitiesAsDeletedCommand<TEntity> asDeletedCommand, CancellationToken cancellationToken)
         {
-            if (command.Ids.Length == 0)
+            if (asDeletedCommand.Ids.Length == 0)
                 return;
 
-            var entities = await Repository.Read(new FindEntitiesByIds<TEntity, int>(command.Ids)).ToArrayAsync(cancellationToken);
+            var entities = await Repository.Read(new FindEntitiesByIds<TEntity, int>(asDeletedCommand.Ids)).ToArrayAsync(cancellationToken);
 
             if (entities.Length == 0)
                 return;
@@ -59,6 +59,6 @@ public class DeleteEntitiesCommand<TEntity> : CommandBase where TEntity : Entity
 
     public static void Register(IServiceCollection services)
     {
-        services.AddTransient(typeof(INotificationHandler<DeleteEntitiesCommand<TEntity>>), typeof(Handler));
+        services.AddTransient(typeof(INotificationHandler<MarkEntitiesAsDeletedCommand<TEntity>>), typeof(Handler));
     }
 }

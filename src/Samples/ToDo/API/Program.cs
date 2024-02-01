@@ -55,7 +55,7 @@ builder.Services.AddEntityRead<LogEntity, int, LogDto>();
 builder.Services.AddEntityRead<ToDoListEntity, int, ToDoListDto>();
 builder.Services.AddEntityCRUD<ToDoListItemEntity, int, ToDoListItemDto>();
 
-DeleteEntitiesCommand<UserEntity>.Register(builder.Services);
+MarkEntitiesAsDeletedCommand<UserEntity>.Register(builder.Services);
 IsNameUniqueQuery<ProjectEntity>.Register(builder.Services);
 
 #endregion

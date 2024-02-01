@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 
-public class GetLoginQuery : QueryBase<string>
+public class GetUserNameQuery : QueryBase<string>
 {
     #region Properties
 
@@ -19,7 +19,7 @@ public class GetLoginQuery : QueryBase<string>
 
     #region Constructors
 
-    public GetLoginQuery(int id)
+    public GetUserNameQuery(int id)
     {
         Id = id;
     }
@@ -29,7 +29,7 @@ public class GetLoginQuery : QueryBase<string>
     #region Nested Classes
 
     [UsedImplicitly]
-    class Handler : QueryHandlerBase<GetLoginQuery, string>
+    class Handler : QueryHandlerBase<GetUserNameQuery, string>
     {
         #region Constructors
 
@@ -37,13 +37,13 @@ public class GetLoginQuery : QueryBase<string>
 
         #endregion
 
-        protected override async Task<string> Execute(GetLoginQuery request, CancellationToken cancellationToken)
+        protected override async Task<string> Execute(GetUserNameQuery request, CancellationToken cancellationToken)
         {
             var user = await Repository.Read(new FindEntityByIntId<UserEntity>(request.Id) &&
                                              new IsDeletedProp.FindBy.EqualTo<UserEntity>(false))
                                        .SingleOrDefaultAsync(cancellationToken);
 
-            return user?.Login ?? string.Empty;
+            return user?.UserName ?? string.Empty;
         }
     }
 

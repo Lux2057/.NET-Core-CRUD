@@ -1,4 +1,4 @@
-﻿namespace Samples.ToDo.API.Projects;
+﻿namespace Samples.ToDo.API;
 
 #region << Using >>
 
@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 
-public class CreateOrUpdateProjectCommand : CommandBase
+public class CreateOrUpdateStatusCommand : CommandBase
 {
     #region Properties
 
@@ -20,18 +20,15 @@ public class CreateOrUpdateProjectCommand : CommandBase
 
     public string Name { get; }
 
-    public string Description { get; }
-
     #endregion
 
     #region Constructors
 
-    public CreateOrUpdateProjectCommand(int? id, int userId, string name, string description)
+    public CreateOrUpdateStatusCommand(int? id, int userId, string name)
     {
         Id = id;
         UserId = userId;
         Name = name.Trim();
-        Description = description.Trim();
     }
 
     #endregion
@@ -39,7 +36,7 @@ public class CreateOrUpdateProjectCommand : CommandBase
     #region Nested Classes
 
     [UsedImplicitly]
-    public class Validator : AbstractValidator<CreateOrUpdateProjectCommand>
+    public class Validator : AbstractValidator<CreateOrUpdateStatusCommand>
     {
         #region Constructors
 
@@ -50,17 +47,15 @@ public class CreateOrUpdateProjectCommand : CommandBase
                                   .WithMessage(ValidationMessagesConst.Invalid_user_id);
 
             RuleFor(r => r.Name).NotEmpty()
-                                .MustAsync((command, _, _) => dispatcher.QueryAsync(new IsNameUniqueQuery<ProjectEntity>(command.Id, command.UserId, command.Name)))
+                                .MustAsync((command, _, _) => dispatcher.QueryAsync(new IsNameUniqueQuery<StatusEntity>(command.Id, command.UserId, command.Name)))
                                 .WithMessage(ValidationMessagesConst.Name_is_not_unique);
-
-            RuleFor(r => r.Description).NotEmpty();
         }
 
         #endregion
     }
 
     [UsedImplicitly]
-    class Handler : CommandHandlerBase<CreateOrUpdateProjectCommand>
+    class Handler : CommandHandlerBase<CreateOrUpdateStatusCommand>
     {
         #region Constructors
 
@@ -68,26 +63,24 @@ public class CreateOrUpdateProjectCommand : CommandBase
 
         #endregion
 
-        protected override async Task Execute(CreateOrUpdateProjectCommand command, CancellationToken cancellationToken)
+        protected override async Task Execute(CreateOrUpdateStatusCommand command, CancellationToken cancellationToken)
         {
             var user = await Repository.Read(new FindEntityByIntId<UserEntity>(command.UserId)).SingleAsync(cancellationToken);
 
-            var project = command.Id == null ?
-                                  null :
-                                  await Repository.Read(new FindEntityByIntId<ProjectEntity>(command.Id.Value)).SingleOrDefaultAsync(cancellationToken);
+            var status = command.Id == null ?
+                                 null :
+                                 await Repository.Read(new FindEntityByIntId<StatusEntity>(command.Id.Value)).SingleOrDefaultAsync(cancellationToken);
 
-            var isNew = project == null;
+            var isNew = status == null;
             if (isNew)
-                project = new ProjectEntity { User = user };
+                status = new StatusEntity { User = user };
 
-            project.Name = command.Name;
-            project.Description = command.Description;
-            project.UpDt = DateTime.UtcNow;
+            status.Name = command.Name;
 
             if (isNew)
-                await Repository.CreateAsync(project, cancellationToken);
+                await Repository.CreateAsync(status, cancellationToken);
             else
-                await Repository.UpdateAsync(project, cancellationToken);
+                await Repository.UpdateAsync(status, cancellationToken);
         }
     }
 

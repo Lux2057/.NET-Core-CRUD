@@ -41,15 +41,11 @@ public class CreateUserCommand : CommandBase
             When(r => r.Dto != null,
                  () =>
                  {
-                     RuleFor(r => r.Dto.Login).NotEmpty().Must(s =>
-                                                               {
-                                                                   var task = dispatcher.QueryAsync(new IsLoginUniqueQuery(s));
-                                                                   task.Wait();
+                     RuleFor(r => r.Dto.UserName).NotEmpty().MinimumLength(6).MaximumLength(30)
+                                                 .MustAsync((login, _) => dispatcher.QueryAsync(new IsLoginUniqueQuery(login)))
+                                                 .WithMessage(ValidationMessagesConst.Login_is_not_unique);
 
-                                                                   return task.Result;
-                                                               }).WithMessage("Login is not unique!");
-
-                     RuleFor(r => r.Dto.Password).NotEmpty().MinimumLength(6);
+                     RuleFor(r => r.Dto.Password).NotEmpty().MinimumLength(6).MaximumLength(30);
                  });
         }
 
@@ -67,7 +63,7 @@ public class CreateUserCommand : CommandBase
 
         protected override async Task Execute(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            var userEntity = new UserEntity { Login = command.Dto.Login };
+            var userEntity = new UserEntity { UserName = command.Dto.UserName };
             userEntity.PasswordHash = new PasswordHasher<UserEntity>().HashPassword(userEntity, command.Dto.Password);
 
             await Repository.CreateAsync(userEntity);

@@ -31,7 +31,7 @@ public class UsersController : DispatcherControllerBase
     [ProducesResponseType(200)]
     public async Task<IActionResult> Delete([FromBody] int[] ids)
     {
-        await Dispatcher.PushAsync(new DeleteEntitiesCommand<UserEntity>(ids));
+        await Dispatcher.PushAsync(new MarkEntitiesAsDeletedCommand<UserEntity>(ids));
 
         return Ok();
     }
@@ -40,7 +40,7 @@ public class UsersController : DispatcherControllerBase
     [ProducesResponseType(typeof(string), 200)]
     public async Task<IActionResult> Get([FromQuery] int id)
     {
-        var login = await Dispatcher.QueryAsync(new GetLoginQuery(id));
+        var login = await Dispatcher.QueryAsync(new GetUserNameQuery(id));
 
         return Ok(login);
     }

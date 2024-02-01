@@ -16,7 +16,7 @@ public class UserEntity : EntityBase
 {
     #region Properties
 
-    public string Login { get; set; }
+    public string UserName { get; set; }
 
     public string PasswordHash { get; set; }
 
@@ -40,7 +40,7 @@ public class UserEntity : EntityBase
         public override void Configure(EntityTypeBuilder<UserEntity> builder)
         {
             base.Configure(builder);
-            builder.Property(r => r.Login).IsRequired();
+            builder.Property(r => r.UserName).IsRequired();
             builder.Property(r => r.PasswordHash).IsRequired();
         }
     }
@@ -54,7 +54,7 @@ public class UserEntity : EntityBase
         {
             CreateMap<UserEntity, UserDto>()
                     .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))
-                    .ForMember(r => r.Login, r => r.MapFrom(x => x.Login))
+                    .ForMember(r => r.UserName, r => r.MapFrom(x => x.UserName))
                     .ReverseMap();
         }
 
@@ -91,9 +91,9 @@ public class UserEntity : EntityBase
                     return x => true;
 
                 if (this.caseSensitive)
-                    return x => x.Login == this.login;
+                    return x => x.UserName == this.login;
 
-                return x => x.Login.ToLower() == this.login.ToLower();
+                return x => x.UserName.ToLower() == this.login.ToLower();
             }
         }
 

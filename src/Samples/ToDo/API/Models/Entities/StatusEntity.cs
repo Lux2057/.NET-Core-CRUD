@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 [Table(TablesNames.Statuses)]
 public class StatusEntity : EntityBase,
                             NameProp.Interface,
-                            UserProp.Interface
+                            UserIdProp.Interface
 {
     #region Properties
 

@@ -15,7 +15,7 @@ using Samples.ToDo.Shared;
 public class TaskEntity : EntityBase,
                           NameProp.Interface,
                           DescriptionProp.Interface,
-                          UserProp.Interface,
+                          UserIdProp.Interface,
                           IUpDt
 {
     #region Properties

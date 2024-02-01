@@ -86,21 +86,3 @@ public abstract class DescriptionProp
 
     #endregion
 }
-
-public abstract class UserProp
-{
-    #region Nested Classes
-
-    public interface Interface
-    {
-        #region Properties
-
-        public int UserId { get; set; }
-
-        public UserEntity User { get; set; }
-
-        #endregion
-    }
-
-    #endregion
-}

@@ -47,7 +47,7 @@ public class CreateUserCommand : CommandBase
                                                                    task.Wait();
 
                                                                    return task.Result;
-                                                               }).WithMessage("Login is not unique");
+                                                               }).WithMessage("Login is not unique!");
 
                      RuleFor(r => r.Dto.Password).NotEmpty().MinimumLength(6);
                  });

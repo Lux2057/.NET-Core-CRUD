@@ -15,7 +15,7 @@ using Samples.ToDo.Shared;
 public class ProjectEntity : EntityBase,
                              NameProp.Interface,
                              DescriptionProp.Interface,
-                             UserProp.Interface,
+                             UserIdProp.Interface,
                              IUpDt
 {
     #region Properties
@@ -60,6 +60,7 @@ public class ProjectEntity : EntityBase,
                     .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))
                     .ForMember(r => r.Name, r => r.MapFrom(x => x.Name))
                     .ForMember(r => r.Description, r => r.MapFrom(x => x.Description))
+                    .ForMember(r => r.Tags, r => r.Ignore())
                     .ReverseMap();
         }
 

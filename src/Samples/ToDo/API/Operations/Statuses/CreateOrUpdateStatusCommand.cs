@@ -7,6 +7,7 @@ using CRUD.DAL.Abstractions;
 using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
+using Samples.ToDo.Shared;
 
 #endregion
 

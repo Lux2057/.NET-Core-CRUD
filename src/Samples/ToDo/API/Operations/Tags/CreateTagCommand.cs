@@ -5,6 +5,7 @@
 using CRUD.CQRS;
 using FluentValidation;
 using JetBrains.Annotations;
+using Samples.ToDo.Shared;
 
 #endregion
 

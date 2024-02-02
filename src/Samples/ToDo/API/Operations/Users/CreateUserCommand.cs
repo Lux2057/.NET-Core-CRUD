@@ -6,6 +6,7 @@ using CRUD.CQRS;
 using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
+using Samples.ToDo.Shared;
 
 #endregion
 

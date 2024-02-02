@@ -10,7 +10,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 [Table($"{TablesNames.Tasks}_{TablesNames.Tags}")]
 public class TaskToTagEntity : EntityBase,
-                               UserIdProp.Interface
+                               UserIdProp.Interface,
+                               TaskIdProp.Interface
 {
     #region Properties
 
@@ -36,7 +37,7 @@ public class TaskToTagEntity : EntityBase,
         public override void Configure(EntityTypeBuilder<TaskToTagEntity> builder)
         {
             base.Configure(builder);
-            builder.HasOne(r => r.Task).WithMany(r => r.Tasks).HasForeignKey(r => r.TaskId);
+            builder.HasOne(r => r.Task).WithMany(r => r.Tags).HasForeignKey(r => r.TaskId);
             builder.HasOne(r => r.Tag).WithMany(r => r.Tasks).HasForeignKey(r => r.TagId);
             builder.HasOne(r => r.User).WithMany(r => r.TasksToTags).HasForeignKey(r => r.UserId);
         }

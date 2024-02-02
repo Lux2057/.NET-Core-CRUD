@@ -25,7 +25,9 @@ public class CreateOrUpdateStatusCommand : CommandBase
 
     #region Constructors
 
-    public CreateOrUpdateStatusCommand(int? id, int userId, string name)
+    public CreateOrUpdateStatusCommand(int? id, 
+                                       int userId, 
+                                       string name)
     {
         Id = id;
         UserId = userId;
@@ -43,8 +45,15 @@ public class CreateOrUpdateStatusCommand : CommandBase
 
         public Validator(IDispatcher dispatcher)
         {
+            When(r => r.Id != null,
+                 () =>
+                 {
+                     RuleFor(r => r.Id).MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<StatusEntity>(id.Value)))
+                                       .WithMessage(ValidationMessagesConst.Invalid_status_id);
+                 });
+
             RuleFor(r => r.UserId).NotEmpty()
-                                  .MustAsync((id, _) => dispatcher.QueryAsync(new DoesUserExistQuery(id)))
+                                  .MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(id)))
                                   .WithMessage(ValidationMessagesConst.Invalid_user_id);
 
             RuleFor(r => r.Name).NotEmpty()

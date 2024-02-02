@@ -14,7 +14,9 @@ public class CreateUserCommand : CommandBase
 {
     #region Properties
 
-    public UserAuthDto Dto { get; }
+    public string UserName { get; }
+
+    public string Password { get; }
 
     public new int Result { get; set; }
 
@@ -22,9 +24,10 @@ public class CreateUserCommand : CommandBase
 
     #region Constructors
 
-    public CreateUserCommand(UserAuthDto dto)
+    public CreateUserCommand(string userName, string password)
     {
-        Dto = dto;
+        UserName = userName;
+        Password = password;
     }
 
     #endregion
@@ -38,16 +41,11 @@ public class CreateUserCommand : CommandBase
 
         public Validator(IDispatcher dispatcher)
         {
-            RuleFor(r => r.Dto).NotNull();
-            When(r => r.Dto != null,
-                 () =>
-                 {
-                     RuleFor(r => r.Dto.UserName).NotEmpty().MinimumLength(6).MaximumLength(30)
-                                                 .MustAsync((login, _) => dispatcher.QueryAsync(new IsLoginUniqueQuery(login)))
-                                                 .WithMessage(ValidationMessagesConst.Login_is_not_unique);
+            RuleFor(r => r.UserName).NotEmpty().MinimumLength(6).MaximumLength(30)
+                                    .MustAsync((userName, _) => dispatcher.QueryAsync(new IsUserNameUniqueQuery(userName)))
+                                    .WithMessage(ValidationMessagesConst.User_name_is_not_unique);
 
-                     RuleFor(r => r.Dto.Password).NotEmpty().MinimumLength(6).MaximumLength(30);
-                 });
+            RuleFor(r => r.Password).NotEmpty().MinimumLength(6).MaximumLength(30);
         }
 
         #endregion
@@ -64,8 +62,8 @@ public class CreateUserCommand : CommandBase
 
         protected override async Task Execute(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            var userEntity = new UserEntity { UserName = command.Dto.UserName };
-            userEntity.PasswordHash = new PasswordHasher<UserEntity>().HashPassword(userEntity, command.Dto.Password);
+            var userEntity = new UserEntity { UserName = command.UserName };
+            userEntity.PasswordHash = new PasswordHasher<UserEntity>().HashPassword(userEntity, command.Password);
 
             await Repository.CreateAsync(userEntity);
 

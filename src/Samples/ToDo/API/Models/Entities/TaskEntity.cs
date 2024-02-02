@@ -16,6 +16,7 @@ public class TaskEntity : EntityBase,
                           NameProp.Interface,
                           DescriptionProp.Interface,
                           UserIdProp.Interface,
+                          ProjectIdProp.Interface,
                           IUpDt
 {
     #region Properties
@@ -36,7 +37,11 @@ public class TaskEntity : EntityBase,
 
     public virtual StatusEntity Status { get; set; }
 
-    public virtual ICollection<TaskToTagEntity> Tasks { get; set; }
+    public int ProjectId { get; set; }
+
+    public virtual ProjectEntity Project { get; set; }
+
+    public virtual ICollection<TaskToTagEntity> Tags { get; set; }
 
     #endregion
 
@@ -52,6 +57,7 @@ public class TaskEntity : EntityBase,
             builder.Property(r => r.Description).HasColumnTypeText();
             builder.Property(r => r.UpDt);
             builder.Property(r => r.DueDate);
+            builder.HasOne(r => r.Project).WithMany(r => r.Tasks).HasForeignKey(r => r.ProjectId);
             builder.HasOne(r => r.User).WithMany(r => r.Tasks).HasForeignKey(r => r.UserId);
             builder.HasOne(r => r.Status).WithMany(r => r.Tasks).HasForeignKey(r => r.StatusId);
         }
@@ -70,6 +76,7 @@ public class TaskEntity : EntityBase,
                     .ForMember(r => r.Description, r => r.MapFrom(x => x.Description))
                     .ForMember(r => r.DueDate, r => r.MapFrom(x => x.DueDate))
                     .ForMember(r => r.StatusId, r => r.MapFrom(x => x.StatusId))
+                    .ForMember(r => r.Tags, r => r.Ignore())
                     .ReverseMap();
         }
 

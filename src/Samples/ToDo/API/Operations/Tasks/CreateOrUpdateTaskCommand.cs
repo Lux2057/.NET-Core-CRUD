@@ -1,4 +1,4 @@
-﻿namespace Samples.ToDo.API.Projects;
+﻿namespace Samples.ToDo.API;
 
 #region << Using >>
 
@@ -12,7 +12,7 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public class CreateOrUpdateProjectCommand : CommandBase
+public class CreateOrUpdateTaskCommand : CommandBase
 {
     #region Properties
 
@@ -20,9 +20,13 @@ public class CreateOrUpdateProjectCommand : CommandBase
 
     public int UserId { get; }
 
+    public int ProjectId { get; }
+
     public string Name { get; }
 
     public string Description { get; }
+
+    public DateTime? DueDate { get; }
 
     public int[] TagsIds { get; }
 
@@ -30,16 +34,20 @@ public class CreateOrUpdateProjectCommand : CommandBase
 
     #region Constructors
 
-    public CreateOrUpdateProjectCommand(int? id,
-                                        int userId,
-                                        string name,
-                                        string description,
-                                        IEnumerable<int> tagsIds)
+    public CreateOrUpdateTaskCommand(int? id,
+                                     int userId,
+                                     int projectId,
+                                     string name,
+                                     string description,
+                                     DateTime? dueDate,
+                                     IEnumerable<int> tagsIds)
     {
         Id = id;
         UserId = userId;
+        ProjectId = projectId;
         Name = name.Trim();
         Description = description.Trim();
+        DueDate = dueDate;
         TagsIds = tagsIds.ToDistinctArrayOrEmpty();
     }
 
@@ -48,7 +56,7 @@ public class CreateOrUpdateProjectCommand : CommandBase
     #region Nested Classes
 
     [UsedImplicitly]
-    public class Validator : AbstractValidator<CreateOrUpdateProjectCommand>
+    public class Validator : AbstractValidator<CreateOrUpdateTaskCommand>
     {
         #region Constructors
 
@@ -57,30 +65,28 @@ public class CreateOrUpdateProjectCommand : CommandBase
             When(r => r.Id != null,
                  () =>
                  {
-                     RuleFor(r => r.Id).MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<ProjectEntity>(id.Value)))
-                                       .WithMessage(ValidationMessagesConst.Invalid_project_id);
+                     RuleFor(r => r.Id).MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<TaskEntity>(id.Value)))
+                                       .WithMessage(ValidationMessagesConst.Invalid_task_id);
                  });
 
             RuleFor(r => r.UserId).NotEmpty()
-                                  .MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(id)))
+                                  .MustAsync((userId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(userId)))
                                   .WithMessage(ValidationMessagesConst.Invalid_user_id);
+
+            RuleFor(r => r.ProjectId).NotEmpty()
+                                     .MustAsync((projectId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<ProjectEntity>(projectId)))
+                                     .WithMessage(ValidationMessagesConst.Invalid_project_id);
 
             RuleFor(r => r.Name).NotEmpty()
                                 .MustAsync((command, _, _) => dispatcher.QueryAsync(new IsNameUniqueQuery<ProjectEntity>(command.Id, command.UserId, command.Name)))
                                 .WithMessage(ValidationMessagesConst.Name_is_not_unique);
-
-            RuleFor(r => r.Description).NotEmpty();
-
-            RuleFor(r => r.TagsIds).NotEmpty().Must(ids => ids.Length <= 5).WithMessage(ValidationMessagesConst.Tags_count_cant_be_more_then_5);
-            RuleForEach(r => r.TagsIds).MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<TagEntity>(id)))
-                                       .WithMessage((_, id) => $"{ValidationMessagesConst.Invalid_tag_id}: {id}");
         }
 
         #endregion
     }
 
     [UsedImplicitly]
-    class Handler : CommandHandlerBase<CreateOrUpdateProjectCommand>
+    class Handler : CommandHandlerBase<CreateOrUpdateTaskCommand>
     {
         #region Constructors
 
@@ -88,36 +94,38 @@ public class CreateOrUpdateProjectCommand : CommandBase
 
         #endregion
 
-        protected override async Task Execute(CreateOrUpdateProjectCommand command, CancellationToken cancellationToken)
+        protected override async Task Execute(CreateOrUpdateTaskCommand command, CancellationToken cancellationToken)
         {
-            var project = command.Id == null ?
-                                  null :
-                                  await Repository.Read(new FindEntityByIntId<ProjectEntity>(command.Id.Value)).SingleOrDefaultAsync(cancellationToken);
+            var task = command.Id == null ?
+                               null :
+                               await Repository.Read(new FindEntityByIntId<TaskEntity>(command.Id.Value)).SingleOrDefaultAsync(cancellationToken);
 
-            var isNew = project == null;
+            var isNew = task == null;
             if (isNew)
-                project = new ProjectEntity { UserId = command.UserId };
+                task = new TaskEntity { UserId = command.UserId };
 
-            project.Name = command.Name;
-            project.Description = command.Description;
-            project.UpDt = DateTime.UtcNow;
+            task.Name = command.Name;
+            task.Description = command.Description;
+            task.UpDt = DateTime.UtcNow;
+            task.DueDate = command.DueDate;
+            task.ProjectId = command.ProjectId;
 
             if (isNew)
             {
-                await Repository.CreateAsync(project, cancellationToken);
+                await Repository.CreateAsync(task, cancellationToken);
 
                 await Repository.CreateAsync(command.TagsIds.Select(tagId => new ProjectToTagEntity
                                                                              {
                                                                                      TagId = tagId,
-                                                                                     ProjectId = project.Id
+                                                                                     ProjectId = task.Id
                                                                              }), cancellationToken);
             }
             else
             {
-                await Repository.UpdateAsync(project, cancellationToken);
+                await Repository.UpdateAsync(task, cancellationToken);
 
-                var existingTagsMaps = await Repository.Read(new UserIdProp.FindBy.EqualTo<ProjectToTagEntity>(command.UserId) &&
-                                                             new ProjectIdProp.FindBy.EqualTo<ProjectToTagEntity>(project.Id))
+                var existingTagsMaps = await Repository.Read(new UserIdProp.FindBy.EqualTo<TaskToTagEntity>(command.UserId) &&
+                                                             new TaskIdProp.FindBy.EqualTo<TaskToTagEntity>(task.Id))
                                                        .Select(r => new
                                                                     {
                                                                             r.Id,
@@ -127,14 +135,14 @@ public class CreateOrUpdateProjectCommand : CommandBase
                 var existingTagsIds = existingTagsMaps.Select(r => r.TagId).ToArray();
                 var tagsIdsToCreate = command.TagsIds.Where(tagId => !existingTagsIds.Contains(tagId)).ToArray();
 
-                await Repository.CreateAsync(tagsIdsToCreate.Select(tagId => new ProjectToTagEntity
+                await Repository.CreateAsync(tagsIdsToCreate.Select(tagId => new TaskToTagEntity
                                                                              {
-                                                                                     ProjectId = project.Id,
+                                                                                     TaskId = task.Id,
                                                                                      TagId = tagId
                                                                              }), cancellationToken);
 
                 var tagsMapsToDelete = existingTagsMaps.Where(r => !command.TagsIds.Contains(r.TagId)).ToArray();
-                var tagsToDelete = await Repository.Read(new FindEntitiesByIds<ProjectToTagEntity, int>(tagsMapsToDelete.Select(r => r.Id))).ToArrayAsync(cancellationToken);
+                var tagsToDelete = await Repository.Read(new FindEntitiesByIds<TaskToTagEntity, int>(tagsMapsToDelete.Select(r => r.Id))).ToArrayAsync(cancellationToken);
 
                 await Repository.DeleteAsync(tagsToDelete, cancellationToken);
             }

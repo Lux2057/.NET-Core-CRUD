@@ -65,21 +65,21 @@ public class UserEntity : EntityBase
     {
         #region Nested Classes
 
-        public class LoginEqualTo : SpecificationBase<UserEntity>
+        public class UserNameEqualTo : SpecificationBase<UserEntity>
         {
             #region Properties
 
             private readonly bool caseSensitive;
 
-            private readonly string login;
+            private readonly string userName;
 
             #endregion
 
             #region Constructors
 
-            public LoginEqualTo(string login, bool caseSensitive = true)
+            public UserNameEqualTo(string userName, bool caseSensitive = true)
             {
-                this.login = login;
+                this.userName = userName;
                 this.caseSensitive = caseSensitive;
             }
 
@@ -87,13 +87,13 @@ public class UserEntity : EntityBase
 
             public override Expression<Func<UserEntity, bool>> ToExpression()
             {
-                if (this.login.IsNullOrWhitespace())
+                if (this.userName.IsNullOrWhitespace())
                     return x => true;
 
                 if (this.caseSensitive)
-                    return x => x.UserName == this.login;
+                    return x => x.UserName == this.userName;
 
-                return x => x.UserName.ToLower() == this.login.ToLower();
+                return x => x.UserName.ToLower() == this.userName.ToLower();
             }
         }
 

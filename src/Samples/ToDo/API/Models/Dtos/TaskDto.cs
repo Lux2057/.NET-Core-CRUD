@@ -1,8 +1,5 @@
 ﻿namespace Samples.ToDo.API;
 
-using FluentValidation;
-using JetBrains.Annotations;
-
 public class TaskDto
 {
     #region Properties
@@ -16,6 +13,8 @@ public class TaskDto
     public DateTime? DueDate { get; set; }
 
     public int StatusId { get; set; }
+
+    public TagDto[] Tags { get; set; }
 
     #endregion
 }

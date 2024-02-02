@@ -30,6 +30,8 @@ public class ProjectEntity : EntityBase,
 
     public DateTime? UpDt { get; set; }
 
+    public virtual ICollection<TaskEntity> Tasks { get; set; }
+
     public virtual ICollection<ProjectToTagEntity> Tags { get; set; }
 
     #endregion

@@ -21,7 +21,7 @@ public class UsersController : DispatcherControllerBase
     [ProducesResponseType(200)]
     public async Task<IActionResult> Create([FromBody] UserAuthDto dto)
     {
-        var command = new CreateUserCommand(dto);
+        var command = new CreateUserCommand(dto.UserName, dto.Password);
         await Dispatcher.PushAsync(command);
 
         return Ok(command.Result);
@@ -40,8 +40,8 @@ public class UsersController : DispatcherControllerBase
     [ProducesResponseType(typeof(string), 200)]
     public async Task<IActionResult> Get([FromQuery] int id)
     {
-        var login = await Dispatcher.QueryAsync(new GetUserNameQuery(id));
+        var userName = await Dispatcher.QueryAsync(new GetUserNameQuery(id));
 
-        return Ok(login);
+        return Ok(userName);
     }
 }

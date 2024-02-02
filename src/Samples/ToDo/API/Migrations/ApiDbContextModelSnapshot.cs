@@ -207,6 +207,9 @@ namespace Samples.ToDo.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("StatusId")
                         .HasColumnType("integer");
 
@@ -217,6 +220,8 @@ namespace Samples.ToDo.API.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.HasIndex("StatusId");
 
@@ -338,11 +343,11 @@ namespace Samples.ToDo.API.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("Login")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -402,6 +407,12 @@ namespace Samples.ToDo.API.Migrations
 
             modelBuilder.Entity("Samples.ToDo.API.TaskEntity", b =>
                 {
+                    b.HasOne("Samples.ToDo.API.ProjectEntity", "Project")
+                        .WithMany("Tasks")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Samples.ToDo.API.StatusEntity", "Status")
                         .WithMany("Tasks")
                         .HasForeignKey("StatusId")
@@ -413,6 +424,8 @@ namespace Samples.ToDo.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Project");
 
                     b.Navigation("Status");
 
@@ -428,7 +441,7 @@ namespace Samples.ToDo.API.Migrations
                         .IsRequired();
 
                     b.HasOne("Samples.ToDo.API.TaskEntity", "Task")
-                        .WithMany("Tasks")
+                        .WithMany("Tags")
                         .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -460,6 +473,8 @@ namespace Samples.ToDo.API.Migrations
             modelBuilder.Entity("Samples.ToDo.API.ProjectEntity", b =>
                 {
                     b.Navigation("Tags");
+
+                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("Samples.ToDo.API.StatusEntity", b =>
@@ -476,7 +491,7 @@ namespace Samples.ToDo.API.Migrations
 
             modelBuilder.Entity("Samples.ToDo.API.TaskEntity", b =>
                 {
-                    b.Navigation("Tasks");
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("Samples.ToDo.API.ToDoListEntity", b =>

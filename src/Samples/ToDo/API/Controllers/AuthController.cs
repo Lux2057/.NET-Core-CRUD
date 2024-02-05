@@ -18,7 +18,9 @@ public class AuthController : DispatcherControllerBase
 
     #endregion
 
-    [HttpPost, AllowAnonymous, ProducesResponseType(typeof(AuthResultDto), 200)]
+    [HttpPost,
+     AllowAnonymous,
+     ProducesResponseType(typeof(AuthResultDto), 200)]
     public async Task<IActionResult> SignUp([FromBody] AuthRequest request)
     {
         var command = new SignUpCommand(request.UserName, request.Password);
@@ -27,7 +29,9 @@ public class AuthController : DispatcherControllerBase
         return Ok(command.Result);
     }
 
-    [HttpPost, AllowAnonymous, ProducesResponseType(typeof(AuthResultDto), 200)]
+    [HttpPost,
+     AllowAnonymous,
+     ProducesResponseType(typeof(AuthResultDto), 200)]
     public async Task<ActionResult> SignIn([FromBody] AuthRequest dto)
     {
         var command = new SignInCommand(dto.UserName, dto.Password);
@@ -36,7 +40,9 @@ public class AuthController : DispatcherControllerBase
         return Ok(command.Result);
     }
 
-    [HttpPost, Authorize, ProducesResponseType(typeof(AuthResultDto), 200)]
+    [HttpPost,
+     Authorize,
+     ProducesResponseType(typeof(AuthResultDto), 200)]
     public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
     {
         var command = new RefreshTokenCommand(HttpContext.User.ToUserDto().Id, request.RefreshToken);

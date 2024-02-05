@@ -10,6 +10,7 @@ using CRUD.WebAPI;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Samples.ToDo.API;
 using Samples.ToDo.Shared;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -53,6 +54,30 @@ builder.Services.AddSwaggerGen(c =>
                                {
                                    c.EnableAnnotations();
                                    c.OrderActionsBy(r => r.GroupName);
+                                   c.AddSecurityDefinition("Bearer",
+                                                           new OpenApiSecurityScheme
+                                                           {
+                                                                   Name = "Authorization",
+                                                                   Type = SecuritySchemeType.Http,
+                                                                   Scheme = "Bearer",
+                                                                   BearerFormat = "JWT",
+                                                                   In = ParameterLocation.Header
+                                                           });
+
+                                   c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                                                            {
+                                                                    {
+                                                                            new OpenApiSecurityScheme
+                                                                            {
+                                                                                    Reference = new OpenApiReference
+                                                                                                {
+                                                                                                        Type = ReferenceType.SecurityScheme,
+                                                                                                        Id = "Bearer"
+                                                                                                }
+                                                                            },
+                                                                            new string[] { }
+                                                                    }
+                                                            });
                                });
 
 var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;

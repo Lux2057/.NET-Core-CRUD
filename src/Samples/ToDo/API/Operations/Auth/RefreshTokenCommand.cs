@@ -15,7 +15,7 @@ public class RefreshTokenCommand : CommandBase
 {
     #region Properties
 
-    public string AccessToken { get; }
+    public int UserId { get; }
 
     public string RefreshToken { get; }
 
@@ -25,9 +25,9 @@ public class RefreshTokenCommand : CommandBase
 
     #region Constructors
 
-    public RefreshTokenCommand(string accessToken, string refreshToken)
+    public RefreshTokenCommand(int userId, string refreshToken)
     {
-        AccessToken = accessToken;
+        UserId = userId;
         RefreshToken = refreshToken;
     }
 
@@ -55,21 +55,7 @@ public class RefreshTokenCommand : CommandBase
 
         protected override async Task Execute(RefreshTokenCommand command, CancellationToken cancellationToken)
         {
-            var tokenPrincipal = await Dispatcher.QueryAsync(new GetTokenPrincipalQuery(command.AccessToken));
-
-            if (!tokenPrincipal.Success)
-            {
-                command.Result = new AuthResultDto
-                                 {
-                                         Success = false,
-                                         Message = tokenPrincipal.Message
-                                 };
-
-                return;
-            }
-
-            var userDto = tokenPrincipal.Principal.ToUserDto();
-            var user = await Repository.Read(new FindEntityByIntId<UserEntity>(userDto.Id)).SingleOrDefaultAsync(cancellationToken);
+            var user = await Repository.Read(new FindEntityByIntId<UserEntity>(command.UserId)).SingleOrDefaultAsync(cancellationToken);
             if (user == null)
             {
                 command.Result = new AuthResultDto

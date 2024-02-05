@@ -39,17 +39,9 @@ public class AuthController : DispatcherControllerBase
     [HttpPost, Authorize, ProducesResponseType(typeof(AuthResultDto), 200)]
     public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
     {
-        var command = new RefreshTokenCommand(request.AccessToken, request.RefreshToken);
+        var command = new RefreshTokenCommand(HttpContext.User.ToUserDto().Id, request.RefreshToken);
         await Dispatcher.PushAsync(command);
 
         return Ok(command.Result);
-    }
-
-    [HttpGet, Authorize]
-    public async Task<ActionResult> Test()
-    {
-        var httpContext = HttpContext.User.ToUserDto();
-
-        return Ok("Success");
     }
 }

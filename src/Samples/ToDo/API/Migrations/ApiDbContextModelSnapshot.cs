@@ -148,7 +148,7 @@ namespace Samples.ToDo.API.Migrations
                     b.Property<DateTime>("IssuedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Token")
+                    b.Property<string>("TokenHash")
                         .IsRequired()
                         .HasColumnType("text");
 

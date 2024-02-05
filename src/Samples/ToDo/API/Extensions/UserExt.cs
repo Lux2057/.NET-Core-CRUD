@@ -18,9 +18,9 @@ public static class UserExt
                };
     }
 
-    public static int GetUserIdOrDefault(this TokenPrincipalDto principalDto, int defaultValue = 0)
+    public static int GetUserIdOrDefault(this ClaimsPrincipal principal, int defaultValue = 0)
     {
-        var claimsArray = principalDto?.Principal?.Claims.ToArrayOrEmpty() ?? Array.Empty<Claim>();
+        var claimsArray = principal?.Claims.ToArrayOrEmpty() ?? Array.Empty<Claim>();
 
         if (claimsArray.Length == 0)
             return defaultValue;

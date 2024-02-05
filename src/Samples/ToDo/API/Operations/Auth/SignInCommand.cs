@@ -4,6 +4,7 @@
 
 using CRUD.CQRS;
 using Extensions;
+using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,20 @@ public class SignInCommand : CommandBase
     #endregion
 
     #region Nested Classes
+
+    [UsedImplicitly]
+    public class Validator : AbstractValidator<SignInCommand>
+    {
+        #region Constructors
+
+        public Validator()
+        {
+            RuleFor(r => r.UserName).NotEmpty();
+            RuleFor(r => r.Password).NotEmpty();
+        }
+
+        #endregion
+    }
 
     [UsedImplicitly]
     class Handler : CommandHandlerBase<SignInCommand>

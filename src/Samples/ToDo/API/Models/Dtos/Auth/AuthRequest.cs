@@ -1,6 +1,6 @@
 ﻿namespace Samples.ToDo.API;
 
-public class SignInDto
+public class AuthRequest
 {
     #region Properties
 

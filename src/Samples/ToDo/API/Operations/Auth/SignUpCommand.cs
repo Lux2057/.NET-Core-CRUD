@@ -10,7 +10,7 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public class CreateUserCommand : CommandBase
+public class SignUpCommand : CommandBase
 {
     #region Properties
 
@@ -18,13 +18,13 @@ public class CreateUserCommand : CommandBase
 
     public string Password { get; }
 
-    public new int Result { get; set; }
+    public new AuthResultDto Result { get; set; }
 
     #endregion
 
     #region Constructors
 
-    public CreateUserCommand(string userName, string password)
+    public SignUpCommand(string userName, string password)
     {
         UserName = userName;
         Password = password;
@@ -35,7 +35,7 @@ public class CreateUserCommand : CommandBase
     #region Nested Classes
 
     [UsedImplicitly]
-    public class Validator : AbstractValidator<CreateUserCommand>
+    public class Validator : AbstractValidator<SignUpCommand>
     {
         #region Constructors
 
@@ -52,7 +52,7 @@ public class CreateUserCommand : CommandBase
     }
 
     [UsedImplicitly]
-    class Handler : CommandHandlerBase<CreateUserCommand>
+    class Handler : CommandHandlerBase<SignUpCommand>
     {
         #region Constructors
 
@@ -60,14 +60,17 @@ public class CreateUserCommand : CommandBase
 
         #endregion
 
-        protected override async Task Execute(CreateUserCommand command, CancellationToken cancellationToken)
+        protected override async Task Execute(SignUpCommand command, CancellationToken cancellationToken)
         {
             var userEntity = new UserEntity { UserName = command.UserName };
             userEntity.PasswordHash = new PasswordHasher<UserEntity>().HashPassword(userEntity, command.Password);
 
             await Repository.CreateAsync(userEntity);
 
-            command.Result = userEntity.Id;
+            var signInCommand = new SignInCommand(command.UserName, command.Password);
+            await Dispatcher.PushAsync(signInCommand);
+
+            command.Result = signInCommand.Result;
         }
     }
 

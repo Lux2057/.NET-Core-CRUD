@@ -18,15 +18,22 @@ public static class UserExt
                };
     }
 
-    public static int GetUserIdOrDefault(this ClaimsPrincipal principal, int defaultValue = 0)
+    public static UserDto ToUserDto(this ClaimsPrincipal principal)
     {
         var claimsArray = principal?.Claims.ToArrayOrEmpty() ?? Array.Empty<Claim>();
 
         if (claimsArray.Length == 0)
-            return defaultValue;
+            return null;
 
         var id = claimsArray.SingleOrDefault(r => r.Type == nameof(UserDto.Id));
+        var userName = claimsArray.SingleOrDefault(r => r.Type == nameof(UserDto.UserName));
 
-        return id == null ? defaultValue : Convert.ToInt32(id.Value);
+        return id == null ?
+                       null :
+                       new UserDto
+                       {
+                               Id = Convert.ToInt32(id.Value),
+                               UserName = userName?.Value
+                       };
     }
 }

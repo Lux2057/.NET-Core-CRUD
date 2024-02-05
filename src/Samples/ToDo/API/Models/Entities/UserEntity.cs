@@ -47,22 +47,6 @@ public class UserEntity : EntityBase
         }
     }
 
-    [UsedImplicitly]
-    public class Automap : Profile
-    {
-        #region Constructors
-
-        public Automap()
-        {
-            CreateMap<UserEntity, UserDto>()
-                    .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))
-                    .ForMember(r => r.UserName, r => r.MapFrom(x => x.UserName))
-                    .ReverseMap();
-        }
-
-        #endregion
-    }
-
     public abstract class FindBy
     {
         #region Nested Classes

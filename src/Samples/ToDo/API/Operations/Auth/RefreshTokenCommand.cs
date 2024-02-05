@@ -68,8 +68,8 @@ public class RefreshTokenCommand : CommandBase
                 return;
             }
 
-            var userId = tokenPrincipal.Principal.GetUserIdOrDefault();
-            var user = await Repository.Read(new FindEntityByIntId<UserEntity>(userId)).SingleOrDefaultAsync(cancellationToken);
+            var userDto = tokenPrincipal.Principal.ToUserDto();
+            var user = await Repository.Read(new FindEntityByIntId<UserEntity>(userDto.Id)).SingleOrDefaultAsync(cancellationToken);
             if (user == null)
             {
                 command.Result = new AuthResultDto

@@ -24,8 +24,6 @@ public class AuthController : DispatcherControllerBase
         var command = new SignUpCommand(request.UserName, request.Password);
         await Dispatcher.PushAsync(command);
 
-        var httpContext = HttpContext.User.GetUserIdOrDefault();
-
         return Ok(command.Result);
     }
 
@@ -45,5 +43,13 @@ public class AuthController : DispatcherControllerBase
         await Dispatcher.PushAsync(command);
 
         return Ok(command.Result);
+    }
+
+    [HttpGet, Authorize]
+    public async Task<ActionResult> Test()
+    {
+        var httpContext = HttpContext.User.ToUserDto();
+
+        return Ok("Success");
     }
 }

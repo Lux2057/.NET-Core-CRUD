@@ -12,9 +12,18 @@ using Microsoft.AspNetCore.Mvc;
 [Route("[controller]/[action]")]
 public class AuthController : DispatcherControllerBase
 {
+    #region Properties
+
+    private readonly IHttpContextAccessor httpCtx;
+
+    #endregion
+
     #region Constructors
 
-    public AuthController(IDispatcher dispatcher) : base(dispatcher) { }
+    public AuthController(IDispatcher dispatcher, IHttpContextAccessor httpCtx) : base(dispatcher)
+    {
+        this.httpCtx = httpCtx;
+    }
 
     #endregion
 
@@ -32,9 +41,9 @@ public class AuthController : DispatcherControllerBase
     [HttpPost,
      AllowAnonymous,
      ProducesResponseType(typeof(AuthResultDto), 200)]
-    public async Task<ActionResult> SignIn([FromBody] AuthRequest dto)
+    public async Task<ActionResult> SignIn([FromBody] AuthRequest request)
     {
-        var command = new SignInCommand(dto.UserName, dto.Password);
+        var command = new SignInCommand(request.UserName, request.Password);
         await Dispatcher.PushAsync(command);
 
         return Ok(command.Result);

@@ -80,6 +80,8 @@ builder.Services.AddSwaggerGen(c =>
                                                             });
                                });
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 
 builder.Services.AddEntityFrameworkDAL<ApiDbContext>(dbContextOptions: options =>

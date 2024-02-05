@@ -20,28 +20,32 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region Services config
 
-/*var jwtSettings = builder.Configuration.GetSection("JWTSettings");
-builder.Services
-       .AddAuthentication(opt =>
-                          {
-                              opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                              opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                          })
-       .AddJwtBearer(options =>
+var jwtSettings = builder.Configuration.GetSection("JWTSettings").Get<JwtAuthSettings>()!;
+builder.Services.AddSingleton(jwtSettings);
+
+builder.Services.AddAuthentication(x =>
+                                   {
+                                       x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                                       x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                                   })
+       .AddJwtBearer(x =>
                      {
-                         options.TokenValidationParameters = new TokenValidationParameters
-                                                             {
-                                                                     ValidateIssuer = true,
-                                                                     ValidateAudience = true,
-                                                                     ValidateLifetime = true,
-                                                                     ValidateIssuerSigningKey = true,
-
-                                                                     ValidIssuer = jwtSettings["validIssuer"],
-                                                                     ValidAudience = jwtSettings["validAudience"],
-                                                                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["securityKey"]!))
-                                                             };
-                     });*/
-
+                         x.RequireHttpsMetadata = true;
+                         x.SaveToken = true;
+                         x.TokenValidationParameters =
+                                 new TokenValidationParameters
+                                 {
+                                         ValidateIssuer = true,
+                                         ValidIssuer = jwtSettings.Issuer,
+                                         ValidateAudience = true,
+                                         ValidAudience = jwtSettings.Audience,
+                                         ValidateIssuerSigningKey = true,
+                                         RequireExpirationTime = false,
+                                         ValidateLifetime = true,
+                                         ClockSkew = TimeSpan.Zero,
+                                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret))
+                                 };
+                     });
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -98,9 +102,6 @@ var app = builder.Build();
 
 #region App config
 
-app.UseAuthentication();
-app.UseAuthorization();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
@@ -128,6 +129,9 @@ app.UseRouting();
 
 app.UseMiddleware<ValidationErrorsHandlerMiddleware>();
 app.UseMiddleware<ExceptionsHandlerMiddleware<AddLogCommand>>();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();

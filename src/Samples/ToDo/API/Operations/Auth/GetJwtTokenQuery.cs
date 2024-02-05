@@ -59,7 +59,7 @@ public class GetJwtTokenQuery : QueryBase<string>
                                              audience: this.jwtAuthSettings.Audience,
                                              notBefore: DateTime.Now,
                                              claims: request.Claims,
-                                             expires: DateTime.Now.AddMinutes(this.jwtAuthSettings.AccessTokenExpiration),
+                                             expires: DateTime.Now.AddMinutes(this.jwtAuthSettings.AccessTokenExpirationInMinutes),
                                              signingCredentials: credentials);
 
             return Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));

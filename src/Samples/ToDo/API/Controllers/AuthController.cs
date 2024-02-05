@@ -12,18 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 [Route("[controller]/[action]")]
 public class AuthController : DispatcherControllerBase
 {
-    #region Properties
-
-    private readonly IHttpContextAccessor httpCtx;
-
-    #endregion
-
     #region Constructors
 
-    public AuthController(IDispatcher dispatcher, IHttpContextAccessor httpCtx) : base(dispatcher)
-    {
-        this.httpCtx = httpCtx;
-    }
+    public AuthController(IDispatcher dispatcher) : base(dispatcher) { }
 
     #endregion
 

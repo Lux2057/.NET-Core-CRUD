@@ -4,6 +4,7 @@
 
 using CRUD.CQRS;
 using CRUD.DAL.Abstractions;
+using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -36,20 +37,26 @@ public class RefreshTokenCommand : CommandBase
     #region Nested Classes
 
     [UsedImplicitly]
-    class Handler : CommandHandlerBase<RefreshTokenCommand>
+    public class Validator : AbstractValidator<RefreshTokenCommand>
     {
-        #region Properties
-
-        private readonly JwtAuthSettings jwtAuthSettings;
-
-        #endregion
-
         #region Constructors
 
-        public Handler(IServiceProvider serviceProvider, JwtAuthSettings jwtAuthSettings) : base(serviceProvider)
+        public Validator(IDispatcher dispatcher)
         {
-            this.jwtAuthSettings = jwtAuthSettings;
+            RuleFor(r => r.UserId).NotEmpty()
+                                  .MustAsync((userId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(userId)))
+                                  .WithMessage(ValidationMessagesConst.Invalid_user_id);
         }
+
+        #endregion
+    }
+
+    [UsedImplicitly]
+    class Handler : CommandHandlerBase<RefreshTokenCommand>
+    {
+        #region Constructors
+
+        public Handler(IServiceProvider serviceProvider) : base(serviceProvider) { }
 
         #endregion
 

@@ -43,7 +43,8 @@ public class GetTasksQuery : QueryBase<TaskDto[]>
 
         protected override async Task<TaskDto[]> Execute(GetTasksQuery request, CancellationToken cancellationToken)
         {
-            var tasks = await Repository.Read(new UserIdProp.FindBy.EqualTo<TaskEntity>(request.UserId) &&
+            var tasks = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<TaskEntity>(false) &&
+                                              new UserIdProp.FindBy.EqualTo<TaskEntity>(request.UserId) &&
                                               new ProjectIdProp.FindBy.EqualTo<TaskEntity>(request.ProjectId))
                                         .ProjectTo<TaskDto>(Mapper.ConfigurationProvider)
                                         .ToArrayAsync(cancellationToken);

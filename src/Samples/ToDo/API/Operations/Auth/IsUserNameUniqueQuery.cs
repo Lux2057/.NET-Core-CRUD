@@ -42,7 +42,8 @@ public class IsUserNameUniqueQuery : QueryBase<bool>
             if (request.UserName.IsNullOrWhitespace())
                 return false;
 
-            return !await Repository.Read(new UserEntity.FindBy.UserNameEqualTo(request.UserName, false)).AnyAsync(cancellationToken);
+            return !await Repository.Read(new IsDeletedProp.FindBy.EqualTo<UserEntity>(false) &&
+                                          new UserEntity.FindBy.UserNameEqualTo(request.UserName, false)).AnyAsync(cancellationToken);
         }
     }
 

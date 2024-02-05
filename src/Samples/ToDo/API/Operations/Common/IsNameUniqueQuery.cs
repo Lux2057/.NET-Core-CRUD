@@ -50,7 +50,8 @@ public class IsNameUniqueQuery<TEntity> : QueryBase<bool>
 
         protected override async Task<bool> Execute(IsNameUniqueQuery<TEntity> request, CancellationToken cancellationToken)
         {
-            return !await Repository.Read(new NameProp.FindBy.EqualTo<TEntity>(request.Name, true) &&
+            return !await Repository.Read(new IsDeletedProp.FindBy.EqualTo<TEntity>(false) &&
+                                          new NameProp.FindBy.EqualTo<TEntity>(request.Name, true) &&
                                           new UserIdProp.FindBy.EqualTo<TEntity>(request.UserId) &&
                                           !new FindEntityByIntId<TEntity>(request.Id.GetValueOrDefault(0)))
                                     .AnyAsync(cancellationToken);

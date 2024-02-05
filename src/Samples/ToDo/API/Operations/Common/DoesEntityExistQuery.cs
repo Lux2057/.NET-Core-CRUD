@@ -40,7 +40,9 @@ public class DoesEntityExistQuery<TEntity> : QueryBase<bool> where TEntity : Ent
 
         protected override async Task<bool> Execute(DoesEntityExistQuery<TEntity> request, CancellationToken cancellationToken)
         {
-            return await Repository.Read(new FindEntityByIntId<TEntity>(request.Id)).AnyAsync(cancellationToken);
+            return await Repository.Read(new IsDeletedProp.FindBy.EqualTo<TEntity>(false) &&
+                                         new FindEntityByIntId<TEntity>(request.Id))
+                                   .AnyAsync(cancellationToken);
         }
     }
 

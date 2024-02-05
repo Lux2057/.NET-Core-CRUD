@@ -39,7 +39,8 @@ public class GetStatusesQuery : QueryBase<StatusDto[]>
 
         protected override async Task<StatusDto[]> Execute(GetStatusesQuery request, CancellationToken cancellationToken)
         {
-            return await Repository.Read(new UserIdProp.FindBy.EqualTo<StatusEntity>(request.UserId))
+            return await Repository.Read(new IsDeletedProp.FindBy.EqualTo<StatusEntity>(false) &&
+                                         new UserIdProp.FindBy.EqualTo<StatusEntity>(request.UserId))
                                    .ProjectTo<StatusDto>(Mapper.ConfigurationProvider)
                                    .ToArrayAsync(cancellationToken);
         }

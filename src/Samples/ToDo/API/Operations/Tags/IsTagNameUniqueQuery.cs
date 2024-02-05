@@ -38,7 +38,8 @@ public class IsTagNameUniqueQuery : QueryBase<bool>
 
         protected override async Task<bool> Execute(IsTagNameUniqueQuery request, CancellationToken cancellationToken)
         {
-            return !await Repository.Read(new NameProp.FindBy.EqualTo<TagEntity>(request.Name)).AnyAsync(cancellationToken);
+            return !await Repository.Read(new IsDeletedProp.FindBy.EqualTo<TagEntity>(false) &&
+                                          new NameProp.FindBy.EqualTo<TagEntity>(request.Name)).AnyAsync(cancellationToken);
         }
     }
 

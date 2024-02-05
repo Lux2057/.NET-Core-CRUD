@@ -39,7 +39,8 @@ public class GetTagsQuery : QueryBase<TagDto[]>
 
         protected override async Task<TagDto[]> Execute(GetTagsQuery request, CancellationToken cancellationToken)
         {
-            return await Repository.Read(new NameProp.FindBy.ContainedTerm<TagEntity>(request.SearchTerm))
+            return await Repository.Read(new IsDeletedProp.FindBy.EqualTo<TagEntity>(false) &&
+                                         new NameProp.FindBy.ContainedTerm<TagEntity>(request.SearchTerm))
                                    .ProjectTo<TagDto>(Mapper.ConfigurationProvider).ToArrayAsync(cancellationToken);
         }
     }

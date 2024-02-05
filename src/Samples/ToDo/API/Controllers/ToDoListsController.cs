@@ -6,6 +6,7 @@ using CRUD.Core;
 using CRUD.CQRS;
 using CRUD.DAL.Abstractions;
 using CRUD.WebAPI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Samples.ToDo.Shared;
 
@@ -20,9 +21,9 @@ public class ToDoListsController : DispatcherControllerBase
 
     #endregion
 
-    [Route("~/" + ApiRoutes.ReadToDoLists)]
-    [HttpGet]
-    [ProducesResponseType(typeof(PaginatedResponseDto<ToDoListDto>), 200)]
+    [HttpGet,
+     Route("~/" + ApiRoutes.ReadToDoLists),
+     ProducesResponseType(typeof(PaginatedResponseDto<ToDoListDto>), 200)]
     public async Task<IActionResult> Read([FromQuery(Name = ApiRoutes.Params.page)] int? page,
                                           [FromQuery(Name = ApiRoutes.Params.pageSize)]
                                           int? pageSize,
@@ -41,9 +42,9 @@ public class ToDoListsController : DispatcherControllerBase
         return Ok(response);
     }
 
-    [Route("~/" + ApiRoutes.CreateOrUpdateToDoList)]
-    [HttpPost]
-    [ProducesResponseType(200)]
+    [HttpPost,
+     Route("~/" + ApiRoutes.CreateOrUpdateToDoList),
+     ProducesResponseType(200)]
     public async Task<IActionResult> CreateOrUpdate([FromBody] ToDoListDto dto,
                                                     CancellationToken cancellationToken = new())
     {
@@ -53,9 +54,9 @@ public class ToDoListsController : DispatcherControllerBase
         return Ok(command.Result);
     }
 
-    [Route("~/" + ApiRoutes.DeleteToDoList)]
-    [HttpDelete]
-    [ProducesResponseType(200)]
+    [HttpDelete,
+     Route("~/" + ApiRoutes.DeleteToDoList),
+     ProducesResponseType(200)]
     public async Task<IActionResult> Delete([FromQuery(Name = ApiRoutes.Params.id)] int id,
                                             CancellationToken cancellationToken = new())
     {

@@ -20,9 +20,9 @@ public class ToDoListItemsController : DispatcherControllerBase
 
     #endregion
 
-    [Route("~/" + ApiRoutes.ReadToDoListItems)]
-    [HttpGet]
-    [ProducesResponseType(typeof(PaginatedResponseDto<ToDoListItemDto>), 200)]
+    [HttpGet,
+     Route("~/" + ApiRoutes.ReadToDoListItems),
+     ProducesResponseType(typeof(PaginatedResponseDto<ToDoListItemDto>), 200)]
     public async Task<IActionResult> Read([FromQuery(Name = ApiRoutes.Params.toDoListId)] int toDoListId,
                                           [FromQuery(Name = ApiRoutes.Params.page)]
                                           int? page,
@@ -44,9 +44,9 @@ public class ToDoListItemsController : DispatcherControllerBase
         return Ok(response);
     }
 
-    [Route("~/" + ApiRoutes.CreateOrUpdateToDoListItem)]
-    [HttpPost]
-    [ProducesResponseType(200)]
+    [HttpPost,
+     Route("~/" + ApiRoutes.CreateOrUpdateToDoListItem),
+     ProducesResponseType(200)]
     public async Task<IActionResult> CreateOrUpdate([FromBody] ToDoListItemDto dto,
                                                     CancellationToken cancellationToken = new())
     {
@@ -56,9 +56,9 @@ public class ToDoListItemsController : DispatcherControllerBase
         return Ok(command.Result);
     }
 
-    [Route("~/" + ApiRoutes.DeleteToDoListItem)]
-    [HttpDelete]
-    [ProducesResponseType(200)]
+    [HttpDelete,
+     Route("~/" + ApiRoutes.DeleteToDoListItem),
+     ProducesResponseType(200)]
     public async Task<IActionResult> Delete([FromQuery(Name = ApiRoutes.Params.id)] int id,
                                             CancellationToken cancellationToken = new())
     {

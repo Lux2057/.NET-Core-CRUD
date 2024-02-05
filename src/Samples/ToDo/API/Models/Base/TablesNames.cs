@@ -14,5 +14,7 @@ public abstract class TablesNames
 
     public const string Users = "Users";
 
+    public const string RefreshTokens = "RefreshTokens";
+
     #endregion
 }

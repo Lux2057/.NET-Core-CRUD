@@ -1,12 +1,15 @@
 #region << Using >>
 
+using System.Text;
 using CRUD.Core;
 using CRUD.CQRS;
 using CRUD.DAL.EntityFramework;
 using CRUD.Logging.Common;
 using CRUD.Logging.EntityFramework;
 using CRUD.WebAPI;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Samples.ToDo.API;
 using Samples.ToDo.Shared;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -16,6 +19,29 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 var builder = WebApplication.CreateBuilder(args);
 
 #region Services config
+
+/*var jwtSettings = builder.Configuration.GetSection("JWTSettings");
+builder.Services
+       .AddAuthentication(opt =>
+                          {
+                              opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                              opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                          })
+       .AddJwtBearer(options =>
+                     {
+                         options.TokenValidationParameters = new TokenValidationParameters
+                                                             {
+                                                                     ValidateIssuer = true,
+                                                                     ValidateAudience = true,
+                                                                     ValidateLifetime = true,
+                                                                     ValidateIssuerSigningKey = true,
+
+                                                                     ValidIssuer = jwtSettings["validIssuer"],
+                                                                     ValidAudience = jwtSettings["validAudience"],
+                                                                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["securityKey"]!))
+                                                             };
+                     });*/
+
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -71,6 +97,9 @@ DoesEntityExistQuery<TagEntity>.Register(builder.Services);
 var app = builder.Build();
 
 #region App config
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {

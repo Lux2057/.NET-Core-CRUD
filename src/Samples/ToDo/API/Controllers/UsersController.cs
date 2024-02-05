@@ -4,6 +4,7 @@
 
 using CRUD.CQRS;
 using CRUD.WebAPI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 #endregion
@@ -17,9 +18,8 @@ public class UsersController : DispatcherControllerBase
 
     #endregion
 
-    [HttpPost]
-    [ProducesResponseType(200)]
-    public async Task<IActionResult> Create([FromBody] UserAuthDto dto)
+    [HttpPost, ProducesResponseType(typeof(AuthResultDto), 200)]
+    public async Task<IActionResult> SignUp([FromBody] SignInDto dto)
     {
         var command = new CreateUserCommand(dto.UserName, dto.Password);
         await Dispatcher.PushAsync(command);
@@ -27,8 +27,7 @@ public class UsersController : DispatcherControllerBase
         return Ok(command.Result);
     }
 
-    [HttpDelete]
-    [ProducesResponseType(200)]
+    [Authorize, HttpDelete, ProducesResponseType(200)]
     public async Task<IActionResult> Delete([FromBody] int[] ids)
     {
         await Dispatcher.PushAsync(new MarkEntitiesAsDeletedCommand<UserEntity>(ids));
@@ -36,8 +35,7 @@ public class UsersController : DispatcherControllerBase
         return Ok();
     }
 
-    [HttpGet]
-    [ProducesResponseType(typeof(string), 200)]
+    [Authorize, HttpGet, ProducesResponseType(typeof(string), 200)]
     public async Task<IActionResult> Get([FromQuery] int id)
     {
         var userName = await Dispatcher.QueryAsync(new GetUserNameQuery(id));

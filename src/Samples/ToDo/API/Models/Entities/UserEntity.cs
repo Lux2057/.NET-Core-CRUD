@@ -30,6 +30,8 @@ public class UserEntity : EntityBase
 
     public virtual ICollection<TaskToTagEntity> TasksToTags { get; set; }
 
+    public virtual ICollection<RefreshTokenEntity> Tokens { get; set; }
+
     #endregion
 
     #region Nested Classes

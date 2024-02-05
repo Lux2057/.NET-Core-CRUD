@@ -20,5 +20,15 @@ public abstract class ValidationMessagesConst
 
     public const string Invalid_project_id = "Invalid project id!";
 
+    public const string Token_is_empty = "Token is empty!";
+
+    public const string Token_is_invalid = "Token is invalid!";
+
+    public const string Credentials_are_empty = "Credentials are empty!";
+
+    public const string Invalid_credentials = "Invalid credentials!";
+
+    public const string Token_is_expired = "Token is expired!";
+
     #endregion
 }

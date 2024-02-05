@@ -126,6 +126,42 @@ namespace Samples.ToDo.API.Migrations
                     b.ToTable("Projects_Tags");
                 });
 
+            modelBuilder.Entity("Samples.ToDo.API.RefreshTokenEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CrDt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime>("IssuedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("Samples.ToDo.API.StatusEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -394,6 +430,17 @@ namespace Samples.ToDo.API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Samples.ToDo.API.RefreshTokenEntity", b =>
+                {
+                    b.HasOne("Samples.ToDo.API.UserEntity", "User")
+                        .WithMany("Tokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Samples.ToDo.API.StatusEntity", b =>
                 {
                     b.HasOne("Samples.ToDo.API.UserEntity", "User")
@@ -510,6 +557,8 @@ namespace Samples.ToDo.API.Migrations
                     b.Navigation("Tasks");
 
                     b.Navigation("TasksToTags");
+
+                    b.Navigation("Tokens");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,7 +4,6 @@
 
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
-using AutoMapper;
 using Extensions;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

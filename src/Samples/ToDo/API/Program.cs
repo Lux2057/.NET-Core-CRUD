@@ -115,6 +115,7 @@ builder.Services.AddEntityCRUD<ToDoListItemEntity, int, ToDoListItemDto>();
 MarkEntitiesAsDeletedCommand<UserEntity>.Register(builder.Services);
 
 IsNameUniqueQuery<ProjectEntity>.Register(builder.Services);
+IsNameUniqueQuery<StatusEntity>.Register(builder.Services);
 IsNameUniqueQuery<TaskEntity>.Register(builder.Services);
 
 DoesEntityExistQuery<UserEntity>.Register(builder.Services);

@@ -21,12 +21,14 @@ public class CreateOrUpdateStatusCommand : CommandBase
 
     public string Name { get; }
 
+    public new int Result { get; set; }
+
     #endregion
 
     #region Constructors
 
-    public CreateOrUpdateStatusCommand(int? id, 
-                                       int userId, 
+    public CreateOrUpdateStatusCommand(int? id,
+                                       int userId,
                                        string name)
     {
         Id = id;
@@ -83,7 +85,7 @@ public class CreateOrUpdateStatusCommand : CommandBase
 
             var isNew = status == null;
             if (isNew)
-                status = new StatusEntity { User = user };
+                status = new StatusEntity { UserId = user.Id };
 
             status.Name = command.Name;
 
@@ -91,6 +93,8 @@ public class CreateOrUpdateStatusCommand : CommandBase
                 await Repository.CreateAsync(status, cancellationToken);
             else
                 await Repository.UpdateAsync(status, cancellationToken);
+
+            command.Result = status.Id;
         }
     }
 

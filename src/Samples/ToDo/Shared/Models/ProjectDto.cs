@@ -16,6 +16,13 @@ public class ProjectDto
 
     #region Nested Classes
 
+    public class GetRequest
+    {
+        public string SearchTerm { get; set; }
+
+        public int[] TagsIds { get; set; }
+    }
+
     public class CreateRequest
     {
         #region Properties

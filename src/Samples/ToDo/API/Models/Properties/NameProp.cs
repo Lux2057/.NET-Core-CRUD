@@ -3,6 +3,7 @@
 #region << Using >>
 
 using System.Linq.Expressions;
+using Extensions;
 
 #endregion
 
@@ -74,6 +75,9 @@ public abstract class NameProp
 
             public override Expression<Func<TEntity, bool>> ToExpression()
             {
+                if (this.term.IsNullOrWhitespace())
+                    return x => true;
+
                 if (this.caseSensitive)
                     return x => x.Name.Contains(this.term);
 

@@ -5,6 +5,7 @@
 using AutoMapper.QueryableExtensions;
 using CRUD.CQRS;
 using CRUD.DAL.Abstractions;
+using Extensions;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,13 +17,21 @@ public class GetProjectsQuery : QueryBase<ProjectDto[]>
 
     public int UserId { get; }
 
+    public string SearchTerm { get; }
+
+    public int[] TagsIds { get; }
+
     #endregion
 
     #region Constructors
 
-    public GetProjectsQuery(int userId)
+    public GetProjectsQuery(int userId,
+                            string searchTerm,
+                            IEnumerable<int> tagsIds)
     {
         UserId = userId;
+        SearchTerm = searchTerm.Trim();
+        TagsIds = tagsIds.ToDistinctArrayOrEmpty();
     }
 
     #endregion
@@ -40,8 +49,20 @@ public class GetProjectsQuery : QueryBase<ProjectDto[]>
 
         protected override async Task<ProjectDto[]> Execute(GetProjectsQuery request, CancellationToken cancellationToken)
         {
-            var projects = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<ProjectEntity>(false) &&
-                                                 new UserIdProp.FindBy.EqualTo<ProjectEntity>(request.UserId))
+            var projectsSpec = new IsDeletedProp.FindBy.EqualTo<ProjectEntity>(false) &&
+                               new UserIdProp.FindBy.EqualTo<ProjectEntity>(request.UserId) &&
+                               (new NameProp.FindBy.ContainedTerm<ProjectEntity>(request.SearchTerm) ||
+                                new DescriptionProp.FindBy.ContainedTerm<ProjectEntity>(request.SearchTerm));
+
+            if (request.TagsIds.Any())
+            {
+                var projectsIds = await Repository.Read(new ProjectIdProp.FindBy.ContainedIn<ProjectToTagEntity>(request.TagsIds))
+                                                  .Select(r => r.ProjectId).Distinct().ToArrayAsync(cancellationToken);
+
+                projectsSpec = projectsSpec && new FindEntitiesByIds<ProjectEntity, int>(projectsIds);
+            }
+
+            var projects = await Repository.Read(projectsSpec)
                                            .ProjectTo<ProjectDto>(Mapper.ConfigurationProvider)
                                            .ToArrayAsync(cancellationToken);
 

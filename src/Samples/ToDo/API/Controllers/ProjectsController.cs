@@ -24,11 +24,15 @@ public class ProjectsController : DispatcherControllerBase
     [HttpGet,
      Route("~/" + ApiRoutesConst.GetProjects),
      ProducesResponseType(typeof(ProjectDto[]), 200)]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get([FromQuery(Name = ApiRoutesConst.Params.SearchTerm)] string searchTerm,
+                                         [FromQuery(Name = ApiRoutesConst.Params.TagsIds)]
+                                         int[] tagsIds)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 
-        return Ok(await Dispatcher.QueryAsync(new GetProjectsQuery(currentUserId)));
+        return Ok(await Dispatcher.QueryAsync(new GetProjectsQuery(userId: currentUserId,
+                                                                   searchTerm: searchTerm,
+                                                                   tagsIds: tagsIds)));
     }
 
     [HttpPost,

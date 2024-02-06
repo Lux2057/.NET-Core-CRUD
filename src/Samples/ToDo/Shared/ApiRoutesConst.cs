@@ -33,4 +33,19 @@ public abstract class ApiRoutesConst
     public const string UpdateTask = "Tasks/Update";
 
     #endregion
+
+    #region Nested Classes
+
+    public abstract class Params
+    {
+        #region Constants
+
+        public const string SearchTerm = "searchTerm";
+
+        public const string TagsIds = "tagsIds";
+
+        #endregion
+    }
+
+    #endregion
 }

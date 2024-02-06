@@ -56,5 +56,16 @@ public class TaskDto
         #endregion
     }
 
+    public class SetStatusRequest
+    {
+        #region Properties
+
+        public int Id { get; set; }
+
+        public int StatusId { get; set; }
+
+        #endregion
+    }
+
     #endregion
 }

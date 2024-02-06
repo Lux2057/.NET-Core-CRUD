@@ -17,16 +17,21 @@ public class SetTaskStatusCommand : CommandBase
 
     public int Id { get; }
 
+    public int UserId { get; }
+
     public int StatusId { get; }
 
     #endregion
 
     #region Constructors
 
-    public SetTaskStatusCommand(int id, int statusId)
+    public SetTaskStatusCommand(int id,
+                                int statusId,
+                                int userId)
     {
         Id = id;
         StatusId = statusId;
+        UserId = userId;
     }
 
     #endregion
@@ -63,7 +68,9 @@ public class SetTaskStatusCommand : CommandBase
 
         protected override async Task Execute(SetTaskStatusCommand command, CancellationToken cancellationToken)
         {
-            var task = await Repository.Read(new FindEntityByIntId<TaskEntity>(command.Id)).SingleAsync(cancellationToken);
+            var task = await Repository.Read(new UserIdProp.FindBy.EqualTo<TaskEntity>(command.UserId) &&
+                                             new FindEntityByIntId<TaskEntity>(command.Id))
+                                       .SingleAsync(cancellationToken);
 
             task.StatusId = command.StatusId;
 

@@ -76,4 +76,20 @@ public class TasksController : DispatcherControllerBase
 
         return Ok(command.Result);
     }
+
+    [HttpPut,
+     Route("~/" + ApiRoutesConst.SetTaskStatus),
+     ProducesResponseType(typeof(int), 200)]
+    public async Task<IActionResult> SetStatus([FromBody] TaskDto.SetStatusRequest request)
+    {
+        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
+
+        var command = new SetTaskStatusCommand(id: request.Id,
+                                               userId: currentUserId,
+                                               statusId: request.StatusId);
+
+        await Dispatcher.PushAsync(command);
+
+        return Ok(command.Result);
+    }
 }

@@ -32,6 +32,8 @@ public abstract class ApiRoutesConst
 
     public const string UpdateTask = "Tasks/Update";
 
+    public const string SetTaskStatus = "Tasks/SetStatus";
+
     #endregion
 
     #region Nested Classes

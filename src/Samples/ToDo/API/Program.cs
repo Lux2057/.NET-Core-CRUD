@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Samples.ToDo.API;
 using Samples.ToDo.Shared;
+using Samples.ToDo.Shared.Auth;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 #endregion

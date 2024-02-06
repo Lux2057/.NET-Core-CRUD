@@ -6,6 +6,8 @@ using CRUD.CQRS;
 using CRUD.WebAPI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Samples.ToDo.Shared;
+using Samples.ToDo.Shared.Auth;
 
 #endregion
 
@@ -20,6 +22,7 @@ public class AuthController : DispatcherControllerBase
 
     [HttpPost,
      AllowAnonymous,
+     Route("~/" + ApiRoutesConst.SignUp),
      ProducesResponseType(typeof(AuthDto.Result), 200)]
     public async Task<IActionResult> SignUp([FromBody] AuthDto.Request request)
     {
@@ -33,6 +36,7 @@ public class AuthController : DispatcherControllerBase
 
     [HttpPost,
      AllowAnonymous,
+     Route("~/" + ApiRoutesConst.SignIn),
      ProducesResponseType(typeof(AuthDto.Result), 200)]
     public async Task<ActionResult> SignIn([FromBody] AuthDto.Request request)
     {
@@ -46,6 +50,7 @@ public class AuthController : DispatcherControllerBase
 
     [HttpPost,
      Authorize,
+     Route("~/" + ApiRoutesConst.RefreshToken),
      ProducesResponseType(typeof(AuthDto.Result), 200)]
     public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request)
     {

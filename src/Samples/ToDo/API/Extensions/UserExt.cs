@@ -4,6 +4,7 @@
 
 using System.Security.Claims;
 using Extensions;
+using Samples.ToDo.Shared.Auth;
 
 #endregion
 

@@ -6,6 +6,7 @@ using CRUD.CQRS;
 using CRUD.WebAPI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Samples.ToDo.Shared;
 
 #endregion
 
@@ -20,6 +21,7 @@ public class StatusesController : DispatcherControllerBase
     #endregion
 
     [HttpGet,
+     Route("~/" + ApiRoutesConst.GetStatuses),
      ProducesResponseType(typeof(StatusDto[]), 200)]
     public async Task<IActionResult> Get()
     {
@@ -29,6 +31,7 @@ public class StatusesController : DispatcherControllerBase
     }
 
     [HttpPost,
+     Route("~/" + ApiRoutesConst.CreateStatus),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> Create([FromBody] StatusDto.CreateRequest request)
     {
@@ -44,6 +47,7 @@ public class StatusesController : DispatcherControllerBase
     }
 
     [HttpPut,
+     Route("~/" + ApiRoutesConst.UpdateStatus),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> Update([FromBody] StatusDto.EditRequest request)
     {

@@ -6,6 +6,7 @@ using CRUD.CQRS;
 using CRUD.WebAPI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Samples.ToDo.Shared;
 
 #endregion
 
@@ -20,6 +21,7 @@ public class TagsController : DispatcherControllerBase
     #endregion
 
     [HttpGet,
+     Route("~/" + ApiRoutesConst.GetTags),
      ProducesResponseType(typeof(StatusDto[]), 200)]
     public async Task<IActionResult> Get([FromQuery] string searchTerm)
     {
@@ -27,6 +29,7 @@ public class TagsController : DispatcherControllerBase
     }
 
     [HttpPost,
+     Route("~/" + ApiRoutesConst.CreateTag),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> Create([FromBody] TagDto.CreateRequest request)
     {

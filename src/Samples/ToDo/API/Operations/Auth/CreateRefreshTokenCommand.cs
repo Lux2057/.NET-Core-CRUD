@@ -5,6 +5,7 @@
 using CRUD.CQRS;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
+using Samples.ToDo.Shared.Auth;
 
 #endregion
 

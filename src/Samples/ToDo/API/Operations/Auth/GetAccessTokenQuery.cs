@@ -9,6 +9,7 @@ using CRUD.CQRS;
 using Extensions;
 using JetBrains.Annotations;
 using Microsoft.IdentityModel.Tokens;
+using Samples.ToDo.Shared.Auth;
 
 #endregion
 

@@ -7,6 +7,7 @@ using CRUD.WebAPI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Samples.ToDo.API.Projects;
+using Samples.ToDo.Shared;
 
 #endregion
 
@@ -21,6 +22,7 @@ public class ProjectsController : DispatcherControllerBase
     #endregion
 
     [HttpGet,
+     Route("~/" + ApiRoutesConst.GetProjects),
      ProducesResponseType(typeof(ProjectDto[]), 200)]
     public async Task<IActionResult> Get()
     {
@@ -30,6 +32,7 @@ public class ProjectsController : DispatcherControllerBase
     }
 
     [HttpPost,
+     Route("~/" + ApiRoutesConst.CreateProject),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> Create([FromBody] ProjectDto.CreateRequest request)
     {
@@ -47,6 +50,7 @@ public class ProjectsController : DispatcherControllerBase
     }
 
     [HttpPut,
+     Route("~/" + ApiRoutesConst.UpdateProject),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> Update([FromBody] ProjectDto.EditRequest request)
     {

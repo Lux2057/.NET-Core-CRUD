@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Samples.ToDo.Shared;
 
 #endregion
 

@@ -1,11 +1,5 @@
 ﻿namespace Samples.ToDo.Shared.Auth;
 
-#region << Using >>
-
-
-
-#endregion
-
 public class UserDto
 {
     #region Properties

@@ -7,6 +7,7 @@ using CRUD.CQRS;
 using CRUD.DAL.Abstractions;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
+using Samples.ToDo.Shared;
 
 #endregion
 

@@ -6,7 +6,6 @@ using CRUD.Core;
 using CRUD.CQRS;
 using CRUD.DAL.Abstractions;
 using CRUD.WebAPI;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Samples.ToDo.Shared;
 

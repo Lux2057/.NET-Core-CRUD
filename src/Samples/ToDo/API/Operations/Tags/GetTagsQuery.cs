@@ -6,6 +6,7 @@ using AutoMapper.QueryableExtensions;
 using CRUD.CQRS;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
+using Samples.ToDo.Shared;
 
 #endregion
 

@@ -1,4 +1,4 @@
-﻿namespace Samples.ToDo.API;
+﻿namespace Samples.ToDo.Shared;
 
 public class TaskDto
 {

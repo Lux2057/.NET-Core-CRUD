@@ -18,7 +18,7 @@ public class SignUpCommand : CommandBase
 
     public string Password { get; }
 
-    public new AuthResultDto Result { get; set; }
+    public new AuthDto.Result Result { get; set; }
 
     #endregion
 

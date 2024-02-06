@@ -20,10 +20,12 @@ public class AuthController : DispatcherControllerBase
 
     [HttpPost,
      AllowAnonymous,
-     ProducesResponseType(typeof(AuthResultDto), 200)]
-    public async Task<IActionResult> SignUp([FromBody] AuthRequest request)
+     ProducesResponseType(typeof(AuthDto.Result), 200)]
+    public async Task<IActionResult> SignUp([FromBody] AuthDto.Request request)
     {
-        var command = new SignUpCommand(request.UserName, request.Password);
+        var command = new SignUpCommand(userName: request.UserName,
+                                        password: request.Password);
+
         await Dispatcher.PushAsync(command);
 
         return Ok(command.Result);
@@ -31,10 +33,12 @@ public class AuthController : DispatcherControllerBase
 
     [HttpPost,
      AllowAnonymous,
-     ProducesResponseType(typeof(AuthResultDto), 200)]
-    public async Task<ActionResult> SignIn([FromBody] AuthRequest request)
+     ProducesResponseType(typeof(AuthDto.Result), 200)]
+    public async Task<ActionResult> SignIn([FromBody] AuthDto.Request request)
     {
-        var command = new SignInCommand(request.UserName, request.Password);
+        var command = new SignInCommand(userName: request.UserName,
+                                        password: request.Password);
+
         await Dispatcher.PushAsync(command);
 
         return Ok(command.Result);
@@ -42,12 +46,14 @@ public class AuthController : DispatcherControllerBase
 
     [HttpPost,
      Authorize,
-     ProducesResponseType(typeof(AuthResultDto), 200)]
-    public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+     ProducesResponseType(typeof(AuthDto.Result), 200)]
+    public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request)
     {
-        var currentUser = await Dispatcher.QueryAsync(new GetCurrentUserOrDefaultQuery());
+        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 
-        var command = new RefreshTokenCommand(currentUser?.Id ?? 0, request.RefreshToken);
+        var command = new RefreshTokenCommand(userId: currentUserId,
+                                              refreshToken: request.RefreshToken);
+
         await Dispatcher.PushAsync(command);
 
         return Ok(command.Result);

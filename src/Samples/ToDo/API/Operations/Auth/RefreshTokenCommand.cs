@@ -20,7 +20,7 @@ public class RefreshTokenCommand : CommandBase
 
     public string RefreshToken { get; }
 
-    public new AuthResultDto Result { get; set; }
+    public new AuthDto.Result Result { get; set; }
 
     #endregion
 
@@ -65,7 +65,7 @@ public class RefreshTokenCommand : CommandBase
             var user = await Repository.Read(new FindEntityByIntId<UserEntity>(command.UserId)).SingleOrDefaultAsync(cancellationToken);
             if (user == null)
             {
-                command.Result = new AuthResultDto
+                command.Result = new AuthDto.Result
                                  {
                                          Success = false,
                                          Message = ValidationMessagesConst.Token_is_invalid
@@ -82,7 +82,7 @@ public class RefreshTokenCommand : CommandBase
 
             if (refreshToken == null)
             {
-                command.Result = new AuthResultDto
+                command.Result = new AuthDto.Result
                                  {
                                          Success = false,
                                          Message = ValidationMessagesConst.Token_is_expired
@@ -94,7 +94,7 @@ public class RefreshTokenCommand : CommandBase
             var tokenVerification = new PasswordHasher<RefreshTokenEntity>().VerifyHashedPassword(refreshToken, refreshToken.TokenHash, command.RefreshToken);
             if (tokenVerification != PasswordVerificationResult.Success)
             {
-                command.Result = new AuthResultDto
+                command.Result = new AuthDto.Result
                                  {
                                          Success = false,
                                          Message = ValidationMessagesConst.Token_is_invalid

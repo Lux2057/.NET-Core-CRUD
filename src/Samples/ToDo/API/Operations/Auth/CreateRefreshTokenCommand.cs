@@ -14,7 +14,7 @@ public class CreateRefreshTokenCommand : CommandBase
 
     public UserEntity User { get; }
 
-    public new AuthResultDto Result { get; set; }
+    public new AuthDto.Result Result { get; set; }
 
     #endregion
 
@@ -49,7 +49,7 @@ public class CreateRefreshTokenCommand : CommandBase
 
         protected override async Task Execute(CreateRefreshTokenCommand command, CancellationToken cancellationToken)
         {
-            var accessToken = await Dispatcher.QueryAsync(new GetJwtTokenQuery(command.User.GetClaims()));
+            var accessToken = await Dispatcher.QueryAsync(new GetAccessTokenQuery(command.User.GetClaims()));
             var refreshToken = await Dispatcher.QueryAsync(new GetRefreshTokenQuery());
 
             var tokenEntity = new RefreshTokenEntity
@@ -63,7 +63,7 @@ public class CreateRefreshTokenCommand : CommandBase
 
             await Repository.CreateAsync(tokenEntity, cancellationToken);
 
-            command.Result = new AuthResultDto
+            command.Result = new AuthDto.Result
                              {
                                      Success = true,
                                      AccessToken = accessToken,

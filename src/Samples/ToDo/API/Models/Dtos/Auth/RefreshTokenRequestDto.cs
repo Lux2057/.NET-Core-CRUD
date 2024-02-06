@@ -1,6 +1,6 @@
 ﻿namespace Samples.ToDo.API;
 
-public class RefreshTokenRequest
+public class RefreshTokenRequestDto
 {
     #region Properties
 

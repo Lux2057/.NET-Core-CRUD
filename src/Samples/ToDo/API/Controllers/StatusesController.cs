@@ -23,18 +23,21 @@ public class StatusesController : DispatcherControllerBase
      ProducesResponseType(typeof(StatusDto[]), 200)]
     public async Task<IActionResult> Get()
     {
-        var currentUser = await Dispatcher.QueryAsync(new GetCurrentUserOrDefaultQuery());
+        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 
-        return Ok(await Dispatcher.QueryAsync(new GetStatusesQuery(currentUser?.Id ?? 0)));
+        return Ok(await Dispatcher.QueryAsync(new GetStatusesQuery(currentUserId)));
     }
 
     [HttpPost,
      ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Create([FromBody] NamedRequest dto)
+    public async Task<IActionResult> Create([FromBody] StatusDto.CreateRequest request)
     {
-        var currentUser = await Dispatcher.QueryAsync(new GetCurrentUserOrDefaultQuery());
+        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 
-        var command = new CreateOrUpdateStatusCommand(null, currentUser?.Id ?? 0, dto.Name);
+        var command = new CreateOrUpdateStatusCommand(id: null,
+                                                      userId: currentUserId,
+                                                      name: request.Name);
+
         await Dispatcher.PushAsync(command);
 
         return Ok(command.Result);
@@ -42,11 +45,14 @@ public class StatusesController : DispatcherControllerBase
 
     [HttpPut,
      ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Update([FromBody] StatusDto dto)
+    public async Task<IActionResult> Update([FromBody] StatusDto.EditRequest request)
     {
-        var currentUser = await Dispatcher.QueryAsync(new GetCurrentUserOrDefaultQuery());
+        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 
-        var command = new CreateOrUpdateStatusCommand(dto.Id, currentUser.Id, dto.Name);
+        var command = new CreateOrUpdateStatusCommand(id: request.Id,
+                                                      userId: currentUserId,
+                                                      name: request.Name);
+
         await Dispatcher.PushAsync(command);
 
         return Ok(command.Result);

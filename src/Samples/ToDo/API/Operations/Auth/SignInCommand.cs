@@ -20,7 +20,7 @@ public class SignInCommand : CommandBase
 
     public string Password { get; }
 
-    public new AuthResultDto Result { get; set; }
+    public new AuthDto.Result Result { get; set; }
 
     #endregion
 
@@ -63,7 +63,7 @@ public class SignInCommand : CommandBase
         {
             if (command.UserName.IsNullOrWhitespace() || command.Password.IsNullOrWhitespace())
             {
-                command.Result = new AuthResultDto
+                command.Result = new AuthDto.Result
                                  {
                                          Success = false,
                                          Message = ValidationMessagesConst.Credentials_are_empty
@@ -77,7 +77,7 @@ public class SignInCommand : CommandBase
 
             if (user == null)
             {
-                command.Result = new AuthResultDto
+                command.Result = new AuthDto.Result
                                  {
                                          Success = false,
                                          Message = ValidationMessagesConst.Invalid_credentials
@@ -89,7 +89,7 @@ public class SignInCommand : CommandBase
             var verificationResult = new PasswordHasher<UserEntity>().VerifyHashedPassword(user, user.PasswordHash, command.Password);
             if (verificationResult != PasswordVerificationResult.Success)
             {
-                command.Result = new AuthResultDto
+                command.Result = new AuthDto.Result
                                  {
                                          Success = false,
                                          Message = ValidationMessagesConst.Invalid_credentials

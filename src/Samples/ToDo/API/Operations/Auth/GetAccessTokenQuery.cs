@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 
 #endregion
 
-public class GetJwtTokenQuery : QueryBase<string>
+public class GetAccessTokenQuery : QueryBase<string>
 {
     #region Properties
 
@@ -22,7 +22,7 @@ public class GetJwtTokenQuery : QueryBase<string>
 
     #region Constructors
 
-    public GetJwtTokenQuery(IEnumerable<Claim> claims)
+    public GetAccessTokenQuery(IEnumerable<Claim> claims)
     {
         Claims = claims.ToArrayOrEmpty();
     }
@@ -32,7 +32,7 @@ public class GetJwtTokenQuery : QueryBase<string>
     #region Nested Classes
 
     [UsedImplicitly]
-    class Handler : QueryHandlerBase<GetJwtTokenQuery, string>
+    class Handler : QueryHandlerBase<GetAccessTokenQuery, string>
     {
         #region Properties
 
@@ -50,7 +50,7 @@ public class GetJwtTokenQuery : QueryBase<string>
 
         #endregion
 
-        protected override Task<string> Execute(GetJwtTokenQuery request, CancellationToken cancellationToken)
+        protected override Task<string> Execute(GetAccessTokenQuery request, CancellationToken cancellationToken)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.jwtAuthSettings.Secret));
             var credentials = new SigningCredentials(key, this.jwtAuthSettings.SecurityAlgorithm);

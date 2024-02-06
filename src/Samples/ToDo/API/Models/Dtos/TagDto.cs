@@ -9,4 +9,17 @@ public class TagDto
     public string Name { get; set; }
 
     #endregion
+
+    #region Nested Classes
+
+    public class CreateRequest
+    {
+        #region Properties
+
+        public string Name { get; set; }
+
+        #endregion
+    }
+
+    #endregion
 }

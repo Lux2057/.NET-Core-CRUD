@@ -44,6 +44,8 @@ public abstract class ApiRoutesConst
 
         public const string TagsIds = "tagsIds";
 
+        public const string ProjectId = "projectId";
+
         #endregion
     }
 

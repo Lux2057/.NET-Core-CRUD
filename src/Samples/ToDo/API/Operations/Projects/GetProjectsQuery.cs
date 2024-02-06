@@ -56,7 +56,7 @@ public class GetProjectsQuery : QueryBase<ProjectDto[]>
 
             if (request.TagsIds.Any())
             {
-                var projectsIds = await Repository.Read(new ProjectIdProp.FindBy.ContainedIn<ProjectToTagEntity>(request.TagsIds))
+                var projectsIds = await Repository.Read(new TagIdProp.FindBy.ContainedIn<ProjectToTagEntity>(request.TagsIds))
                                                   .Select(r => r.ProjectId).Distinct().ToArrayAsync(cancellationToken);
 
                 projectsSpec = projectsSpec && new FindEntitiesByIds<ProjectEntity, int>(projectsIds);

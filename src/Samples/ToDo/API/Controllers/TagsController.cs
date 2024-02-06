@@ -23,7 +23,7 @@ public class TagsController : DispatcherControllerBase
     [HttpGet,
      Route("~/" + ApiRoutesConst.GetTags),
      ProducesResponseType(typeof(StatusDto[]), 200)]
-    public async Task<IActionResult> Get([FromQuery] string searchTerm)
+    public async Task<IActionResult> Get([FromQuery(Name = ApiRoutesConst.Params.SearchTerm)] string searchTerm)
     {
         return Ok(await Dispatcher.QueryAsync(new GetTagsQuery(searchTerm)));
     }

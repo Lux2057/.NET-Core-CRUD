@@ -11,7 +11,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 [Table($"{TablesNames.Projects}_{TablesNames.Tags}")]
 public class ProjectToTagEntity : EntityBase,
                                   UserIdProp.Interface,
-                                  ProjectIdProp.Interface
+                                  ProjectIdProp.Interface,
+                                  TagIdProp.Interface
 {
     #region Properties
 

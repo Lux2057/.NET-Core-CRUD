@@ -11,7 +11,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 [Table($"{TablesNames.Tasks}_{TablesNames.Tags}")]
 public class TaskToTagEntity : EntityBase,
                                UserIdProp.Interface,
-                               TaskIdProp.Interface
+                               TaskIdProp.Interface,
+                               TagIdProp.Interface
 {
     #region Properties
 

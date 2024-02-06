@@ -18,14 +18,23 @@ public class GetTasksQuery : QueryBase<TaskDto[]>
 
     public int ProjectId { get; }
 
+    public string SearchTerm { get; }
+
+    public int[] TagsIds { get; }
+
     #endregion
 
     #region Constructors
 
-    public GetTasksQuery(int userId, int projectId)
+    public GetTasksQuery(int userId,
+                         int projectId,
+                         string searchTerm,
+                         int[] tagsIds)
     {
         UserId = userId;
         ProjectId = projectId;
+        SearchTerm = searchTerm.Trim();
+        TagsIds = tagsIds;
     }
 
     #endregion
@@ -43,9 +52,21 @@ public class GetTasksQuery : QueryBase<TaskDto[]>
 
         protected override async Task<TaskDto[]> Execute(GetTasksQuery request, CancellationToken cancellationToken)
         {
-            var tasks = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<TaskEntity>(false) &&
-                                              new UserIdProp.FindBy.EqualTo<TaskEntity>(request.UserId) &&
-                                              new ProjectIdProp.FindBy.EqualTo<TaskEntity>(request.ProjectId))
+            var tasksSpec = new IsDeletedProp.FindBy.EqualTo<TaskEntity>(false) &&
+                            new UserIdProp.FindBy.EqualTo<TaskEntity>(request.UserId) &&
+                            new ProjectIdProp.FindBy.EqualTo<TaskEntity>(request.ProjectId) &&
+                            (new NameProp.FindBy.ContainedTerm<TaskEntity>(request.SearchTerm) ||
+                             new DescriptionProp.FindBy.ContainedTerm<TaskEntity>(request.SearchTerm));
+
+            if (request.TagsIds.Any())
+            {
+                var tasksIds = await Repository.Read(new TagIdProp.FindBy.ContainedIn<TaskToTagEntity>(request.TagsIds))
+                                               .Select(r => r.TaskId).Distinct().ToArrayAsync(cancellationToken);
+
+                tasksSpec = tasksSpec && new FindEntitiesByIds<TaskEntity, int>(tasksIds);
+            }
+
+            var tasks = await Repository.Read(tasksSpec)
                                         .ProjectTo<TaskDto>(Mapper.ConfigurationProvider)
                                         .ToArrayAsync(cancellationToken);
 

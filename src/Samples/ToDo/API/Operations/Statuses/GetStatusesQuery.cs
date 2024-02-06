@@ -15,13 +15,17 @@ public class GetStatusesQuery : QueryBase<StatusDto[]>
 
     public int UserId { get; }
 
+    public string SearchTerm { get; }
+
     #endregion
 
     #region Constructors
 
-    public GetStatusesQuery(int userId)
+    public GetStatusesQuery(int userId,
+                            string searchTerm)
     {
         UserId = userId;
+        SearchTerm = searchTerm.Trim();
     }
 
     #endregion
@@ -40,7 +44,8 @@ public class GetStatusesQuery : QueryBase<StatusDto[]>
         protected override async Task<StatusDto[]> Execute(GetStatusesQuery request, CancellationToken cancellationToken)
         {
             return await Repository.Read(new IsDeletedProp.FindBy.EqualTo<StatusEntity>(false) &&
-                                         new UserIdProp.FindBy.EqualTo<StatusEntity>(request.UserId))
+                                         new UserIdProp.FindBy.EqualTo<StatusEntity>(request.UserId) &&
+                                         new NameProp.FindBy.ContainedTerm<StatusEntity>(request.SearchTerm))
                                    .ProjectTo<StatusDto>(Mapper.ConfigurationProvider)
                                    .ToArrayAsync(cancellationToken);
         }

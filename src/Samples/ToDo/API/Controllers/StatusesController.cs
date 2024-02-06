@@ -23,11 +23,12 @@ public class StatusesController : DispatcherControllerBase
     [HttpGet,
      Route("~/" + ApiRoutesConst.GetStatuses),
      ProducesResponseType(typeof(StatusDto[]), 200)]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get([FromQuery(Name = ApiRoutesConst.Params.SearchTerm)] string searchTerm)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 
-        return Ok(await Dispatcher.QueryAsync(new GetStatusesQuery(currentUserId)));
+        return Ok(await Dispatcher.QueryAsync(new GetStatusesQuery(userId: currentUserId,
+                                                                   searchTerm: searchTerm)));
     }
 
     [HttpPost,

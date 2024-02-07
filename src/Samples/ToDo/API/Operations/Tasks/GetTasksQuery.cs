@@ -34,7 +34,7 @@ public class GetTasksQuery : QueryBase<TaskDto[]>
     {
         UserId = userId;
         ProjectId = projectId;
-        SearchTerm = searchTerm.Trim();
+        SearchTerm = searchTerm?.Trim();
         TagsIds = tagsIds;
     }
 

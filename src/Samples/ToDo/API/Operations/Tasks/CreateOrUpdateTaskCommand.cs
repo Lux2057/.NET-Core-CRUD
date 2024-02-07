@@ -22,6 +22,8 @@ public class CreateOrUpdateTaskCommand : CommandBase
 
     public int ProjectId { get; }
 
+    public int StatusId { get; }
+
     public string Name { get; }
 
     public string Description { get; }
@@ -30,6 +32,8 @@ public class CreateOrUpdateTaskCommand : CommandBase
 
     public int[] TagsIds { get; }
 
+    public new int Result { get; set; }
+
     #endregion
 
     #region Constructors
@@ -37,6 +41,7 @@ public class CreateOrUpdateTaskCommand : CommandBase
     public CreateOrUpdateTaskCommand(int? id,
                                      int userId,
                                      int projectId,
+                                     int statusId,
                                      string name,
                                      string description,
                                      DateTime? dueDate,
@@ -48,6 +53,7 @@ public class CreateOrUpdateTaskCommand : CommandBase
         Name = name.Trim();
         Description = description.Trim();
         DueDate = dueDate;
+        StatusId = statusId;
         TagsIds = tagsIds.ToDistinctArrayOrEmpty();
     }
 
@@ -69,6 +75,10 @@ public class CreateOrUpdateTaskCommand : CommandBase
                                        .WithMessage(ValidationMessagesConst.Invalid_task_id);
                  });
 
+            RuleFor(r => r.StatusId).NotEmpty()
+                                    .MustAsync((statusId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<StatusEntity>(statusId)))
+                                    .WithMessage(ValidationMessagesConst.Invalid_status_id);
+
             RuleFor(r => r.UserId).NotEmpty()
                                   .MustAsync((userId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(userId)))
                                   .WithMessage(ValidationMessagesConst.Invalid_user_id);
@@ -78,7 +88,7 @@ public class CreateOrUpdateTaskCommand : CommandBase
                                      .WithMessage(ValidationMessagesConst.Invalid_project_id);
 
             RuleFor(r => r.Name).NotEmpty()
-                                .MustAsync((command, _, _) => dispatcher.QueryAsync(new IsNameUniqueQuery<ProjectEntity>(command.Id, command.UserId, command.Name)))
+                                .MustAsync((command, _, _) => dispatcher.QueryAsync(new IsNameUniqueQuery<TaskEntity>(command.Id, command.UserId, command.Name)))
                                 .WithMessage(ValidationMessagesConst.Name_is_not_unique);
         }
 
@@ -109,15 +119,17 @@ public class CreateOrUpdateTaskCommand : CommandBase
             task.UpDt = DateTime.UtcNow;
             task.DueDate = command.DueDate;
             task.ProjectId = command.ProjectId;
+            task.StatusId = command.StatusId;
 
             if (isNew)
             {
                 await Repository.CreateAsync(task, cancellationToken);
 
-                await Repository.CreateAsync(command.TagsIds.Select(tagId => new ProjectToTagEntity
+                await Repository.CreateAsync(command.TagsIds.Select(tagId => new TaskToTagEntity
                                                                              {
+                                                                                     UserId = command.UserId,
                                                                                      TagId = tagId,
-                                                                                     ProjectId = task.Id
+                                                                                     TaskId = task.Id
                                                                              }), cancellationToken);
             }
             else
@@ -137,6 +149,7 @@ public class CreateOrUpdateTaskCommand : CommandBase
 
                 await Repository.CreateAsync(tagsIdsToCreate.Select(tagId => new TaskToTagEntity
                                                                              {
+                                                                                     UserId = command.UserId,
                                                                                      TaskId = task.Id,
                                                                                      TagId = tagId
                                                                              }), cancellationToken);
@@ -146,6 +159,8 @@ public class CreateOrUpdateTaskCommand : CommandBase
 
                 await Repository.DeleteAsync(tagsToDelete, cancellationToken);
             }
+
+            command.Result = task.Id;
         }
     }
 

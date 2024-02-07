@@ -40,17 +40,18 @@ public class TasksController : DispatcherControllerBase
     [HttpPost,
      Route("~/" + ApiRoutesConst.CreateTask),
      ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Create([FromBody] CreateTaskRequest taskRequest)
+    public async Task<IActionResult> Create([FromBody] CreateTaskRequest request)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 
         var command = new CreateOrUpdateTaskCommand(id: null,
                                                     userId: currentUserId,
-                                                    name: taskRequest.Name,
-                                                    projectId: taskRequest.ProjectId,
-                                                    description: taskRequest.Description,
-                                                    dueDate: taskRequest.DueDate,
-                                                    tagsIds: taskRequest.TagsIds);
+                                                    statusId: request.StatusId,
+                                                    name: request.Name,
+                                                    projectId: request.ProjectId,
+                                                    description: request.Description,
+                                                    dueDate: request.DueDate,
+                                                    tagsIds: request.TagsIds);
 
         await Dispatcher.PushAsync(command);
 
@@ -60,17 +61,18 @@ public class TasksController : DispatcherControllerBase
     [HttpPut,
      Route("~/" + ApiRoutesConst.UpdateTask),
      ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Update([FromBody] EditTaskRequest taskRequest)
+    public async Task<IActionResult> Update([FromBody] EditTaskRequest request)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 
-        var command = new CreateOrUpdateTaskCommand(id: taskRequest.Id,
+        var command = new CreateOrUpdateTaskCommand(id: request.Id,
                                                     userId: currentUserId,
-                                                    name: taskRequest.Name,
-                                                    projectId: taskRequest.ProjectId,
-                                                    description: taskRequest.Description,
-                                                    dueDate: taskRequest.DueDate,
-                                                    tagsIds: taskRequest.TagsIds);
+                                                    name: request.Name,
+                                                    statusId: request.StatusId,
+                                                    projectId: request.ProjectId,
+                                                    description: request.Description,
+                                                    dueDate: request.DueDate,
+                                                    tagsIds: request.TagsIds);
 
         await Dispatcher.PushAsync(command);
 
@@ -83,13 +85,10 @@ public class TasksController : DispatcherControllerBase
     public async Task<IActionResult> SetStatus([FromBody] SetTaskStatusRequest request)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
+        await Dispatcher.PushAsync(new SetTaskStatusCommand(id: request.Id,
+                                                            userId: currentUserId,
+                                                            statusId: request.StatusId));
 
-        var command = new SetTaskStatusCommand(id: request.Id,
-                                               userId: currentUserId,
-                                               statusId: request.StatusId);
-
-        await Dispatcher.PushAsync(command);
-
-        return Ok(command.Result);
+        return Ok();
     }
 }

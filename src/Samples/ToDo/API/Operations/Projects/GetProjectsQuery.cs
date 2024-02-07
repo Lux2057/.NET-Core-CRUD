@@ -31,7 +31,7 @@ public class GetProjectsQuery : QueryBase<ProjectDto[]>
                             IEnumerable<int> tagsIds)
     {
         UserId = userId;
-        SearchTerm = searchTerm.Trim();
+        SearchTerm = searchTerm?.Trim();
         TagsIds = tagsIds.ToDistinctArrayOrEmpty();
     }
 

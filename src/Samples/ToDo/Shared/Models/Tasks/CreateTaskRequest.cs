@@ -8,6 +8,8 @@ public class CreateTaskRequest
 
     public int ProjectId { get; set; }
 
+    public int StatusId { get; set; }
+
     public string Description { get; set; }
 
     public DateTime? DueDate { get; set; }

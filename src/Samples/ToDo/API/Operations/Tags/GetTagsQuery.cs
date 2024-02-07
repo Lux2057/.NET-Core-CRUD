@@ -22,7 +22,7 @@ public class GetTagsQuery : QueryBase<TagDto[]>
 
     public GetTagsQuery(string searchTerm)
     {
-        SearchTerm = searchTerm.Trim().ToLower();
+        SearchTerm = searchTerm?.Trim().ToLower();
     }
 
     #endregion

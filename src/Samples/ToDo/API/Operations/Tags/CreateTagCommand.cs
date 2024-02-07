@@ -15,6 +15,8 @@ public class CreateTagCommand : CommandBase
 
     public string Name { get; }
 
+    public new int Result { get; set; }
+
     #endregion
 
     #region Constructors
@@ -53,7 +55,10 @@ public class CreateTagCommand : CommandBase
 
         protected override async Task Execute(CreateTagCommand command, CancellationToken cancellationToken)
         {
-            await Repository.CreateAsync(new TagEntity { Name = command.Name });
+            var tag = new TagEntity { Name = command.Name };
+            await Repository.CreateAsync(tag);
+
+            command.Result = tag.Id;
         }
     }
 

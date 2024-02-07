@@ -26,7 +26,7 @@ public class GetStatusesQuery : QueryBase<StatusDto[]>
                             string searchTerm)
     {
         UserId = userId;
-        SearchTerm = searchTerm.Trim();
+        SearchTerm = searchTerm?.Trim();
     }
 
     #endregion

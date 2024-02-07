@@ -26,6 +26,8 @@ public class CreateOrUpdateProjectCommand : CommandBase
 
     public int[] TagsIds { get; }
 
+    public new int Result { get; set; }
+
     #endregion
 
     #region Constructors
@@ -108,6 +110,7 @@ public class CreateOrUpdateProjectCommand : CommandBase
 
                 await Repository.CreateAsync(command.TagsIds.Select(tagId => new ProjectToTagEntity
                                                                              {
+                                                                                     UserId = command.UserId,
                                                                                      TagId = tagId,
                                                                                      ProjectId = project.Id
                                                                              }), cancellationToken);
@@ -129,6 +132,7 @@ public class CreateOrUpdateProjectCommand : CommandBase
 
                 await Repository.CreateAsync(tagsIdsToCreate.Select(tagId => new ProjectToTagEntity
                                                                              {
+                                                                                     UserId = command.UserId,
                                                                                      ProjectId = project.Id,
                                                                                      TagId = tagId
                                                                              }), cancellationToken);
@@ -138,6 +142,8 @@ public class CreateOrUpdateProjectCommand : CommandBase
 
                 await Repository.DeleteAsync(tagsToDelete, cancellationToken);
             }
+
+            command.Result = project.Id;
         }
     }
 

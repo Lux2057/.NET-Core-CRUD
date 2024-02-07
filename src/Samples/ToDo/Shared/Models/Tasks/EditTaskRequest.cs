@@ -8,6 +8,8 @@ public class EditTaskRequest
 
     public string Name { get; set; }
 
+    public int StatusId { get; set; }
+
     public int ProjectId { get; set; }
 
     public string Description { get; set; }

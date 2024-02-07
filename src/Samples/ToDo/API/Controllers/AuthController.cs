@@ -7,7 +7,6 @@ using CRUD.WebAPI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Samples.ToDo.Shared;
-using Samples.ToDo.Shared.Auth;
 
 #endregion
 
@@ -23,35 +22,35 @@ public class AuthController : DispatcherControllerBase
     [HttpPost,
      AllowAnonymous,
      Route("~/" + ApiRoutesConst.SignUp),
-     ProducesResponseType(typeof(AuthDto.Result), 200)]
-    public async Task<IActionResult> SignUp([FromBody] AuthDto.Request request)
+     ProducesResponseType(typeof(AuthResultDto), 200)]
+    public async Task<IActionResult> SignUp([FromBody] AuthRequest authRequest)
     {
-        var command = new SignUpCommand(userName: request.UserName,
-                                        password: request.Password);
+        var command = new SignUpCommand(userName: authRequest.UserName,
+                                        password: authRequest.Password);
 
         await Dispatcher.PushAsync(command);
 
-        return Ok(command.Result);
+        return Ok(command.AuthResultDto);
     }
 
     [HttpPost,
      AllowAnonymous,
      Route("~/" + ApiRoutesConst.SignIn),
-     ProducesResponseType(typeof(AuthDto.Result), 200)]
-    public async Task<ActionResult> SignIn([FromBody] AuthDto.Request request)
+     ProducesResponseType(typeof(AuthResultDto), 200)]
+    public async Task<ActionResult> SignIn([FromBody] AuthRequest authRequest)
     {
-        var command = new SignInCommand(userName: request.UserName,
-                                        password: request.Password);
+        var command = new SignInCommand(userName: authRequest.UserName,
+                                        password: authRequest.Password);
 
         await Dispatcher.PushAsync(command);
 
-        return Ok(command.Result);
+        return Ok(command.AuthResultDto);
     }
 
     [HttpPost,
      Authorize,
      Route("~/" + ApiRoutesConst.RefreshToken),
-     ProducesResponseType(typeof(AuthDto.Result), 200)]
+     ProducesResponseType(typeof(AuthResultDto), 200)]
     public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
@@ -61,6 +60,6 @@ public class AuthController : DispatcherControllerBase
 
         await Dispatcher.PushAsync(command);
 
-        return Ok(command.Result);
+        return Ok(command.AuthResultDto);
     }
 }

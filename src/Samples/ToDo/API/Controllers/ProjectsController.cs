@@ -38,15 +38,15 @@ public class ProjectsController : DispatcherControllerBase
     [HttpPost,
      Route("~/" + ApiRoutesConst.CreateProject),
      ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Create([FromBody] ProjectDto.CreateRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateProjectRequest projectRequest)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 
         var command = new CreateOrUpdateProjectCommand(id: null,
                                                        userId: currentUserId,
-                                                       name: request.Name,
-                                                       description: request.Description,
-                                                       tagsIds: request.TagsIds);
+                                                       name: projectRequest.Name,
+                                                       description: projectRequest.Description,
+                                                       tagsIds: projectRequest.TagsIds);
 
         await Dispatcher.PushAsync(command);
 
@@ -56,15 +56,15 @@ public class ProjectsController : DispatcherControllerBase
     [HttpPut,
      Route("~/" + ApiRoutesConst.UpdateProject),
      ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Update([FromBody] ProjectDto.EditRequest request)
+    public async Task<IActionResult> Update([FromBody] EditProjectRequest projectRequest)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 
-        var command = new CreateOrUpdateProjectCommand(id: request.Id,
+        var command = new CreateOrUpdateProjectCommand(id: projectRequest.Id,
                                                        userId: currentUserId,
-                                                       name: request.Name,
-                                                       description: request.Description,
-                                                       tagsIds: request.TagsIds);
+                                                       name: projectRequest.Name,
+                                                       description: projectRequest.Description,
+                                                       tagsIds: projectRequest.TagsIds);
 
         await Dispatcher.PushAsync(command);
 

@@ -5,6 +5,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
 using JetBrains.Annotations;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 #endregion
@@ -38,7 +39,7 @@ public class RefreshTokenEntity : EntityBase,
             builder.Property(r => r.TokenHash).IsRequired();
             builder.Property(r => r.IssuedAt).IsRequired();
             builder.Property(r => r.ExpiresAt).IsRequired();
-            builder.HasOne(r => r.User).WithMany(r => r.Tokens).HasForeignKey(r => r.UserId);
+            builder.HasOne(r => r.User).WithMany(r => r.Tokens).HasForeignKey(r => r.UserId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 

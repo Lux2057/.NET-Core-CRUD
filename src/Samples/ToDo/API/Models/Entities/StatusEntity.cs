@@ -5,6 +5,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using JetBrains.Annotations;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Samples.ToDo.Shared;
 
@@ -36,7 +37,7 @@ public class StatusEntity : EntityBase,
         {
             base.Configure(builder);
             builder.Property(r => r.Name).IsRequired();
-            builder.HasOne(r => r.User).WithMany(r => r.Statuses).HasForeignKey(r => r.UserId);
+            builder.HasOne(r => r.User).WithMany(r => r.Statuses).HasForeignKey(r => r.UserId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 

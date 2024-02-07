@@ -4,6 +4,7 @@
 
 using System.ComponentModel.DataAnnotations.Schema;
 using JetBrains.Annotations;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 #endregion
@@ -38,9 +39,9 @@ public class TaskToTagEntity : EntityBase,
         public override void Configure(EntityTypeBuilder<TaskToTagEntity> builder)
         {
             base.Configure(builder);
-            builder.HasOne(r => r.Task).WithMany(r => r.Tags).HasForeignKey(r => r.TaskId);
-            builder.HasOne(r => r.Tag).WithMany(r => r.Tasks).HasForeignKey(r => r.TagId);
-            builder.HasOne(r => r.User).WithMany(r => r.TasksToTags).HasForeignKey(r => r.UserId);
+            builder.HasOne(r => r.Task).WithMany(r => r.Tags).HasForeignKey(r => r.TaskId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(r => r.Tag).WithMany(r => r.Tasks).HasForeignKey(r => r.TagId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(r => r.User).WithMany(r => r.TasksToTags).HasForeignKey(r => r.UserId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 

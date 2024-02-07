@@ -31,7 +31,7 @@ public class TagsController : DispatcherControllerBase
     [HttpPost,
      Route("~/" + ApiRoutesConst.CreateTag),
      ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Create([FromBody] TagDto.CreateRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateTagRequest request)
     {
         var command = new CreateTagCommand(name: request.Name);
         await Dispatcher.PushAsync(command);

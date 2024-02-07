@@ -5,7 +5,7 @@
 using CRUD.CQRS;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
-using Samples.ToDo.Shared.Auth;
+using Samples.ToDo.Shared;
 
 #endregion
 
@@ -15,7 +15,7 @@ public class CreateRefreshTokenCommand : CommandBase
 
     public UserEntity User { get; }
 
-    public new AuthDto.Result Result { get; set; }
+    public new AuthResultDto AuthResultDto { get; set; }
 
     #endregion
 
@@ -64,7 +64,7 @@ public class CreateRefreshTokenCommand : CommandBase
 
             await Repository.CreateAsync(tokenEntity, cancellationToken);
 
-            command.Result = new AuthDto.Result
+            command.AuthResultDto = new AuthResultDto
                              {
                                      Success = true,
                                      AccessToken = accessToken,

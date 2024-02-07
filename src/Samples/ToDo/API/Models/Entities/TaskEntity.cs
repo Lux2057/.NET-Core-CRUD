@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using CRUD.DAL.EntityFramework;
 using JetBrains.Annotations;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Samples.ToDo.Shared;
 
@@ -57,9 +58,9 @@ public class TaskEntity : EntityBase,
             builder.Property(r => r.Description).HasColumnTypeText();
             builder.Property(r => r.UpDt);
             builder.Property(r => r.DueDate);
-            builder.HasOne(r => r.Project).WithMany(r => r.Tasks).HasForeignKey(r => r.ProjectId);
-            builder.HasOne(r => r.User).WithMany(r => r.Tasks).HasForeignKey(r => r.UserId);
-            builder.HasOne(r => r.Status).WithMany(r => r.Tasks).HasForeignKey(r => r.StatusId);
+            builder.HasOne(r => r.Project).WithMany(r => r.Tasks).HasForeignKey(r => r.ProjectId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(r => r.User).WithMany(r => r.Tasks).HasForeignKey(r => r.UserId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(r => r.Status).WithMany(r => r.Tasks).HasForeignKey(r => r.StatusId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 

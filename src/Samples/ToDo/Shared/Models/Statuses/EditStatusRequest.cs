@@ -1,12 +1,12 @@
 ﻿namespace Samples.ToDo.Shared;
 
-public class UserDto
+public class EditStatusRequest
 {
     #region Properties
 
     public int Id { get; set; }
 
-    public string UserName { get; set; }
+    public string Name { get; set; }
 
     #endregion
 }

@@ -7,7 +7,6 @@ using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Samples.ToDo.Shared;
-using Samples.ToDo.Shared.Auth;
 
 #endregion
 
@@ -19,7 +18,7 @@ public class SignUpCommand : CommandBase
 
     public string Password { get; }
 
-    public new AuthDto.Result Result { get; set; }
+    public new AuthResultDto AuthResultDto { get; set; }
 
     #endregion
 
@@ -71,7 +70,7 @@ public class SignUpCommand : CommandBase
             var signInCommand = new SignInCommand(command.UserName, command.Password);
             await Dispatcher.PushAsync(signInCommand);
 
-            command.Result = signInCommand.Result;
+            command.AuthResultDto = signInCommand.AuthResultDto;
         }
     }
 

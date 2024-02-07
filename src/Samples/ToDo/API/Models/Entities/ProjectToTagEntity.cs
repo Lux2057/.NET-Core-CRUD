@@ -4,6 +4,7 @@
 
 using System.ComponentModel.DataAnnotations.Schema;
 using JetBrains.Annotations;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 #endregion
@@ -38,9 +39,9 @@ public class ProjectToTagEntity : EntityBase,
         public override void Configure(EntityTypeBuilder<ProjectToTagEntity> builder)
         {
             base.Configure(builder);
-            builder.HasOne(r => r.Project).WithMany(r => r.Tags).HasForeignKey(r => r.ProjectId);
-            builder.HasOne(r => r.Tag).WithMany(r => r.Projects).HasForeignKey(r => r.TagId);
-            builder.HasOne(r => r.User).WithMany(r => r.ProjectsToTags).HasForeignKey(r => r.UserId);
+            builder.HasOne(r => r.Project).WithMany(r => r.Tags).HasForeignKey(r => r.ProjectId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(r => r.Tag).WithMany(r => r.Projects).HasForeignKey(r => r.TagId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(r => r.User).WithMany(r => r.ProjectsToTags).HasForeignKey(r => r.UserId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 

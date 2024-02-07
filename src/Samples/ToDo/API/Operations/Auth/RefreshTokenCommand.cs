@@ -9,7 +9,6 @@ using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Samples.ToDo.Shared;
-using Samples.ToDo.Shared.Auth;
 
 #endregion
 
@@ -21,7 +20,7 @@ public class RefreshTokenCommand : CommandBase
 
     public string RefreshToken { get; }
 
-    public new AuthDto.Result Result { get; set; }
+    public new AuthResultDto AuthResultDto { get; set; }
 
     #endregion
 
@@ -66,11 +65,11 @@ public class RefreshTokenCommand : CommandBase
             var user = await Repository.Read(new FindEntityByIntId<UserEntity>(command.UserId)).SingleOrDefaultAsync(cancellationToken);
             if (user == null)
             {
-                command.Result = new AuthDto.Result
-                                 {
-                                         Success = false,
-                                         Message = ValidationMessagesConst.Token_is_invalid
-                                 };
+                command.AuthResultDto = new AuthResultDto
+                                        {
+                                                Success = false,
+                                                Message = ValidationMessagesConst.Token_is_invalid
+                                        };
 
                 return;
             }
@@ -83,11 +82,11 @@ public class RefreshTokenCommand : CommandBase
 
             if (refreshToken == null)
             {
-                command.Result = new AuthDto.Result
-                                 {
-                                         Success = false,
-                                         Message = ValidationMessagesConst.Token_is_expired
-                                 };
+                command.AuthResultDto = new AuthResultDto
+                                        {
+                                                Success = false,
+                                                Message = ValidationMessagesConst.Token_is_expired
+                                        };
 
                 return;
             }
@@ -95,11 +94,11 @@ public class RefreshTokenCommand : CommandBase
             var tokenVerification = new PasswordHasher<RefreshTokenEntity>().VerifyHashedPassword(refreshToken, refreshToken.TokenHash, command.RefreshToken);
             if (tokenVerification != PasswordVerificationResult.Success)
             {
-                command.Result = new AuthDto.Result
-                                 {
-                                         Success = false,
-                                         Message = ValidationMessagesConst.Token_is_invalid
-                                 };
+                command.AuthResultDto = new AuthResultDto
+                                        {
+                                                Success = false,
+                                                Message = ValidationMessagesConst.Token_is_invalid
+                                        };
 
                 return;
             }
@@ -110,7 +109,7 @@ public class RefreshTokenCommand : CommandBase
             var createTokenCommand = new CreateRefreshTokenCommand(user);
             await Dispatcher.PushAsync(createTokenCommand);
 
-            command.Result = createTokenCommand.Result;
+            command.AuthResultDto = createTokenCommand.AuthResultDto;
         }
     }
 

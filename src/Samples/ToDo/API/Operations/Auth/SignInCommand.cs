@@ -9,7 +9,6 @@ using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Samples.ToDo.Shared;
-using Samples.ToDo.Shared.Auth;
 
 #endregion
 
@@ -21,7 +20,7 @@ public class SignInCommand : CommandBase
 
     public string Password { get; }
 
-    public new AuthDto.Result Result { get; set; }
+    public new AuthResultDto AuthResultDto { get; set; }
 
     #endregion
 
@@ -64,7 +63,7 @@ public class SignInCommand : CommandBase
         {
             if (command.UserName.IsNullOrWhitespace() || command.Password.IsNullOrWhitespace())
             {
-                command.Result = new AuthDto.Result
+                command.AuthResultDto = new AuthResultDto
                                  {
                                          Success = false,
                                          Message = ValidationMessagesConst.Credentials_are_empty
@@ -78,7 +77,7 @@ public class SignInCommand : CommandBase
 
             if (user == null)
             {
-                command.Result = new AuthDto.Result
+                command.AuthResultDto = new AuthResultDto
                                  {
                                          Success = false,
                                          Message = ValidationMessagesConst.Invalid_credentials
@@ -90,7 +89,7 @@ public class SignInCommand : CommandBase
             var verificationResult = new PasswordHasher<UserEntity>().VerifyHashedPassword(user, user.PasswordHash, command.Password);
             if (verificationResult != PasswordVerificationResult.Success)
             {
-                command.Result = new AuthDto.Result
+                command.AuthResultDto = new AuthResultDto
                                  {
                                          Success = false,
                                          Message = ValidationMessagesConst.Invalid_credentials
@@ -102,7 +101,7 @@ public class SignInCommand : CommandBase
             var createTokenCommand = new CreateRefreshTokenCommand(user);
             await Dispatcher.PushAsync(createTokenCommand);
 
-            command.Result = createTokenCommand.Result;
+            command.AuthResultDto = createTokenCommand.AuthResultDto;
         }
     }
 

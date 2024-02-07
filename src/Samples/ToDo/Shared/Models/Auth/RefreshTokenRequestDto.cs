@@ -1,4 +1,4 @@
-﻿namespace Samples.ToDo.Shared.Auth;
+﻿namespace Samples.ToDo.Shared;
 
 public class RefreshTokenRequestDto
 {

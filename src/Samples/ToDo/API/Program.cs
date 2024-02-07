@@ -7,6 +7,8 @@ using CRUD.DAL.EntityFramework;
 using CRUD.Logging.Common;
 using CRUD.Logging.EntityFramework;
 using CRUD.WebAPI;
+using Hangfire;
+using Hangfire.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -82,11 +84,35 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+var hangfireConnectionString = builder.Configuration.GetConnectionString("ToDoHangfire")!;
+builder.Services.AddDbContext<HangfireDbContext>(options =>
+                                                 {
+                                                     options.UseNpgsql(hangfireConnectionString);
+                                                     options.UseLazyLoadingProxies();
+                                                 });
 
+builder.Services.AddHangfire(config =>
+                             {
+                                 config.UseEFCoreStorage(cb => cb.UseNpgsql(hangfireConnectionString),
+                                                         new EFCoreStorageOptions
+                                                         {
+                                                                 CountersAggregationInterval = new TimeSpan(0, 5, 0),
+                                                                 DistributedLockTimeout = new TimeSpan(0, 10, 0),
+                                                                 JobExpirationCheckInterval = new TimeSpan(0, 30, 0),
+                                                                 QueuePollInterval = new TimeSpan(0, 0, 0, 1),
+                                                                 Schema = string.Empty,
+                                                                 SlidingInvisibilityTimeout = new TimeSpan(0, 5, 0),
+                                                         }).UseDatabaseCreator();
+
+                                 config.SetDataCompatibilityLevel(CompatibilityLevel.Version_180);
+                             });
+
+builder.Services.AddHangfireServer();
+
+var dataConnectionString = builder.Configuration.GetConnectionString("ToDoData")!;
 builder.Services.AddEntityFrameworkDAL<ApiDbContext>(dbContextOptions: options =>
                                                                        {
-                                                                           options.UseNpgsql(defaultConnectionString);
+                                                                           options.UseNpgsql(dataConnectionString);
                                                                            options.UseLazyLoadingProxies();
                                                                        });
 
@@ -140,6 +166,8 @@ else
     app.UseHsts();
 }
 
+app.UseHangfireDashboard();
+
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
@@ -169,10 +197,27 @@ app.MapFallbackToFile("index.html");
 
 using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
 {
-    using (var context = serviceScope.ServiceProvider.GetService<ApiDbContext>()!)
+    await using (var context = serviceScope.ServiceProvider.GetService<HangfireDbContext>()!)
+    {
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
+    }
+}
+
+using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+{
+    await using (var context = serviceScope.ServiceProvider.GetService<ApiDbContext>()!)
     {
         context.Database.EnsureCreated();
         context.Database.Migrate();
+    }
+}
+
+using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+{
+    using (var dispatcher = serviceScope.ServiceProvider.GetService<IDispatcher>()!)
+    {
+        await dispatcher.PushAsync(new CleanDbRecurrentCommand());
     }
 }
 

@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using CRUD.DAL.EntityFramework;
 using JetBrains.Annotations;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Samples.ToDo.Shared;
 
@@ -47,7 +48,7 @@ public class ProjectEntity : EntityBase,
             builder.Property(r => r.Name).IsRequired();
             builder.Property(r => r.Description).HasColumnTypeText();
             builder.Property(r => r.UpDt);
-            builder.HasOne(r => r.User).WithMany(r => r.Projects).HasForeignKey(r => r.UserId);
+            builder.HasOne(r => r.User).WithMany(r => r.Projects).HasForeignKey(r => r.UserId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 

@@ -34,13 +34,13 @@ public class StatusesController : DispatcherControllerBase
     [HttpPost,
      Route("~/" + ApiRoutesConst.CreateStatus),
      ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Create([FromBody] StatusDto.CreateRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateStatusRequest statusRequest)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 
         var command = new CreateOrUpdateStatusCommand(id: null,
                                                       userId: currentUserId,
-                                                      name: request.Name);
+                                                      name: statusRequest.Name);
 
         await Dispatcher.PushAsync(command);
 
@@ -50,13 +50,13 @@ public class StatusesController : DispatcherControllerBase
     [HttpPut,
      Route("~/" + ApiRoutesConst.UpdateStatus),
      ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Update([FromBody] StatusDto.EditRequest request)
+    public async Task<IActionResult> Update([FromBody] EditStatusRequest statusRequest)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 
-        var command = new CreateOrUpdateStatusCommand(id: request.Id,
+        var command = new CreateOrUpdateStatusCommand(id: statusRequest.Id,
                                                       userId: currentUserId,
-                                                      name: request.Name);
+                                                      name: statusRequest.Name);
 
         await Dispatcher.PushAsync(command);
 

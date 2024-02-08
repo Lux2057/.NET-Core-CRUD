@@ -21,7 +21,7 @@ public class AuthController : DispatcherControllerBase
 
     [HttpPost,
      AllowAnonymous,
-     Route("~/" + ApiRoutesConst.SignUp),
+     Route("~/" + ApiRoutes.SignUp),
      ProducesResponseType(typeof(AuthResultDto), 200)]
     public async Task<IActionResult> SignUp([FromBody] AuthRequest authRequest)
     {
@@ -35,7 +35,7 @@ public class AuthController : DispatcherControllerBase
 
     [HttpPost,
      AllowAnonymous,
-     Route("~/" + ApiRoutesConst.SignIn),
+     Route("~/" + ApiRoutes.SignIn),
      ProducesResponseType(typeof(AuthResultDto), 200)]
     public async Task<ActionResult> SignIn([FromBody] AuthRequest authRequest)
     {
@@ -49,7 +49,7 @@ public class AuthController : DispatcherControllerBase
 
     [HttpPost,
      Authorize,
-     Route("~/" + ApiRoutesConst.RefreshToken),
+     Route("~/" + ApiRoutes.RefreshToken),
      ProducesResponseType(typeof(AuthResultDto), 200)]
     public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request)
     {

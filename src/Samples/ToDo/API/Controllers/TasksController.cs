@@ -21,12 +21,12 @@ public class TasksController : DispatcherControllerBase
     #endregion
 
     [HttpGet,
-     Route("~/" + ApiRoutesConst.GetTasks),
+     Route("~/" + ApiRoutes.GetTasks),
      ProducesResponseType(typeof(TaskDto[]), 200)]
-    public async Task<IActionResult> Get([FromQuery(Name = ApiRoutesConst.Params.ProjectId)] int projectId,
-                                         [FromQuery(Name = ApiRoutesConst.Params.SearchTerm)]
+    public async Task<IActionResult> Get([FromQuery(Name = ApiRoutes.Params.ProjectId)] int projectId,
+                                         [FromQuery(Name = ApiRoutes.Params.SearchTerm)]
                                          string searchTerm,
-                                         [FromQuery(Name = ApiRoutesConst.Params.TagsIds)]
+                                         [FromQuery(Name = ApiRoutes.Params.TagsIds)]
                                          int[] tagsIds)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
@@ -38,7 +38,7 @@ public class TasksController : DispatcherControllerBase
     }
 
     [HttpPost,
-     Route("~/" + ApiRoutesConst.CreateTask),
+     Route("~/" + ApiRoutes.CreateTask),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> Create([FromBody] CreateTaskRequest request)
     {
@@ -59,7 +59,7 @@ public class TasksController : DispatcherControllerBase
     }
 
     [HttpPut,
-     Route("~/" + ApiRoutesConst.UpdateTask),
+     Route("~/" + ApiRoutes.UpdateTask),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> Update([FromBody] EditTaskRequest request)
     {
@@ -80,7 +80,7 @@ public class TasksController : DispatcherControllerBase
     }
 
     [HttpPut,
-     Route("~/" + ApiRoutesConst.SetTaskStatus),
+     Route("~/" + ApiRoutes.SetTaskStatus),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> SetStatus([FromBody] SetTaskStatusRequest request)
     {

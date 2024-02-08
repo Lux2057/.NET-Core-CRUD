@@ -21,9 +21,9 @@ public class StatusesController : DispatcherControllerBase
     #endregion
 
     [HttpGet,
-     Route("~/" + ApiRoutesConst.GetStatuses),
+     Route("~/" + ApiRoutes.GetStatuses),
      ProducesResponseType(typeof(StatusDto[]), 200)]
-    public async Task<IActionResult> Get([FromQuery(Name = ApiRoutesConst.Params.SearchTerm)] string searchTerm)
+    public async Task<IActionResult> Get([FromQuery(Name = ApiRoutes.Params.SearchTerm)] string searchTerm)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 
@@ -32,7 +32,7 @@ public class StatusesController : DispatcherControllerBase
     }
 
     [HttpPost,
-     Route("~/" + ApiRoutesConst.CreateStatus),
+     Route("~/" + ApiRoutes.CreateStatus),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> Create([FromBody] CreateStatusRequest statusRequest)
     {
@@ -48,7 +48,7 @@ public class StatusesController : DispatcherControllerBase
     }
 
     [HttpPut,
-     Route("~/" + ApiRoutesConst.UpdateStatus),
+     Route("~/" + ApiRoutes.UpdateStatus),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> Update([FromBody] EditStatusRequest statusRequest)
     {

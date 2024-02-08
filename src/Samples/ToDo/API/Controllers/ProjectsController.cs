@@ -22,10 +22,10 @@ public class ProjectsController : DispatcherControllerBase
     #endregion
 
     [HttpGet,
-     Route("~/" + ApiRoutesConst.GetProjects),
+     Route("~/" + ApiRoutes.GetProjects),
      ProducesResponseType(typeof(ProjectDto[]), 200)]
-    public async Task<IActionResult> Get([FromQuery(Name = ApiRoutesConst.Params.SearchTerm)] string searchTerm,
-                                         [FromQuery(Name = ApiRoutesConst.Params.TagsIds)]
+    public async Task<IActionResult> Get([FromQuery(Name = ApiRoutes.Params.SearchTerm)] string searchTerm,
+                                         [FromQuery(Name = ApiRoutes.Params.TagsIds)]
                                          int[] tagsIds)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
@@ -36,7 +36,7 @@ public class ProjectsController : DispatcherControllerBase
     }
 
     [HttpPost,
-     Route("~/" + ApiRoutesConst.CreateProject),
+     Route("~/" + ApiRoutes.CreateProject),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> Create([FromBody] CreateProjectRequest projectRequest)
     {
@@ -54,7 +54,7 @@ public class ProjectsController : DispatcherControllerBase
     }
 
     [HttpPut,
-     Route("~/" + ApiRoutesConst.UpdateProject),
+     Route("~/" + ApiRoutes.UpdateProject),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> Update([FromBody] EditProjectRequest projectRequest)
     {

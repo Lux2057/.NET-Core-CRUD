@@ -21,15 +21,15 @@ public class TagsController : DispatcherControllerBase
     #endregion
 
     [HttpGet,
-     Route("~/" + ApiRoutesConst.GetTags),
+     Route("~/" + ApiRoutes.GetTags),
      ProducesResponseType(typeof(StatusDto[]), 200)]
-    public async Task<IActionResult> Get([FromQuery(Name = ApiRoutesConst.Params.SearchTerm)] string searchTerm)
+    public async Task<IActionResult> Get([FromQuery(Name = ApiRoutes.Params.SearchTerm)] string searchTerm)
     {
         return Ok(await Dispatcher.QueryAsync(new GetTagsQuery(searchTerm)));
     }
 
     [HttpPost,
-     Route("~/" + ApiRoutesConst.CreateTag),
+     Route("~/" + ApiRoutes.CreateTag),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> Create([FromBody] CreateTagRequest request)
     {

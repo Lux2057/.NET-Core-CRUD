@@ -7,7 +7,7 @@ using CRUD.DAL.Abstractions;
 using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
-using Samples.ToDo.Shared;
+using Samples.ToDo.Shared.Resources;
 
 #endregion
 
@@ -47,11 +47,11 @@ public class SetTaskStatusCommand : CommandBase
         {
             RuleFor(r => r.Id).NotEmpty()
                               .MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<TaskEntity>(id)))
-                              .WithMessage(ValidationMessagesConst.Invalid_task_id);
+                              .WithMessage(Localization.Task_id_is_invalid);
 
             RuleFor(r => r.StatusId).NotEmpty()
                                     .MustAsync((statusId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<StatusEntity>(statusId)))
-                                    .WithMessage(ValidationMessagesConst.Invalid_status_id);
+                                    .WithMessage(Localization.Status_id_is_invalid);
         }
 
         #endregion

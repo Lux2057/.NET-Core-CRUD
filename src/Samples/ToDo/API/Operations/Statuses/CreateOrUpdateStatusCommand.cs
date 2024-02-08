@@ -8,6 +8,7 @@ using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Samples.ToDo.Shared;
+using Samples.ToDo.Shared.Resources;
 
 #endregion
 
@@ -51,16 +52,16 @@ public class CreateOrUpdateStatusCommand : CommandBase
                  () =>
                  {
                      RuleFor(r => r.Id).MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<StatusEntity>(id.Value)))
-                                       .WithMessage(ValidationMessagesConst.Invalid_status_id);
+                                       .WithMessage(Localization.Status_id_is_invalid);
                  });
 
             RuleFor(r => r.UserId).NotEmpty()
                                   .MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(id)))
-                                  .WithMessage(ValidationMessagesConst.Invalid_user_id);
+                                  .WithMessage(Localization.User_id_is_invalid);
 
             RuleFor(r => r.Name).NotEmpty()
                                 .MustAsync((command, _, _) => dispatcher.QueryAsync(new IsNameUniqueQuery<StatusEntity>(command.Id, command.UserId, command.Name)))
-                                .WithMessage(ValidationMessagesConst.Name_is_not_unique);
+                                .WithMessage(Localization.Name_is_not_unique);
         }
 
         #endregion

@@ -6,6 +6,7 @@ using CRUD.CQRS;
 using FluentValidation;
 using JetBrains.Annotations;
 using Samples.ToDo.Shared;
+using Samples.ToDo.Shared.Resources;
 
 #endregion
 
@@ -38,7 +39,7 @@ public class CreateTagCommand : CommandBase
         public Validator(IDispatcher dispatcher)
         {
             RuleFor(r => r.Name).NotEmpty()
-                                .MustAsync((name, _) => dispatcher.QueryAsync(new IsTagNameUniqueQuery(name))).WithMessage(ValidationMessagesConst.Name_is_not_unique);
+                                .MustAsync((name, _) => dispatcher.QueryAsync(new IsTagNameUniqueQuery(name))).WithMessage(Localization.Name_is_not_unique);
         }
 
         #endregion

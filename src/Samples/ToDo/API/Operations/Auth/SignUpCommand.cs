@@ -7,6 +7,7 @@ using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Samples.ToDo.Shared;
+using Samples.ToDo.Shared.Resources;
 
 #endregion
 
@@ -43,7 +44,7 @@ public class SignUpCommand : CommandBase
         {
             RuleFor(r => r.UserName).NotEmpty().MinimumLength(6).MaximumLength(30)
                                     .MustAsync((userName, _) => dispatcher.QueryAsync(new IsUserNameUniqueQuery(userName)))
-                                    .WithMessage(ValidationMessagesConst.User_name_is_not_unique);
+                                    .WithMessage(Localization.User_name_is_not_unique);
 
             RuleFor(r => r.Password).NotEmpty().MinimumLength(6).MaximumLength(30);
         }

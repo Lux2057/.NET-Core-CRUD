@@ -9,6 +9,7 @@ using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Samples.ToDo.Shared;
+using Samples.ToDo.Shared.Resources;
 
 #endregion
 
@@ -45,7 +46,7 @@ public class RefreshTokenCommand : CommandBase
         {
             RuleFor(r => r.UserId).NotEmpty()
                                   .MustAsync((userId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(userId)))
-                                  .WithMessage(ValidationMessagesConst.Invalid_user_id);
+                                  .WithMessage(Localization.User_id_is_invalid);
         }
 
         #endregion
@@ -68,7 +69,7 @@ public class RefreshTokenCommand : CommandBase
                 command.AuthResultDto = new AuthResultDto
                                         {
                                                 Success = false,
-                                                Message = ValidationMessagesConst.Token_is_invalid
+                                                Message = Localization.Token_is_invalid
                                         };
 
                 return;
@@ -85,7 +86,7 @@ public class RefreshTokenCommand : CommandBase
                 command.AuthResultDto = new AuthResultDto
                                         {
                                                 Success = false,
-                                                Message = ValidationMessagesConst.Token_is_expired
+                                                Message = Localization.Token_is_expired
                                         };
 
                 return;
@@ -97,7 +98,7 @@ public class RefreshTokenCommand : CommandBase
                 command.AuthResultDto = new AuthResultDto
                                         {
                                                 Success = false,
-                                                Message = ValidationMessagesConst.Token_is_invalid
+                                                Message = Localization.Token_is_invalid
                                         };
 
                 return;

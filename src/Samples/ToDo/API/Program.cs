@@ -1,5 +1,6 @@
 #region << Using >>
 
+using System.Globalization;
 using System.Text;
 using CRUD.Core;
 using CRUD.CQRS;
@@ -10,6 +11,7 @@ using CRUD.WebAPI;
 using Hangfire;
 using Hangfire.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -182,6 +184,19 @@ app.UseSwaggerUI(c =>
                  });
 
 app.UseRouting();
+
+app.UseRequestLocalization(options =>
+                           {
+                               var supportedCultures = new[]
+                                                       {
+                                                               new CultureInfo("ru-RU"),
+                                                               new CultureInfo("en-GB")
+                                                       };
+
+                               options.DefaultRequestCulture = new RequestCulture("en-GB");
+                               options.SupportedCultures = supportedCultures;
+                               options.SupportedUICultures = supportedCultures;
+                           });
 
 app.UseMiddleware<ValidationErrorsHandlerMiddleware>();
 app.UseMiddleware<ExceptionsHandlerMiddleware<AddLogCommand>>();

@@ -9,6 +9,7 @@ using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Samples.ToDo.Shared;
+using Samples.ToDo.Shared.Resources;
 
 #endregion
 
@@ -66,7 +67,7 @@ public class SignInCommand : CommandBase
                 command.AuthResultDto = new AuthResultDto
                                  {
                                          Success = false,
-                                         Message = ValidationMessagesConst.Credentials_are_empty
+                                         Message = Localization.Credentials_are_empty
                                  };
 
                 return;
@@ -80,7 +81,7 @@ public class SignInCommand : CommandBase
                 command.AuthResultDto = new AuthResultDto
                                  {
                                          Success = false,
-                                         Message = ValidationMessagesConst.Invalid_credentials
+                                         Message = Localization.Credentials_are_invalid
                                  };
 
                 return;
@@ -92,7 +93,7 @@ public class SignInCommand : CommandBase
                 command.AuthResultDto = new AuthResultDto
                                  {
                                          Success = false,
-                                         Message = ValidationMessagesConst.Invalid_credentials
+                                         Message = Localization.Credentials_are_invalid
                                  };
 
                 return;

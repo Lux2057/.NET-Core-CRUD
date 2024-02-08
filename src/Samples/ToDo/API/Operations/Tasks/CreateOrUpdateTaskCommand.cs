@@ -8,7 +8,7 @@ using Extensions;
 using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
-using Samples.ToDo.Shared;
+using Samples.ToDo.Shared.Resources;
 
 #endregion
 
@@ -72,24 +72,24 @@ public class CreateOrUpdateTaskCommand : CommandBase
                  () =>
                  {
                      RuleFor(r => r.Id).MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<TaskEntity>(id.Value)))
-                                       .WithMessage(ValidationMessagesConst.Invalid_task_id);
+                                       .WithMessage(Localization.Task_id_is_invalid);
                  });
 
             RuleFor(r => r.StatusId).NotEmpty()
                                     .MustAsync((statusId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<StatusEntity>(statusId)))
-                                    .WithMessage(ValidationMessagesConst.Invalid_status_id);
+                                    .WithMessage(Localization.Status_id_is_invalid);
 
             RuleFor(r => r.UserId).NotEmpty()
                                   .MustAsync((userId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(userId)))
-                                  .WithMessage(ValidationMessagesConst.Invalid_user_id);
+                                  .WithMessage(Localization.User_id_is_invalid);
 
             RuleFor(r => r.ProjectId).NotEmpty()
                                      .MustAsync((projectId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<ProjectEntity>(projectId)))
-                                     .WithMessage(ValidationMessagesConst.Invalid_project_id);
+                                     .WithMessage(Localization.Project_id_is_invalid);
 
             RuleFor(r => r.Name).NotEmpty()
                                 .MustAsync((command, _, _) => dispatcher.QueryAsync(new IsNameUniqueQuery<TaskEntity>(command.Id, command.UserId, command.Name)))
-                                .WithMessage(ValidationMessagesConst.Name_is_not_unique);
+                                .WithMessage(Localization.Name_is_not_unique);
         }
 
         #endregion

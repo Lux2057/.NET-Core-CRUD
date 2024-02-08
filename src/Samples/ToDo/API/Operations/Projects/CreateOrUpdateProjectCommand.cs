@@ -9,6 +9,7 @@ using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Samples.ToDo.Shared;
+using Samples.ToDo.Shared.Resources;
 
 #endregion
 
@@ -60,22 +61,22 @@ public class CreateOrUpdateProjectCommand : CommandBase
                  () =>
                  {
                      RuleFor(r => r.Id).MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<ProjectEntity>(id.Value)))
-                                       .WithMessage(ValidationMessagesConst.Invalid_project_id);
+                                       .WithMessage(Localization.Project_id_is_invalid);
                  });
 
             RuleFor(r => r.UserId).NotEmpty()
                                   .MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(id)))
-                                  .WithMessage(ValidationMessagesConst.Invalid_user_id);
+                                  .WithMessage(Localization.User_id_is_invalid);
 
             RuleFor(r => r.Name).NotEmpty()
                                 .MustAsync((command, _, _) => dispatcher.QueryAsync(new IsNameUniqueQuery<ProjectEntity>(command.Id, command.UserId, command.Name)))
-                                .WithMessage(ValidationMessagesConst.Name_is_not_unique);
+                                .WithMessage(Localization.Name_is_not_unique);
 
             RuleFor(r => r.Description).NotEmpty();
 
-            RuleFor(r => r.TagsIds).NotEmpty().Must(ids => ids.Length <= 5).WithMessage(ValidationMessagesConst.Tags_count_cant_be_more_then_5);
+            RuleFor(r => r.TagsIds).NotEmpty().Must(ids => ids.Length <= 5).WithMessage(Localization.Tags_count_cant_be_more_than_5);
             RuleForEach(r => r.TagsIds).MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<TagEntity>(id)))
-                                       .WithMessage((_, id) => $"{ValidationMessagesConst.Invalid_tag_id}: {id}");
+                                       .WithMessage((_, id) => $"{Localization.Tag_id_is_invalid}: {id}");
         }
 
         #endregion

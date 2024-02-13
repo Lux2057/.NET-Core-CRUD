@@ -10,6 +10,8 @@ public static class UiRoutes
 
     public const string About = "about";
 
+    public const string DragulaTestPage = "dragula";
+
     #endregion
 
     public static string ToDoListRoute(int id)

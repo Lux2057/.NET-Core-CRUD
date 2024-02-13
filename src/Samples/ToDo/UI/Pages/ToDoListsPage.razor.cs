@@ -2,14 +2,12 @@
 
 #region << Using >>
 
-using JetBrains.Annotations;
 using Microsoft.AspNetCore.Components;
 using Samples.ToDo.Shared;
 
 #endregion
 
 [Route(UiRoutes.ToDoLists)]
-[UsedImplicitly]
 public partial class ToDoListsPage : PageBase<ToDoListsState>
 {
     #region Constants

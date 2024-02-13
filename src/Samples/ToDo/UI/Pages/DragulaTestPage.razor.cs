@@ -6,5 +6,5 @@ using Microsoft.AspNetCore.Components;
 
 #endregion
 
-[Route(UiRoutes.About)]
-public partial class AboutPage : PageBase { }
+[Route(UiRoutes.DragulaTestPage)]
+public partial class DragulaTestPage : PageBase { }

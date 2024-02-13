@@ -115,6 +115,15 @@ namespace Samples.ToDo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dragula test.
+        /// </summary>
+        public static string Dragula_test {
+            get {
+                return ResourceManager.GetString("Dragula_test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {

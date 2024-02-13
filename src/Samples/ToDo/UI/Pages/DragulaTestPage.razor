@@ -1,6 +1,8 @@
-﻿@inherits PageBase
+﻿@inherits PageBase<DragulaTestState>
 
 <h3>DragulaTestPage</h3>
+
+<h4>@State.Message</h4>
 
 <div class="container py-5">
     <div class="row">
@@ -17,9 +19,9 @@
                     </small>
                 </div>
                 <div class="card-body">
-                    <div class="tasks" id="backlog">
+                    <div class="tasks" id="@todoId">
                         <!-- Start task -->
-                        <div class="card cursor-grab mb-3">
+                        <div class="card cursor-grab mb-3" uid="1.1">
                             <div class="card-body">
                                 <p class="mb-0">You can move these elements between the containers</p>
                                 <div class="text-right">
@@ -32,7 +34,7 @@
                         </div>
                         <!-- End task -->
                         <!-- Start task -->
-                        <div class="card cursor-grab mb-3">
+                        <div class="card cursor-grab mb-3" uid="1.2">
                             <div class="card-body">
                                 <span class="badge bg-primary mb-2 text-white">On hold</span>
                                 <p class="mb-0">Moving them anywhere else isn't quite possible</p>
@@ -62,9 +64,9 @@
                     </small>
                 </div>
                 <div class="card-body">
-                    <div class="tasks" id="progress">
+                    <div class="tasks" id="@inprogressId">
                         <!-- Start task -->
-                        <div class="card cursor-grab mb-3">
+                        <div class="card cursor-grab mb-3" uid="2.1">
                             <div class="card-body">
                                 <span class="badge bg-danger mb-2 text-white">Bug</span>
                                 <p class="mb-0">Moving them anywhere else isn't quite possible</p>
@@ -78,7 +80,7 @@
                         </div>
                         <!-- End task -->
                         <!-- Start task -->
-                        <div class="card cursor-grab mb-3">
+                        <div class="card cursor-grab mb-3" uid="2.2">
                             <div class="card-body">
                                 <p class="mb-0">Anything can be moved around. That includes images, links or any other nested elements.</p>
                                 <div class="text-right">
@@ -108,9 +110,9 @@
                     </small>
                 </div>
                 <div class="card-body">
-                    <div class="tasks" id="completed">
+                    <div class="tasks" id="@completedId">
                         <!-- Start task -->
-                        <div class="card cursor-grab mb-3">
+                        <div class="card cursor-grab mb-3" uid="3.1">
                             <div class="card-body">
                                 <span class="badge bg-warning mb-2 text-white">Enhancement</span>
                                 <p class="mb-0">Moving them anywhere else isn't quite possible</p>
@@ -124,7 +126,7 @@
                         </div>
                         <!-- End task -->
                         <!-- Start task -->
-                        <div class="card cursor-grab mb-3">
+                        <div class="card cursor-grab mb-3" uid="3.2">
                             <div class="card-body">
                                 <p class="mb-0">You can move these elements between the containers</p>
                                 <div class="text-right">
@@ -145,11 +147,3 @@
 
     </div>
 </div>
-
-<script type="text/javascript">
-    dragula([
-        document.querySelector('#backlog'),
-        document.querySelector('#progress'),
-        document.querySelector('#completed')
-    ]);
-</script>

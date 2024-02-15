@@ -28,4 +28,9 @@ public partial class NavMenu : UI.ComponentBase
     {
         this.collapseNavMenu = !this.collapseNavMenu;
     }
+
+    void SignOut()
+    {
+        Dispatcher.Dispatch(new AuthWf.SignOut.Init(() => NavigationManager.NavigateTo(UiRoutes.SignIn)));
+    }
 }

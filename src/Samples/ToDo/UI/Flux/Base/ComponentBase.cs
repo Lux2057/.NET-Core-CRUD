@@ -15,6 +15,11 @@ public class ComponentBase : Fluxor.Blazor.Web.Components.FluxorComponent
     #region Properties
 
     [Inject]
+    IState<AuthState> authState { get; set; }
+
+    protected AuthState AuthState => authState.Value;
+
+    [Inject]
     protected IDispatcher Dispatcher { get; set; }
 
     [Inject]

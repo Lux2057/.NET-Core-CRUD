@@ -2,12 +2,13 @@
 
 #region << Using >>
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Samples.ToDo.Shared;
 
 #endregion
 
-[Route(UiRoutes.ToDoLists)]
+[Route(UiRoutes.ToDoLists), Authorize]
 public partial class ToDoListsPage : PageBase<ToDoListsState>
 {
     #region Constants

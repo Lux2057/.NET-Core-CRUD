@@ -11,7 +11,19 @@ using Samples.ToDo.UI.Localization;
 
 #endregion
 
-public class PageBase<TState> : Fluxor.Blazor.Web.Components.FluxorComponent
+public class PageBase<TState> : PageBase
+{
+    #region Properties
+
+    [Inject]
+    IState<TState> state { get; set; }
+
+    protected TState State => state.Value;
+
+    #endregion
+}
+
+public class PageBase : Fluxor.Blazor.Web.Components.FluxorComponent
 {
     #region Properties
 
@@ -22,29 +34,6 @@ public class PageBase<TState> : Fluxor.Blazor.Web.Components.FluxorComponent
 
     [Inject]
     protected IDispatcher Dispatcher { get; set; }
-
-    [Inject]
-    IState<TState> state { get; set; }
-
-    protected TState State => state.Value;
-
-    [Inject]
-    protected IStringLocalizer<Resource> Localization { get; set; }
-
-    [Inject]
-    protected IJSRuntime JS { get; set; }
-
-    #endregion
-}
-
-public class PageBase : Microsoft.AspNetCore.Components.ComponentBase
-{
-    #region Properties
-
-    [Inject]
-    IState<AuthState> authState { get; set; }
-
-    protected AuthState AuthState => authState.Value;
 
     [Inject]
     protected IStringLocalizer<Resource> Localization { get; set; }

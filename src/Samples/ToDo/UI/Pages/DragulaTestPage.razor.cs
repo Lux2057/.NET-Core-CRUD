@@ -2,12 +2,13 @@
 
 #region << Using >>
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 #endregion
 
-[Route(UiRoutes.DragulaTestPage)]
+[Route(UiRoutes.DragulaTestPage), Authorize]
 public partial class DragulaTestPage : PageBase<DragulaTestState>
 {
     #region Constants

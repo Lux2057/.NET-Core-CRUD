@@ -198,8 +198,8 @@ app.UseRequestLocalization(options =>
                                options.SupportedUICultures = supportedCultures;
                            });
 
-app.UseMiddleware<ValidationErrorsHandlerMiddleware>();
 app.UseMiddleware<ExceptionsHandlerMiddleware<AddLogCommand>>();
+app.UseMiddleware<ValidationErrorsHandlerMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

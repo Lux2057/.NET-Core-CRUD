@@ -47,7 +47,11 @@ public abstract class CommandHandlerBase<TNotification> : INotificationHandler<T
     public async Task Handle(TNotification command, CancellationToken cancellationToken)
     {
         if (this._validator != null)
-            await this._validator.ValidateAndThrowAsync(command, cancellationToken);
+        {
+            command.ValidationResult = await this._validator.ValidateAsync(command, cancellationToken);
+            if (!command.ValidationResult.IsValid)
+                throw new ValidationException(command.ValidationResult.Errors);
+        }
 
         await Execute(command, cancellationToken);
     }

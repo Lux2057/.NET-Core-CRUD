@@ -16,6 +16,11 @@ public class PageBase<TState> : Fluxor.Blazor.Web.Components.FluxorComponent
     #region Properties
 
     [Inject]
+    IState<AuthState> authState { get; set; }
+
+    protected AuthState AuthState => authState.Value;
+
+    [Inject]
     protected IDispatcher Dispatcher { get; set; }
 
     [Inject]
@@ -35,6 +40,11 @@ public class PageBase<TState> : Fluxor.Blazor.Web.Components.FluxorComponent
 public class PageBase : Microsoft.AspNetCore.Components.ComponentBase
 {
     #region Properties
+
+    [Inject]
+    IState<AuthState> authState { get; set; }
+
+    protected AuthState AuthState => authState.Value;
 
     [Inject]
     protected IStringLocalizer<Resource> Localization { get; set; }

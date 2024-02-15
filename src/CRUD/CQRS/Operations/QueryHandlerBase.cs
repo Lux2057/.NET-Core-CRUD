@@ -47,7 +47,11 @@ public abstract class QueryHandlerBase<TRequest, TResponse> : IRequestHandler<TR
     public async Task<TResponse> Handle(TRequest query, CancellationToken cancellationToken)
     {
         if (this._validator != null)
-            await this._validator.ValidateAndThrowAsync(query, cancellationToken);
+        {
+            query.ValidationResult = await this._validator.ValidateAsync(query, cancellationToken);
+            if (!query.ValidationResult.IsValid)
+                throw new ValidationException(query.ValidationResult.Errors);
+        }
 
         return await Execute(query, cancellationToken);
     }

@@ -87,7 +87,7 @@ public class ExceptionsHandlerMiddleware<TLogCommand> where TLogCommand : Comman
             response.ContentType = applicationJson;
             response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            var result = JsonSerializer.Serialize(new { message = pipelineException.Message });
+            var result = JsonSerializer.Serialize(new { message = "Internal server error!" });
             await response.WriteAsync(result);
         }
     }

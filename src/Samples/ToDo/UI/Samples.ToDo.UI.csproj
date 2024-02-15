@@ -41,7 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Flux\API\" />
+    <Folder Include="API\" />
   </ItemGroup>
 
 </Project>

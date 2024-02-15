@@ -2,8 +2,6 @@
 
 #region << Using >>
 
-#region << Using >>
-
 using Fluxor;
 using JetBrains.Annotations;
 using Samples.ToDo.Shared;
@@ -78,5 +76,3 @@ public abstract partial class AuthWf
 
     #endregion
 }
-
-#endregion

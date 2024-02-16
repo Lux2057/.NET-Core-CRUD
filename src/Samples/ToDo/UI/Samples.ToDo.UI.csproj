@@ -44,4 +44,12 @@
     <Folder Include="API\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\ValidationMessageComponent.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\ValidationMessageComponent.razor" />
+  </ItemGroup>
+
 </Project>

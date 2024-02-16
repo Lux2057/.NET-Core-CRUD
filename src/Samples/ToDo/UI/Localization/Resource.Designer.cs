@@ -79,6 +79,15 @@ namespace Samples.ToDo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authenticate.
+        /// </summary>
+        public static string Authenticate {
+            get {
+                return ResourceManager.GetString("Authenticate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -187,6 +196,24 @@ namespace Samples.ToDo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to or.
+        /// </summary>
+        public static string or {
+            get {
+                return ResourceManager.GetString("or", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Save {
@@ -255,6 +282,15 @@ namespace Samples.ToDo.UI.Localization {
         public static string ToDo_lists {
             get {
                 return ResourceManager.GetString("ToDo_lists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User name.
+        /// </summary>
+        public static string User_name {
+            get {
+                return ResourceManager.GetString("User_name", resourceCulture);
             }
         }
     }

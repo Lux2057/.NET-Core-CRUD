@@ -1,0 +1,11 @@
+﻿@inherits ComponentBase<ValidationState>
+
+@if (Messages.Length > 0)
+{
+    <div class="text-danger">
+        @foreach (var message in Messages)
+        {
+            <div>@message</div>
+        }
+    </div>
+}

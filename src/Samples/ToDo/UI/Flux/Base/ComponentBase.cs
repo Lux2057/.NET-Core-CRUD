@@ -27,3 +27,15 @@ public class ComponentBase : Fluxor.Blazor.Web.Components.FluxorComponent
 
     #endregion
 }
+
+public class ComponentBase<TState> : ComponentBase
+{
+    #region Properties
+
+    [Inject]
+    IState<TState> state { get; set; }
+
+    protected TState State => state.Value;
+
+    #endregion
+}

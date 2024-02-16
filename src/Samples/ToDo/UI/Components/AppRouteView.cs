@@ -25,7 +25,7 @@ public class AppRouteView : RouteView
     {
         var authorize = Attribute.GetCustomAttribute(RouteData.PageType, typeof(AuthorizeAttribute)) != null;
         if (authorize && AuthState?.Value?.IsAuthenticated != true)
-            NavigationManager.NavigateTo(UiRoutes.SignIn);
+            NavigationManager.NavigateTo(UiRoutes.Auth);
         else
             base.Render(builder);
     }

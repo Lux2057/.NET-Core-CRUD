@@ -11,7 +11,7 @@ public class SetValidationStateWf
 {
     #region Nested Classes
 
-    public record Init(ValidationFailureResult ValidationFailure);
+    public record Init(ValidationFailureResult ValidationFailure, Action Callback = null);
 
     #endregion
 
@@ -20,5 +20,14 @@ public class SetValidationStateWf
     public static ValidationState OnInit(ValidationState _, Init action)
     {
         return new ValidationState(action.ValidationFailure);
+    }
+
+    [EffectMethod]
+    [UsedImplicitly]
+    public Task HandleInit(Init action, IDispatcher _)
+    {
+        action.Callback?.Invoke();
+
+        return Task.CompletedTask;
     }
 }

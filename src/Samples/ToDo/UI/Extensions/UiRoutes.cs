@@ -12,9 +12,7 @@ public static class UiRoutes
 
     public const string DragulaTestPage = "dragula";
 
-    public const string SignIn = "signIn";
-
-    public const string SignUp = "signUp";
+    public const string Auth = "auth";
 
     #endregion
 

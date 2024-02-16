@@ -15,8 +15,9 @@ public class ValidationState
 
     public ValidationFailureResult ValidationFailure { get; }
 
-    public bool IsFailure => ValidationFailure?.Errors?.Any() != true ||
-                             ValidationFailure?.Message.IsNullOrWhitespace() != true;
+    public bool IsFailure => ValidationFailure != null &&
+                             (ValidationFailure.Errors?.Any() == true ||
+                              !ValidationFailure.Message.IsNullOrWhitespace());
 
     #endregion
 

@@ -42,4 +42,11 @@ public class PageBase : Fluxor.Blazor.Web.Components.FluxorComponent
     protected IJSRuntime JS { get; set; }
 
     #endregion
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Dispatcher.Dispatch(new SetValidationStateWf.Init(null));
+    }
 }

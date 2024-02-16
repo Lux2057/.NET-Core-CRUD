@@ -133,6 +133,15 @@ namespace Samples.ToDo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Http request error.
+        /// </summary>
+        public static string Http_request_error {
+            get {
+                return ResourceManager.GetString("Http_request_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Item.
         /// </summary>
         public static string Item {

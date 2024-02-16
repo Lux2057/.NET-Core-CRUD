@@ -12,7 +12,7 @@ public partial class SignUpPage : PageBase
 {
     #region Properties
 
-    private string UserName { get; set; }
+    string UserName { get; set; }
 
     string Password { get; set; }
 

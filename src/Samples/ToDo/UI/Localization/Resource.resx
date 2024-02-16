@@ -141,6 +141,9 @@
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="Http_request_error" xml:space="preserve">
+    <value>Http request error</value>
+  </data>
   <data name="Item" xml:space="preserve">
     <value>Item</value>
   </data>

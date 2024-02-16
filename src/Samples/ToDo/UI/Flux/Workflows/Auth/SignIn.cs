@@ -4,7 +4,9 @@
 
 using Fluxor;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Localization;
 using Samples.ToDo.Shared;
+using Samples.ToDo.UI.Localization;
 
 #endregion
 
@@ -22,9 +24,12 @@ public abstract partial class AuthWf
 
         #region Constructors
 
-        public SignIn(HttpClient http) : base(http)
+        public SignIn(HttpClient http,
+                      IStringLocalizer<Resource> localization,
+                      IDispatcher dispatcher)
+                : base(http)
         {
-            this.authApi = new AuthAPI(http);
+            this.authApi = new AuthAPI(http, localization, dispatcher);
         }
 
         #endregion

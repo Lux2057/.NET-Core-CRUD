@@ -26,8 +26,7 @@ public abstract partial class AuthWf
 
         public SignIn(HttpClient http,
                       IStringLocalizer<Resource> localization,
-                      IDispatcher dispatcher)
-                : base(http)
+                      IDispatcher dispatcher) : base(http)
         {
             this.authApi = new AuthAPI(http, localization, dispatcher);
         }

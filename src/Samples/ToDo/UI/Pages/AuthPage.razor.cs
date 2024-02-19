@@ -38,22 +38,22 @@ public partial class AuthPage : PageBase<AuthState>
     void SignIn()
     {
         ClearValidation();
-        Dispatcher.Dispatch(new AuthWf.SignIn.Init(new AuthRequest
-                                                   {
-                                                           UserName = UserName,
-                                                           Password = Password
-                                                   },
-                                                   authResult => { }));
+        Dispatcher.Dispatch(new AuthWf.SignInWf.Init(new AuthRequest
+                                                     {
+                                                             UserName = UserName,
+                                                             Password = Password
+                                                     },
+                                                     authResult => { }));
     }
 
     void SignUp()
     {
         ClearValidation();
-        Dispatcher.Dispatch(new AuthWf.SignUp.Init(new AuthRequest
-                                                   {
-                                                           UserName = UserName,
-                                                           Password = Password
-                                                   },
-                                                   authResult => { }));
+        Dispatcher.Dispatch(new AuthWf.SignUpWf.Init(new AuthRequest
+                                                     {
+                                                             UserName = UserName,
+                                                             Password = Password
+                                                     },
+                                                     authResult => { }));
     }
 }

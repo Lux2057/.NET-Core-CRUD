@@ -14,7 +14,7 @@ public abstract partial class AuthWf
 {
     #region Nested Classes
 
-    public class RefreshToken : HttpBase
+    public class RefreshTokenWf : HttpBase
     {
         #region Properties
 
@@ -24,9 +24,9 @@ public abstract partial class AuthWf
 
         #region Constructors
 
-        public RefreshToken(HttpClient http,
-                            IStringLocalizer<Resource> localization,
-                            IDispatcher dispatcher) : base(http)
+        public RefreshTokenWf(HttpClient http,
+                              IStringLocalizer<Resource> localization,
+                              IDispatcher dispatcher) : base(http)
         {
             this.authApi = new AuthAPI(http, localization, dispatcher);
         }

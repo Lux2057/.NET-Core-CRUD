@@ -14,7 +14,7 @@ public abstract partial class AuthWf
 {
     #region Nested Classes
 
-    public class SignUp : HttpBase
+    public class SignUpWf : HttpBase
     {
         #region Properties
 
@@ -24,9 +24,9 @@ public abstract partial class AuthWf
 
         #region Constructors
 
-        public SignUp(HttpClient http,
-                      IStringLocalizer<Resource> localization,
-                      IDispatcher dispatcher) : base(http)
+        public SignUpWf(HttpClient http,
+                        IStringLocalizer<Resource> localization,
+                        IDispatcher dispatcher) : base(http)
         {
             this.authApi = new AuthAPI(http, localization, dispatcher);
         }

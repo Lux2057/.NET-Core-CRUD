@@ -24,6 +24,10 @@ public class AuthState
                                    !AuthResult.AccessToken.IsNullOrWhitespace() &&
                                    !AuthResult.RefreshToken.IsNullOrWhitespace();
 
+    public bool IsExpiring => IsAuthenticated &&
+                              AuthenticatedAt != null &&
+                              (DateTime.UtcNow - AuthenticatedAt).Value.Minutes >= 2;
+
     #endregion
 
     #region Constructors

@@ -11,7 +11,7 @@ public abstract partial class AuthWf
 {
     #region Nested Classes
 
-    public class SignOut
+    public class SignOutWf
     {
         #region Nested Classes
 

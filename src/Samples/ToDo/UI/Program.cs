@@ -14,7 +14,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddFluxor(o =>
                            {
-                               o.ScanAssemblies(typeof(Program).Assembly, typeof(ReadToDoListsWf).Assembly);
+                               o.ScanAssemblies(typeof(Program).Assembly, typeof(SignInWf).Assembly);
                                o.UseReduxDevTools(rdt =>
                                                   {
                                                       rdt.Name = "Templates.Blazor.EF.UI";

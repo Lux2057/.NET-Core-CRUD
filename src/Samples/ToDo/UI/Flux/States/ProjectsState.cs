@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 #endregion
 
 [FeatureState]
-public class ToDoListsState : ILoadingStatus
+public class ProjectsState : ILoadingStatus
 {
     #region Properties
 
@@ -17,22 +17,22 @@ public class ToDoListsState : ILoadingStatus
 
     public bool IsCreating { get; }
 
-    public bool IsEmpty => ToDoLists?.Items?.Any() != true;
+    public bool IsEmpty => Projects?.Items?.Any() != true;
 
-    public PaginatedResponseDto<ToDoListSI> ToDoLists { get; }
+    public PaginatedResponseDto<ProjectEditableDto> Projects { get; }
 
     #endregion
 
     #region Constructors
 
     [UsedImplicitly]
-    ToDoListsState()
+    ProjectsState()
     {
         IsLoading = false;
         IsCreating = false;
-        ToDoLists = new PaginatedResponseDto<ToDoListSI>
+        Projects = new PaginatedResponseDto<ProjectEditableDto>
                     {
-                            Items = Array.Empty<ToDoListSI>(),
+                            Items = Array.Empty<ProjectEditableDto>(),
                             PagingInfo = new PagingInfoDto
                                          {
                                                  CurrentPage = 1,
@@ -43,11 +43,11 @@ public class ToDoListsState : ILoadingStatus
                     };
     }
 
-    public ToDoListsState(bool isLoading, bool isCreating, PaginatedResponseDto<ToDoListSI> toDoLists)
+    public ProjectsState(bool isLoading, bool isCreating, PaginatedResponseDto<ProjectEditableDto> projects)
     {
         IsLoading = isLoading;
         IsCreating = isCreating;
-        ToDoLists = toDoLists;
+        Projects = projects;
     }
 
     #endregion

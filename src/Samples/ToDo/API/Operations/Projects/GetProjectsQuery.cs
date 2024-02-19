@@ -3,6 +3,7 @@
 #region << Using >>
 
 using AutoMapper.QueryableExtensions;
+using CRUD.Core;
 using CRUD.CQRS;
 using CRUD.DAL.Abstractions;
 using Extensions;
@@ -12,9 +13,15 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public class GetProjectsQuery : QueryBase<ProjectDto[]>
+public class GetProjectsQuery : QueryBase<PaginatedResponseDto<ProjectDto>>
 {
     #region Properties
+
+    public bool DisablePaging { get; }
+
+    public int Page { get; }
+
+    public int PageSize { get; }
 
     public int UserId { get; }
 
@@ -28,9 +35,15 @@ public class GetProjectsQuery : QueryBase<ProjectDto[]>
 
     public GetProjectsQuery(int userId,
                             string searchTerm,
-                            IEnumerable<int> tagsIds)
+                            IEnumerable<int> tagsIds,
+                            bool disablePaging,
+                            int? page = default,
+                            int? pageSize = default)
     {
         UserId = userId;
+        DisablePaging = disablePaging;
+        Page = page ?? 1;
+        PageSize = pageSize ?? 10;
         SearchTerm = searchTerm?.Trim();
         TagsIds = tagsIds.ToDistinctArrayOrEmpty();
     }
@@ -40,7 +53,7 @@ public class GetProjectsQuery : QueryBase<ProjectDto[]>
     #region Nested Classes
 
     [UsedImplicitly]
-    class Handler : QueryHandlerBase<GetProjectsQuery, ProjectDto[]>
+    class Handler : QueryHandlerBase<GetProjectsQuery, PaginatedResponseDto<ProjectDto>>
     {
         #region Constructors
 
@@ -48,7 +61,7 @@ public class GetProjectsQuery : QueryBase<ProjectDto[]>
 
         #endregion
 
-        protected override async Task<ProjectDto[]> Execute(GetProjectsQuery request, CancellationToken cancellationToken)
+        protected override async Task<PaginatedResponseDto<ProjectDto>> Execute(GetProjectsQuery request, CancellationToken cancellationToken)
         {
             var projectsSpec = new IsDeletedProp.FindBy.EqualTo<ProjectEntity>(false) &&
                                new UserIdProp.FindBy.EqualTo<ProjectEntity>(request.UserId) &&
@@ -63,12 +76,41 @@ public class GetProjectsQuery : QueryBase<ProjectDto[]>
                 projectsSpec = projectsSpec && new FindEntitiesByIds<ProjectEntity, int>(projectsIds);
             }
 
-            var projects = await Repository.Read(projectsSpec)
-                                           .ProjectTo<ProjectDto>(Mapper.ConfigurationProvider)
-                                           .ToArrayAsync(cancellationToken);
+            var projectsQueryable = Repository.Read(projectsSpec).ProjectTo<ProjectDto>(Mapper.ConfigurationProvider);
+            var totalCount = await projectsQueryable.CountAsync(cancellationToken);
 
-            if (projects.Length == 0)
-                return Array.Empty<ProjectDto>();
+            if (totalCount == 0)
+                return new PaginatedResponseDto<ProjectDto>
+                       {
+                               Items = Array.Empty<ProjectDto>(),
+                               PagingInfo = new PagingInfoDto
+                                            {
+                                                    TotalItemsCount = 0,
+                                                    PageSize = request.PageSize,
+                                                    TotalPages = 0,
+                                                    CurrentPage = request.Page
+                                            }
+                       };
+
+            PagingInfoDto pagingInfo;
+            if (!request.DisablePaging)
+            {
+                pagingInfo = await Dispatcher.QueryAsync(new GetPagingInfoQuery(request.Page, request.PageSize, totalCount), cancellationToken);
+
+                projectsQueryable = projectsQueryable.Skip(pagingInfo.PageSize * (pagingInfo.CurrentPage - 1)).Take(pagingInfo.PageSize);
+            }
+            else
+            {
+                pagingInfo = new PagingInfoDto
+                             {
+                                     TotalItemsCount = totalCount,
+                                     PageSize = totalCount,
+                                     TotalPages = 1,
+                                     CurrentPage = 1
+                             };
+            }
+
+            var projects = await projectsQueryable.ToArrayAsync(cancellationToken);
 
             var tagsMaps = await Repository.Read(new ProjectIdProp.FindBy.ContainedIn<ProjectToTagEntity>(projects.Select(r => r.Id)) &&
                                                  new UserIdProp.FindBy.EqualTo<ProjectToTagEntity>(request.UserId))
@@ -94,7 +136,11 @@ public class GetProjectsQuery : QueryBase<ProjectDto[]>
                                  });
             }
 
-            return projects;
+            return new PaginatedResponseDto<ProjectDto>
+                   {
+                           Items = projects,
+                           PagingInfo = pagingInfo
+                   };
         }
     }
 

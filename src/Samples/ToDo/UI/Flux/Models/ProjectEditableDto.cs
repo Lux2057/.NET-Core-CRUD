@@ -6,7 +6,7 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public class ToDoListSI : ToDoListDto, IUpdatingStatus, ICloneable
+public class ProjectEditableDto : ProjectDto, IUpdatingStatus, ICloneable
 {
     #region Properties
 
@@ -18,12 +18,13 @@ public class ToDoListSI : ToDoListDto, IUpdatingStatus, ICloneable
 
     public object Clone()
     {
-        return new ToDoListSI
+        return new ProjectEditableDto
                {
                        Id = Id,
                        Name = Name,
                        IsUpdating = IsUpdating,
-                       CrDt = CrDt
+                       Description = Description,
+                       Tags = (TagDto[])Tags.Clone()
                };
     }
 

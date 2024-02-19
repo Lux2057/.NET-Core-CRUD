@@ -2,11 +2,9 @@
 
 #region << Using >>
 
-
-
 #endregion
 
-public partial class NavMenu : UI.ComponentBase
+public partial class NavMenu : ComponentBase
 {
     #region Properties
 
@@ -28,6 +26,6 @@ public partial class NavMenu : UI.ComponentBase
 
     void SignOut()
     {
-        Dispatcher.Dispatch(new AuthWf.SignOutWf.Init(() => NavigationManager.NavigateTo(UiRoutes.Auth)));
+        Dispatcher.Dispatch(new SignOutWf.Init(() => NavigationManager.NavigateTo(UiRoutes.Auth)));
     }
 }

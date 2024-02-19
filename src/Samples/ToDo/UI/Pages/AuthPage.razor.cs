@@ -34,38 +34,38 @@ public partial class AuthPage : PageBase<AuthState>
     void SignIn()
     {
         ClearValidation();
-        Dispatcher.Dispatch(new AuthWf.SignInWf.Init(new AuthRequest
-                                                     {
-                                                             UserName = UserName,
-                                                             Password = Password
-                                                     },
-                                                     async authResult =>
-                                                     {
-                                                         if (!authResult.Success)
-                                                             return;
+        Dispatcher.Dispatch(new SignInWf.Init(new AuthRequest
+                                              {
+                                                      UserName = UserName,
+                                                      Password = Password
+                                              },
+                                              async authResult =>
+                                              {
+                                                  if (!authResult.Success)
+                                                      return;
 
-                                                         await JS.CloseModal(signInModalId);
+                                                  await JS.CloseModal(signInModalId);
 
-                                                         NavigationManager.NavigateTo(UiRoutes.ToDoLists);
-                                                     }));
+                                                  NavigationManager.NavigateTo(UiRoutes.Projects);
+                                              }));
     }
 
     void SignUp()
     {
         ClearValidation();
-        Dispatcher.Dispatch(new AuthWf.SignUpWf.Init(new AuthRequest
-                                                     {
-                                                             UserName = UserName,
-                                                             Password = Password
-                                                     },
-                                                     async authResult =>
-                                                     {
-                                                         if (!authResult.Success)
-                                                             return;
+        Dispatcher.Dispatch(new SignUpWf.Init(new AuthRequest
+                                              {
+                                                      UserName = UserName,
+                                                      Password = Password
+                                              },
+                                              async authResult =>
+                                              {
+                                                  if (!authResult.Success)
+                                                      return;
 
-                                                         await JS.CloseModal(signUpModalId);
+                                                  await JS.CloseModal(signUpModalId);
 
-                                                         NavigationManager.NavigateTo(UiRoutes.ToDoLists);
-                                                     }));
+                                                  NavigationManager.NavigateTo(UiRoutes.Projects);
+                                              }));
     }
 }

@@ -159,14 +159,20 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="Open_ToDo_list" xml:space="preserve">
-    <value>Open ToDo list</value>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
   </data>
   <data name="or" xml:space="preserve">
     <value>or</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Projects</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
@@ -185,12 +191,6 @@
   </data>
   <data name="There_is_no_data" xml:space="preserve">
     <value>There is no data</value>
-  </data>
-  <data name="ToDo_list" xml:space="preserve">
-    <value>ToDo list</value>
-  </data>
-  <data name="ToDo_lists" xml:space="preserve">
-    <value>ToDo lists</value>
   </data>
   <data name="User_name" xml:space="preserve">
     <value>User name</value>

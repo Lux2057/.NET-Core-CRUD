@@ -4,46 +4,79 @@ public static class ApiRoutes
 {
     #region Constants
 
-    public const string ReadToDoLists = "ToDoLists/Read";
-
-    public const string CreateOrUpdateToDoList = "ToDoLists/CreatOrUpdate";
-
-    public const string DeleteToDoList = "ToDoLists/Delete";
-
-    public const string ReadToDoListItems = "ToDoListItems/Read";
-
-    public const string CreateOrUpdateToDoListItem = "ToDoListItems/CreatOrUpdate";
-
-    public const string DeleteToDoListItem = "ToDoListItems/Delete";
-
+    /// <summary>
+    ///     HttpMethod.POST
+    /// </summary>
     public const string SignUp = "Auth/SignUp";
 
+    /// <summary>
+    ///     HttpMethod.POST
+    /// </summary>
     public const string SignIn = "Auth/SignIn";
 
+    /// <summary>
+    ///     HttpMethod.POST
+    /// </summary>
     public const string RefreshToken = "Auth/RefreshToken";
 
+    /// <summary>
+    ///     HttpMethod.GET
+    /// </summary>
     public const string GetProjects = "Projects/Get";
 
+    /// <summary>
+    ///     HttpMethod.POST
+    /// </summary>
     public const string CreateProject = "Projects/Create";
 
+    /// <summary>
+    ///     HttpMethod.PUT
+    /// </summary>
     public const string UpdateProject = "Projects/Update";
 
+    /// <summary>
+    ///     HttpMethod.GET
+    /// </summary>
     public const string GetStatuses = "Statuses/Get";
 
+    /// <summary>
+    ///     HttpMethod.POST
+    /// </summary>
     public const string CreateStatus = "Statuses/Create";
 
+    /// <summary>
+    ///     HttpMethod.PUT
+    /// </summary>
     public const string UpdateStatus = "Statuses/Update";
 
+    /// <summary>
+    ///     HttpMethod.GET
+    /// </summary>
     public const string GetTags = "Tags/Get";
 
+    /// <summary>
+    ///     HttpMethod.POST
+    /// </summary>
     public const string CreateTag = "Tags/Create";
 
+    /// <summary>
+    ///     HttpMethod.GET
+    /// </summary>
     public const string GetTasks = "Tasks/Get";
 
+    /// <summary>
+    ///     HttpMethod.POST
+    /// </summary>
     public const string CreateTask = "Tasks/Create";
 
+    /// <summary>
+    ///     HttpMethod.PUT
+    /// </summary>
     public const string UpdateTask = "Tasks/Update";
 
+    /// <summary>
+    ///     HttpMethod.PUT
+    /// </summary>
     public const string SetTaskStatus = "Tasks/SetStatus";
 
     #endregion

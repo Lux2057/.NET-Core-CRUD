@@ -52,4 +52,24 @@ public class PageBase : Fluxor.Blazor.Web.Components.FluxorComponent
 
         Dispatcher.Dispatch(new SetValidationStateWf.Init(null));
     }
+
+    protected void RefreshAuth()
+    {
+        if (AuthState.IsAuthenticated)
+        {
+            if (AuthState.IsExpiring)
+                Dispatcher.Dispatch(new RefreshAccessTokenWf.Init(AuthState.AuthResult.RefreshToken,
+                                                                  authResult =>
+                                                                  {
+                                                                      if (authResult.Success)
+                                                                          return;
+
+                                                                      NavigationManager.NavigateTo(UiRoutes.Auth, true);
+                                                                  }));
+        }
+        else
+        {
+            NavigationManager.NavigateTo(UiRoutes.Auth, true);
+        }
+    }
 }

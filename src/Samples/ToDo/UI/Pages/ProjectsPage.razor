@@ -1,0 +1,109 @@
+﻿@using Samples.ToDo.UI.Localization
+@inherits UI.PageBase<ProjectsState>
+<PageTitle>@(Localization[nameof(Resource.Projects)])</PageTitle>
+
+<div class="d-flex mb-2">
+    <div class="p-2">
+        <h4>@(Localization[nameof(Resource.Projects)])</h4>
+    </div>
+    <div class="align-content-center p-2">
+        <ModalWindowComponent>
+            <ButtonContent>
+                <div class="badge d-flex text-bg-dark"
+                     role="button"
+                     title="@Localization[nameof(Resource.Create)]">
+                    <div>
+                        <span class="me-1 oi oi-plus"></span>
+                    </div>
+                </div>
+            </ButtonContent>
+            <Title>
+                @Localization[nameof(Resource.Create)]
+            </Title>
+            <Body>
+            <div class="d-flex flex-column">
+                <div class="mb-1 p-1">
+                    <label class="form-label">@Localization[nameof(Resource.Name)]</label>
+                    <input @bind="NewProject.Name"
+                           class="form-control"
+                           type="text"/>
+                    <ValidationMessageComponent Name="@nameof(CreateProjectRequest.Name)"/>
+                </div>
+                <div class="mb-1 p-1">
+                    <label class="form-label">@Localization[nameof(Resource.Description)]</label>
+                    <input @bind="NewProject.Description"
+                           class="form-control"
+                           type="text"/>
+                    <ValidationMessageComponent Name="@nameof(CreateProjectRequest.Description)"/>
+                </div>
+            </div>
+            </Body>
+            <Footer>
+                <div class="d-flex">
+                    <div class="ms-auto p-1">
+                        @if (!State.IsLoading && !State.IsCreating)
+                        {
+                            <button class="btn btn-outline-primary btn-sm shadow-none"
+                                    data-bs-placement="top"
+                                    data-bs-toggle="tooltip"
+                                    @onclick="@create"
+                                    title="@Localization[nameof(Resource.Create)]"
+                                    type="button">
+                                @Localization[nameof(Resource.Create)]
+                            </button>
+                        }
+                    </div>
+                </div>
+            </Footer>
+        </ModalWindowComponent>
+
+    </div>
+    <div class="p-2">
+        @if (State.IsLoading || State.IsCreating)
+        {
+            <LoaderComponent IsInline="true" IsSmall="true"/>
+        }
+    </div>
+</div>
+<div class="d-flex flex-wrap">
+    @if (!State.IsLoading)
+    {
+        @if (State.IsEmpty)
+        {
+            <div class="p-1">
+                <h3>@Localization[nameof(Resource.There_is_no_data)]</h3>
+            </div>
+        }
+        else
+        {
+            @foreach (var project in State.Projects.Items)
+            {
+                <ProjectCardComponent Model="project" OnDeletedCallback="() => GoToPage(1)"/>
+            }
+        }
+    }
+</div>
+<div class="d-flex justify-content-center">
+    @if (!State.IsEmpty && State.Projects.PagingInfo is {TotalPages: > 1 })
+    {
+        <ul class="pagination">
+            @for (var i = 1; i <= State.Projects.PagingInfo.TotalPages; i++)
+            {
+                var pageNumber = i;
+
+                if (pageNumber == State.Projects.PagingInfo.CurrentPage)
+                {
+                    <li class="active page-item">
+                        <button class="page-link shadow-none" type="button">@pageNumber</button>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <button class="page-link shadow-none" @onclick="() => GoToPage(pageNumber)" type="button">@pageNumber</button>
+                    </li>
+                }
+            }
+        </ul>
+    }
+</div>

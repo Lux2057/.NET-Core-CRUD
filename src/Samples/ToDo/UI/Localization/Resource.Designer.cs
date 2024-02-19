@@ -187,11 +187,11 @@ namespace Samples.ToDo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open ToDo list.
+        ///   Looks up a localized string similar to Open.
         /// </summary>
-        public static string Open_ToDo_list {
+        public static string Open {
             get {
-                return ResourceManager.GetString("Open_ToDo_list", resourceCulture);
+                return ResourceManager.GetString("Open", resourceCulture);
             }
         }
         
@@ -210,6 +210,24 @@ namespace Samples.ToDo.UI.Localization {
         public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project.
+        /// </summary>
+        public static string Project {
+            get {
+                return ResourceManager.GetString("Project", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Projects.
+        /// </summary>
+        public static string Projects {
+            get {
+                return ResourceManager.GetString("Projects", resourceCulture);
             }
         }
         
@@ -264,24 +282,6 @@ namespace Samples.ToDo.UI.Localization {
         public static string There_is_no_data {
             get {
                 return ResourceManager.GetString("There_is_no_data", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ToDo list.
-        /// </summary>
-        public static string ToDo_list {
-            get {
-                return ResourceManager.GetString("ToDo_list", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ToDo lists.
-        /// </summary>
-        public static string ToDo_lists {
-            get {
-                return ResourceManager.GetString("ToDo_lists", resourceCulture);
             }
         }
         

@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Components\ToDoListItemComponent.razor.cs" />
+    <Compile Remove="Flux\Workflows\CreateOrUpdateToDoListItemWf.cs" />
+    <Compile Remove="Pages\ToDoListPage.razor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Components\ToDoListItemComponent.razor" />
+    <Content Remove="Pages\ToDoListPage.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Samples.ToDo.UI.csproj.DotSettings" />
     <None Remove="Templates.Blazor.EF.UI.csproj.DotSettings" />
   </ItemGroup>

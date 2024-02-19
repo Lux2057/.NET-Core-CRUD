@@ -4,9 +4,7 @@ public static class UiRoutes
 {
     #region Constants
 
-    public const string ToDoLists = "";
-
-    public const string ToDoList = "toDoList/{Id:int}";
+    public const string Projects = "";
 
     public const string About = "about";
 
@@ -15,9 +13,4 @@ public static class UiRoutes
     public const string Auth = "auth";
 
     #endregion
-
-    public static string ToDoListRoute(int id)
-    {
-        return $"toDoList/{id}";
-    }
 }

@@ -8,57 +8,43 @@
 </div>
 
 <div class="d-flex ms-auto">
-    <div class="btn btn-outline-primary btn-sm shadow-none" data-bs-target="#@signInModalId" data-bs-toggle="modal"
-         @onclick="@ClearValidation" role="button"
-         title="@Localization[nameof(Resource.Sign_in)]">
-        <span aria-hidden="true" class="oi oi-account-login"></span> @Localization[nameof(Resource.Sign_in)]
-    </div>
-    <div class="me-2 ms-2">
-        @Localization[Resource.or]
-    </div>
-    <div class="btn btn-outline-primary btn-sm shadow-none" data-bs-target="#@signUpModalId" data-bs-toggle="modal"
-         @onclick="@ClearValidation" role="button"
-         title="@Localization[nameof(Resource.Sign_up)]">
-        <span class="oi oi-pencil"></span> @Localization[nameof(Resource.Sign_up)]
-    </div>
-</div>
-
-<div aria-hidden="true" aria-labelledby="@signInLabelId" class="fade modal" id="@signInModalId" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="fs-5 modal-title" id="@signInLabelId">
-                    <span class="me-1">
-                        @Localization[nameof(Resource.Sign_in)]
-                    </span>
-                </h1>
-                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-            </div>
-            <div class="modal-body">
-                <div class="d-flex flex-column">
-                    <div class="mb-1 p-1">
-                        <label class="form-label">
-                            @Localization[nameof(Resource.User_name)]
-                        </label>
-                        <input @bind="UserName"
-                               class="form-control me-1"
-                               type="text"/>
-                        <ValidationMessageComponent Name="@nameof(AuthRequest.UserName)"/>
-                    </div>
+    <div>
+        <ModalWindowComponent ModalId="@signInModalId">
+            <ButtonContent>
+                <div class="btn btn-outline-primary btn-sm shadow-none"
+                     @onclick="@ClearValidation" role="button"
+                     title="@Localization[nameof(Resource.Sign_in)]">
+                    <span aria-hidden="true" class="oi oi-account-login"></span> @Localization[nameof(Resource.Sign_in)]
                 </div>
-                <div class="d-flex flex-column">
-                    <div class="mb-1 p-1">
-                        <label class="form-label">
-                            @Localization[nameof(Resource.Password)]
-                        </label>
-                        <input @bind="Password"
-                               class="form-control me-1"
-                               type="password"/>
-                        <ValidationMessageComponent Name="@nameof(AuthRequest.Password)"/>
-                    </div>
+            </ButtonContent>
+            <Title>
+                @Localization[nameof(Resource.Sign_in)]
+            </Title>
+            <Body>
+            <div class="d-flex flex-column">
+                <div class="mb-1 p-1">
+                    <label class="form-label">
+                        @Localization[nameof(Resource.User_name)]
+                    </label>
+                    <input @bind="UserName"
+                           class="form-control me-1"
+                           type="text"/>
+                    <ValidationMessageComponent Name="@nameof(AuthRequest.UserName)"/>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="d-flex flex-column">
+                <div class="mb-1 p-1">
+                    <label class="form-label">
+                        @Localization[nameof(Resource.Password)]
+                    </label>
+                    <input @bind="Password"
+                           class="form-control me-1"
+                           type="password"/>
+                    <ValidationMessageComponent Name="@nameof(AuthRequest.Password)"/>
+                </div>
+            </div>
+            </Body>
+            <Footer>
                 <div class="d-flex">
                     <div class="ms-auto p-1">
                         <button class="btn btn-outline-primary btn-sm shadow-none"
@@ -79,47 +65,49 @@
                         </button>
                     </div>
                 </div>
-            </div>
-        </div>
+            </Footer>
+        </ModalWindowComponent>
     </div>
-</div>
-
-<div aria-hidden="true" aria-labelledby="@signUpLabelId" class="fade modal" id="@signUpModalId" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="fs-5 modal-title" id="@signUpLabelId">
-                    <span class="me-1">
-                        @Localization[nameof(Resource.Sign_up)]
-                    </span>
-                </h1>
-                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-            </div>
-            <div class="modal-body">
-                <div class="d-flex flex-column">
-                    <div class="mb-1 p-1">
-                        <label class="form-label">
-                            @Localization[nameof(Resource.User_name)]
-                        </label>
-                        <input @bind="UserName"
-                               class="form-control me-1"
-                               type="text"/>
-                        <ValidationMessageComponent Name="@nameof(AuthRequest.UserName)"/>
-                    </div>
+    <div class="me-2 ms-2">
+        @Localization[Resource.or]
+    </div>
+    <div>
+        <ModalWindowComponent ModalId="@signUpModalId">
+            <ButtonContent>
+                <div class="btn btn-outline-primary btn-sm shadow-none"
+                     @onclick="@ClearValidation" role="button"
+                     title="@Localization[nameof(Resource.Sign_up)]">
+                    <span aria-hidden="true" class="oi oi-account-login"></span> @Localization[nameof(Resource.Sign_up)]
                 </div>
-                <div class="d-flex flex-column">
-                    <div class="mb-1 p-1">
-                        <label class="form-label">
-                            @Localization[nameof(Resource.Password)]
-                        </label>
-                        <input @bind="Password"
-                               class="form-control me-1"
-                               type="password"/>
-                        <ValidationMessageComponent Name="@nameof(AuthRequest.Password)"/>
-                    </div>
+            </ButtonContent>
+            <Title>
+                @Localization[nameof(Resource.Sign_up)]
+            </Title>
+            <Body>
+            <div class="d-flex flex-column">
+                <div class="mb-1 p-1">
+                    <label class="form-label">
+                        @Localization[nameof(Resource.User_name)]
+                    </label>
+                    <input @bind="UserName"
+                           class="form-control me-1"
+                           type="text"/>
+                    <ValidationMessageComponent Name="@nameof(AuthRequest.UserName)"/>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="d-flex flex-column">
+                <div class="mb-1 p-1">
+                    <label class="form-label">
+                        @Localization[nameof(Resource.Password)]
+                    </label>
+                    <input @bind="Password"
+                           class="form-control me-1"
+                           type="password"/>
+                    <ValidationMessageComponent Name="@nameof(AuthRequest.Password)"/>
+                </div>
+            </div>
+            </Body>
+            <Footer>
                 <div class="d-flex">
                     <div class="ms-auto p-1">
                         <button class="btn btn-outline-primary btn-sm shadow-none"
@@ -140,7 +128,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
-        </div>
+            </Footer>
+        </ModalWindowComponent>
     </div>
 </div>

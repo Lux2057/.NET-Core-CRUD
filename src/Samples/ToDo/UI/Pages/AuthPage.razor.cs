@@ -16,10 +16,6 @@ public partial class AuthPage : PageBase<AuthState>
 
     private const string signUpModalId = "sign-up-modal";
 
-    private const string signInLabelId = "sign-in-label";
-
-    private const string signUpLabelId = "sign-up-label";
-
     #endregion
 
     #region Properties
@@ -43,7 +39,15 @@ public partial class AuthPage : PageBase<AuthState>
                                                              UserName = UserName,
                                                              Password = Password
                                                      },
-                                                     authResult => { }));
+                                                     async authResult =>
+                                                     {
+                                                         if (!authResult.Success)
+                                                             return;
+
+                                                         await JS.CloseModal(signInModalId);
+
+                                                         NavigationManager.NavigateTo(UiRoutes.ToDoLists);
+                                                     }));
     }
 
     void SignUp()
@@ -54,6 +58,14 @@ public partial class AuthPage : PageBase<AuthState>
                                                              UserName = UserName,
                                                              Password = Password
                                                      },
-                                                     authResult => { }));
+                                                     async authResult =>
+                                                     {
+                                                         if (!authResult.Success)
+                                                             return;
+
+                                                         await JS.CloseModal(signUpModalId);
+
+                                                         NavigationManager.NavigateTo(UiRoutes.ToDoLists);
+                                                     }));
     }
 }

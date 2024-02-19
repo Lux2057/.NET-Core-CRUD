@@ -41,6 +41,9 @@ public class PageBase : Fluxor.Blazor.Web.Components.FluxorComponent
     [Inject]
     protected IJSRuntime JS { get; set; }
 
+    [Inject]
+    protected NavigationManager NavigationManager { get; set; }
+
     #endregion
 
     protected override void OnInitialized()

@@ -25,6 +25,9 @@ public class ComponentBase : Fluxor.Blazor.Web.Components.FluxorComponent
     [Inject]
     protected IStringLocalizer<Resource> Localization { get; set; }
 
+    [Inject]
+    protected NavigationManager NavigationManager { get; set; }
+
     #endregion
 }
 

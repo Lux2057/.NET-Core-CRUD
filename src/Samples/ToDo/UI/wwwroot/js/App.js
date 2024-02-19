@@ -14,3 +14,10 @@ window.initDragula = (netRefObj, ids, callbackName) => {
             netRefObj.invokeMethodAsync(callbackName, uid, source.id, target.id);
         });
 };
+
+window.closeModal = (id) => {
+    const modalElement = document.getElementById(id);
+    const modal = window.bootstrap.Modal.getInstance(modalElement);
+
+    modal.hide();
+};

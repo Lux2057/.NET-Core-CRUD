@@ -22,10 +22,6 @@ public class ValidationMiddleware : Middleware
 
                                             dispatcher.Dispatch(new SetValidationStateWf.Init(exception!.ValidationFailure));
                                         }
-                                        else
-                                        {
-                                            throw exceptionArgs.Exception;
-                                        }
                                     };
     }
 }

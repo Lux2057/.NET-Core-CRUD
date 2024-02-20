@@ -29,8 +29,6 @@ public class AuthMiddleware : Middleware
                                          {
                                              if (exceptionArgs.Exception.GetType() == typeof(UnauthorizedAccessException))
                                                  this.Dispatcher.Dispatch(new SignOutWf.Init(() => this.Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth))));
-                                             else
-                                                 throw exceptionArgs.Exception;
                                          };
     }
 

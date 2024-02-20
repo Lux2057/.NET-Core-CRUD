@@ -27,7 +27,7 @@ public class SignUpWf
 
     #region Nested Classes
 
-    public record Init(AuthRequest Request, Action<AuthResultDto> Callback) : IValidationAPI
+    public record Init(AuthRequest Request, Action<AuthResultDto> Callback) : IValidatingAction
     {
         #region Properties
 

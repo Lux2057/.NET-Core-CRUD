@@ -1,4 +1,4 @@
-﻿namespace Samples.ToDo.UI.Components;
+﻿namespace Samples.ToDo.UI.Shared.Components;
 
 #region << Using >>
 

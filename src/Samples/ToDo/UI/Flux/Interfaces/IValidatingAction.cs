@@ -1,6 +1,6 @@
 ﻿namespace Samples.ToDo.UI;
 
-public interface IValidationAPI
+public interface IValidatingAction
 {
     public string ValidationKey { get; set; }
 }

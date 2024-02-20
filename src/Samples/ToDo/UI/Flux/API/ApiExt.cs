@@ -23,11 +23,11 @@ public static class ApiExt
     {
         var request = httpMethod switch
         {
-                HttpMethodType.GET => new HttpRequestMessage(HttpMethod.Get, uri),
-                HttpMethodType.POST => new HttpRequestMessage(HttpMethod.Post, uri),
-                HttpMethodType.PUT => new HttpRequestMessage(HttpMethod.Put, uri),
-                HttpMethodType.DELETE => new HttpRequestMessage(HttpMethod.Delete, uri),
-                _ => throw new NotImplementedException($"{nameof(HttpMethodType)}: {httpMethod}")
+            HttpMethodType.GET => new HttpRequestMessage(HttpMethod.Get, uri),
+            HttpMethodType.POST => new HttpRequestMessage(HttpMethod.Post, uri),
+            HttpMethodType.PUT => new HttpRequestMessage(HttpMethod.Put, uri),
+            HttpMethodType.DELETE => new HttpRequestMessage(HttpMethod.Delete, uri),
+            _ => throw new NotImplementedException($"{nameof(HttpMethodType)}: {httpMethod}")
         };
 
         if (!accessToken.IsNullOrWhitespace())
@@ -35,9 +35,9 @@ public static class ApiExt
 
         if (httpMethod != HttpMethodType.GET && content != null)
             request.Content = new StringContent(JsonConvert.SerializeObject(content, new JsonSerializerSettings
-                                                                                     {
-                                                                                             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                                                                                     }), Encoding.UTF8, "application/json");
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }), Encoding.UTF8, "application/json");
 
         return await http.SendAsync(request, cancellationToken);
     }

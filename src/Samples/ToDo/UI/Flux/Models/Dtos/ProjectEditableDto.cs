@@ -19,13 +19,13 @@ public class ProjectEditableDto : ProjectDto, IUpdatingStatus, ICloneable
     public object Clone()
     {
         return new ProjectEditableDto
-               {
-                       Id = Id,
-                       Name = Name,
-                       IsUpdating = IsUpdating,
-                       Description = Description,
-                       Tags = (TagDto[])Tags?.Clone() ?? Array.Empty<TagDto>()
-               };
+        {
+            Id = Id,
+            Name = Name,
+            IsUpdating = IsUpdating,
+            Description = Description,
+            Tags = (TagDto[])Tags?.Clone() ?? Array.Empty<TagDto>()
+        };
     }
 
     #endregion

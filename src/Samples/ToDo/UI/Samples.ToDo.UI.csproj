@@ -8,13 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Components\ToDoListItemComponent.razor.cs" />
+    <Compile Remove="Shared\Components\ToDoListItemComponent.razor.cs" />
     <Compile Remove="Flux\Workflows\CreateOrUpdateToDoListItemWf.cs" />
     <Compile Remove="Pages\ToDoListPage.razor.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Components\ToDoListItemComponent.razor" />
+    <Content Remove="Shared\Components\ToDoListItemComponent.razor" />
     <Content Remove="Pages\ToDoListPage.razor" />
   </ItemGroup>
 
@@ -53,15 +53,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Flux\API\" />
+    <UpToDateCheckInput Remove="Shared\Components\ValidationMessageComponent.razor" />
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Components\ValidationMessageComponent.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Components\ValidationMessageComponent.razor" />
+    <_ContentIncludedByDefault Remove="Shared\Components\ValidationMessageComponent.razor" />
   </ItemGroup>
 
 </Project>

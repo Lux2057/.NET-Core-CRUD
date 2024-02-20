@@ -29,7 +29,7 @@ public class SignInWf
     #region Nested Classes
 
     [Authorize]
-    public record Init(AuthRequest Request, Action<AuthResultDto> Callback) : IValidationAPI
+    public record Init(AuthRequest Request, Action<AuthResultDto> Callback) : IValidatingAction
     {
         #region Properties
 

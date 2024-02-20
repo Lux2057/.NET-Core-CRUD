@@ -27,7 +27,7 @@ public class RefreshAccessTokenWf
 
     #region Nested Classes
 
-    public record Init(string RefreshToken, Action<AuthResultDto> Callback = default) : IValidationAPI
+    public record Init(string RefreshToken, Action<AuthResultDto> Callback = default) : IValidatingAction
     {
         #region Properties
 

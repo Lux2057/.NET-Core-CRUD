@@ -27,7 +27,7 @@ public class FetchProjectsWf
 
     #region Nested Classes
 
-    public record Init(int Page, string SearchTerm = default, Action Callback = default) : IAuthenticatedAction, IValidationAPI
+    public record Init(int Page, string SearchTerm = default, Action Callback = default) : IAuthenticatedAction, IValidatingAction
     {
         #region Properties
 

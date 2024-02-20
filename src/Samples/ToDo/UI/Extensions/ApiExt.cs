@@ -7,22 +7,19 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using Extensions;
-using Fluxor;
-using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using Samples.ToDo.Shared;
-using Samples.ToDo.UI.Localization;
 
 #endregion
 
 public static class ApiExt
 {
-    public static async Task<HttpResponseMessage> SendAuthenticatedRequestAsync(this HttpClient http,
-                                                                                HttpMethodType httpMethod,
-                                                                                string uri,
-                                                                                string accessToken,
-                                                                                object content = null,
-                                                                                CancellationToken cancellationToken = default)
+    public static async Task<HttpResponseMessage> SendApiRequestAsync(this HttpClient http,
+                                                                      HttpMethodType httpMethod,
+                                                                      string uri,
+                                                                      string accessToken = null,
+                                                                      object content = null,
+                                                                      CancellationToken cancellationToken = default)
     {
         var request = httpMethod switch
         {
@@ -33,7 +30,8 @@ public static class ApiExt
                 _ => throw new NotImplementedException($"{nameof(HttpMethodType)}: {httpMethod}")
         };
 
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+        if (!accessToken.IsNullOrWhitespace())
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
         if (httpMethod != HttpMethodType.GET && content != null)
             request.Content = new StringContent(JsonConvert.SerializeObject(content, new JsonSerializerSettings
@@ -54,9 +52,7 @@ public static class ApiExt
         return array.Select(r => $"{paramName}={r}").ToJoinedString("&");
     }
 
-    public static async Task<TResponse> ToApiResponseOrDefaultAsync<TResponse>(this HttpResponseMessage response,
-                                                                               IDispatcher dispatcher,
-                                                                               IStringLocalizer<Resource> localization)
+    public static async Task<TResponse> ToApiResponseOrThrowAsync<TResponse>(this HttpResponseMessage response)
     {
         switch (response.StatusCode)
         {
@@ -64,12 +60,13 @@ public static class ApiExt
                 return await response.Content.ReadFromJsonAsync<TResponse>();
 
             case HttpStatusCode.BadRequest:
-                dispatcher.Dispatch(new SetValidationStateWf.Init(await response.Content.ReadFromJsonAsync<ValidationFailureResult>()));
-                return default;
+                throw new ValidationException(await response.Content.ReadFromJsonAsync<ValidationFailureResult>());
+
+            case HttpStatusCode.Forbidden:
+                throw new UnauthorizedAccessException();
 
             default:
-                dispatcher.Dispatch(new SetValidationStateWf.Init(new ValidationFailureResult($"{localization[Resource.Http_request_error]}: {response.StatusCode}", Array.Empty<ValidationError>())));
-                return default;
+                throw new HttpRequestException(null, null, response.StatusCode);
         }
     }
 }

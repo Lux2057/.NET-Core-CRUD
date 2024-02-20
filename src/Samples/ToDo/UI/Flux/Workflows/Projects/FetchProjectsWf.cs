@@ -5,12 +5,10 @@
 using CRUD.Core;
 using Fluxor;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Localization;
-using Samples.ToDo.UI.Localization;
 
 #endregion
 
-public class FetchProjectsWf : HttpBase
+public class FetchProjectsWf
 {
     #region Properties
 
@@ -20,19 +18,23 @@ public class FetchProjectsWf : HttpBase
 
     #region Constructors
 
-    public FetchProjectsWf(HttpClient http,
-                           IStringLocalizer<Resource> localization,
-                           IDispatcher dispatcher)
-            : base(http)
+    public FetchProjectsWf(HttpClient http)
     {
-        this.api = new ProjectsAPI(http, localization, dispatcher);
+        this.api = new ProjectsAPI(http);
     }
 
     #endregion
 
     #region Nested Classes
 
-    public record Init(int Page, string AccessToken, string SearchTerm = default, Action Callback = default);
+    public record Init(int Page, string SearchTerm = default, Action Callback = default) : IAuthenticatedAction
+    {
+        #region Properties
+
+        public string AccessToken { get; set; }
+
+        #endregion
+    }
 
     public record Update(PaginatedResponseDto<ProjectEditableDto> Projects, Action Callback);
 

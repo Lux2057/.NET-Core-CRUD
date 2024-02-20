@@ -4,13 +4,11 @@
 
 using Fluxor;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Localization;
 using Samples.ToDo.Shared;
-using Samples.ToDo.UI.Localization;
 
 #endregion
 
-public class RefreshAccessTokenWf : HttpBase
+public class RefreshAccessTokenWf
 {
     #region Properties
 
@@ -20,11 +18,9 @@ public class RefreshAccessTokenWf : HttpBase
 
     #region Constructors
 
-    public RefreshAccessTokenWf(HttpClient http,
-                                IStringLocalizer<Resource> localization,
-                                IDispatcher dispatcher) : base(http)
+    public RefreshAccessTokenWf(HttpClient http)
     {
-        this.authApi = new AuthAPI(http, localization, dispatcher);
+        this.authApi = new AuthAPI(http);
     }
 
     #endregion

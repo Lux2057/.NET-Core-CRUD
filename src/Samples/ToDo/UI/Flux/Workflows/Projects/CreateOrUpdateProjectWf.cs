@@ -5,13 +5,11 @@
 using CRUD.Core;
 using Fluxor;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Localization;
 using Samples.ToDo.Shared;
-using Samples.ToDo.UI.Localization;
 
 #endregion
 
-public class CreateOrUpdateProjectWf : HttpBase
+public class CreateOrUpdateProjectWf
 {
     #region Properties
 
@@ -21,12 +19,9 @@ public class CreateOrUpdateProjectWf : HttpBase
 
     #region Constructors
 
-    public CreateOrUpdateProjectWf(HttpClient http,
-                                   IStringLocalizer<Resource> localization,
-                                   IDispatcher dispatcher)
-            : base(http)
+    public CreateOrUpdateProjectWf(HttpClient http)
     {
-        this.api = new ProjectsAPI(http, localization, dispatcher);
+        this.api = new ProjectsAPI(http);
     }
 
     #endregion
@@ -34,9 +29,15 @@ public class CreateOrUpdateProjectWf : HttpBase
     #region Nested Classes
 
     public record Init(ProjectDto Project,
-                       string AccessToken,
                        bool IsUpdate,
-                       Action Callback = default);
+                       Action Callback = default) : IAuthenticatedAction
+    {
+        #region Properties
+
+        public string AccessToken { get; set; }
+
+        #endregion
+    }
 
     public record Update(ProjectDto Project, Action Callback);
 

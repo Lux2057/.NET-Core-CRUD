@@ -32,17 +32,12 @@ public partial class ProjectsPage : PageBase<ProjectsState>
 
     private void GoToPage(int page)
     {
-        RefreshAuth();
-
-        Dispatcher.Dispatch(new FetchProjectsWf.Init(page, AuthState.AuthResult.AccessToken));
+        Dispatcher.Dispatch(new FetchProjectsWf.Init(page));
     }
 
     void create()
     {
-        RefreshAuth();
-
         Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(Project: NewProject,
-                                                             AccessToken: AuthState.AuthResult.AccessToken,
                                                              IsUpdate: false,
                                                              Callback: () => GoToPage(1)));
     }

@@ -4,13 +4,12 @@
 
 using Fluxor;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Authorization;
 using Samples.ToDo.Shared;
-using Samples.ToDo.UI.Localization;
 
 #endregion
 
-public class SignInWf : HttpBase
+public class SignInWf
 {
     #region Properties
 
@@ -20,17 +19,16 @@ public class SignInWf : HttpBase
 
     #region Constructors
 
-    public SignInWf(HttpClient http,
-                    IStringLocalizer<Resource> localization,
-                    IDispatcher dispatcher) : base(http)
+    public SignInWf(HttpClient http)
     {
-        this.authApi = new AuthAPI(http, localization, dispatcher);
+        this.authApi = new AuthAPI(http);
     }
 
     #endregion
 
     #region Nested Classes
 
+    [Authorize]
     public record Init(AuthRequest Request, Action<AuthResultDto> Callback);
 
     public record Update(AuthResultDto AuthResult, Action<AuthResultDto> Callback);

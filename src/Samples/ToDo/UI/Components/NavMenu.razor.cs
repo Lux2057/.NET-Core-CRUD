@@ -2,11 +2,24 @@
 
 #region << Using >>
 
+using Fluxor;
+using Microsoft.AspNetCore.Components;
+using ComponentBase = Samples.ToDo.UI.ComponentBase;
+
+#endregion
+
+#region << Using >>
+
 #endregion
 
 public partial class NavMenu : ComponentBase
 {
     #region Properties
+
+    [Inject]
+    private IState<AuthState> authState { get; set; }
+
+    private AuthState AuthState => authState.Value;
 
     private string NavMenuCssClass => this.collapseNavMenu ? "collapse" : null;
 

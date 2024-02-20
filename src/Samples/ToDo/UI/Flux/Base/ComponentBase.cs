@@ -15,11 +15,6 @@ public class ComponentBase : Fluxor.Blazor.Web.Components.FluxorComponent
     #region Properties
 
     [Inject]
-    IState<AuthState> authState { get; set; }
-
-    protected AuthState AuthState => authState.Value;
-
-    [Inject]
     protected IDispatcher Dispatcher { get; set; }
 
     [Inject]
@@ -29,26 +24,6 @@ public class ComponentBase : Fluxor.Blazor.Web.Components.FluxorComponent
     protected NavigationManager NavigationManager { get; set; }
 
     #endregion
-
-    protected void RefreshAuth()
-    {
-        if (AuthState.IsAuthenticated)
-        {
-            if (AuthState.IsExpiring)
-                Dispatcher.Dispatch(new RefreshAccessTokenWf.Init(AuthState.AuthResult.RefreshToken,
-                                                                  authResult =>
-                                                                  {
-                                                                      if (authResult.Success)
-                                                                          return;
-
-                                                                      NavigationManager.NavigateTo(UiRoutes.Auth, true);
-                                                                  }));
-        }
-        else
-        {
-            NavigationManager.NavigateTo(UiRoutes.Auth, true);
-        }
-    }
 }
 
 public class ComponentBase<TState> : ComponentBase

@@ -30,12 +30,8 @@ public partial class ProjectCardComponent : UI.ComponentBase
 
     void edit()
     {
-        RefreshAuth();
-
         IsEditing = false;
-        Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(Project: State,
-                                                             AccessToken: AuthState.AuthResult.AccessToken,
-                                                             IsUpdate: true));
+        Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(Project: State, IsUpdate: true));
     }
 
     void toggleIsEditing()

@@ -3,33 +3,15 @@
 #region << Using >>
 
 using CRUD.Core;
-using Fluxor;
-using Microsoft.Extensions.Localization;
 using Samples.ToDo.Shared;
-using Samples.ToDo.UI.Localization;
 
 #endregion
 
 public class ProjectsAPI : HttpBase
 {
-    #region Properties
-
-    readonly IDispatcher dispatcher;
-
-    readonly IStringLocalizer<Resource> localization;
-
-    #endregion
-
     #region Constructors
 
-    public ProjectsAPI(HttpClient http,
-                       IStringLocalizer<Resource> localization,
-                       IDispatcher dispatcher)
-            : base(http)
-    {
-        this.localization = localization;
-        this.dispatcher = dispatcher;
-    }
+    public ProjectsAPI(HttpClient http) : base(http) { }
 
     #endregion
 
@@ -45,22 +27,30 @@ public class ProjectsAPI : HttpBase
         if (tagsIds?.Any() == true)
             uri += $"&{tagsIds.ToApiParams(ApiRoutes.Params.TagsIds)}";
 
-        var httpResponse = await this.Http.SendAuthenticatedRequestAsync(HttpMethodType.GET, uri, accessToken);
+        var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.GET, 
+                                                               uri: uri, 
+                                                               accessToken: accessToken);
 
-        return await httpResponse.ToApiResponseOrDefaultAsync<PaginatedResponseDto<ProjectEditableDto>>(this.dispatcher, this.localization);
+        return await httpResponse.ToApiResponseOrThrowAsync<PaginatedResponseDto<ProjectEditableDto>>();
     }
 
     public async Task<int> CreateAsync(CreateProjectRequest request, string accessToken)
     {
-        var httpResponse = await this.Http.SendAuthenticatedRequestAsync(HttpMethodType.POST, ApiRoutes.CreateProject, accessToken, request);
+        var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.POST, 
+                                                               uri: ApiRoutes.CreateProject, 
+                                                               accessToken: accessToken, 
+                                                               content: request);
 
-        return await httpResponse.ToApiResponseOrDefaultAsync<int>(this.dispatcher, this.localization);
+        return await httpResponse.ToApiResponseOrThrowAsync<int>();
     }
 
     public async Task<int> UpdateAsync(EditProjectRequest request, string accessToken)
     {
-        var httpResponse = await this.Http.SendAuthenticatedRequestAsync(HttpMethodType.PUT, ApiRoutes.UpdateProject, accessToken, request);
+        var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.PUT, 
+                                                               uri: ApiRoutes.UpdateProject, 
+                                                               accessToken: accessToken, 
+                                                               content: request);
 
-        return await httpResponse.ToApiResponseOrDefaultAsync<int>(this.dispatcher, this.localization);
+        return await httpResponse.ToApiResponseOrThrowAsync<int>();
     }
 }

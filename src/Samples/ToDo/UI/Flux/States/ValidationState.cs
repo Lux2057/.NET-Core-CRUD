@@ -13,26 +13,49 @@ public class ValidationState
 {
     #region Properties
 
-    public ValidationFailureResult ValidationFailure { get; }
+    private readonly ValidationFailureResult commonFailure;
 
-    public bool IsFailure => ValidationFailure != null &&
-                             (ValidationFailure.Errors?.Any() == true ||
-                              !ValidationFailure.Message.IsNullOrWhitespace());
+    readonly Dictionary<string, ValidationFailureResult> failsDict = new();
 
     #endregion
 
     #region Constructors
 
     [UsedImplicitly]
-    ValidationState()
-    {
-        ValidationFailure = null;
-    }
+    ValidationState() { }
 
-    public ValidationState(ValidationFailureResult validationFailure)
+    public ValidationState(string key, ValidationFailureResult failure)
     {
-        ValidationFailure = validationFailure;
+        if (key.IsNullOrWhitespace())
+        {
+            this.commonFailure = failure;
+        }
+        else
+        {
+            if (this.failsDict.ContainsKey(key))
+                this.failsDict[key] = failure;
+            else
+                this.failsDict.Add(key, failure);
+        }
     }
 
     #endregion
+
+    public string[] ValidationErrors(string key, string propertyName)
+    {
+        string[] getErrors(ValidationFailureResult failure)
+        {
+            return failure == null ?
+                           Array.Empty<string>() :
+                           failure.Errors?
+                                  .Where(r => r.PropertyName == propertyName)
+                                  .Select(r => r.Message)
+                                  .ToArray() ?? Array.Empty<string>();
+        }
+
+        if (key.IsNullOrWhitespace())
+            return getErrors(this.commonFailure);
+
+        return !this.failsDict.ContainsKey(key) ? Array.Empty<string>() : getErrors(this.failsDict[key]);
+    }
 }

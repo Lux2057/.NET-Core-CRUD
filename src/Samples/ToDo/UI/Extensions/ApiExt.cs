@@ -52,7 +52,7 @@ public static class ApiExt
         return array.Select(r => $"{paramName}={r}").ToJoinedString("&");
     }
 
-    public static async Task<TResponse> ToApiResponseOrDefaultAsync<TResponse>(this HttpResponseMessage response, Action<ValidationFailureResult> ValidationFailCallback = null)
+    public static async Task<TResponse> ToApiResponseOrDefaultAsync<TResponse>(this HttpResponseMessage response, Action<ValidationFailureResult> validationFailCallback = null)
     {
         switch (response.StatusCode)
         {
@@ -60,7 +60,7 @@ public static class ApiExt
                 return await response.Content.ReadFromJsonAsync<TResponse>();
 
             case HttpStatusCode.BadRequest:
-                ValidationFailCallback?.Invoke(await response.Content.ReadFromJsonAsync<ValidationFailureResult>());
+                validationFailCallback?.Invoke(await response.Content.ReadFromJsonAsync<ValidationFailureResult>());
                 return default;
 
             case HttpStatusCode.Forbidden:

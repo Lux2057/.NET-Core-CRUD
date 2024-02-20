@@ -27,11 +27,13 @@ public class FetchProjectsWf
 
     #region Nested Classes
 
-    public record Init(int Page, string SearchTerm = default, Action Callback = default) : IAuthenticatedAction
+    public record Init(int Page, string SearchTerm = default, Action Callback = default) : IAuthenticatedAction, IValidationAPI
     {
         #region Properties
 
         public string AccessToken { get; set; }
+
+        public string ValidationKey { get; set; }
 
         #endregion
     }
@@ -53,9 +55,12 @@ public class FetchProjectsWf
     [UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
+        dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, null));
+
         var apiResponse = await this.api.GetAsync(searchTerm: action.SearchTerm,
                                                   page: action.Page,
-                                                  accessToken: action.AccessToken);
+                                                  accessToken: action.AccessToken,
+                                                  validationFailCallback: result => dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, result)));
 
         dispatcher.Dispatch(new Update(apiResponse, action.Callback));
     }

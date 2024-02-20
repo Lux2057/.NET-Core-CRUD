@@ -29,7 +29,14 @@ public class SignInWf
     #region Nested Classes
 
     [Authorize]
-    public record Init(AuthRequest Request, Action<AuthResultDto> Callback);
+    public record Init(AuthRequest Request, Action<AuthResultDto> Callback) : IValidationAPI
+    {
+        #region Properties
+
+        public string ValidationKey { get; set; }
+
+        #endregion
+    }
 
     public record Update(AuthResultDto AuthResult, Action<AuthResultDto> Callback);
 
@@ -48,7 +55,10 @@ public class SignInWf
     [UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
-        var authResult = await this.authApi.SignInAsync(request: action.Request);
+        dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, null));
+
+        var authResult = await this.authApi.SignInAsync(request: action.Request,
+                                                        validationFailCallback: result => dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, result)));
 
         dispatcher.Dispatch(new Update(authResult, action.Callback));
     }

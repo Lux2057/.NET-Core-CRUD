@@ -10,23 +10,13 @@ public partial class ValidationMessageComponent : ComponentBase<ValidationState>
 {
     #region Properties
 
+    [Parameter]
+    public string Key { get; set; }
+
     [Parameter, EditorRequired]
     public string Name { get; set; }
 
-    public string[] Messages
-    {
-        get
-        {
-            var messages = State.IsFailure ?
-                                   State.ValidationFailure
-                                        .Errors?
-                                        .Where(r => r.PropertyName == Name)
-                                        .Select(r => r.Message).ToArray() ?? Array.Empty<string>() :
-                                   Array.Empty<string>();
-
-            return messages;
-        }
-    }
+    public string[] Messages => State.ValidationErrors(Key, Name);
 
     #endregion
 }

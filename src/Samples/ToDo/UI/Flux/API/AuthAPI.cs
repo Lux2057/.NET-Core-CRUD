@@ -15,7 +15,7 @@ public class AuthAPI : HttpBase
     #endregion
 
     public async Task<AuthResultDto> SignInAsync(AuthRequest request,
-                                                 Action<ValidationFailureResult> ValidationFailCallback = null,
+                                                 Action<ValidationFailureResult> validationFailCallback = null,
                                                  CancellationToken cancellationToken = default)
     {
         var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.POST,
@@ -24,13 +24,13 @@ public class AuthAPI : HttpBase
                                                                content: request,
                                                                cancellationToken: cancellationToken);
 
-        var result = await httpResponse.ToApiResponseOrDefaultAsync<AuthResultDto>(ValidationFailCallback);
+        var result = await httpResponse.ToApiResponseOrDefaultAsync<AuthResultDto>(validationFailCallback);
 
         return result ?? new AuthResultDto { Success = false };
     }
 
     public async Task<AuthResultDto> SignUpAsync(AuthRequest request,
-                                                 Action<ValidationFailureResult> ValidationFailCallback = null,
+                                                 Action<ValidationFailureResult> validationFailCallback = null,
                                                  CancellationToken cancellationToken = default)
     {
         var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.POST,
@@ -39,13 +39,13 @@ public class AuthAPI : HttpBase
                                                                content: request,
                                                                cancellationToken: cancellationToken);
 
-        var result = await httpResponse.ToApiResponseOrDefaultAsync<AuthResultDto>(ValidationFailCallback);
+        var result = await httpResponse.ToApiResponseOrDefaultAsync<AuthResultDto>(validationFailCallback);
 
         return result ?? new AuthResultDto { Success = false };
     }
 
     public async Task<AuthResultDto> RefreshTokenAsync(RefreshTokenRequestDto request,
-                                                       Action<ValidationFailureResult> ValidationFailCallback = null,
+                                                       Action<ValidationFailureResult> validationFailCallback = null,
                                                        CancellationToken cancellationToken = default)
     {
         var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.POST,
@@ -54,7 +54,7 @@ public class AuthAPI : HttpBase
                                                                content: request,
                                                                cancellationToken: cancellationToken);
 
-        var result = await httpResponse.ToApiResponseOrDefaultAsync<AuthResultDto>(ValidationFailCallback);
+        var result = await httpResponse.ToApiResponseOrDefaultAsync<AuthResultDto>(validationFailCallback);
 
         return result ?? new AuthResultDto { Success = false };
     }

@@ -27,7 +27,14 @@ public class RefreshAccessTokenWf
 
     #region Nested Classes
 
-    public record Init(string RefreshToken, Action<AuthResultDto> Callback = default);
+    public record Init(string RefreshToken, Action<AuthResultDto> Callback = default) : IValidationAPI
+    {
+        #region Properties
+
+        public string ValidationKey { get; set; }
+
+        #endregion
+    }
 
     public record Update(AuthResultDto AuthResult, Action<AuthResultDto> Callback);
 
@@ -46,7 +53,10 @@ public class RefreshAccessTokenWf
     [UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
-        var authResult = await this.authApi.RefreshTokenAsync(request: new RefreshTokenRequestDto { RefreshToken = action.RefreshToken });
+        dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, null));
+
+        var authResult = await this.authApi.RefreshTokenAsync(request: new RefreshTokenRequestDto { RefreshToken = action.RefreshToken },
+                                                              validationFailCallback: result => dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, result)));
 
         dispatcher.Dispatch(new Update(authResult, action.Callback));
     }

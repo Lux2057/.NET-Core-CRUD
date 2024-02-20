@@ -18,7 +18,7 @@ public class ProjectsAPI : HttpBase
     public async Task<PaginatedResponseDto<ProjectEditableDto>> GetAsync(string searchTerm,
                                                                          int page,
                                                                          string accessToken,
-                                                                         Action<ValidationFailureResult> ValidationFailCallback = null,
+                                                                         Action<ValidationFailureResult> validationFailCallback = null,
                                                                          int[] tagsIds = default)
     {
         var uri = $"{ApiRoutes.GetProjects}?"
@@ -32,31 +32,31 @@ public class ProjectsAPI : HttpBase
                                                                uri: uri,
                                                                accessToken: accessToken);
 
-        var result = await httpResponse.ToApiResponseOrDefaultAsync<PaginatedResponseDto<ProjectEditableDto>>(ValidationFailCallback);
+        var result = await httpResponse.ToApiResponseOrDefaultAsync<PaginatedResponseDto<ProjectEditableDto>>(validationFailCallback);
         return result ?? new PaginatedResponseDto<ProjectEditableDto>();
     }
 
     public async Task<int> CreateAsync(CreateProjectRequest request,
                                        string accessToken,
-                                       Action<ValidationFailureResult> ValidationFailCallback = null)
+                                       Action<ValidationFailureResult> validationFailCallback = null)
     {
         var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.POST,
                                                                uri: ApiRoutes.CreateProject,
                                                                accessToken: accessToken,
                                                                content: request);
 
-        return await httpResponse.ToApiResponseOrDefaultAsync<int>(ValidationFailCallback);
+        return await httpResponse.ToApiResponseOrDefaultAsync<int>(validationFailCallback);
     }
 
     public async Task<int> UpdateAsync(EditProjectRequest request,
                                        string accessToken,
-                                       Action<ValidationFailureResult> ValidationFailCallback = null)
+                                       Action<ValidationFailureResult> validationFailCallback = null)
     {
         var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.PUT,
                                                                uri: ApiRoutes.UpdateProject,
                                                                accessToken: accessToken,
                                                                content: request);
 
-        return await httpResponse.ToApiResponseOrDefaultAsync<int>(ValidationFailCallback);
+        return await httpResponse.ToApiResponseOrDefaultAsync<int>(validationFailCallback);
     }
 }

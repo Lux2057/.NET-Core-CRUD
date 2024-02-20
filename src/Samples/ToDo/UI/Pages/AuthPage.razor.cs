@@ -28,47 +28,37 @@ public partial class AuthPage : PageBase<AuthState>
 
     void SignIn()
     {
-        Dispatcher.Dispatch(new SetValidationStateWf.Init
-                                    (null,
-                                     () =>
-                                     {
-                                         Dispatcher.Dispatch(new SignInWf.Init(new AuthRequest
-                                                                               {
-                                                                                       UserName = UserName,
-                                                                                       Password = Password
-                                                                               },
-                                                                               async authResult =>
-                                                                               {
-                                                                                   if (!authResult.Success)
-                                                                                       return;
+        Dispatcher.Dispatch(new SignInWf.Init(new AuthRequest
+                                              {
+                                                      UserName = UserName,
+                                                      Password = Password
+                                              },
+                                              async authResult =>
+                                              {
+                                                  if (!authResult.Success)
+                                                      return;
 
-                                                                                   await JS.CloseModal(signInModalId);
+                                                  await JS.CloseModal(signInModalId);
 
-                                                                                   Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects));
-                                                                               }));
-                                     }));
+                                                  Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects));
+                                              }));
     }
 
     void SignUp()
     {
-        Dispatcher.Dispatch(new SetValidationStateWf.Init
-                                    (null,
-                                     () =>
-                                     {
-                                         Dispatcher.Dispatch(new SignUpWf.Init(new AuthRequest
-                                                                               {
-                                                                                       UserName = UserName,
-                                                                                       Password = Password
-                                                                               },
-                                                                               async authResult =>
-                                                                               {
-                                                                                   if (!authResult.Success)
-                                                                                       return;
+        Dispatcher.Dispatch(new SignUpWf.Init(new AuthRequest
+                                              {
+                                                      UserName = UserName,
+                                                      Password = Password
+                                              },
+                                              async authResult =>
+                                              {
+                                                  if (!authResult.Success)
+                                                      return;
 
-                                                                                   await JS.CloseModal(signUpModalId);
+                                                  await JS.CloseModal(signUpModalId);
 
-                                                                                   Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects));
-                                                                               }));
-                                     }));
+                                                  Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects));
+                                              }));
     }
 }

@@ -22,7 +22,6 @@ builder.Services.AddFluxor(o =>
                                                   });
 
                                o.AddMiddleware<AuthMiddleware>();
-                               o.AddMiddleware<ValidationMiddleware>();
                            });
 
 builder.Services.AddLocalization();

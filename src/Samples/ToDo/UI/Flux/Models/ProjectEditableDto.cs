@@ -24,7 +24,7 @@ public class ProjectEditableDto : ProjectDto, IUpdatingStatus, ICloneable
                        Name = Name,
                        IsUpdating = IsUpdating,
                        Description = Description,
-                       Tags = (TagDto[])Tags.Clone()
+                       Tags = (TagDto[])Tags?.Clone() ?? Array.Empty<TagDto>()
                };
     }
 

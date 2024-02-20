@@ -78,7 +78,7 @@
         {
             @foreach (var project in State.Projects.Items)
             {
-                <ProjectCardComponent Model="project" OnDeletedCallback="() => GoToPage(1)"/>
+                <ProjectCardComponent Model="project"/>
             }
         }
     }

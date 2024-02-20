@@ -30,7 +30,7 @@ public class AuthController : DispatcherControllerBase
 
         await Dispatcher.PushAsync(command);
 
-        return Ok(command.AuthResultDto);
+        return Ok(command.Result);
     }
 
     [HttpPost,
@@ -44,7 +44,7 @@ public class AuthController : DispatcherControllerBase
 
         await Dispatcher.PushAsync(command);
 
-        return Ok(command.AuthResultDto);
+        return Ok(command.Result);
     }
 
     [HttpPost,
@@ -60,6 +60,6 @@ public class AuthController : DispatcherControllerBase
 
         await Dispatcher.PushAsync(command);
 
-        return Ok(command.AuthResultDto);
+        return Ok(command.Result);
     }
 }

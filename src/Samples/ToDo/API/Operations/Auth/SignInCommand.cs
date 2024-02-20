@@ -21,7 +21,7 @@ public class SignInCommand : CommandBase
 
     public string Password { get; }
 
-    public new AuthResultDto AuthResultDto { get; set; }
+    public new AuthResultDto Result { get; set; }
 
     #endregion
 
@@ -62,23 +62,12 @@ public class SignInCommand : CommandBase
 
         protected override async Task Execute(SignInCommand command, CancellationToken cancellationToken)
         {
-            if (command.UserName.IsNullOrWhitespace() || command.Password.IsNullOrWhitespace())
-            {
-                command.AuthResultDto = new AuthResultDto
-                                 {
-                                         Success = false,
-                                         Message = Localization.Credentials_are_empty
-                                 };
-
-                return;
-            }
-
             var user = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<UserEntity>(false) &&
                                              new UserEntity.FindBy.UserNameEqualTo(command.UserName)).SingleOrDefaultAsync(cancellationToken);
 
             if (user == null)
             {
-                command.AuthResultDto = new AuthResultDto
+                command.Result = new AuthResultDto
                                  {
                                          Success = false,
                                          Message = Localization.Credentials_are_invalid
@@ -90,7 +79,7 @@ public class SignInCommand : CommandBase
             var verificationResult = new PasswordHasher<UserEntity>().VerifyHashedPassword(user, user.PasswordHash, command.Password);
             if (verificationResult != PasswordVerificationResult.Success)
             {
-                command.AuthResultDto = new AuthResultDto
+                command.Result = new AuthResultDto
                                  {
                                          Success = false,
                                          Message = Localization.Credentials_are_invalid
@@ -102,7 +91,7 @@ public class SignInCommand : CommandBase
             var createTokenCommand = new CreateRefreshTokenCommand(user);
             await Dispatcher.PushAsync(createTokenCommand);
 
-            command.AuthResultDto = createTokenCommand.AuthResultDto;
+            command.Result = createTokenCommand.AuthResultDto;
         }
     }
 

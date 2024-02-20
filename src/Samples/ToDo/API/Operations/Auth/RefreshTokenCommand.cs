@@ -21,7 +21,7 @@ public class RefreshTokenCommand : CommandBase
 
     public string RefreshToken { get; }
 
-    public new AuthResultDto AuthResultDto { get; set; }
+    public new AuthResultDto Result { get; set; }
 
     #endregion
 
@@ -66,11 +66,11 @@ public class RefreshTokenCommand : CommandBase
             var user = await Repository.Read(new FindEntityByIntId<UserEntity>(command.UserId)).SingleOrDefaultAsync(cancellationToken);
             if (user == null)
             {
-                command.AuthResultDto = new AuthResultDto
-                                        {
-                                                Success = false,
-                                                Message = Localization.Token_is_invalid
-                                        };
+                command.Result = new AuthResultDto
+                                 {
+                                         Success = false,
+                                         Message = Localization.Token_is_invalid
+                                 };
 
                 return;
             }
@@ -83,11 +83,11 @@ public class RefreshTokenCommand : CommandBase
 
             if (refreshToken == null)
             {
-                command.AuthResultDto = new AuthResultDto
-                                        {
-                                                Success = false,
-                                                Message = Localization.Token_is_expired
-                                        };
+                command.Result = new AuthResultDto
+                                 {
+                                         Success = false,
+                                         Message = Localization.Token_is_expired
+                                 };
 
                 return;
             }
@@ -95,11 +95,11 @@ public class RefreshTokenCommand : CommandBase
             var tokenVerification = new PasswordHasher<RefreshTokenEntity>().VerifyHashedPassword(refreshToken, refreshToken.TokenHash, command.RefreshToken);
             if (tokenVerification != PasswordVerificationResult.Success)
             {
-                command.AuthResultDto = new AuthResultDto
-                                        {
-                                                Success = false,
-                                                Message = Localization.Token_is_invalid
-                                        };
+                command.Result = new AuthResultDto
+                                 {
+                                         Success = false,
+                                         Message = Localization.Token_is_invalid
+                                 };
 
                 return;
             }
@@ -110,7 +110,7 @@ public class RefreshTokenCommand : CommandBase
             var createTokenCommand = new CreateRefreshTokenCommand(user);
             await Dispatcher.PushAsync(createTokenCommand);
 
-            command.AuthResultDto = createTokenCommand.AuthResultDto;
+            command.Result = createTokenCommand.AuthResultDto;
         }
     }
 

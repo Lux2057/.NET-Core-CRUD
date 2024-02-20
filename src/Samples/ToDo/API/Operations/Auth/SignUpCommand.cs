@@ -19,7 +19,7 @@ public class SignUpCommand : CommandBase
 
     public string Password { get; }
 
-    public new AuthResultDto AuthResultDto { get; set; }
+    public new AuthResultDto Result { get; set; }
 
     #endregion
 
@@ -71,7 +71,7 @@ public class SignUpCommand : CommandBase
             var signInCommand = new SignInCommand(command.UserName, command.Password);
             await Dispatcher.PushAsync(signInCommand);
 
-            command.AuthResultDto = signInCommand.AuthResultDto;
+            command.Result = signInCommand.Result;
         }
     }
 

@@ -36,7 +36,14 @@ public partial class AuthPage : PageBase<AuthState>
                                               async authResult =>
                                               {
                                                   if (!authResult.Success)
+                                                  {
+                                                      Dispatcher.Dispatch(new SetValidationStateWf.Init(null, new ValidationFailureResult(null, new ValidationError[]
+                                                                                                                                                {
+                                                                                                                                                        new(authResult.Message, nameof(AuthRequest.Password))
+                                                                                                                                                })));
+
                                                       return;
+                                                  }
 
                                                   await JS.CloseModal(signInModalId);
 
@@ -54,7 +61,14 @@ public partial class AuthPage : PageBase<AuthState>
                                               async authResult =>
                                               {
                                                   if (!authResult.Success)
+                                                  {
+                                                      Dispatcher.Dispatch(new SetValidationStateWf.Init(null, new ValidationFailureResult(null, new ValidationError[]
+                                                                                                                                                {
+                                                                                                                                                        new(authResult.Message, nameof(AuthRequest.Password))
+                                                                                                                                                })));
+
                                                       return;
+                                                  }
 
                                                   await JS.CloseModal(signUpModalId);
 

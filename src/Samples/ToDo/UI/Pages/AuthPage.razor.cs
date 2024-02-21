@@ -3,7 +3,6 @@
 #region << Using >>
 
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Samples.ToDo.Shared;
 
 #endregion
@@ -21,9 +20,7 @@ public partial class AuthPage : PageBase<AuthState>
 
     #region Properties
 
-    string UserName { get; set; }
-
-    string Password { get; set; }
+    AuthRequest AuthRequest { get; set; } = new AuthRequest();
 
     #endregion
 
@@ -31,8 +28,7 @@ public partial class AuthPage : PageBase<AuthState>
     {
         Dispatcher.Dispatch(new SetValidationStateWf.Init(null, null));
 
-        UserName = string.Empty;
-        Password = string.Empty;
+        AuthRequest = new AuthRequest();
     }
 
     void SignIn()
@@ -40,11 +36,7 @@ public partial class AuthPage : PageBase<AuthState>
         if (State.IsLoading)
             return;
 
-        Dispatcher.Dispatch(new SignInWf.Init(new AuthRequest
-                                              {
-                                                      UserName = UserName,
-                                                      Password = Password
-                                              },
+        Dispatcher.Dispatch(new SignInWf.Init(AuthRequest,
                                               async authInfo =>
                                               {
                                                   if (authInfo == null)
@@ -61,11 +53,7 @@ public partial class AuthPage : PageBase<AuthState>
         if (State.IsLoading)
             return;
 
-        Dispatcher.Dispatch(new SignUpWf.Init(new AuthRequest
-                                              {
-                                                      UserName = UserName,
-                                                      Password = Password
-                                              },
+        Dispatcher.Dispatch(new SignUpWf.Init(AuthRequest,
                                               async authInfo =>
                                               {
                                                   if (authInfo == null)

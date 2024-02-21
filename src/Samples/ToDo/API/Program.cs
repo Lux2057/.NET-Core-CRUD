@@ -185,13 +185,8 @@ app.UseRouting();
 
 app.UseRequestLocalization(options =>
                            {
-                               var supportedCultures = new[]
-                                                       {
-                                                               new CultureInfo("ru-RU"),
-                                                               new CultureInfo("en-GB")
-                                                       };
-
-                               options.DefaultRequestCulture = new RequestCulture("en-GB");
+                               var supportedCultures = LocalizationConst.SupportedLanguages.Select(r => new CultureInfo(r)).ToArray();
+                               options.DefaultRequestCulture = new RequestCulture(LocalizationConst.DefaultLanguage);
                                options.SupportedCultures = supportedCultures;
                                options.SupportedUICultures = supportedCultures;
                            });

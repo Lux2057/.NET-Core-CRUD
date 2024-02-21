@@ -1,5 +1,6 @@
 #region << Using >>
 
+using System.Globalization;
 using Fluxor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;

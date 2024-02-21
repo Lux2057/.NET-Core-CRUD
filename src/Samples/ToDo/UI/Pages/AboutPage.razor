@@ -1,4 +1,5 @@
-﻿@inherits PageBase
+﻿@using System.Globalization
+@inherits PageBase
 
 <PageTitle>@(Localization[nameof(Resource.About)])</PageTitle>
 
@@ -12,3 +13,5 @@
         @Localization[nameof(Resource.About_text)]
     </span>
 </div>
+
+<span>@CultureInfo.CurrentUICulture.Name</span>

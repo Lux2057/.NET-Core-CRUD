@@ -1,0 +1,95 @@
+﻿<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Инфо</value>
+  </data>
+  <data name="About_text" xml:space="preserve">
+    <value>"ToDo' - это демо проект, который демонстрирует варианты использования CRUD-фреймворка, реализуя функциональность ToDo-доски</value>
+  </data>
+  <data name="Are_you_sure_you_want_delete_this_item__" xml:space="preserve">
+    <value>Вы уверенны, что хотите удалить этот элемент?</value>
+  </data>
+  <data name="Authenticate" xml:space="preserve">
+    <value>Авторизуйтесь</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="Dragula_test" xml:space="preserve">
+    <value>Dragula тест</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="Http_request_error" xml:space="preserve">
+    <value>Ошибка Http запроса</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Элемент</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>Элементы</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Загрузка</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="or" xml:space="preserve">
+    <value>или</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>Проект</value>
+  </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Проекты</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="Sign_in" xml:space="preserve">
+    <value>Войти</value>
+  </data>
+  <data name="Sign_out" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="Sign_up" xml:space="preserve">
+    <value>Зарегестрироваться</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="There_is_no_data" xml:space="preserve">
+    <value>Данных нет</value>
+  </data>
+  <data name="User_name" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
+</root>

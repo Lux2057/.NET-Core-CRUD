@@ -3,6 +3,7 @@
 #region << Using >>
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Samples.ToDo.Shared;
 
 #endregion
@@ -36,6 +37,9 @@ public partial class AuthPage : PageBase<AuthState>
 
     void SignIn()
     {
+        if (State.IsLoading)
+            return;
+
         Dispatcher.Dispatch(new SignInWf.Init(new AuthRequest
                                               {
                                                       UserName = UserName,
@@ -54,6 +58,9 @@ public partial class AuthPage : PageBase<AuthState>
 
     void SignUp()
     {
+        if (State.IsLoading)
+            return;
+
         Dispatcher.Dispatch(new SignUpWf.Init(new AuthRequest
                                               {
                                                       UserName = UserName,

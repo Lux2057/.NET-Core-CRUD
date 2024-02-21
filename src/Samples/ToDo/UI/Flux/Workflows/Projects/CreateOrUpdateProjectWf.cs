@@ -19,9 +19,9 @@ public class CreateOrUpdateProjectWf
 
     #region Constructors
 
-    public CreateOrUpdateProjectWf(HttpClient http)
+    public CreateOrUpdateProjectWf(HttpClient http, IDispatcher dispatcher)
     {
-        this.api = new ProjectsAPI(http);
+        this.api = new ProjectsAPI(http, dispatcher);
     }
 
     #endregion
@@ -30,11 +30,13 @@ public class CreateOrUpdateProjectWf
 
     public record Init(ProjectDto Project,
                        bool IsUpdate,
-                       Action Callback = default) : IAuthenticatedAction
+                       Action Callback = default) : IAuthenticatedAction, IValidatingAction
     {
         #region Properties
 
         public string AccessToken { get; set; }
+
+        public string ValidationKey { get; set; }
 
         #endregion
     }
@@ -77,20 +79,24 @@ public class CreateOrUpdateProjectWf
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
         if (action.IsUpdate)
-            await this.api.UpdateAsync(new EditProjectRequest
-                                       {
-                                               Id = action.Project.Id,
-                                               Name = action.Project.Name,
-                                               Description = action.Project.Description,
-                                               TagsIds = action.Project.Tags.Select(r => r.Id).ToArray()
-                                       }, action.AccessToken);
+            await this.api.UpdateAsync(request: new EditProjectRequest
+                                                {
+                                                        Id = action.Project.Id,
+                                                        Name = action.Project.Name,
+                                                        Description = action.Project.Description,
+                                                        TagsIds = action.Project.Tags.Select(r => r.Id).ToArray()
+                                                },
+                                       accessToken: action.AccessToken,
+                                       validationKey: action.ValidationKey);
         else
-            await this.api.CreateAsync(new CreateProjectRequest
-                                       {
-                                               Name = action.Project.Name,
-                                               Description = action.Project.Description,
-                                               TagsIds = action.Project.Tags.Select(r => r.Id).ToArray()
-                                       }, action.AccessToken);
+            await this.api.CreateAsync(request: new CreateProjectRequest
+                                                {
+                                                        Name = action.Project.Name,
+                                                        Description = action.Project.Description,
+                                                        TagsIds = action.Project.Tags.Select(r => r.Id).ToArray()
+                                                },
+                                       accessToken: action.AccessToken,
+                                       validationKey: action.ValidationKey);
 
         dispatcher.Dispatch(new Update(action.Project, action.Callback));
     }

@@ -28,7 +28,7 @@ public class AuthMiddleware : Middleware
         this.Store.UnhandledException += (_, exceptionArgs) =>
                                          {
                                              if (exceptionArgs.Exception.GetType() == typeof(UnauthorizedAccessException))
-                                                 this.Dispatcher.Dispatch(new SignOutWf.Init(() => this.Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth))));
+                                                 this.Dispatcher.Dispatch(new SignOutWf.Init(() => this.Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth, true))));
                                          };
     }
 
@@ -40,20 +40,20 @@ public class AuthMiddleware : Middleware
 
             if (authState?.IsAuthenticated != true)
             {
-                this.Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth));
+                this.Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth, true));
 
                 return false;
             }
 
             if (authState.IsExpiring)
             {
-                this.Dispatcher.Dispatch(new RefreshAccessTokenWf.Init(authState.AuthResult.RefreshToken,
-                                                                       authResult =>
+                this.Dispatcher.Dispatch(new RefreshAccessTokenWf.Init(authState.AuthInfo.RefreshToken,
+                                                                       authInfo =>
                                                                        {
-                                                                           if (!authResult.Success)
+                                                                           if (authInfo == null)
                                                                                throw new UnauthorizedAccessException();
 
-                                                                           authenticatedAction.AccessToken = authResult.AccessToken;
+                                                                           authenticatedAction.AccessToken = authInfo.AccessToken;
 
                                                                            this.Dispatcher.Dispatch(action);
                                                                        }));
@@ -61,7 +61,7 @@ public class AuthMiddleware : Middleware
                 return false;
             }
 
-            authenticatedAction.AccessToken = authState.AuthResult.AccessToken;
+            authenticatedAction.AccessToken = authState.AuthInfo.AccessToken;
         }
 
         return base.MayDispatchAction(action);

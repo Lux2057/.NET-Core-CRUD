@@ -19,9 +19,9 @@ public class SignInWf
 
     #region Constructors
 
-    public SignInWf(HttpClient http)
+    public SignInWf(HttpClient http, IDispatcher dispatcher)
     {
-        this.authApi = new AuthAPI(http);
+        this.authApi = new AuthAPI(http, dispatcher);
     }
 
     #endregion
@@ -29,7 +29,7 @@ public class SignInWf
     #region Nested Classes
 
     [Authorize]
-    public record Init(AuthRequest Request, Action<AuthResultDto> Callback) : IValidatingAction
+    public record Init(AuthRequest Request, Action<AuthInfoDto> Callback) : IValidatingAction
     {
         #region Properties
 
@@ -38,7 +38,7 @@ public class SignInWf
         #endregion
     }
 
-    public record Update(AuthResultDto AuthResult, Action<AuthResultDto> Callback);
+    public record Update(AuthInfoDto AuthInfo, Action<AuthInfoDto> Callback);
 
     #endregion
 
@@ -47,7 +47,7 @@ public class SignInWf
     public static AuthState OnInit(AuthState state, Init _)
     {
         return new AuthState(isLoading: true,
-                             authResult: state.AuthResult,
+                             authInfo: state.AuthInfo,
                              authenticatedAt: state.AuthenticatedAt);
     }
 
@@ -58,7 +58,7 @@ public class SignInWf
         dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, null));
 
         var authResult = await this.authApi.SignInAsync(request: action.Request,
-                                                        validationFailCallback: result => dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, result)));
+                                                        validationKey: action.ValidationKey);
 
         dispatcher.Dispatch(new Update(authResult, action.Callback));
     }
@@ -68,15 +68,15 @@ public class SignInWf
     public static AuthState OnUpdate(AuthState _, Update action)
     {
         return new AuthState(isLoading: false,
-                             authResult: action.AuthResult,
-                             authenticatedAt: action.AuthResult.Success ? DateTime.UtcNow : null);
+                             authInfo: action.AuthInfo,
+                             authenticatedAt: action.AuthInfo != null ? DateTime.UtcNow : null);
     }
 
     [EffectMethod]
     [UsedImplicitly]
     public Task HandleUpdate(Update action, IDispatcher _)
     {
-        action.Callback?.Invoke(action.AuthResult);
+        action.Callback?.Invoke(action.AuthInfo);
 
         return Task.CompletedTask;
     }

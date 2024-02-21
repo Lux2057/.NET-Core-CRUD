@@ -5,6 +5,7 @@
 using CRUD.CQRS;
 using CRUD.DAL.Abstractions;
 using FluentValidation;
+using FluentValidation.Results;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ using Samples.ToDo.Shared.Resources;
 
 #endregion
 
-public class RefreshTokenCommand : CommandBase
+public class RefreshTokenCommand : CommandBase, IRefreshRequest
 {
     #region Properties
 
@@ -21,7 +22,7 @@ public class RefreshTokenCommand : CommandBase
 
     public string RefreshToken { get; }
 
-    public new AuthResultDto Result { get; set; }
+    public new AuthInfoDto Result { get; set; }
 
     #endregion
 
@@ -65,15 +66,10 @@ public class RefreshTokenCommand : CommandBase
         {
             var user = await Repository.Read(new FindEntityByIntId<UserEntity>(command.UserId)).SingleOrDefaultAsync(cancellationToken);
             if (user == null)
-            {
-                command.Result = new AuthResultDto
-                                 {
-                                         Success = false,
-                                         Message = Localization.Token_is_invalid
-                                 };
-
-                return;
-            }
+                throw new ValidationException(new[]
+                                              {
+                                                      new ValidationFailure(nameof(IRefreshRequest.RefreshToken), Localization.Token_is_invalid)
+                                              });
 
             var refreshToken = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<RefreshTokenEntity>(false) &&
                                                      new UserIdProp.FindBy.EqualTo<RefreshTokenEntity>(user.Id) &&
@@ -82,27 +78,17 @@ public class RefreshTokenCommand : CommandBase
                                                .FirstOrDefaultAsync(cancellationToken);
 
             if (refreshToken == null)
-            {
-                command.Result = new AuthResultDto
-                                 {
-                                         Success = false,
-                                         Message = Localization.Token_is_expired
-                                 };
-
-                return;
-            }
+                throw new ValidationException(new[]
+                                              {
+                                                      new ValidationFailure(nameof(IRefreshRequest.RefreshToken), Localization.Token_is_expired)
+                                              });
 
             var tokenVerification = new PasswordHasher<RefreshTokenEntity>().VerifyHashedPassword(refreshToken, refreshToken.TokenHash, command.RefreshToken);
             if (tokenVerification != PasswordVerificationResult.Success)
-            {
-                command.Result = new AuthResultDto
-                                 {
-                                         Success = false,
-                                         Message = Localization.Token_is_invalid
-                                 };
-
-                return;
-            }
+                throw new ValidationException(new[]
+                                              {
+                                                      new ValidationFailure(nameof(IRefreshRequest.RefreshToken), Localization.Token_is_invalid)
+                                              });
 
             refreshToken.IsDeleted = true;
             await Repository.UpdateAsync(refreshToken);
@@ -110,7 +96,7 @@ public class RefreshTokenCommand : CommandBase
             var createTokenCommand = new CreateRefreshTokenCommand(user);
             await Dispatcher.PushAsync(createTokenCommand);
 
-            command.Result = createTokenCommand.AuthResultDto;
+            command.Result = createTokenCommand.Result;
         }
     }
 

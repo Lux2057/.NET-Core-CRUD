@@ -18,16 +18,18 @@ public class FetchProjectsWf
 
     #region Constructors
 
-    public FetchProjectsWf(HttpClient http)
+    public FetchProjectsWf(HttpClient http, IDispatcher dispatcher)
     {
-        this.api = new ProjectsAPI(http);
+        this.api = new ProjectsAPI(http, dispatcher);
     }
 
     #endregion
 
     #region Nested Classes
 
-    public record Init(int Page, string SearchTerm = default, Action Callback = default) : IAuthenticatedAction, IValidatingAction
+    public record Init(int Page,
+                       string SearchTerm = default,
+                       Action Callback = default) : IAuthenticatedAction, IValidatingAction
     {
         #region Properties
 
@@ -38,7 +40,8 @@ public class FetchProjectsWf
         #endregion
     }
 
-    public record Update(PaginatedResponseDto<ProjectEditableDto> Projects, Action Callback);
+    public record Update(PaginatedResponseDto<ProjectEditableDto> Projects,
+                         Action Callback);
 
     #endregion
 
@@ -55,12 +58,10 @@ public class FetchProjectsWf
     [UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
-        dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, null));
-
         var apiResponse = await this.api.GetAsync(searchTerm: action.SearchTerm,
                                                   page: action.Page,
                                                   accessToken: action.AccessToken,
-                                                  validationFailCallback: result => dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, result)));
+                                                  validationKey: action.ValidationKey);
 
         dispatcher.Dispatch(new Update(apiResponse, action.Callback));
     }

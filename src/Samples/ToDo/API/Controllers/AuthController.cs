@@ -22,7 +22,7 @@ public class AuthController : DispatcherControllerBase
     [HttpPost,
      AllowAnonymous,
      Route("~/" + ApiRoutes.SignUp),
-     ProducesResponseType(typeof(AuthResultDto), 200)]
+     ProducesResponseType(typeof(AuthInfoDto), 200)]
     public async Task<IActionResult> SignUp([FromBody] AuthRequest authRequest)
     {
         var command = new SignUpCommand(userName: authRequest.UserName,
@@ -36,7 +36,7 @@ public class AuthController : DispatcherControllerBase
     [HttpPost,
      AllowAnonymous,
      Route("~/" + ApiRoutes.SignIn),
-     ProducesResponseType(typeof(AuthResultDto), 200)]
+     ProducesResponseType(typeof(AuthInfoDto), 200)]
     public async Task<ActionResult> SignIn([FromBody] AuthRequest authRequest)
     {
         var command = new SignInCommand(userName: authRequest.UserName,
@@ -50,7 +50,7 @@ public class AuthController : DispatcherControllerBase
     [HttpPost,
      Authorize,
      Route("~/" + ApiRoutes.RefreshToken),
-     ProducesResponseType(typeof(AuthResultDto), 200)]
+     ProducesResponseType(typeof(AuthInfoDto), 200)]
     public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());

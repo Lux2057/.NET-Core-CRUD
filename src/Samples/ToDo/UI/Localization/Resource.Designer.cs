@@ -70,6 +70,15 @@ namespace Samples.ToDo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;ToDo&quot; is a demo project which demonstrates CRUD framework&apos;s ways of usage through implementing ToDo-dashboard functionality.
+        /// </summary>
+        public static string About_text {
+            get {
+                return ResourceManager.GetString("About_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want delete this item?.
         /// </summary>
         public static string Are_you_sure_you_want_delete_this_item__ {

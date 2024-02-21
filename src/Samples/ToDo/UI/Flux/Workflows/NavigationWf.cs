@@ -27,15 +27,15 @@ public class NavigationWf
 
     #region Nested Classes
 
-    public record NavigateTo(string Route);
+    public record NavigateTo(string Route, bool ForceLoad);
 
     #endregion
 
     [EffectMethod]
     [UsedImplicitly]
-    public Task HandleNavigateToAuth(NavigateTo action, IDispatcher dispatcher)
+    public Task HandleNavigateToAuth(NavigateTo action, IDispatcher _)
     {
-        this.navigationManager.NavigateTo(action.Route, true);
+        this.navigationManager.NavigateTo(action.Route, action.ForceLoad);
 
         return Task.CompletedTask;
     }

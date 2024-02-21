@@ -1,6 +1,17 @@
 ﻿namespace Samples.ToDo.Shared;
 
-public class AuthRequest
+public interface IAuthRequest
+{
+    #region Properties
+
+    public string UserName { get; }
+
+    public string Password { get; }
+
+    #endregion
+}
+
+public class AuthRequest : IAuthRequest
 {
     #region Properties
 

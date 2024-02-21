@@ -2,60 +2,64 @@
 
 #region << Using >>
 
+using Fluxor;
 using Samples.ToDo.Shared;
 
 #endregion
 
 public class AuthAPI : HttpBase
 {
-    #region Constructors
+    #region Properties
 
-    public AuthAPI(HttpClient http) : base(http) { }
+    readonly IDispatcher dispatcher;
 
     #endregion
 
-    public async Task<AuthResultDto> SignInAsync(AuthRequest request,
-                                                 Action<ValidationFailureResult> validationFailCallback = null,
-                                                 CancellationToken cancellationToken = default)
+    #region Constructors
+
+    public AuthAPI(HttpClient http, IDispatcher dispatcher) : base(http)
     {
-        var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.POST,
-                                                               uri: ApiRoutes.SignIn,
-                                                               accessToken: null,
-                                                               content: request,
-                                                               cancellationToken: cancellationToken);
-
-        var result = await httpResponse.ToApiResponseOrDefaultAsync<AuthResultDto>(validationFailCallback);
-
-        return result ?? new AuthResultDto { Success = false };
+        this.dispatcher = dispatcher;
     }
 
-    public async Task<AuthResultDto> SignUpAsync(AuthRequest request,
-                                                 Action<ValidationFailureResult> validationFailCallback = null,
+    #endregion
+
+    public async Task<AuthInfoDto> SignInAsync(AuthRequest request,
+                                                 string validationKey,
                                                  CancellationToken cancellationToken = default)
     {
-        var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.POST,
-                                                               uri: ApiRoutes.SignUp,
-                                                               accessToken: null,
-                                                               content: request,
-                                                               cancellationToken: cancellationToken);
-
-        var result = await httpResponse.ToApiResponseOrDefaultAsync<AuthResultDto>(validationFailCallback);
-
-        return result ?? new AuthResultDto { Success = false };
+        return await this.Http.GetApiResponseOrDefaultAsync<AuthInfoDto>(dispatcher: this.dispatcher,
+                                                                           validationKey: validationKey,
+                                                                           httpMethod: HttpMethodType.POST,
+                                                                           uri: ApiRoutes.SignIn,
+                                                                           accessToken: null,
+                                                                           content: request,
+                                                                           cancellationToken: cancellationToken);
     }
 
-    public async Task<AuthResultDto> RefreshTokenAsync(RefreshTokenRequestDto request,
-                                                       Action<ValidationFailureResult> validationFailCallback = null,
+    public async Task<AuthInfoDto> SignUpAsync(AuthRequest request,
+                                                 string validationKey,
+                                                 CancellationToken cancellationToken = default)
+    {
+        return await this.Http.GetApiResponseOrDefaultAsync<AuthInfoDto>(dispatcher: this.dispatcher,
+                                                                           validationKey: validationKey,
+                                                                           httpMethod: HttpMethodType.POST,
+                                                                           uri: ApiRoutes.SignUp,
+                                                                           accessToken: null,
+                                                                           content: request,
+                                                                           cancellationToken: cancellationToken);
+    }
+
+    public async Task<AuthInfoDto> RefreshTokenAsync(RefreshTokenRequestDto request,
+                                                       string validationKey,
                                                        CancellationToken cancellationToken = default)
     {
-        var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.POST,
-                                                               uri: ApiRoutes.RefreshToken,
-                                                               accessToken: null,
-                                                               content: request,
-                                                               cancellationToken: cancellationToken);
-
-        var result = await httpResponse.ToApiResponseOrDefaultAsync<AuthResultDto>(validationFailCallback);
-
-        return result ?? new AuthResultDto { Success = false };
+        return await this.Http.GetApiResponseOrDefaultAsync<AuthInfoDto>(dispatcher: this.dispatcher,
+                                                                           validationKey: validationKey,
+                                                                           httpMethod: HttpMethodType.POST,
+                                                                           uri: ApiRoutes.RefreshToken,
+                                                                           accessToken: null,
+                                                                           content: request,
+                                                                           cancellationToken: cancellationToken);
     }
 }

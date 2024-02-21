@@ -18,11 +18,11 @@ public class AuthState
 
     public bool IsLoading { get; }
 
-    public AuthResultDto AuthResult { get; }
+    public AuthInfoDto AuthInfo { get; }
 
-    public bool IsAuthenticated => AuthResult != null &&
-                                   !AuthResult.AccessToken.IsNullOrWhitespace() &&
-                                   !AuthResult.RefreshToken.IsNullOrWhitespace();
+    public bool IsAuthenticated => AuthInfo != null &&
+                                   !AuthInfo.AccessToken.IsNullOrWhitespace() &&
+                                   !AuthInfo.RefreshToken.IsNullOrWhitespace();
 
     public bool IsExpiring => IsAuthenticated &&
                               AuthenticatedAt != null &&
@@ -36,16 +36,16 @@ public class AuthState
     AuthState()
     {
         IsLoading = false;
-        AuthResult = null;
+        AuthInfo = null;
         AuthenticatedAt = null;
     }
 
     public AuthState(bool isLoading,
-                     AuthResultDto authResult,
+                     AuthInfoDto authInfo,
                      DateTime? authenticatedAt)
     {
         IsLoading = isLoading;
-        AuthResult = authResult;
+        AuthInfo = authInfo;
         AuthenticatedAt = authenticatedAt;
     }
 

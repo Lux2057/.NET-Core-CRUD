@@ -3,8 +3,8 @@
 #region << Using >>
 
 using CRUD.CQRS;
-using Extensions;
 using FluentValidation;
+using FluentValidation.Results;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +13,7 @@ using Samples.ToDo.Shared.Resources;
 
 #endregion
 
-public class SignInCommand : CommandBase
+public class SignInCommand : CommandBase, IAuthRequest
 {
     #region Properties
 
@@ -21,7 +21,7 @@ public class SignInCommand : CommandBase
 
     public string Password { get; }
 
-    public new AuthResultDto Result { get; set; }
+    public new AuthInfoDto Result { get; set; }
 
     #endregion
 
@@ -66,32 +66,24 @@ public class SignInCommand : CommandBase
                                              new UserEntity.FindBy.UserNameEqualTo(command.UserName)).SingleOrDefaultAsync(cancellationToken);
 
             if (user == null)
-            {
-                command.Result = new AuthResultDto
-                                 {
-                                         Success = false,
-                                         Message = Localization.Credentials_are_invalid
-                                 };
-
-                return;
-            }
+                throw new ValidationException(new[]
+                                              {
+                                                      new ValidationFailure(nameof(IAuthRequest.UserName), Localization.Credentials_are_invalid),
+                                                      new ValidationFailure(nameof(IAuthRequest.Password), Localization.Credentials_are_invalid),
+                                              });
 
             var verificationResult = new PasswordHasher<UserEntity>().VerifyHashedPassword(user, user.PasswordHash, command.Password);
             if (verificationResult != PasswordVerificationResult.Success)
-            {
-                command.Result = new AuthResultDto
-                                 {
-                                         Success = false,
-                                         Message = Localization.Credentials_are_invalid
-                                 };
-
-                return;
-            }
+                throw new ValidationException(new[]
+                                              {
+                                                      new ValidationFailure(nameof(IAuthRequest.UserName), Localization.Credentials_are_invalid),
+                                                      new ValidationFailure(nameof(IAuthRequest.Password), Localization.Credentials_are_invalid),
+                                              });
 
             var createTokenCommand = new CreateRefreshTokenCommand(user);
             await Dispatcher.PushAsync(createTokenCommand);
 
-            command.Result = createTokenCommand.AuthResultDto;
+            command.Result = createTokenCommand.Result;
         }
     }
 

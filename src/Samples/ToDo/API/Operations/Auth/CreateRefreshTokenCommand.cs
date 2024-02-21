@@ -15,7 +15,7 @@ public class CreateRefreshTokenCommand : CommandBase
 
     public UserEntity User { get; }
 
-    public new AuthResultDto AuthResultDto { get; set; }
+    public new AuthInfoDto Result { get; set; }
 
     #endregion
 
@@ -64,9 +64,8 @@ public class CreateRefreshTokenCommand : CommandBase
 
             await Repository.CreateAsync(tokenEntity, cancellationToken);
 
-            command.AuthResultDto = new AuthResultDto
+            command.Result = new AuthInfoDto
                              {
-                                     Success = true,
                                      AccessToken = accessToken,
                                      RefreshToken = refreshToken,
                                      User = new UserDto

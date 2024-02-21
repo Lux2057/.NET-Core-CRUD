@@ -26,6 +26,14 @@ public partial class AuthPage : PageBase<AuthState>
 
     #endregion
 
+    void ClearFields()
+    {
+        Dispatcher.Dispatch(new SetValidationStateWf.Init(null, null));
+
+        UserName = string.Empty;
+        Password = string.Empty;
+    }
+
     void SignIn()
     {
         Dispatcher.Dispatch(new SignInWf.Init(new AuthRequest
@@ -33,21 +41,14 @@ public partial class AuthPage : PageBase<AuthState>
                                                       UserName = UserName,
                                                       Password = Password
                                               },
-                                              async authResult =>
+                                              async authInfo =>
                                               {
-                                                  if (!authResult.Success)
-                                                  {
-                                                      Dispatcher.Dispatch(new SetValidationStateWf.Init(null, new ValidationFailureResult(null, new ValidationError[]
-                                                                                                                                                {
-                                                                                                                                                        new(authResult.Message, nameof(AuthRequest.Password))
-                                                                                                                                                })));
-
+                                                  if (authInfo == null)
                                                       return;
-                                                  }
 
                                                   await JS.CloseModal(signInModalId);
 
-                                                  Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects));
+                                                  Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects, false));
                                               }));
     }
 
@@ -58,21 +59,14 @@ public partial class AuthPage : PageBase<AuthState>
                                                       UserName = UserName,
                                                       Password = Password
                                               },
-                                              async authResult =>
+                                              async authInfo =>
                                               {
-                                                  if (!authResult.Success)
-                                                  {
-                                                      Dispatcher.Dispatch(new SetValidationStateWf.Init(null, new ValidationFailureResult(null, new ValidationError[]
-                                                                                                                                                {
-                                                                                                                                                        new(authResult.Message, nameof(AuthRequest.Password))
-                                                                                                                                                })));
-
+                                                  if (authInfo == null)
                                                       return;
-                                                  }
 
                                                   await JS.CloseModal(signUpModalId);
 
-                                                  Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects));
+                                                  Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects, false));
                                               }));
     }
 }

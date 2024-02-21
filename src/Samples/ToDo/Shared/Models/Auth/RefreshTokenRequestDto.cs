@@ -1,6 +1,15 @@
 ﻿namespace Samples.ToDo.Shared;
 
-public class RefreshTokenRequestDto
+public interface IRefreshRequest
+{
+    #region Properties
+
+    public string RefreshToken { get; }
+
+    #endregion
+}
+
+public class RefreshTokenRequestDto : IRefreshRequest
 {
     #region Properties
 

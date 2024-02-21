@@ -20,7 +20,7 @@ public class SignOutWf
     public static AuthState OnInit(AuthState state, Init _)
     {
         return new AuthState(isLoading: false,
-                             authResult: null,
+                             authInfo: null,
                              authenticatedAt: null);
     }
 

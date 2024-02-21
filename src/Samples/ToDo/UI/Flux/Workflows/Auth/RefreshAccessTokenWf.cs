@@ -18,16 +18,16 @@ public class RefreshAccessTokenWf
 
     #region Constructors
 
-    public RefreshAccessTokenWf(HttpClient http)
+    public RefreshAccessTokenWf(HttpClient http, IDispatcher dispatcher)
     {
-        this.authApi = new AuthAPI(http);
+        this.authApi = new AuthAPI(http, dispatcher);
     }
 
     #endregion
 
     #region Nested Classes
 
-    public record Init(string RefreshToken, Action<AuthResultDto> Callback = default) : IValidatingAction
+    public record Init(string RefreshToken, Action<AuthInfoDto> Callback = default) : IValidatingAction
     {
         #region Properties
 
@@ -36,7 +36,7 @@ public class RefreshAccessTokenWf
         #endregion
     }
 
-    public record Update(AuthResultDto AuthResult, Action<AuthResultDto> Callback);
+    public record Update(AuthInfoDto AuthInfo, Action<AuthInfoDto> Callback);
 
     #endregion
 
@@ -45,7 +45,7 @@ public class RefreshAccessTokenWf
     public static AuthState OnInit(AuthState state, Init _)
     {
         return new AuthState(isLoading: true,
-                             authResult: state.AuthResult,
+                             authInfo: state.AuthInfo,
                              authenticatedAt: state.AuthenticatedAt);
     }
 
@@ -53,10 +53,8 @@ public class RefreshAccessTokenWf
     [UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
-        dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, null));
-
         var authResult = await this.authApi.RefreshTokenAsync(request: new RefreshTokenRequestDto { RefreshToken = action.RefreshToken },
-                                                              validationFailCallback: result => dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, result)));
+                                                              validationKey: action.ValidationKey);
 
         dispatcher.Dispatch(new Update(authResult, action.Callback));
     }
@@ -66,15 +64,15 @@ public class RefreshAccessTokenWf
     public static AuthState OnUpdate(AuthState _, Update action)
     {
         return new AuthState(isLoading: false,
-                             authResult: action.AuthResult,
-                             authenticatedAt: action.AuthResult.Success ? DateTime.UtcNow : null);
+                             authInfo: action.AuthInfo,
+                             authenticatedAt: action.AuthInfo != null ? DateTime.UtcNow : null);
     }
 
     [EffectMethod]
     [UsedImplicitly]
     public Task HandleUpdate(Update action, IDispatcher _)
     {
-        action.Callback?.Invoke(action.AuthResult);
+        action.Callback?.Invoke(action.AuthInfo);
 
         return Task.CompletedTask;
     }

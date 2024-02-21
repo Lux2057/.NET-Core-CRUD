@@ -3,23 +3,34 @@
 #region << Using >>
 
 using CRUD.Core;
+using Fluxor;
 using Samples.ToDo.Shared;
 
 #endregion
 
 public class ProjectsAPI : HttpBase
 {
+    #region Properties
+
+    readonly IDispatcher dispatcher;
+
+    #endregion
+
     #region Constructors
 
-    public ProjectsAPI(HttpClient http) : base(http) { }
+    public ProjectsAPI(HttpClient http, IDispatcher dispatcher) : base(http)
+    {
+        this.dispatcher = dispatcher;
+    }
 
     #endregion
 
     public async Task<PaginatedResponseDto<ProjectEditableDto>> GetAsync(string searchTerm,
                                                                          int page,
                                                                          string accessToken,
-                                                                         Action<ValidationFailureResult> validationFailCallback = null,
-                                                                         int[] tagsIds = default)
+                                                                         string validationKey,
+                                                                         int[] tagsIds = default,
+                                                                         CancellationToken cancellationToken = default)
     {
         var uri = $"{ApiRoutes.GetProjects}?"
                 + $"{ApiRoutes.Params.SearchTerm}={searchTerm}&"
@@ -28,35 +39,41 @@ public class ProjectsAPI : HttpBase
         if (tagsIds?.Any() == true)
             uri += $"&{tagsIds.ToApiParams(ApiRoutes.Params.TagsIds)}";
 
-        var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.GET,
-                                                               uri: uri,
-                                                               accessToken: accessToken);
+        var result = await this.Http.GetApiResponseOrDefaultAsync<PaginatedResponseDto<ProjectEditableDto>>(dispatcher: this.dispatcher,
+                                                                                                            validationKey: validationKey,
+                                                                                                            httpMethod: HttpMethodType.GET,
+                                                                                                            uri: uri,
+                                                                                                            accessToken: accessToken,
+                                                                                                            cancellationToken: cancellationToken);
 
-        var result = await httpResponse.ToApiResponseOrDefaultAsync<PaginatedResponseDto<ProjectEditableDto>>(validationFailCallback);
         return result ?? new PaginatedResponseDto<ProjectEditableDto>();
     }
 
     public async Task<int> CreateAsync(CreateProjectRequest request,
                                        string accessToken,
-                                       Action<ValidationFailureResult> validationFailCallback = null)
+                                       string validationKey,
+                                       CancellationToken cancellationToken = default)
     {
-        var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.POST,
-                                                               uri: ApiRoutes.CreateProject,
-                                                               accessToken: accessToken,
-                                                               content: request);
-
-        return await httpResponse.ToApiResponseOrDefaultAsync<int>(validationFailCallback);
+        return await this.Http.GetApiResponseOrDefaultAsync<int>(dispatcher: this.dispatcher,
+                                                                 validationKey: validationKey,
+                                                                 httpMethod: HttpMethodType.POST,
+                                                                 uri: ApiRoutes.CreateProject,
+                                                                 accessToken: accessToken,
+                                                                 content: request,
+                                                                 cancellationToken: cancellationToken);
     }
 
     public async Task<int> UpdateAsync(EditProjectRequest request,
                                        string accessToken,
-                                       Action<ValidationFailureResult> validationFailCallback = null)
+                                       string validationKey,
+                                       CancellationToken cancellationToken = default)
     {
-        var httpResponse = await this.Http.SendApiRequestAsync(httpMethod: HttpMethodType.PUT,
-                                                               uri: ApiRoutes.UpdateProject,
-                                                               accessToken: accessToken,
-                                                               content: request);
-
-        return await httpResponse.ToApiResponseOrDefaultAsync<int>(validationFailCallback);
+        return await this.Http.GetApiResponseOrDefaultAsync<int>(dispatcher: this.dispatcher,
+                                                                 validationKey: validationKey,
+                                                                 httpMethod: HttpMethodType.PUT,
+                                                                 uri: ApiRoutes.UpdateProject,
+                                                                 accessToken: accessToken,
+                                                                 content: request,
+                                                                 cancellationToken: cancellationToken);
     }
 }

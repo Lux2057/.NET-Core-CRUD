@@ -37,7 +37,7 @@ public class CreateTagCommand : CommandBase
 
         public Validator(IDispatcher dispatcher)
         {
-            RuleFor(r => r.Name).NotEmpty()
+            RuleFor(r => r.Name).NotEmpty().WithMessage(Localization.Name_cant_be_empty)
                                 .MustAsync((name, _) => dispatcher.QueryAsync(new IsTagNameUniqueQuery(name))).WithMessage(Localization.Name_is_not_unique);
         }
 

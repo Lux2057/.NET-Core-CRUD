@@ -8,20 +8,14 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public class ProjectsAPI : HttpBase
+public class ProjectsAPI : ApiBase
 {
-    #region Properties
-
-    readonly IDispatcher dispatcher;
-
-    #endregion
-
     #region Constructors
 
-    public ProjectsAPI(HttpClient http, IDispatcher dispatcher) : base(http)
-    {
-        this.dispatcher = dispatcher;
-    }
+    public ProjectsAPI(HttpClient http,
+                       IDispatcher dispatcher,
+                       IState<LocalizationState> localizationState)
+            : base(http, dispatcher, localizationState) { }
 
     #endregion
 
@@ -40,6 +34,7 @@ public class ProjectsAPI : HttpBase
             uri += $"&{tagsIds.ToApiParams(ApiRoutes.Params.TagsIds)}";
 
         var result = await this.Http.GetApiResponseOrDefaultAsync<PaginatedResponseDto<ProjectEditableDto>>(dispatcher: this.dispatcher,
+                                                                                                            acceptLanguage: this.localizationState.Value.Language,
                                                                                                             validationKey: validationKey,
                                                                                                             httpMethod: HttpMethodType.GET,
                                                                                                             uri: uri,
@@ -55,6 +50,7 @@ public class ProjectsAPI : HttpBase
                                        CancellationToken cancellationToken = default)
     {
         return await this.Http.GetApiResponseOrDefaultAsync<int>(dispatcher: this.dispatcher,
+                                                                 acceptLanguage: this.localizationState.Value.Language,
                                                                  validationKey: validationKey,
                                                                  httpMethod: HttpMethodType.POST,
                                                                  uri: ApiRoutes.CreateProject,
@@ -69,6 +65,7 @@ public class ProjectsAPI : HttpBase
                                        CancellationToken cancellationToken = default)
     {
         return await this.Http.GetApiResponseOrDefaultAsync<int>(dispatcher: this.dispatcher,
+                                                                 acceptLanguage: this.localizationState.Value.Language,
                                                                  validationKey: validationKey,
                                                                  httpMethod: HttpMethodType.PUT,
                                                                  uri: ApiRoutes.UpdateProject,

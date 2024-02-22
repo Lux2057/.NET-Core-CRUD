@@ -20,9 +20,10 @@ public class SignInWf
     #region Constructors
 
     public SignInWf(HttpClient http,
-                    IDispatcher dispatcher)
+                    IDispatcher dispatcher,
+                    IState<LocalizationState> localizationState)
     {
-        this.authApi = new AuthAPI(http, dispatcher);
+        this.authApi = new AuthAPI(http, dispatcher, localizationState);
     }
 
     #endregion

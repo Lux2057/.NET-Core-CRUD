@@ -75,19 +75,19 @@ public class CreateOrUpdateTaskCommand : CommandBase
                                        .WithMessage(Localization.Task_id_is_invalid);
                  });
 
-            RuleFor(r => r.StatusId).NotEmpty()
+            RuleFor(r => r.StatusId).NotEmpty().WithMessage(Localization.Status_id_cant_be_empty)
                                     .MustAsync((statusId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<StatusEntity>(statusId)))
                                     .WithMessage(Localization.Status_id_is_invalid);
 
-            RuleFor(r => r.UserId).NotEmpty()
+            RuleFor(r => r.UserId).NotEmpty().WithMessage(Localization.User_id_cant_be_empty)
                                   .MustAsync((userId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(userId)))
                                   .WithMessage(Localization.User_id_is_invalid);
 
-            RuleFor(r => r.ProjectId).NotEmpty()
+            RuleFor(r => r.ProjectId).NotEmpty().WithMessage(Localization.Project_id_cant_be_empty)
                                      .MustAsync((projectId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<ProjectEntity>(projectId)))
                                      .WithMessage(Localization.Project_id_is_invalid);
 
-            RuleFor(r => r.Name).NotEmpty()
+            RuleFor(r => r.Name).NotEmpty().WithMessage(Localization.Name_cant_be_empty)
                                 .MustAsync((command, _, _) => dispatcher.QueryAsync(new IsNameUniqueQuery<TaskEntity>(command.Id, command.UserId, command.Name)))
                                 .WithMessage(Localization.Name_is_not_unique);
         }

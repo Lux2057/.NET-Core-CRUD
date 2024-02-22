@@ -79,6 +79,24 @@ namespace Samples.ToDo.API.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description can&apos;t be empty.
+        /// </summary>
+        public static string Description_cant_be_empty {
+            get {
+                return ResourceManager.GetString("Description_cant_be_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name can&apos;t be empty.
+        /// </summary>
+        public static string Name_cant_be_empty {
+            get {
+                return ResourceManager.GetString("Name_cant_be_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name is not unique.
         /// </summary>
         public static string Name_is_not_unique {
@@ -88,11 +106,38 @@ namespace Samples.ToDo.API.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password can&apos;t be empty.
+        /// </summary>
+        public static string Password_cant_be_empty {
+            get {
+                return ResourceManager.GetString("Password_cant_be_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project id can&apos;t be empty.
+        /// </summary>
+        public static string Project_id_cant_be_empty {
+            get {
+                return ResourceManager.GetString("Project_id_cant_be_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project Id is invalid.
         /// </summary>
         public static string Project_id_is_invalid {
             get {
                 return ResourceManager.GetString("Project_id_is_invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status id can&apos;t be empty.
+        /// </summary>
+        public static string Status_id_cant_be_empty {
+            get {
+                return ResourceManager.GetString("Status_id_cant_be_empty", resourceCulture);
             }
         }
         
@@ -124,6 +169,15 @@ namespace Samples.ToDo.API.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Task id can&apos;t be empty.
+        /// </summary>
+        public static string Task_id_cant_be_empty {
+            get {
+                return ResourceManager.GetString("Task_id_cant_be_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Task Id is invalid.
         /// </summary>
         public static string Task_id_is_invalid {
@@ -151,11 +205,29 @@ namespace Samples.ToDo.API.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User id can&apos;t be empty.
+        /// </summary>
+        public static string User_id_cant_be_empty {
+            get {
+                return ResourceManager.GetString("User_id_cant_be_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User id is invalid.
         /// </summary>
         public static string User_id_is_invalid {
             get {
                 return ResourceManager.GetString("User_id_is_invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User name can&apos;t be empty.
+        /// </summary>
+        public static string User_name_cant_be_empty {
+            get {
+                return ResourceManager.GetString("User_name_cant_be_empty", resourceCulture);
             }
         }
         

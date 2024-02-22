@@ -31,6 +31,7 @@ public static class ApiExt
 
     public static async Task<TResponse> GetApiResponseOrDefaultAsync<TResponse>(this HttpClient http,
                                                                                 IDispatcher dispatcher,
+                                                                                string acceptLanguage,
                                                                                 HttpMethodType httpMethod,
                                                                                 string uri,
                                                                                 string validationKey = null,
@@ -40,16 +41,18 @@ public static class ApiExt
     {
         dispatcher.Dispatch(new SetValidationStateWf.Init(validationKey, null));
 
-        var httpResponse = await http.sendApiRequestAsync(httpMethod,
-                                                          uri,
-                                                          accessToken,
-                                                          content,
-                                                          cancellationToken);
+        var httpResponse = await http.sendApiRequestAsync(httpMethod: httpMethod,
+                                                          acceptLanguage: acceptLanguage,
+                                                          uri: uri,
+                                                          accessToken: accessToken,
+                                                          content: content,
+                                                          cancellationToken: cancellationToken);
 
         return await httpResponse.ToApiResponseOrDefaultAsync<TResponse>(validationFailCallback: result => dispatcher.Dispatch(new SetValidationStateWf.Init(validationKey, result)));
     }
 
     static async Task<HttpResponseMessage> sendApiRequestAsync(this HttpClient http,
+                                                               string acceptLanguage,
                                                                HttpMethodType httpMethod,
                                                                string uri,
                                                                string accessToken = null,
@@ -67,6 +70,10 @@ public static class ApiExt
 
         if (!accessToken.IsNullOrWhitespace())
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+        request.Headers.Add("Accept-Language", acceptLanguage);
+
+        var t = request.Headers.AcceptLanguage;
 
         if (httpMethod != HttpMethodType.GET && content != null)
             request.Content = new StringContent(JsonConvert.SerializeObject(content, new JsonSerializerSettings

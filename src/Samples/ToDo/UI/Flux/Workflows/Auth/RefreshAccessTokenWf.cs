@@ -19,9 +19,10 @@ public class RefreshAccessTokenWf
     #region Constructors
 
     public RefreshAccessTokenWf(HttpClient http, 
-                                IDispatcher dispatcher)
+                                IDispatcher dispatcher,
+                                IState<LocalizationState> localizationState)
     {
-        this.authApi = new AuthAPI(http, dispatcher);
+        this.authApi = new AuthAPI(http, dispatcher, localizationState);
     }
 
     #endregion

@@ -63,17 +63,17 @@ public class CreateOrUpdateProjectCommand : CommandBase
                                        .WithMessage(Localization.Project_id_is_invalid);
                  });
 
-            RuleFor(r => r.UserId).NotEmpty()
+            RuleFor(r => r.UserId).NotEmpty().WithMessage(Localization.User_id_cant_be_empty)
                                   .MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(id)))
                                   .WithMessage(Localization.User_id_is_invalid);
 
-            RuleFor(r => r.Name).NotEmpty()
+            RuleFor(r => r.Name).NotEmpty().WithMessage(Localization.Name_cant_be_empty)
                                 .MustAsync((command, _, _) => dispatcher.QueryAsync(new IsNameUniqueQuery<ProjectEntity>(command.Id, command.UserId, command.Name)))
                                 .WithMessage(Localization.Name_is_not_unique);
 
-            RuleFor(r => r.Description).NotEmpty();
+            RuleFor(r => r.Description).NotEmpty().WithMessage(Localization.Description_cant_be_empty);
 
-            RuleFor(r => r.TagsIds).NotEmpty().Must(ids => ids.Length <= 5).WithMessage(Localization.Tags_count_cant_be_more_than_5);
+            RuleFor(r => r.TagsIds).Must(ids => ids.Length <= 5).WithMessage(Localization.Tags_count_cant_be_more_than_5);
             RuleForEach(r => r.TagsIds).MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<TagEntity>(id)))
                                        .WithMessage((_, id) => $"{Localization.Tag_id_is_invalid}: {id}");
         }

@@ -44,8 +44,8 @@ public class SignInCommand : CommandBase, IAuthRequest
 
         public Validator()
         {
-            RuleFor(r => r.UserName).NotEmpty();
-            RuleFor(r => r.Password).NotEmpty();
+            RuleFor(r => r.UserName).NotEmpty().WithMessage(Localization.User_name_cant_be_empty);
+            RuleFor(r => r.Password).NotEmpty().WithMessage(Localization.Password_cant_be_empty);
         }
 
         #endregion

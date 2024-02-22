@@ -19,9 +19,11 @@ public class CreateOrUpdateProjectWf
 
     #region Constructors
 
-    public CreateOrUpdateProjectWf(HttpClient http, IDispatcher dispatcher)
+    public CreateOrUpdateProjectWf(HttpClient http, 
+                                   IDispatcher dispatcher,
+                                   IState<LocalizationState> localizationState)
     {
-        this.api = new ProjectsAPI(http, dispatcher);
+        this.api = new ProjectsAPI(http, dispatcher, localizationState);
     }
 
     #endregion

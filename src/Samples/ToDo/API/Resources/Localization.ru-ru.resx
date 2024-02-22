@@ -153,4 +153,28 @@
   <data name="Token_is_expired" xml:space="preserve">
     <value>Просроченный токен</value>
   </data>
+  <data name="Description_cant_be_empty" xml:space="preserve">
+    <value>Описание не может быть пустым</value>
+  </data>
+  <data name="Name_cant_be_empty" xml:space="preserve">
+    <value>Имя на может быть пустым</value>
+  </data>
+  <data name="Password_cant_be_empty" xml:space="preserve">
+    <value>Пароль не может быть пустым</value>
+  </data>
+  <data name="Project_id_cant_be_empty" xml:space="preserve">
+    <value>Идентификатор проекта не может быть пустым</value>
+  </data>
+  <data name="Status_id_cant_be_empty" xml:space="preserve">
+    <value>Идентификатор статуса не может быть пустым</value>
+  </data>
+  <data name="Task_id_cant_be_empty" xml:space="preserve">
+    <value>Идентификатор задачи не может быть пустым</value>
+  </data>
+  <data name="User_id_cant_be_empty" xml:space="preserve">
+    <value>Идентификатор пользователя не может быть пустым</value>
+  </data>
+  <data name="User_name_cant_be_empty" xml:space="preserve">
+    <value>Имя пользователя не может быть пустым</value>
+  </data>
 </root>

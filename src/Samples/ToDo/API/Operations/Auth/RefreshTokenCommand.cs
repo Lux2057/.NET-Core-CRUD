@@ -45,7 +45,7 @@ public class RefreshTokenCommand : CommandBase, IRefreshRequest
 
         public Validator(IDispatcher dispatcher)
         {
-            RuleFor(r => r.UserId).NotEmpty()
+            RuleFor(r => r.UserId).NotEmpty().WithMessage(Localization.User_id_cant_be_empty)
                                   .MustAsync((userId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(userId)))
                                   .WithMessage(Localization.User_id_is_invalid);
         }

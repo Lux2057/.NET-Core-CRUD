@@ -85,7 +85,7 @@ public class TasksController : DispatcherControllerBase
     public async Task<IActionResult> SetStatus([FromBody] SetTaskStatusRequest request)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
-        await Dispatcher.PushAsync(new SetTaskStatusCommand(id: request.Id,
+        await Dispatcher.PushAsync(new SetTaskStatusCommand(taskId: request.Id,
                                                             userId: currentUserId,
                                                             statusId: request.StatusId));
 

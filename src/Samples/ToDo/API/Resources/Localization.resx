@@ -153,4 +153,28 @@
   <data name="Token_is_expired" xml:space="preserve">
     <value>Token is expired</value>
   </data>
+  <data name="Password_cant_be_empty" xml:space="preserve">
+    <value>Password can't be empty</value>
+  </data>
+  <data name="User_id_cant_be_empty" xml:space="preserve">
+    <value>User id can't be empty</value>
+  </data>
+  <data name="User_name_cant_be_empty" xml:space="preserve">
+    <value>User name can't be empty</value>
+  </data>
+  <data name="Name_cant_be_empty" xml:space="preserve">
+    <value>Name can't be empty</value>
+  </data>
+  <data name="Description_cant_be_empty" xml:space="preserve">
+    <value>Description can't be empty</value>
+  </data>
+  <data name="Project_id_cant_be_empty" xml:space="preserve">
+    <value>Project id can't be empty</value>
+  </data>
+  <data name="Status_id_cant_be_empty" xml:space="preserve">
+    <value>Status id can't be empty</value>
+  </data>
+  <data name="Task_id_cant_be_empty" xml:space="preserve">
+    <value>Task id can't be empty</value>
+  </data>
 </root>

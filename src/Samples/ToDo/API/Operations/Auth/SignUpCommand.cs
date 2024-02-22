@@ -42,11 +42,11 @@ public class SignUpCommand : CommandBase
 
         public Validator(IDispatcher dispatcher)
         {
-            RuleFor(r => r.UserName).NotEmpty().MinimumLength(6).MaximumLength(30)
+            RuleFor(r => r.UserName).NotEmpty().WithMessage(Localization.User_name_cant_be_empty)
                                     .MustAsync((userName, _) => dispatcher.QueryAsync(new IsUserNameUniqueQuery(userName)))
                                     .WithMessage(Localization.User_name_is_not_unique);
 
-            RuleFor(r => r.Password).NotEmpty().MinimumLength(6).MaximumLength(30);
+            RuleFor(r => r.Password).NotEmpty().WithMessage(Localization.Password_cant_be_empty);
         }
 
         #endregion

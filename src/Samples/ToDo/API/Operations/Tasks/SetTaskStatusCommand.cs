@@ -15,7 +15,7 @@ public class SetTaskStatusCommand : CommandBase
 {
     #region Properties
 
-    public int Id { get; }
+    public int TaskId { get; }
 
     public int UserId { get; }
 
@@ -25,11 +25,11 @@ public class SetTaskStatusCommand : CommandBase
 
     #region Constructors
 
-    public SetTaskStatusCommand(int id,
+    public SetTaskStatusCommand(int taskId,
                                 int statusId,
                                 int userId)
     {
-        Id = id;
+        TaskId = taskId;
         StatusId = statusId;
         UserId = userId;
     }
@@ -45,11 +45,11 @@ public class SetTaskStatusCommand : CommandBase
 
         public Validator(IDispatcher dispatcher)
         {
-            RuleFor(r => r.Id).NotEmpty()
-                              .MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<TaskEntity>(id)))
-                              .WithMessage(Localization.Task_id_is_invalid);
+            RuleFor(r => r.TaskId).NotEmpty().WithMessage(Localization.Task_id_cant_be_empty)
+                                  .MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<TaskEntity>(id)))
+                                  .WithMessage(Localization.Task_id_is_invalid);
 
-            RuleFor(r => r.StatusId).NotEmpty()
+            RuleFor(r => r.StatusId).NotEmpty().WithMessage(Localization.Status_id_cant_be_empty)
                                     .MustAsync((statusId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<StatusEntity>(statusId)))
                                     .WithMessage(Localization.Status_id_is_invalid);
         }
@@ -69,7 +69,7 @@ public class SetTaskStatusCommand : CommandBase
         protected override async Task Execute(SetTaskStatusCommand command, CancellationToken cancellationToken)
         {
             var task = await Repository.Read(new UserIdProp.FindBy.EqualTo<TaskEntity>(command.UserId) &&
-                                             new FindEntityByIntId<TaskEntity>(command.Id))
+                                             new FindEntityByIntId<TaskEntity>(command.TaskId))
                                        .SingleAsync(cancellationToken);
 
             task.StatusId = command.StatusId;

@@ -8,10 +8,6 @@ using ComponentBase = Samples.ToDo.UI.ComponentBase;
 
 #endregion
 
-#region << Using >>
-
-#endregion
-
 public partial class NavMenu : ComponentBase
 {
     #region Properties

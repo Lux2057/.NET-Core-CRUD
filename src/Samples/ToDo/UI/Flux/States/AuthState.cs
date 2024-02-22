@@ -14,8 +14,6 @@ public class AuthState
 {
     #region Properties
 
-    public DateTime? AuthenticatedAt { get; }
-
     public bool IsLoading { get; }
 
     public AuthInfoDto AuthInfo { get; }
@@ -25,8 +23,7 @@ public class AuthState
                                    !AuthInfo.RefreshToken.IsNullOrWhitespace();
 
     public bool IsExpiring => IsAuthenticated &&
-                              AuthenticatedAt != null &&
-                              (DateTime.UtcNow - AuthenticatedAt).Value.Minutes >= 2;
+                              (DateTime.UtcNow - AuthInfo.AuthenticatedAt).Minutes >= 2;
 
     #endregion
 
@@ -37,16 +34,13 @@ public class AuthState
     {
         IsLoading = false;
         AuthInfo = null;
-        AuthenticatedAt = null;
     }
 
     public AuthState(bool isLoading,
-                     AuthInfoDto authInfo,
-                     DateTime? authenticatedAt)
+                     AuthInfoDto authInfo)
     {
         IsLoading = isLoading;
         AuthInfo = authInfo;
-        AuthenticatedAt = authenticatedAt;
     }
 
     #endregion

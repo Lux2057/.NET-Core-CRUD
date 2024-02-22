@@ -11,24 +11,43 @@ public class SignOutWf
 {
     #region Nested Classes
 
-    public record Init(Action Callback);
+    public record Init(Action Callback = default);
+
+    public record Update(Action Callback);
 
     #endregion
 
     [ReducerMethod]
     [UsedImplicitly]
-    public static AuthState OnInit(AuthState state, Init _)
+    public static AuthState OnInit(AuthState state, Init action)
     {
-        return new AuthState(isLoading: false,
-                             authInfo: null,
-                             authenticatedAt: null);
+        return new AuthState(isLoading: true,
+                             authInfo: state.AuthInfo);
     }
 
     [EffectMethod]
     [UsedImplicitly]
-    public Task HandleInit(Init action, IDispatcher _)
+    public Task HandleInit(Init action, IDispatcher dispatcher)
+    {
+        dispatcher.Dispatch(new Update(action.Callback));
+
+        return Task.CompletedTask;
+    }
+
+    [ReducerMethod]
+    [UsedImplicitly]
+    public static AuthState OnUpdate(AuthState state, Update action)
+    {
+        return new AuthState(isLoading: false,
+                             authInfo: null);
+    }
+
+    [EffectMethod]
+    [UsedImplicitly]
+    public Task HandleUpdate(Update action, IDispatcher dispatcher)
     {
         action.Callback?.Invoke();
+
         return Task.CompletedTask;
     }
 }

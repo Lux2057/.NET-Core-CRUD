@@ -39,6 +39,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <UpToDateCheckInput Remove="Shared\Components\ValidationMessageComponent.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Shared\Components\ValidationMessageComponent.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Localization\Resource.ru-RU.resx" />
+    <Content Include="Localization\Resource.Designer.cs" />
+    <Content Include="Localization\Resource.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Localization\Resource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -47,18 +61,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Localization\Resource.ru-RU.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Update="Localization\Resource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Shared\Components\ValidationMessageComponent.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Shared\Components\ValidationMessageComponent.razor" />
   </ItemGroup>
 
 </Project>

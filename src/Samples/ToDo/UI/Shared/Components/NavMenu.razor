@@ -1,9 +1,15 @@
-﻿@using Samples.ToDo.UI.Localization
-@inherits UI.ComponentBase
+﻿@inherits UI.ComponentBase
 
 <div class="navbar navbar-dark ps-3 top-row">
     <div class="container-fluid">
-        <a class="navbar-brand" href="@(AuthState.IsAuthenticated ? UiRoutes.Projects : UiRoutes.Auth)">ToDo</a>
+        <div class="d-flex">
+            <div class="p-1">
+                <a class="navbar-brand" href="@(AuthState.IsAuthenticated ? UiRoutes.Projects : UiRoutes.Auth)">ToDo</a>
+            </div>
+            <div class="p-1 ms-2">
+                <LanguageSelectorComponent />
+            </div>
+        </div>
         <button class="navbar-toggler" @onclick="ToggleNavMenu" title="Navigation menu">
             <span class="navbar-toggler-icon"></span>
         </button>

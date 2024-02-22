@@ -42,7 +42,7 @@ public partial class AuthPage : PageBase<AuthState>
                                                   if (authInfo == null)
                                                       return;
 
-                                                  await JS.CloseModal(signInModalId);
+                                                  await JS.CloseModalAsync(signInModalId);
 
                                                   Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects, false));
                                               }));
@@ -59,7 +59,7 @@ public partial class AuthPage : PageBase<AuthState>
                                                   if (authInfo == null)
                                                       return;
 
-                                                  await JS.CloseModal(signUpModalId);
+                                                  await JS.CloseModalAsync(signUpModalId);
 
                                                   Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects, false));
                                               }));

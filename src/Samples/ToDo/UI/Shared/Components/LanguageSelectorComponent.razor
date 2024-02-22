@@ -1,0 +1,10 @@
+﻿@inherits UI.ComponentBase
+
+<select @bind="Language">
+    @foreach (var language in LocalizationConst.SupportedLanguages)
+    {
+        <option value="@language">
+            @language
+        </option>
+    }
+</select>

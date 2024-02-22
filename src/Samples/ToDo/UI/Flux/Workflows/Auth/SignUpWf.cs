@@ -18,7 +18,8 @@ public class SignUpWf
 
     #region Constructors
 
-    public SignUpWf(HttpClient http, IDispatcher dispatcher)
+    public SignUpWf(HttpClient http,
+                    IDispatcher dispatcher)
     {
         this.authApi = new AuthAPI(http, dispatcher);
     }
@@ -42,11 +43,10 @@ public class SignUpWf
 
     [ReducerMethod]
     [UsedImplicitly]
-    public static AuthState OnInit(AuthState state, Init _)
+    public static AuthState OnInit(AuthState state, Init action)
     {
         return new AuthState(isLoading: true,
-                             authInfo: state.AuthInfo,
-                             authenticatedAt: state.AuthenticatedAt);
+                             authInfo: state.AuthInfo);
     }
 
     [EffectMethod]
@@ -55,24 +55,23 @@ public class SignUpWf
     {
         dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, null));
 
-        var authResult = await this.authApi.SignUpAsync(request: action.Request,
-                                                        validationKey: action.ValidationKey);
+        var authInfo = await this.authApi.SignUpAsync(request: action.Request,
+                                                      validationKey: action.ValidationKey);
 
-        dispatcher.Dispatch(new Update(authResult, action.Callback));
+        dispatcher.Dispatch(new Update(authInfo, action.Callback));
     }
 
     [ReducerMethod]
     [UsedImplicitly]
-    public static AuthState OnUpdate(AuthState _, Update action)
+    public static AuthState OnUpdate(AuthState state, Update action)
     {
         return new AuthState(isLoading: false,
-                             authInfo: action.AuthInfo,
-                             authenticatedAt: action.AuthInfo != null ? DateTime.UtcNow : null);
+                             authInfo: action.AuthInfo);
     }
 
     [EffectMethod]
     [UsedImplicitly]
-    public Task HandleUpdate(Update action, IDispatcher _)
+    public Task HandleUpdate(Update action, IDispatcher dispatcher)
     {
         action.Callback?.Invoke(action.AuthInfo);
 

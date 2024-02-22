@@ -1,9 +1,9 @@
 #region << Using >>
 
-using System.Globalization;
 using Fluxor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Samples.ToDo.Shared;
 using Samples.ToDo.UI;
 
 #endregion
@@ -18,7 +18,7 @@ builder.Services.AddFluxor(o =>
                                o.ScanAssemblies(typeof(Program).Assembly, typeof(SignInWf).Assembly);
                                o.UseReduxDevTools(rdt =>
                                                   {
-                                                      rdt.Name = "Templates.Blazor.EF.UI";
+                                                      rdt.Name = "Samples.ToDo.UI";
                                                       rdt.EnableStackTrace();
                                                   });
 
@@ -27,4 +27,8 @@ builder.Services.AddFluxor(o =>
 
 builder.Services.AddLocalization();
 
-await builder.Build().RunAsync();
+var host = builder.Build();
+
+await host.InitLanguageAsync(LocalizationConst.DefaultLanguage);
+
+await host.RunAsync();

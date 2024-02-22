@@ -21,6 +21,8 @@ public class SetTaskStatusCommand : CommandBase
 
     public int StatusId { get; }
 
+    public new bool Result { get; set; }
+
     #endregion
 
     #region Constructors
@@ -75,6 +77,8 @@ public class SetTaskStatusCommand : CommandBase
             task.StatusId = command.StatusId;
 
             await Repository.UpdateAsync(task, cancellationToken);
+
+            command.Result = true;
         }
     }
 

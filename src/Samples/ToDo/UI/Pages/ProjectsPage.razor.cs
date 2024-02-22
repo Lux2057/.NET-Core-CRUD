@@ -15,6 +15,8 @@ public partial class ProjectsPage : PageBase<ProjectsState>
 
     private const string createProjectModalId = "create-project-modal";
 
+    private const string createProjectValidationKey = "create-project-validation";
+
     #endregion
 
     #region Properties
@@ -39,6 +41,14 @@ public partial class ProjectsPage : PageBase<ProjectsState>
     {
         Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(Project: NewProject,
                                                              IsUpdate: false,
-                                                             Callback: () => GoToPage(1)));
+                                                             SuccessCallback: async () =>
+                                                                       {
+                                                                           await JS.CloseModalAsync(createProjectModalId);
+                                                                           NewProject = new() { Id = -1 };
+                                                                           GoToPage(1);
+                                                                       })
+                            {
+                                    ValidationKey = createProjectValidationKey
+                            });
     }
 }

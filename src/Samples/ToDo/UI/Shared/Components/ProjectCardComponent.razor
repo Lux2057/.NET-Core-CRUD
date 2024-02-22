@@ -18,7 +18,7 @@
                         @if (IsEditing)
                         {
                             <input @bind="State.Name" class="form-control" type="text"/>
-                            <ValidationMessageComponent Name="@nameof(EditProjectRequest.Name)"/>
+                            <ValidationMessageComponent Name="@nameof(UpdateProjectRequest.Name)"/>
                         }
                         else
                         {
@@ -34,7 +34,7 @@
                         @if (IsEditing)
                         {
                             <input @bind="State.Description" class="form-control" type="text"/>
-                            <ValidationMessageComponent Name="@nameof(EditProjectRequest.Description)"/>
+                            <ValidationMessageComponent Name="@nameof(UpdateProjectRequest.Description)"/>
                         }
                         else
                         {

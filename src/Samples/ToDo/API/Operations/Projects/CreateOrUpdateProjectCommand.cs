@@ -9,10 +9,11 @@ using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Samples.ToDo.API.Resources;
+using Samples.ToDo.Shared;
 
 #endregion
 
-public class CreateOrUpdateProjectCommand : CommandBase
+public class CreateOrUpdateProjectCommand : CommandBase, ICreateProjectRequest
 {
     #region Properties
 
@@ -26,7 +27,7 @@ public class CreateOrUpdateProjectCommand : CommandBase
 
     public int[] TagsIds { get; }
 
-    public new int Result { get; set; }
+    public new bool Result { get; set; }
 
     #endregion
 
@@ -40,8 +41,8 @@ public class CreateOrUpdateProjectCommand : CommandBase
     {
         Id = id;
         UserId = userId;
-        Name = name.Trim();
-        Description = description.Trim();
+        Name = name?.Trim() ?? string.Empty;
+        Description = description?.Trim() ?? string.Empty;
         TagsIds = tagsIds.ToDistinctArrayOrEmpty();
     }
 
@@ -143,7 +144,7 @@ public class CreateOrUpdateProjectCommand : CommandBase
                 await Repository.DeleteAsync(tagsToDelete, cancellationToken);
             }
 
-            command.Result = project.Id;
+            command.Result = true;
         }
     }
 

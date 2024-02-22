@@ -21,7 +21,7 @@ public class CreateOrUpdateStatusCommand : CommandBase
 
     public string Name { get; }
 
-    public new int Result { get; set; }
+    public new bool Result { get; set; }
 
     #endregion
 
@@ -33,7 +33,7 @@ public class CreateOrUpdateStatusCommand : CommandBase
     {
         Id = id;
         UserId = userId;
-        Name = name.Trim();
+        Name = name?.Trim() ?? string.Empty;
     }
 
     #endregion
@@ -94,7 +94,7 @@ public class CreateOrUpdateStatusCommand : CommandBase
             else
                 await Repository.UpdateAsync(status, cancellationToken);
 
-            command.Result = status.Id;
+            command.Result = true;
         }
     }
 

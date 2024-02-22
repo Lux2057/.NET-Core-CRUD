@@ -22,4 +22,9 @@ public static class JsExt
     {
         await js.InvokeVoidAsync("blazorCulture.set", language);
     }
+
+    public static async Task InitDragulaAsync(this IJSRuntime js, object refObj, string[] statusesIds, string callbackName)
+    {
+        await js.InvokeVoidAsync("initDragula", refObj, statusesIds, callbackName);
+    }
 }

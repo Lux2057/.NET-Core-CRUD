@@ -32,7 +32,7 @@ public class CreateOrUpdateTaskCommand : CommandBase
 
     public int[] TagsIds { get; }
 
-    public new int Result { get; set; }
+    public new bool Result { get; set; }
 
     #endregion
 
@@ -50,8 +50,8 @@ public class CreateOrUpdateTaskCommand : CommandBase
         Id = id;
         UserId = userId;
         ProjectId = projectId;
-        Name = name.Trim();
-        Description = description.Trim();
+        Name = name?.Trim() ?? string.Empty;
+        Description = description?.Trim() ?? string.Empty;
         DueDate = dueDate;
         StatusId = statusId;
         TagsIds = tagsIds.ToDistinctArrayOrEmpty();
@@ -160,7 +160,7 @@ public class CreateOrUpdateTaskCommand : CommandBase
                 await Repository.DeleteAsync(tagsToDelete, cancellationToken);
             }
 
-            command.Result = task.Id;
+            command.Result = true;
         }
     }
 

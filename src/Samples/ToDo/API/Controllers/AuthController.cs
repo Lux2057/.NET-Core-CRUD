@@ -48,7 +48,7 @@ public class AuthController : DispatcherControllerBase
     }
 
     [HttpPost,
-     Authorize,
+     AllowAnonymous,
      Route("~/" + ApiRoutes.RefreshToken),
      ProducesResponseType(typeof(AuthInfoDto), 200)]
     public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request)

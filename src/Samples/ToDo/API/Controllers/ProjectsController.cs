@@ -64,7 +64,7 @@ public class ProjectsController : DispatcherControllerBase
     [HttpPut,
      Route("~/" + ApiRoutes.UpdateProject),
      ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Update([FromBody] EditProjectRequest projectRequest)
+    public async Task<IActionResult> Update([FromBody] UpdateProjectRequest projectRequest)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 

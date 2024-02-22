@@ -1,6 +1,19 @@
 ﻿namespace Samples.ToDo.Shared;
 
-public class CreateProjectRequest
+public interface ICreateProjectRequest
+{
+    #region Properties
+
+    public string Name { get; }
+
+    public string Description { get; }
+
+    public int[] TagsIds { get; }
+
+    #endregion
+}
+
+public class CreateProjectRequest : ICreateProjectRequest
 {
     #region Properties
 

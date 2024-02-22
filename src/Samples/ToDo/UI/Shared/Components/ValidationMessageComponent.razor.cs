@@ -10,7 +10,7 @@ public partial class ValidationMessageComponent : ComponentBase<ValidationState>
 {
     #region Properties
 
-    [Parameter]
+    [Parameter, EditorRequired]
     public string Key { get; set; }
 
     [Parameter, EditorRequired]

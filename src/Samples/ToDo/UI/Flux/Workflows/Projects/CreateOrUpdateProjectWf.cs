@@ -19,7 +19,7 @@ public class CreateOrUpdateProjectWf
 
     #region Constructors
 
-    public CreateOrUpdateProjectWf(HttpClient http, 
+    public CreateOrUpdateProjectWf(HttpClient http,
                                    IDispatcher dispatcher,
                                    IState<LocalizationState> localizationState)
     {
@@ -32,7 +32,7 @@ public class CreateOrUpdateProjectWf
 
     public record Init(ProjectDto Project,
                        bool IsUpdate,
-                       Action Callback = default) : IAuthenticatedAction, IValidatingAction
+                       Action SuccessCallback = default) : IAuthenticatedAction, IValidatingAction
     {
         #region Properties
 
@@ -80,27 +80,29 @@ public class CreateOrUpdateProjectWf
     [UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
-        if (action.IsUpdate)
-            await this.api.UpdateAsync(request: new EditProjectRequest
-                                                {
-                                                        Id = action.Project.Id,
-                                                        Name = action.Project.Name,
-                                                        Description = action.Project.Description,
-                                                        TagsIds = action.Project.Tags.Select(r => r.Id).ToArray()
-                                                },
-                                       accessToken: action.AccessToken,
-                                       validationKey: action.ValidationKey);
-        else
-            await this.api.CreateAsync(request: new CreateProjectRequest
-                                                {
-                                                        Name = action.Project.Name,
-                                                        Description = action.Project.Description,
-                                                        TagsIds = action.Project.Tags.Select(r => r.Id).ToArray()
-                                                },
-                                       accessToken: action.AccessToken,
-                                       validationKey: action.ValidationKey);
+        bool success;
 
-        dispatcher.Dispatch(new Update(action.Project, action.Callback));
+        if (action.IsUpdate)
+            success = await this.api.UpdateAsync(request: new UpdateProjectRequest
+                                                          {
+                                                                  Id = action.Project.Id,
+                                                                  Name = action.Project.Name,
+                                                                  Description = action.Project.Description,
+                                                                  TagsIds = action.Project.Tags?.Select(r => r.Id).ToArray() ?? Array.Empty<int>()
+                                                          },
+                                                 accessToken: action.AccessToken,
+                                                 validationKey: action.ValidationKey);
+        else
+            success = await this.api.CreateAsync(request: new CreateProjectRequest
+                                                          {
+                                                                  Name = action.Project.Name,
+                                                                  Description = action.Project.Description,
+                                                                  TagsIds = action.Project.Tags?.Select(r => r.Id).ToArray() ?? Array.Empty<int>()
+                                                          },
+                                                 accessToken: action.AccessToken,
+                                                 validationKey: action.ValidationKey);
+
+        dispatcher.Dispatch(new Update(action.Project, success ? action.SuccessCallback : null));
     }
 
     [ReducerMethod]

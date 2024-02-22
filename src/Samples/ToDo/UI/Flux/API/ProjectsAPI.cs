@@ -44,33 +44,33 @@ public class ProjectsAPI : ApiBase
         return result ?? new PaginatedResponseDto<ProjectEditableDto>();
     }
 
-    public async Task<int> CreateAsync(CreateProjectRequest request,
-                                       string accessToken,
-                                       string validationKey,
-                                       CancellationToken cancellationToken = default)
+    public async Task<bool> CreateAsync(CreateProjectRequest request,
+                                        string accessToken,
+                                        string validationKey,
+                                        CancellationToken cancellationToken = default)
     {
-        return await this.Http.GetApiResponseOrDefaultAsync<int>(dispatcher: this.dispatcher,
-                                                                 acceptLanguage: this.localizationState.Value.Language,
-                                                                 validationKey: validationKey,
-                                                                 httpMethod: HttpMethodType.POST,
-                                                                 uri: ApiRoutes.CreateProject,
-                                                                 accessToken: accessToken,
-                                                                 content: request,
-                                                                 cancellationToken: cancellationToken);
+        return await this.Http.GetApiResponseOrDefaultAsync<bool>(dispatcher: this.dispatcher,
+                                                                  acceptLanguage: this.localizationState.Value.Language,
+                                                                  validationKey: validationKey,
+                                                                  httpMethod: HttpMethodType.POST,
+                                                                  uri: ApiRoutes.CreateProject,
+                                                                  accessToken: accessToken,
+                                                                  content: request,
+                                                                  cancellationToken: cancellationToken);
     }
 
-    public async Task<int> UpdateAsync(EditProjectRequest request,
-                                       string accessToken,
-                                       string validationKey,
-                                       CancellationToken cancellationToken = default)
+    public async Task<bool> UpdateAsync(UpdateProjectRequest request,
+                                        string accessToken,
+                                        string validationKey,
+                                        CancellationToken cancellationToken = default)
     {
-        return await this.Http.GetApiResponseOrDefaultAsync<int>(dispatcher: this.dispatcher,
-                                                                 acceptLanguage: this.localizationState.Value.Language,
-                                                                 validationKey: validationKey,
-                                                                 httpMethod: HttpMethodType.PUT,
-                                                                 uri: ApiRoutes.UpdateProject,
-                                                                 accessToken: accessToken,
-                                                                 content: request,
-                                                                 cancellationToken: cancellationToken);
+        return await this.Http.GetApiResponseOrDefaultAsync<bool>(dispatcher: this.dispatcher,
+                                                                  acceptLanguage: this.localizationState.Value.Language,
+                                                                  validationKey: validationKey,
+                                                                  httpMethod: HttpMethodType.PUT,
+                                                                  uri: ApiRoutes.UpdateProject,
+                                                                  accessToken: accessToken,
+                                                                  content: request,
+                                                                  cancellationToken: cancellationToken);
     }
 }

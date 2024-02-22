@@ -1,6 +1,15 @@
 ﻿namespace Samples.ToDo.Shared;
 
-public class EditProjectRequest
+public interface IUpdateProjectRequest : ICreateProjectRequest
+{
+    #region Properties
+
+    public int Id { get; set; }
+
+    #endregion
+}
+
+public class UpdateProjectRequest : IUpdateProjectRequest
 {
     #region Properties
 

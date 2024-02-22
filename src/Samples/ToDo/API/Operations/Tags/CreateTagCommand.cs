@@ -15,7 +15,7 @@ public class CreateTagCommand : CommandBase
 
     public string Name { get; }
 
-    public new int Result { get; set; }
+    public new bool Result { get; set; }
 
     #endregion
 
@@ -23,7 +23,7 @@ public class CreateTagCommand : CommandBase
 
     public CreateTagCommand(string name)
     {
-        Name = name.Trim().ToLower();
+        Name = name?.Trim().ToLower() ?? string.Empty;
     }
 
     #endregion
@@ -58,7 +58,7 @@ public class CreateTagCommand : CommandBase
             var tag = new TagEntity { Name = command.Name };
             await Repository.CreateAsync(tag);
 
-            command.Result = tag.Id;
+            command.Result = true;
         }
     }
 

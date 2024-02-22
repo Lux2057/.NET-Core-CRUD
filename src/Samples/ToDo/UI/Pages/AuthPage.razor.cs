@@ -16,6 +16,10 @@ public partial class AuthPage : PageBase<AuthState>
 
     private const string signUpModalId = "sign-up-modal";
 
+    private const string signInValidationKey = "sign-in-validation";
+
+    private const string signUpValidationKey = "sign-up-validation";
+
     #endregion
 
     #region Properties
@@ -36,16 +40,19 @@ public partial class AuthPage : PageBase<AuthState>
         if (State.IsLoading)
             return;
 
-        Dispatcher.Dispatch(new SignInWf.Init(AuthRequest,
-                                              async authInfo =>
-                                              {
-                                                  if (authInfo == null)
-                                                      return;
+        Dispatcher.Dispatch(new SignInWf.Init(Request: AuthRequest,
+                                              Callback: async authInfo =>
+                                                        {
+                                                            if (authInfo == null)
+                                                                return;
 
-                                                  await JS.CloseModalAsync(signInModalId);
+                                                            await JS.CloseModalAsync(signInModalId);
 
-                                                  Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects, false));
-                                              }));
+                                                            Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects, false));
+                                                        })
+                            {
+                                    ValidationKey = signInValidationKey
+                            });
     }
 
     void SignUp()
@@ -53,15 +60,18 @@ public partial class AuthPage : PageBase<AuthState>
         if (State.IsLoading)
             return;
 
-        Dispatcher.Dispatch(new SignUpWf.Init(AuthRequest,
-                                              async authInfo =>
-                                              {
-                                                  if (authInfo == null)
-                                                      return;
+        Dispatcher.Dispatch(new SignUpWf.Init(Request: AuthRequest,
+                                              Callback: async authInfo =>
+                                                        {
+                                                            if (authInfo == null)
+                                                                return;
 
-                                                  await JS.CloseModalAsync(signUpModalId);
+                                                            await JS.CloseModalAsync(signUpModalId);
 
-                                                  Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects, false));
-                                              }));
+                                                            Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects, false));
+                                                        })
+                            {
+                                    ValidationKey = signUpValidationKey
+                            });
     }
 }

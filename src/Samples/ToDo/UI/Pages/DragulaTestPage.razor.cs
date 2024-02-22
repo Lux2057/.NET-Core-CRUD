@@ -23,7 +23,7 @@ public partial class DragulaTestPage : PageBase<DragulaTestState>
 
     #region Properties
 
-    private DotNetObjectReference<DragulaTestPage> objRef;
+    private DotNetObjectReference<DragulaTestPage> refObj;
 
     #endregion
 
@@ -31,13 +31,13 @@ public partial class DragulaTestPage : PageBase<DragulaTestState>
     {
         await base.OnInitializedAsync();
 
-        this.objRef = DotNetObjectReference.Create(this);
+        this.refObj = DotNetObjectReference.Create(this);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
-            await JS.InvokeVoidAsync("initDragula", this.objRef, new[] { todoId, inprogressId, completedId }, nameof(DropCallback));
+            await JS.InitDragulaAsync(this.refObj, new[] { todoId, inprogressId, completedId }, nameof(DropCallback));
 
         await base.OnAfterRenderAsync(firstRender);
     }
@@ -50,7 +50,7 @@ public partial class DragulaTestPage : PageBase<DragulaTestState>
 
     protected override void Dispose(bool disposing)
     {
-        this.objRef?.Dispose();
+        this.refObj?.Dispose();
 
         base.Dispose(disposing);
     }

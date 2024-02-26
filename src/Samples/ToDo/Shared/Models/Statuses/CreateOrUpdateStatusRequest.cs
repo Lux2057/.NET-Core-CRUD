@@ -1,17 +1,21 @@
 ﻿namespace Samples.ToDo.Shared;
 
-public interface ICreateTagRequest
+public interface ICreateOrUpdateStatusRequest
 {
     #region Properties
+
+    public int? Id { get; }
 
     public string Name { get; }
 
     #endregion
 }
 
-public class CreateTagRequest : ICreateTagRequest
+public class CreateOrUpdateStatusRequest : ICreateOrUpdateStatusRequest
 {
     #region Properties
+
+    public int? Id { get; set; }
 
     public string Name { get; set; }
 

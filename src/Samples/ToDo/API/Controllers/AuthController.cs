@@ -10,7 +10,8 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-[Route("[controller]/[action]")]
+[AllowAnonymous,
+ Route("[controller]/[action]")]
 public class AuthController : DispatcherControllerBase
 {
     #region Constructors
@@ -20,7 +21,6 @@ public class AuthController : DispatcherControllerBase
     #endregion
 
     [HttpPost,
-     AllowAnonymous,
      Route("~/" + ApiRoutes.SignUp),
      ProducesResponseType(typeof(AuthInfoDto), 200)]
     public async Task<IActionResult> SignUp([FromBody] AuthRequest authRequest)
@@ -34,7 +34,6 @@ public class AuthController : DispatcherControllerBase
     }
 
     [HttpPost,
-     AllowAnonymous,
      Route("~/" + ApiRoutes.SignIn),
      ProducesResponseType(typeof(AuthInfoDto), 200)]
     public async Task<ActionResult> SignIn([FromBody] AuthRequest authRequest)
@@ -48,7 +47,6 @@ public class AuthController : DispatcherControllerBase
     }
 
     [HttpPost,
-     AllowAnonymous,
      Route("~/" + ApiRoutes.RefreshToken),
      ProducesResponseType(typeof(AuthInfoDto), 200)]
     public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request)

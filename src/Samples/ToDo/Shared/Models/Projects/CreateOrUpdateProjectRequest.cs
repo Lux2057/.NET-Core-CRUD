@@ -1,8 +1,10 @@
 ﻿namespace Samples.ToDo.Shared;
 
-public interface ICreateProjectRequest
+public interface ICreateOrUpdateProjectRequest
 {
     #region Properties
+
+    public int? Id { get; }
 
     public string Name { get; }
 
@@ -13,9 +15,11 @@ public interface ICreateProjectRequest
     #endregion
 }
 
-public class CreateProjectRequest : ICreateProjectRequest
+public class CreateOrUpdateProjectRequest : ICreateOrUpdateProjectRequest
 {
     #region Properties
+
+    public int? Id { get; set; }
 
     public string Name { get; set; }
 

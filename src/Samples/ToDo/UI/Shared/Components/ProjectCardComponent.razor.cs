@@ -13,11 +13,13 @@ public partial class ProjectCardComponent : UI.ComponentBase
 
     [Parameter]
     [EditorRequired]
-    public ProjectEditableDto Model { get; set; }
+    public ProjectStateDto Model { get; set; }
 
     private ProjectDto State { get; set; }
 
-    bool IsEditing { get; set; }
+    bool IsProjectEditing { get; set; }
+
+    private string ValidationKey = Guid.NewGuid().ToString();
 
     #endregion
 
@@ -25,25 +27,31 @@ public partial class ProjectCardComponent : UI.ComponentBase
     {
         base.OnParametersSet();
 
-        State = (ProjectEditableDto)Model.Clone();
+        State = (ProjectStateDto)Model.Clone();
     }
 
-    void edit()
+    void UpdateProject()
     {
-        IsEditing = false;
-        Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(Project: State, IsUpdate: true));
+        IsProjectEditing = false;
+        Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(Request: new CreateOrUpdateProjectRequest
+                                                                      {
+                                                                              Id = State.Id,
+                                                                              Description = State.Description,
+                                                                              Name = State.Name,
+                                                                              TagsIds = State.Tags.Select(r => r.Id).ToArray()
+                                                                      }));
     }
 
-    void toggleIsEditing()
+    void ToggleIsProjectEditing()
     {
-        IsEditing = !IsEditing;
+        IsProjectEditing = !IsProjectEditing;
 
-        if (IsEditing)
+        if (IsProjectEditing)
             return;
 
-        State = (ProjectEditableDto)Model.Clone();
+        State = (ProjectStateDto)Model.Clone();
         StateHasChanged();
     }
 
-    void openProjectPage() { }
+    void OpenProjectPage() { }
 }

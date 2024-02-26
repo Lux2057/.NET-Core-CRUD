@@ -23,58 +23,41 @@ public class ProjectsController : DispatcherControllerBase
     #endregion
 
     [HttpGet,
-     Route("~/" + ApiRoutes.GetProjects),
+     Route("~/" + ApiRoutes.ReadProjects),
      ProducesResponseType(typeof(PaginatedResponseDto<ProjectDto>), 200)]
-    public async Task<IActionResult> Get([FromQuery(Name = ApiRoutes.Params.SearchTerm)] string searchTerm,
-                                         [FromQuery(Name = ApiRoutes.Params.TagsIds)]
-                                         int[] tagsIds,
-                                         [FromQuery(Name = ApiRoutes.Params.page)]
-                                         int? page,
-                                         [FromQuery(Name = ApiRoutes.Params.pageSize)]
-                                         int? pageSize)
+    public async Task<IActionResult> Read([FromQuery(Name = ApiRoutes.Params.SearchTerm)] string searchTerm,
+                                          [FromQuery(Name = ApiRoutes.Params.TagsIds)]
+                                          int[] tagsIds,
+                                          [FromQuery(Name = ApiRoutes.Params.page)]
+                                          int? page,
+                                          [FromQuery(Name = ApiRoutes.Params.pageSize)]
+                                          int? pageSize,
+                                          CancellationToken cancellationToken = default)
     {
-        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
+        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
         return Ok(await Dispatcher.QueryAsync(new GetProjectsQuery(userId: currentUserId,
                                                                    searchTerm: searchTerm,
                                                                    tagsIds: tagsIds,
                                                                    disablePaging: false,
                                                                    page: page,
-                                                                   pageSize: pageSize)));
+                                                                   pageSize: pageSize), cancellationToken));
     }
 
     [HttpPost,
-     Route("~/" + ApiRoutes.CreateProject),
+     Route("~/" + ApiRoutes.CreateOrUpdateProject),
      ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Create([FromBody] CreateProjectRequest projectRequest)
+    public async Task<IActionResult> CreateOrUpdate([FromBody] CreateOrUpdateProjectRequest request, CancellationToken cancellationToken = default)
     {
-        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
+        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
-        var command = new CreateOrUpdateProjectCommand(id: null,
+        var command = new CreateOrUpdateProjectCommand(id: request.Id,
                                                        userId: currentUserId,
-                                                       name: projectRequest.Name,
-                                                       description: projectRequest.Description,
-                                                       tagsIds: projectRequest.TagsIds);
+                                                       name: request.Name,
+                                                       description: request.Description,
+                                                       tagsIds: request.TagsIds);
 
-        await Dispatcher.PushAsync(command);
-
-        return Ok(command.Result);
-    }
-
-    [HttpPut,
-     Route("~/" + ApiRoutes.UpdateProject),
-     ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Update([FromBody] UpdateProjectRequest projectRequest)
-    {
-        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
-
-        var command = new CreateOrUpdateProjectCommand(id: projectRequest.Id,
-                                                       userId: currentUserId,
-                                                       name: projectRequest.Name,
-                                                       description: projectRequest.Description,
-                                                       tagsIds: projectRequest.TagsIds);
-
-        await Dispatcher.PushAsync(command);
+        await Dispatcher.PushAsync(command, cancellationToken);
 
         return Ok(command.Result);
     }

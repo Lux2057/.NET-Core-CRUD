@@ -21,44 +21,28 @@ public class StatusesController : DispatcherControllerBase
     #endregion
 
     [HttpGet,
-     Route("~/" + ApiRoutes.GetStatuses),
+     Route("~/" + ApiRoutes.ReadStatuses),
      ProducesResponseType(typeof(StatusDto[]), 200)]
-    public async Task<IActionResult> Get([FromQuery(Name = ApiRoutes.Params.SearchTerm)] string searchTerm)
+    public async Task<IActionResult> Read([FromQuery(Name = ApiRoutes.Params.SearchTerm)] string searchTerm, CancellationToken cancellationToken = default)
     {
-        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
+        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
         return Ok(await Dispatcher.QueryAsync(new GetStatusesQuery(userId: currentUserId,
-                                                                   searchTerm: searchTerm)));
+                                                                   searchTerm: searchTerm), cancellationToken));
     }
 
     [HttpPost,
-     Route("~/" + ApiRoutes.CreateStatus),
+     Route("~/" + ApiRoutes.CreateOrUpdateStatus),
      ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Create([FromBody] CreateStatusRequest statusRequest)
+    public async Task<IActionResult> CreateOrUpdate([FromBody] CreateOrUpdateStatusRequest request, CancellationToken cancellationToken = default)
     {
-        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
+        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
-        var command = new CreateOrUpdateStatusCommand(id: null,
+        var command = new CreateOrUpdateStatusCommand(id: request.Id,
                                                       userId: currentUserId,
-                                                      name: statusRequest.Name);
+                                                      name: request.Name);
 
-        await Dispatcher.PushAsync(command);
-
-        return Ok(command.Result);
-    }
-
-    [HttpPut,
-     Route("~/" + ApiRoutes.UpdateStatus),
-     ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Update([FromBody] EditStatusRequest statusRequest)
-    {
-        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
-
-        var command = new CreateOrUpdateStatusCommand(id: statusRequest.Id,
-                                                      userId: currentUserId,
-                                                      name: statusRequest.Name);
-
-        await Dispatcher.PushAsync(command);
+        await Dispatcher.PushAsync(command, cancellationToken);
 
         return Ok(command.Result);
     }

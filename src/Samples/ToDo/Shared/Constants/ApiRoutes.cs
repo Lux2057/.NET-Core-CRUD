@@ -22,37 +22,27 @@ public static class ApiRoutes
     /// <summary>
     ///     HttpMethod.GET
     /// </summary>
-    public const string GetProjects = "Projects/Get";
+    public const string ReadProjects = "Projects/Read";
 
     /// <summary>
     ///     HttpMethod.POST
     /// </summary>
-    public const string CreateProject = "Projects/Create";
-
-    /// <summary>
-    ///     HttpMethod.PUT
-    /// </summary>
-    public const string UpdateProject = "Projects/Update";
+    public const string CreateOrUpdateProject = "Projects/CreateOrUpdate";
 
     /// <summary>
     ///     HttpMethod.GET
     /// </summary>
-    public const string GetStatuses = "Statuses/Get";
+    public const string ReadStatuses = "Statuses/Read";
 
     /// <summary>
     ///     HttpMethod.POST
     /// </summary>
-    public const string CreateStatus = "Statuses/Create";
-
-    /// <summary>
-    ///     HttpMethod.PUT
-    /// </summary>
-    public const string UpdateStatus = "Statuses/Update";
+    public const string CreateOrUpdateStatus = "Statuses/CreateOrUpdate";
 
     /// <summary>
     ///     HttpMethod.GET
     /// </summary>
-    public const string GetTags = "Tags/Get";
+    public const string ReadTags = "Tags/Read";
 
     /// <summary>
     ///     HttpMethod.POST
@@ -62,17 +52,12 @@ public static class ApiRoutes
     /// <summary>
     ///     HttpMethod.GET
     /// </summary>
-    public const string GetTasks = "Tasks/Get";
+    public const string ReadTasks = "Tasks/Read";
 
     /// <summary>
     ///     HttpMethod.POST
     /// </summary>
-    public const string CreateTask = "Tasks/Create";
-
-    /// <summary>
-    ///     HttpMethod.PUT
-    /// </summary>
-    public const string UpdateTask = "Tasks/Update";
+    public const string CreateOrUpdateTask = "Tasks/CreateOrUpdate";
 
     /// <summary>
     ///     HttpMethod.PUT

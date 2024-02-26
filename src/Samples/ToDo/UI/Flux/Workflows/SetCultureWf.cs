@@ -33,16 +33,16 @@ public class SetCultureWf
 
     #endregion
 
-    [ReducerMethod]
-    [UsedImplicitly]
+    [ReducerMethod,
+     UsedImplicitly]
     public static LocalizationState OnInit(LocalizationState state, Init action)
     {
         return new LocalizationState(isUpdating: true,
                                      language: state.Language);
     }
 
-    [EffectMethod]
-    [UsedImplicitly]
+    [EffectMethod,
+     UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
         await this.js.SetBlazorLanguageAsync(action.Language);
@@ -50,16 +50,16 @@ public class SetCultureWf
         dispatcher.Dispatch(new Update(action.Language, action.Callback));
     }
 
-    [ReducerMethod]
-    [UsedImplicitly]
+    [ReducerMethod,
+     UsedImplicitly]
     public static LocalizationState OnUpdate(LocalizationState state, Update action)
     {
         return new LocalizationState(isUpdating: false,
                                      language: action.Language);
     }
 
-    [EffectMethod]
-    [UsedImplicitly]
+    [EffectMethod,
+     UsedImplicitly]
     public Task HandleUpdate(Update action, IDispatcher dispatcher)
     {
         action.Callback?.Invoke();

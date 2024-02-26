@@ -71,9 +71,8 @@ public static class ApiExt
         if (!accessToken.IsNullOrWhitespace())
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-        request.Headers.Add("Accept-Language", acceptLanguage);
-
-        var t = request.Headers.AcceptLanguage;
+        if (!acceptLanguage.IsNullOrWhitespace())
+            request.Headers.Add("Accept-Language", acceptLanguage);
 
         if (httpMethod != HttpMethodType.GET && content != null)
             request.Content = new StringContent(JsonConvert.SerializeObject(content, new JsonSerializerSettings

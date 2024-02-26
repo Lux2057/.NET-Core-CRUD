@@ -1,6 +1,17 @@
 ﻿namespace Samples.ToDo.Shared;
 
-public class SetTaskStatusRequest
+public interface ISetTaskStatusRequest
+{
+    #region Properties
+
+    public int Id { get; }
+
+    public int StatusId { get; }
+
+    #endregion
+}
+
+public class SetTaskStatusRequest : ISetTaskStatusRequest
 {
     #region Properties
 

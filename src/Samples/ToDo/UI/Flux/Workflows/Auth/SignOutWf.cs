@@ -17,16 +17,16 @@ public class SignOutWf
 
     #endregion
 
-    [ReducerMethod]
-    [UsedImplicitly]
+    [ReducerMethod,
+     UsedImplicitly]
     public static AuthState OnInit(AuthState state, Init action)
     {
         return new AuthState(isLoading: true,
                              authInfo: state.AuthInfo);
     }
 
-    [EffectMethod]
-    [UsedImplicitly]
+    [EffectMethod,
+     UsedImplicitly]
     public Task HandleInit(Init action, IDispatcher dispatcher)
     {
         dispatcher.Dispatch(new Update(action.Callback));
@@ -34,16 +34,16 @@ public class SignOutWf
         return Task.CompletedTask;
     }
 
-    [ReducerMethod]
-    [UsedImplicitly]
+    [ReducerMethod,
+     UsedImplicitly]
     public static AuthState OnUpdate(AuthState state, Update action)
     {
         return new AuthState(isLoading: false,
                              authInfo: null);
     }
 
-    [EffectMethod]
-    [UsedImplicitly]
+    [EffectMethod,
+     UsedImplicitly]
     public Task HandleUpdate(Update action, IDispatcher dispatcher)
     {
         action.Callback?.Invoke();

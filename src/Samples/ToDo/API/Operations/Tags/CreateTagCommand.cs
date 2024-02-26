@@ -6,10 +6,11 @@ using CRUD.CQRS;
 using FluentValidation;
 using JetBrains.Annotations;
 using Samples.ToDo.API.Resources;
+using Samples.ToDo.Shared;
 
 #endregion
 
-public class CreateTagCommand : CommandBase
+public class CreateTagCommand : CommandBase, ICreateTagRequest
 {
     #region Properties
 

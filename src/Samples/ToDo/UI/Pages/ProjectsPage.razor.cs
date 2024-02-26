@@ -21,7 +21,7 @@ public partial class ProjectsPage : PageBase<ProjectsState>
 
     #region Properties
 
-    private ProjectDto NewProject { get; set; } = new() { Id = -1 };
+    private CreateOrUpdateProjectRequest NewProject { get; set; } = new();
 
     #endregion
 
@@ -37,16 +37,15 @@ public partial class ProjectsPage : PageBase<ProjectsState>
         Dispatcher.Dispatch(new FetchProjectsWf.Init(page));
     }
 
-    void create()
+    void CreateProject()
     {
-        Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(Project: NewProject,
-                                                             IsUpdate: false,
+        Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(Request: NewProject,
                                                              SuccessCallback: async () =>
-                                                                       {
-                                                                           await JS.CloseModalAsync(createProjectModalId);
-                                                                           NewProject = new() { Id = -1 };
-                                                                           GoToPage(1);
-                                                                       })
+                                                                              {
+                                                                                  await JS.CloseModalAsync(createProjectModalId);
+                                                                                  NewProject = new();
+                                                                                  GoToPage(1);
+                                                                              })
                             {
                                     ValidationKey = createProjectValidationKey
                             });

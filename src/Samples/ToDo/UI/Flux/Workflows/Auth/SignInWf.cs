@@ -4,7 +4,6 @@
 
 using Fluxor;
 using JetBrains.Annotations;
-using Microsoft.AspNetCore.Authorization;
 using Samples.ToDo.Shared;
 
 #endregion
@@ -30,7 +29,6 @@ public class SignInWf
 
     #region Nested Classes
 
-    [Authorize]
     public record Init(AuthRequest Request, Action<AuthInfoDto> Callback) : IValidatingAction
     {
         #region Properties
@@ -44,16 +42,16 @@ public class SignInWf
 
     #endregion
 
-    [ReducerMethod]
-    [UsedImplicitly]
+    [ReducerMethod,
+     UsedImplicitly]
     public static AuthState OnInit(AuthState state, Init action)
     {
         return new AuthState(isLoading: true,
                              authInfo: state.AuthInfo);
     }
 
-    [EffectMethod]
-    [UsedImplicitly]
+    [EffectMethod,
+     UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
         dispatcher.Dispatch(new SetValidationStateWf.Init(action.ValidationKey, null));
@@ -64,16 +62,16 @@ public class SignInWf
         dispatcher.Dispatch(new Update(authInfo, action.Callback));
     }
 
-    [ReducerMethod]
-    [UsedImplicitly]
+    [ReducerMethod,
+     UsedImplicitly]
     public static AuthState OnUpdate(AuthState state, Update action)
     {
         return new AuthState(isLoading: false,
                              authInfo: action.AuthInfo);
     }
 
-    [EffectMethod]
-    [UsedImplicitly]
+    [EffectMethod,
+     UsedImplicitly]
     public Task HandleUpdate(Update action, IDispatcher dispatcher)
     {
         action.Callback?.Invoke(action.AuthInfo);

@@ -26,14 +26,14 @@
                     <input @bind="NewProject.Name"
                            class="form-control"
                            type="text"/>
-                    <ValidationMessageComponent Key="@createProjectValidationKey" Name="@nameof(CreateProjectRequest.Name)"/>
+                    <ValidationMessageComponent Key="@createProjectValidationKey" Name="@nameof(CreateOrUpdateProjectRequest.Name)"/>
                 </div>
                 <div class="mb-1 p-1">
                     <label class="form-label">@Localization[nameof(Resource.Description)]</label>
                     <input @bind="NewProject.Description"
                            class="form-control"
                            type="text"/>
-                    <ValidationMessageComponent Key="@createProjectValidationKey" Name="@nameof(CreateProjectRequest.Description)"/>
+                    <ValidationMessageComponent Key="@createProjectValidationKey" Name="@nameof(CreateOrUpdateProjectRequest.Description)"/>
                 </div>
             </div>
             </Body>
@@ -45,7 +45,7 @@
                             <button class="btn btn-outline-primary btn-sm shadow-none"
                                     data-bs-placement="top"
                                     data-bs-toggle="tooltip"
-                                    @onclick="@create"
+                                    @onclick="@CreateProject"
                                     title="@Localization[nameof(Resource.Create)]"
                                     type="button">
                                 @Localization[nameof(Resource.Create)]

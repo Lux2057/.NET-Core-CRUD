@@ -19,7 +19,7 @@ public class ProjectsState : ILoadingStatus
 
     public bool IsEmpty => Projects?.Items?.Any() != true;
 
-    public PaginatedResponseDto<ProjectEditableDto> Projects { get; }
+    public PaginatedResponseDto<ProjectStateDto> Projects { get; }
 
     #endregion
 
@@ -30,9 +30,9 @@ public class ProjectsState : ILoadingStatus
     {
         IsLoading = false;
         IsCreating = false;
-        Projects = new PaginatedResponseDto<ProjectEditableDto>
+        Projects = new PaginatedResponseDto<ProjectStateDto>
                     {
-                            Items = Array.Empty<ProjectEditableDto>(),
+                            Items = Array.Empty<ProjectStateDto>(),
                             PagingInfo = new PagingInfoDto
                                          {
                                                  CurrentPage = 1,
@@ -43,7 +43,7 @@ public class ProjectsState : ILoadingStatus
                     };
     }
 
-    public ProjectsState(bool isLoading, bool isCreating, PaginatedResponseDto<ProjectEditableDto> projects)
+    public ProjectsState(bool isLoading, bool isCreating, PaginatedResponseDto<ProjectStateDto> projects)
     {
         IsLoading = isLoading;
         IsCreating = isCreating;

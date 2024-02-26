@@ -13,7 +13,9 @@ public class CreateOrUpdateProjectWf
 {
     #region Properties
 
-    private readonly ProjectsAPI api;
+    private readonly ProjectsAPI projectsAPI;
+
+    private readonly TagsAPI tagsAPI;
 
     #endregion
 
@@ -23,15 +25,15 @@ public class CreateOrUpdateProjectWf
                                    IDispatcher dispatcher,
                                    IState<LocalizationState> localizationState)
     {
-        this.api = new ProjectsAPI(http, dispatcher, localizationState);
+        this.projectsAPI = new ProjectsAPI(http, dispatcher, localizationState);
+        this.tagsAPI = new TagsAPI(http, dispatcher, localizationState);
     }
 
     #endregion
 
     #region Nested Classes
 
-    public record Init(ProjectDto Project,
-                       bool IsUpdate,
+    public record Init(CreateOrUpdateProjectRequest Request,
                        Action SuccessCallback = default) : IAuthenticatedAction, IValidatingAction
     {
         #region Properties
@@ -43,80 +45,129 @@ public class CreateOrUpdateProjectWf
         #endregion
     }
 
-    public record Update(ProjectDto Project, Action Callback);
+    public record UpdateFail(int? ProjectId);
+
+    public record UpdateCreatingSuccess(Action Callback);
+
+    public record UpdateEditingSuccess(ProjectStateDto Project, Action Callback);
 
     #endregion
 
-    static PaginatedResponseDto<ProjectEditableDto> copy(PaginatedResponseDto<ProjectEditableDto> projects, ProjectDto dto, bool isUpdating)
-    {
-        return new PaginatedResponseDto<ProjectEditableDto>
-               {
-                       Items = projects.Items.Select(r =>
-                                                     {
-                                                         if (r.Id == dto.Id)
-                                                         {
-                                                             r.IsUpdating = isUpdating;
-                                                             r.Name = dto.Name;
-                                                         }
-
-                                                         return r;
-                                                     }).ToArray(),
-                       PagingInfo = projects.PagingInfo
-               };
-    }
-
-    [ReducerMethod]
-    [UsedImplicitly]
+    [ReducerMethod,
+     UsedImplicitly]
     public static ProjectsState OnInit(ProjectsState state, Init action)
     {
-        var isCreating = state.Projects.Items.All(r => r.Id != action.Project.Id);
+        var isCreating = action.Request.Id == null;
 
         return new ProjectsState(isLoading: state.IsLoading,
                                  isCreating: isCreating,
-                                 projects: copy(state.Projects, action.Project, true));
+                                 projects: isCreating ?
+                                                   state.Projects :
+                                                   new PaginatedResponseDto<ProjectStateDto>
+                                                   {
+                                                           Items = state.Projects.Items.Select(r =>
+                                                                                               {
+                                                                                                   if (r.Id == action.Request.Id)
+                                                                                                       r.IsUpdating = true;
+
+                                                                                                   return r;
+                                                                                               }).ToArray(),
+                                                           PagingInfo = state.Projects.PagingInfo
+                                                   });
     }
 
-    [EffectMethod]
-    [UsedImplicitly]
+    [EffectMethod,
+     UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
-        bool success;
+        var success = await this.projectsAPI.CreateOrUpdateAsync(request: action.Request,
+                                                                 accessToken: action.AccessToken,
+                                                                 validationKey: action.ValidationKey);
 
-        if (action.IsUpdate)
-            success = await this.api.UpdateAsync(request: new UpdateProjectRequest
-                                                          {
-                                                                  Id = action.Project.Id,
-                                                                  Name = action.Project.Name,
-                                                                  Description = action.Project.Description,
-                                                                  TagsIds = action.Project.Tags?.Select(r => r.Id).ToArray() ?? Array.Empty<int>()
-                                                          },
-                                                 accessToken: action.AccessToken,
-                                                 validationKey: action.ValidationKey);
-        else
-            success = await this.api.CreateAsync(request: new CreateProjectRequest
-                                                          {
-                                                                  Name = action.Project.Name,
-                                                                  Description = action.Project.Description,
-                                                                  TagsIds = action.Project.Tags?.Select(r => r.Id).ToArray() ?? Array.Empty<int>()
-                                                          },
-                                                 accessToken: action.AccessToken,
-                                                 validationKey: action.ValidationKey);
+        if (!success)
+        {
+            dispatcher.Dispatch(new UpdateFail(action.Request.Id));
+            return;
+        }
 
-        dispatcher.Dispatch(new Update(action.Project, success ? action.SuccessCallback : null));
+        if (action.Request.Id == null)
+        {
+            dispatcher.Dispatch(new UpdateCreatingSuccess(action.SuccessCallback));
+            return;
+        }
+
+        var tags = action.Request.TagsIds.Any() ?
+                           await this.tagsAPI.GetAsync(ids: action.Request.TagsIds,
+                                                       validationKey: action.ValidationKey,
+                                                       accessToken: action.AccessToken) :
+                           Array.Empty<TagDto>();
+
+        dispatcher.Dispatch(new UpdateEditingSuccess(Project: new ProjectStateDto
+                                                              {
+                                                                      Id = action.Request.Id.GetValueOrDefault(),
+                                                                      Name = action.Request.Name,
+                                                                      Description = action.Request.Description,
+                                                                      Tags = tags,
+                                                                      IsUpdating = false
+                                                              },
+                                                     Callback: action.SuccessCallback));
     }
 
-    [ReducerMethod]
-    [UsedImplicitly]
-    public static ProjectsState OnSuccess(ProjectsState state, Update action)
+    [ReducerMethod,
+     UsedImplicitly]
+    public static ProjectsState OnUpdateFail(ProjectsState state, UpdateFail action)
     {
         return new ProjectsState(isLoading: state.IsLoading,
                                  isCreating: false,
-                                 projects: copy(state.Projects, action.Project, false));
+                                 projects: action.ProjectId == null ?
+                                                   state.Projects :
+                                                   new PaginatedResponseDto<ProjectStateDto>
+                                                   {
+                                                           Items = state.Projects.Items.Select(r =>
+                                                                                               {
+                                                                                                   if (r.Id == action.ProjectId)
+                                                                                                       r.IsUpdating = false;
+
+                                                                                                   return r;
+                                                                                               }).ToArray(),
+                                                           PagingInfo = state.Projects.PagingInfo
+                                                   });
     }
 
-    [EffectMethod]
-    [UsedImplicitly]
-    public Task HandleSuccess(Update action, IDispatcher dispatcher)
+    [ReducerMethod,
+     UsedImplicitly]
+    public static ProjectsState OnUpdateCreatingSuccess(ProjectsState state, UpdateCreatingSuccess action)
+    {
+        return new ProjectsState(isLoading: state.IsLoading,
+                                 isCreating: false,
+                                 projects: state.Projects);
+    }
+
+    [EffectMethod,
+     UsedImplicitly]
+    public Task HandleUpdateCreatingSuccess(UpdateCreatingSuccess action, IDispatcher dispatcher)
+    {
+        action.Callback?.Invoke();
+
+        return Task.CompletedTask;
+    }
+
+    [ReducerMethod,
+     UsedImplicitly]
+    public static ProjectsState OnUpdateEditingSuccess(ProjectsState state, UpdateEditingSuccess action)
+    {
+        return new ProjectsState(isLoading: state.IsLoading,
+                                 isCreating: state.IsCreating,
+                                 projects: new PaginatedResponseDto<ProjectStateDto>
+                                           {
+                                                   Items = state.Projects.Items.Select(r => r.Id == action.Project.Id ? action.Project : r).ToArray(),
+                                                   PagingInfo = state.Projects.PagingInfo
+                                           });
+    }
+
+    [EffectMethod,
+     UsedImplicitly]
+    public Task HandleUpdateEditingSuccess(UpdateEditingSuccess action, IDispatcher dispatcher)
     {
         action.Callback?.Invoke();
 

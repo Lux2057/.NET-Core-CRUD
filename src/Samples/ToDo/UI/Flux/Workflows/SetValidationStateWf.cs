@@ -17,15 +17,15 @@ public class SetValidationStateWf
 
     #endregion
 
-    [ReducerMethod]
-    [UsedImplicitly]
+    [ReducerMethod,
+     UsedImplicitly]
     public static ValidationState OnInit(ValidationState _, Init action)
     {
         return new ValidationState(action.Key, action.ValidationFailure);
     }
 
-    [EffectMethod]
-    [UsedImplicitly]
+    [EffectMethod,
+     UsedImplicitly]
     public Task HandleInit(Init action, IDispatcher _)
     {
         action.Callback?.Invoke();

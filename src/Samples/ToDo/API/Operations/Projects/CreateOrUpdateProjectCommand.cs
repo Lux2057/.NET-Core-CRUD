@@ -13,7 +13,7 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public class CreateOrUpdateProjectCommand : CommandBase, ICreateProjectRequest
+public class CreateOrUpdateProjectCommand : CommandBase, ICreateOrUpdateProjectRequest
 {
     #region Properties
 

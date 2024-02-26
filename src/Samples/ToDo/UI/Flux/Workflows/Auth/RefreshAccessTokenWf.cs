@@ -18,7 +18,7 @@ public class RefreshAccessTokenWf
 
     #region Constructors
 
-    public RefreshAccessTokenWf(HttpClient http, 
+    public RefreshAccessTokenWf(HttpClient http,
                                 IDispatcher dispatcher,
                                 IState<LocalizationState> localizationState)
     {
@@ -42,16 +42,16 @@ public class RefreshAccessTokenWf
 
     #endregion
 
-    [ReducerMethod]
-    [UsedImplicitly]
+    [ReducerMethod,
+     UsedImplicitly]
     public static AuthState OnInit(AuthState state, Init action)
     {
         return new AuthState(isLoading: true,
                              authInfo: state.AuthInfo);
     }
 
-    [EffectMethod]
-    [UsedImplicitly]
+    [EffectMethod,
+     UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
         var authInfo = await this.authApi.RefreshTokenAsync(request: new RefreshTokenRequestDto { RefreshToken = action.RefreshToken },
@@ -60,16 +60,16 @@ public class RefreshAccessTokenWf
         dispatcher.Dispatch(new Update(authInfo, action.Callback));
     }
 
-    [ReducerMethod]
-    [UsedImplicitly]
+    [ReducerMethod,
+     UsedImplicitly]
     public static AuthState OnUpdate(AuthState state, Update action)
     {
         return new AuthState(isLoading: false,
                              authInfo: action.AuthInfo);
     }
 
-    [EffectMethod]
-    [UsedImplicitly]
+    [EffectMethod,
+     UsedImplicitly]
     public Task HandleUpdate(Update action, IDispatcher dispatcher)
     {
         action.Callback?.Invoke(action.AuthInfo);

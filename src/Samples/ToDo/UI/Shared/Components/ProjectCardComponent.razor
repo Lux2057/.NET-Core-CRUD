@@ -1,5 +1,4 @@
-﻿@using Samples.ToDo.UI.Localization
-@inherits UI.ComponentBase
+﻿@inherits UI.ComponentBase
 
 <div class="p-2 w-25">
     <div class="card">
@@ -15,10 +14,10 @@
                         @Localization[nameof(Resource.Name)]:
                     </div>
                     <div class="ms-1 text-truncate" title="@State.Name">
-                        @if (IsEditing)
+                        @if (IsProjectEditing)
                         {
                             <input @bind="State.Name" class="form-control" type="text"/>
-                            <ValidationMessageComponent Name="@nameof(UpdateProjectRequest.Name)"/>
+                            <ValidationMessageComponent Key="@ValidationKey" Name="@nameof(ICreateOrUpdateProjectRequest.Name)"/>
                         }
                         else
                         {
@@ -31,10 +30,10 @@
                         @Localization[nameof(Resource.Description)]:
                     </div>
                     <div class="ms-1 text-truncate" title="@State.Description">
-                        @if (IsEditing)
+                        @if (IsProjectEditing)
                         {
                             <input @bind="State.Description" class="form-control" type="text"/>
-                            <ValidationMessageComponent Name="@nameof(UpdateProjectRequest.Description)"/>
+                            <ValidationMessageComponent Key="@ValidationKey" Name="@nameof(ICreateOrUpdateProjectRequest.Description)"/>
                         }
                         else
                         {
@@ -47,16 +46,16 @@
         <div class="card-footer">
             <div class="d-flex">
                 <div class="p-1">
-                    @if (IsEditing)
+                    @if (IsProjectEditing)
                     {
                         <div class="d-flex">
                             <div class="me-2 ms-auto">
-                                <button class="btn btn-outline-success btn-sm" @onclick="edit" title="@Localization[nameof(Resource.Save)]" type="button">
+                                <button class="btn btn-outline-success btn-sm" @onclick="UpdateProject" title="@Localization[nameof(Resource.Save)]" type="button">
                                     <span class="oi oi-check"></span>
                                 </button>
                             </div>
                             <div>
-                                <button class="btn btn-outline-secondary btn-sm" @onclick="toggleIsEditing" title="@Localization[nameof(Resource.Cancel)]" type="button">
+                                <button class="btn btn-outline-secondary btn-sm" @onclick="ToggleIsProjectEditing" title="@Localization[nameof(Resource.Cancel)]" type="button">
                                     <span class="oi oi-circle-x"></span>
                                 </button>
                             </div>
@@ -64,13 +63,13 @@
                     }
                     else
                     {
-                        <button class="btn btn-outline-primary btn-sm" @onclick="toggleIsEditing" title="@Localization[nameof(Resource.Edit)]" type="button">
+                        <button class="btn btn-outline-primary btn-sm" @onclick="ToggleIsProjectEditing" title="@Localization[nameof(Resource.Edit)]" type="button">
                             <span class="oi oi-pencil"></span>
                         </button>
                     }
                 </div>
                 <div class="ms-auto p-1">
-                    <button class="btn btn-outline-info btn-sm" @onclick="openProjectPage" title="@Localization[nameof(Resource.Open)]" type="button">
+                    <button class="btn btn-outline-info btn-sm" @onclick="OpenProjectPage" title="@Localization[nameof(Resource.Open)]" type="button">
                         <span class="oi oi-document"></span>
                     </button>
                 </div>

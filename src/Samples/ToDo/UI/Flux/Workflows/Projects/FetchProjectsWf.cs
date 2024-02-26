@@ -42,13 +42,13 @@ public class FetchProjectsWf
         #endregion
     }
 
-    public record Update(PaginatedResponseDto<ProjectEditableDto> Projects,
+    public record Update(PaginatedResponseDto<ProjectStateDto> Projects,
                          Action Callback);
 
     #endregion
 
-    [ReducerMethod]
-    [UsedImplicitly]
+    [ReducerMethod,
+     UsedImplicitly]
     public static ProjectsState OnInit(ProjectsState state, Init action)
     {
         return new ProjectsState(isLoading: true,
@@ -56,8 +56,8 @@ public class FetchProjectsWf
                                  projects: state.Projects);
     }
 
-    [EffectMethod]
-    [UsedImplicitly]
+    [EffectMethod,
+     UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
         var apiResponse = await this.api.GetAsync(searchTerm: action.SearchTerm,
@@ -68,8 +68,8 @@ public class FetchProjectsWf
         dispatcher.Dispatch(new Update(apiResponse, action.Callback));
     }
 
-    [ReducerMethod]
-    [UsedImplicitly]
+    [ReducerMethod,
+     UsedImplicitly]
     public static ProjectsState OnUpdate(ProjectsState state, Update action)
     {
         return new ProjectsState(isLoading: false,
@@ -77,8 +77,8 @@ public class FetchProjectsWf
                                  projects: action.Projects);
     }
 
-    [EffectMethod]
-    [UsedImplicitly]
+    [EffectMethod,
+     UsedImplicitly]
     public Task HandleUpdate(Update action, IDispatcher _)
     {
         action.Callback?.Invoke();

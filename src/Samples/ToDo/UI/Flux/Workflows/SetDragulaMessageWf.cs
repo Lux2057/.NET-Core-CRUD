@@ -15,8 +15,8 @@ public class SetDragulaMessageWf
 
     #endregion
 
-    [ReducerMethod]
-    [UsedImplicitly]
+    [ReducerMethod,
+     UsedImplicitly]
     public static DragulaTestState OnInit(DragulaTestState state, InitAction action)
     {
         return new DragulaTestState(message: action.Message);

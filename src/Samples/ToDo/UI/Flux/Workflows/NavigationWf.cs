@@ -31,8 +31,8 @@ public class NavigationWf
 
     #endregion
 
-    [EffectMethod]
-    [UsedImplicitly]
+    [EffectMethod,
+     UsedImplicitly]
     public Task HandleNavigateToAuth(NavigateTo action, IDispatcher _)
     {
         this.navigationManager.NavigateTo(action.Route, action.ForceLoad);

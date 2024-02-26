@@ -19,56 +19,41 @@ public class ProjectsAPI : ApiBase
 
     #endregion
 
-    public async Task<PaginatedResponseDto<ProjectEditableDto>> GetAsync(string searchTerm,
-                                                                         int page,
-                                                                         string accessToken,
-                                                                         string validationKey,
-                                                                         int[] tagsIds = default,
-                                                                         CancellationToken cancellationToken = default)
+    public async Task<PaginatedResponseDto<ProjectStateDto>> GetAsync(string searchTerm,
+                                                                      int page,
+                                                                      string accessToken,
+                                                                      string validationKey,
+                                                                      int[] tagsIds = default,
+                                                                      CancellationToken cancellationToken = default)
     {
-        var uri = $"{ApiRoutes.GetProjects}?"
+        var uri = $"{ApiRoutes.ReadProjects}?"
                 + $"{ApiRoutes.Params.SearchTerm}={searchTerm}&"
                 + $"{ApiRoutes.Params.page}={page}&";
 
         if (tagsIds?.Any() == true)
             uri += $"&{tagsIds.ToApiParams(ApiRoutes.Params.TagsIds)}";
 
-        var result = await this.Http.GetApiResponseOrDefaultAsync<PaginatedResponseDto<ProjectEditableDto>>(dispatcher: this.dispatcher,
-                                                                                                            acceptLanguage: this.localizationState.Value.Language,
-                                                                                                            validationKey: validationKey,
-                                                                                                            httpMethod: HttpMethodType.GET,
-                                                                                                            uri: uri,
-                                                                                                            accessToken: accessToken,
-                                                                                                            cancellationToken: cancellationToken);
+        var result = await this.Http.GetApiResponseOrDefaultAsync<PaginatedResponseDto<ProjectStateDto>>(dispatcher: this.dispatcher,
+                                                                                                         acceptLanguage: this.localizationState.Value.Language,
+                                                                                                         validationKey: validationKey,
+                                                                                                         httpMethod: HttpMethodType.GET,
+                                                                                                         uri: uri,
+                                                                                                         accessToken: accessToken,
+                                                                                                         cancellationToken: cancellationToken);
 
-        return result ?? new PaginatedResponseDto<ProjectEditableDto>();
+        return result ?? new PaginatedResponseDto<ProjectStateDto>();
     }
 
-    public async Task<bool> CreateAsync(CreateProjectRequest request,
-                                        string accessToken,
-                                        string validationKey,
-                                        CancellationToken cancellationToken = default)
+    public async Task<bool> CreateOrUpdateAsync(CreateOrUpdateProjectRequest request,
+                                                string accessToken,
+                                                string validationKey,
+                                                CancellationToken cancellationToken = default)
     {
         return await this.Http.GetApiResponseOrDefaultAsync<bool>(dispatcher: this.dispatcher,
                                                                   acceptLanguage: this.localizationState.Value.Language,
                                                                   validationKey: validationKey,
                                                                   httpMethod: HttpMethodType.POST,
-                                                                  uri: ApiRoutes.CreateProject,
-                                                                  accessToken: accessToken,
-                                                                  content: request,
-                                                                  cancellationToken: cancellationToken);
-    }
-
-    public async Task<bool> UpdateAsync(UpdateProjectRequest request,
-                                        string accessToken,
-                                        string validationKey,
-                                        CancellationToken cancellationToken = default)
-    {
-        return await this.Http.GetApiResponseOrDefaultAsync<bool>(dispatcher: this.dispatcher,
-                                                                  acceptLanguage: this.localizationState.Value.Language,
-                                                                  validationKey: validationKey,
-                                                                  httpMethod: HttpMethodType.PUT,
-                                                                  uri: ApiRoutes.UpdateProject,
+                                                                  uri: ApiRoutes.CreateOrUpdateProject,
                                                                   accessToken: accessToken,
                                                                   content: request,
                                                                   cancellationToken: cancellationToken);

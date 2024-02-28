@@ -29,11 +29,23 @@ public class SignUpWf
 
     #region Nested Classes
 
-    public record Init(AuthRequest Request, Action<AuthInfoDto> Callback) : IValidatingAction
+    public record Init : ValidatingAction<AuthRequest>
     {
         #region Properties
 
-        public string ValidationKey { get; set; }
+        public Action<AuthInfoDto> Callback { get; }
+
+        #endregion
+
+        #region Constructors
+
+        public Init(AuthRequest request,
+                    Action<AuthInfoDto> callback = default,
+                    string validationKey = default)
+                : base(request, validationKey)
+        {
+            Callback = callback;
+        }
 
         #endregion
     }

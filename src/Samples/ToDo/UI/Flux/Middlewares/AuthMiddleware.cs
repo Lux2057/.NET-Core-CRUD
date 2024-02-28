@@ -4,6 +4,7 @@
 
 using Fluxor;
 using JetBrains.Annotations;
+using Samples.ToDo.Shared;
 
 #endregion
 
@@ -47,7 +48,10 @@ public class AuthMiddleware : Middleware
 
             if (authState.IsExpiring)
             {
-                this.Dispatcher.Dispatch(new RefreshAccessTokenWf.Init(authState.AuthInfo.RefreshToken,
+                this.Dispatcher.Dispatch(new RefreshAccessTokenWf.Init(new RefreshTokenRequest
+                                                                       {
+                                                                               RefreshToken = authState.AuthInfo.RefreshToken
+                                                                       },
                                                                        authInfo =>
                                                                        {
                                                                            if (authInfo == null)

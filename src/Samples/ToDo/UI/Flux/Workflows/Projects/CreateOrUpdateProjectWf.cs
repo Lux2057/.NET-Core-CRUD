@@ -33,14 +33,25 @@ public class CreateOrUpdateProjectWf
 
     #region Nested Classes
 
-    public record Init(CreateOrUpdateProjectRequest Request,
-                       Action SuccessCallback = default) : IAuthenticatedAction, IValidatingAction
+    public record Init : ValidatingAction<CreateOrUpdateProjectRequest>, IAuthenticatedAction
     {
         #region Properties
 
+        public Action SuccessCallback { get; }
+
         public string AccessToken { get; set; }
 
-        public string ValidationKey { get; set; }
+        #endregion
+
+        #region Constructors
+
+        public Init(CreateOrUpdateProjectRequest request,
+                    Action successCallback = default,
+                    string validationKey = default)
+                : base(request, validationKey)
+        {
+            SuccessCallback = successCallback;
+        }
 
         #endregion
     }

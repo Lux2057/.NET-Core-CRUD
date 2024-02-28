@@ -46,7 +46,7 @@ public class AuthAPI : ApiBase
                                                                          cancellationToken: cancellationToken);
     }
 
-    public async Task<AuthInfoDto> RefreshTokenAsync(RefreshTokenRequestDto request,
+    public async Task<AuthInfoDto> RefreshTokenAsync(RefreshTokenRequest request,
                                                      string validationKey,
                                                      CancellationToken cancellationToken = default)
     {

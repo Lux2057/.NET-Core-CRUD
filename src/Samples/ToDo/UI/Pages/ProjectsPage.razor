@@ -26,14 +26,20 @@
                     <input @bind="NewProject.Name"
                            class="form-control"
                            type="text"/>
-                    <ValidationMessageComponent Key="@createProjectValidationKey" Name="@nameof(CreateOrUpdateProjectRequest.Name)"/>
+                    <ValidationMessageComponent
+                        Key="@createProjectValidationKey"
+                        Name="r => r.Name"
+                        TRequest="CreateOrUpdateProjectRequest"/>
                 </div>
                 <div class="mb-1 p-1">
                     <label class="form-label">@Localization[nameof(Resource.Description)]</label>
                     <input @bind="NewProject.Description"
                            class="form-control"
                            type="text"/>
-                    <ValidationMessageComponent Key="@createProjectValidationKey" Name="@nameof(CreateOrUpdateProjectRequest.Description)"/>
+                    <ValidationMessageComponent
+                        Key="@createProjectValidationKey"
+                        Name="r => r.Description"
+                        TRequest="CreateOrUpdateProjectRequest"/>
                 </div>
             </div>
             </Body>

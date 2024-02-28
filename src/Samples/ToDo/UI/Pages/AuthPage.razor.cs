@@ -40,8 +40,8 @@ public partial class AuthPage : PageBase<AuthState>
         if (State.IsLoading)
             return;
 
-        Dispatcher.Dispatch(new SignInWf.Init(Request: AuthRequest,
-                                              Callback: async authInfo =>
+        Dispatcher.Dispatch(new SignInWf.Init(request: AuthRequest,
+                                              callback: async authInfo =>
                                                         {
                                                             if (authInfo == null)
                                                                 return;
@@ -49,10 +49,8 @@ public partial class AuthPage : PageBase<AuthState>
                                                             await JS.CloseModalAsync(signInModalId);
 
                                                             Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects, false));
-                                                        })
-                            {
-                                    ValidationKey = signInValidationKey
-                            });
+                                                        },
+                                              validationKey: signInValidationKey));
     }
 
     void SignUp()
@@ -60,8 +58,8 @@ public partial class AuthPage : PageBase<AuthState>
         if (State.IsLoading)
             return;
 
-        Dispatcher.Dispatch(new SignUpWf.Init(Request: AuthRequest,
-                                              Callback: async authInfo =>
+        Dispatcher.Dispatch(new SignUpWf.Init(request: AuthRequest,
+                                              callback: async authInfo =>
                                                         {
                                                             if (authInfo == null)
                                                                 return;
@@ -69,9 +67,7 @@ public partial class AuthPage : PageBase<AuthState>
                                                             await JS.CloseModalAsync(signUpModalId);
 
                                                             Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects, false));
-                                                        })
-                            {
-                                    ValidationKey = signUpValidationKey
-                            });
+                                                        },
+                                              validationKey: signUpValidationKey));
     }
 }

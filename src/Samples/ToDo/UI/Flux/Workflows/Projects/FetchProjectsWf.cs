@@ -31,13 +31,11 @@ public class FetchProjectsWf
 
     public record Init(int Page,
                        string SearchTerm = default,
-                       Action Callback = default) : IAuthenticatedAction, IValidatingAction
+                       Action Callback = default) : IAuthenticatedAction
     {
         #region Properties
 
         public string AccessToken { get; set; }
-
-        public string ValidationKey { get; set; }
 
         #endregion
     }
@@ -62,8 +60,7 @@ public class FetchProjectsWf
     {
         var apiResponse = await this.api.GetAsync(searchTerm: action.SearchTerm,
                                                   page: action.Page,
-                                                  accessToken: action.AccessToken,
-                                                  validationKey: action.ValidationKey);
+                                                  accessToken: action.AccessToken);
 
         dispatcher.Dispatch(new Update(apiResponse, action.Callback));
     }

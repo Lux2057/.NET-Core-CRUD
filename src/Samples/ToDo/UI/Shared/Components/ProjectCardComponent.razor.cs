@@ -33,13 +33,14 @@ public partial class ProjectCardComponent : UI.ComponentBase
     void UpdateProject()
     {
         IsProjectEditing = false;
-        Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(Request: new CreateOrUpdateProjectRequest
+        Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(request: new CreateOrUpdateProjectRequest
                                                                       {
                                                                               Id = State.Id,
                                                                               Description = State.Description,
                                                                               Name = State.Name,
                                                                               TagsIds = State.Tags.Select(r => r.Id).ToArray()
-                                                                      }));
+                                                                      },
+                                                             validationKey: this.ValidationKey));
     }
 
     void ToggleIsProjectEditing()

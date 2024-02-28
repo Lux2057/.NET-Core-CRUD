@@ -22,7 +22,6 @@ public class ProjectsAPI : ApiBase
     public async Task<PaginatedResponseDto<ProjectStateDto>> GetAsync(string searchTerm,
                                                                       int page,
                                                                       string accessToken,
-                                                                      string validationKey,
                                                                       int[] tagsIds = default,
                                                                       CancellationToken cancellationToken = default)
     {
@@ -35,7 +34,7 @@ public class ProjectsAPI : ApiBase
 
         var result = await this.Http.GetApiResponseOrDefaultAsync<PaginatedResponseDto<ProjectStateDto>>(dispatcher: this.dispatcher,
                                                                                                          acceptLanguage: this.localizationState.Value.Language,
-                                                                                                         validationKey: validationKey,
+                                                                                                         validationKey: null,
                                                                                                          httpMethod: HttpMethodType.GET,
                                                                                                          uri: uri,
                                                                                                          accessToken: accessToken,

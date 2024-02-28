@@ -17,7 +17,10 @@
                         @if (IsProjectEditing)
                         {
                             <input @bind="State.Name" class="form-control" type="text"/>
-                            <ValidationMessageComponent Key="@ValidationKey" Name="@nameof(ICreateOrUpdateProjectRequest.Name)"/>
+                            <ValidationMessageComponent
+                                Key="@ValidationKey"
+                                Name="r => r.Name"
+                                TRequest="@ICreateOrUpdateProjectRequest"/>
                         }
                         else
                         {
@@ -33,7 +36,10 @@
                         @if (IsProjectEditing)
                         {
                             <input @bind="State.Description" class="form-control" type="text"/>
-                            <ValidationMessageComponent Key="@ValidationKey" Name="@nameof(ICreateOrUpdateProjectRequest.Description)"/>
+                            <ValidationMessageComponent
+                                Key="@ValidationKey"
+                                Name="r => r.Description"
+                                TRequest="@ICreateOrUpdateProjectRequest"/>
                         }
                         else
                         {

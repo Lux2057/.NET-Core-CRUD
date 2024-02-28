@@ -9,7 +9,7 @@ public interface IRefreshRequest
     #endregion
 }
 
-public class RefreshTokenRequestDto : IRefreshRequest
+public class RefreshTokenRequest : IRefreshRequest
 {
     #region Properties
 

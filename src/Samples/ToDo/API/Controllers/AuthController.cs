@@ -49,7 +49,7 @@ public class AuthController : DispatcherControllerBase
     [HttpPost,
      Route("~/" + ApiRoutes.RefreshToken),
      ProducesResponseType(typeof(AuthInfoDto), 200)]
-    public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request)
+    public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
 

@@ -39,15 +39,13 @@ public partial class ProjectsPage : PageBase<ProjectsState>
 
     void CreateProject()
     {
-        Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(Request: NewProject,
-                                                             SuccessCallback: async () =>
+        Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(request: NewProject,
+                                                             successCallback: async () =>
                                                                               {
                                                                                   await JS.CloseModalAsync(createProjectModalId);
                                                                                   NewProject = new();
                                                                                   GoToPage(1);
-                                                                              })
-                            {
-                                    ValidationKey = createProjectValidationKey
-                            });
+                                                                              },
+                                                             validationKey: createProjectValidationKey));
     }
 }

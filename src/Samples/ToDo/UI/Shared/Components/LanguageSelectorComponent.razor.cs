@@ -13,18 +13,18 @@ public partial class LanguageSelectorComponent : ComponentBase
     #region Properties
 
     [Inject]
-    private IState<LocalizationState> LocalizationState { get; set; }
+    private IState<LocalizationState> localizationState { get; set; }
 
-    string Language { get => LocalizationState.Value.Language; set => SetLanguage(value); }
+    private string currentLanguage { get => localizationState.Value.Language; set => setCurrentLanguage(value); }
 
     #endregion
 
-    void SetLanguage(string language)
+    private void setCurrentLanguage(string language)
     {
-        if (LocalizationState.Value.Language == language)
+        if (localizationState.Value.Language == language)
             return;
 
-        Dispatcher.Dispatch(new SetCultureWf.Init(language,
+        Dispatcher.Dispatch(new SetCultureWf.Init(Language: language,
                                                   Callback: () => Dispatcher.Dispatch(new NavigationWf.NavigateTo(NavigationManager.Uri, true))));
     }
 }

@@ -14,11 +14,11 @@
                         @Localization[nameof(Resource.Name)]:
                     </div>
                     <div class="ms-1 text-truncate" title="@State.Name">
-                        @if (IsProjectEditing)
+                        @if (isProjectEditing)
                         {
                             <input @bind="State.Name" class="form-control" type="text"/>
                             <ValidationMessageComponent
-                                Key="@ValidationKey"
+                                Key="@validationKey"
                                 Name="r => r.Name"
                                 TRequest="@ICreateOrUpdateProjectRequest"/>
                         }
@@ -33,11 +33,11 @@
                         @Localization[nameof(Resource.Description)]:
                     </div>
                     <div class="ms-1 text-truncate" title="@State.Description">
-                        @if (IsProjectEditing)
+                        @if (isProjectEditing)
                         {
                             <input @bind="State.Description" class="form-control" type="text"/>
                             <ValidationMessageComponent
-                                Key="@ValidationKey"
+                                Key="@validationKey"
                                 Name="r => r.Description"
                                 TRequest="@ICreateOrUpdateProjectRequest"/>
                         }
@@ -52,16 +52,16 @@
         <div class="card-footer">
             <div class="d-flex">
                 <div class="p-1">
-                    @if (IsProjectEditing)
+                    @if (isProjectEditing)
                     {
                         <div class="d-flex">
                             <div class="me-2 ms-auto">
-                                <button class="btn btn-outline-success btn-sm" @onclick="UpdateProject" title="@Localization[nameof(Resource.Save)]" type="button">
+                                <button class="btn btn-outline-success btn-sm" @onclick="updateProject" title="@Localization[nameof(Resource.Save)]" type="button">
                                     <span class="oi oi-check"></span>
                                 </button>
                             </div>
                             <div>
-                                <button class="btn btn-outline-secondary btn-sm" @onclick="ToggleIsProjectEditing" title="@Localization[nameof(Resource.Cancel)]" type="button">
+                                <button class="btn btn-outline-secondary btn-sm" @onclick="toggleIsProjectEditing" title="@Localization[nameof(Resource.Cancel)]" type="button">
                                     <span class="oi oi-circle-x"></span>
                                 </button>
                             </div>
@@ -69,13 +69,13 @@
                     }
                     else
                     {
-                        <button class="btn btn-outline-primary btn-sm" @onclick="ToggleIsProjectEditing" title="@Localization[nameof(Resource.Edit)]" type="button">
+                        <button class="btn btn-outline-primary btn-sm" @onclick="toggleIsProjectEditing" title="@Localization[nameof(Resource.Edit)]" type="button">
                             <span class="oi oi-pencil"></span>
                         </button>
                     }
                 </div>
                 <div class="ms-auto p-1">
-                    <button class="btn btn-outline-info btn-sm" @onclick="OpenProjectPage" title="@Localization[nameof(Resource.Open)]" type="button">
+                    <button class="btn btn-outline-info btn-sm" @onclick="openProjectPage" title="@Localization[nameof(Resource.Open)]" type="button">
                         <span class="oi oi-document"></span>
                     </button>
                 </div>

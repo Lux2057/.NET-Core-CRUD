@@ -15,9 +15,9 @@ public partial class NavMenu : ComponentBase
     [Inject]
     private IState<AuthState> authState { get; set; }
 
-    private AuthState AuthState => authState.Value;
+    private AuthState auth => authState.Value;
 
-    private string NavMenuCssClass => this.collapseNavMenu ? "collapse" : null;
+    private string navMenuCssClass => this.collapseNavMenu ? "collapse" : null;
 
     private bool collapseNavMenu = true;
 
@@ -28,12 +28,12 @@ public partial class NavMenu : ComponentBase
         NavigationManager.LocationChanged += (s, e) => StateHasChanged();
     }
 
-    private void ToggleNavMenu()
+    private void toggleNavMenu()
     {
         this.collapseNavMenu = !this.collapseNavMenu;
     }
 
-    void SignOut()
+    private void signOut()
     {
         Dispatcher.Dispatch(new SignOutWf.Init(() => NavigationManager.NavigateTo(UiRoutes.Auth)));
     }

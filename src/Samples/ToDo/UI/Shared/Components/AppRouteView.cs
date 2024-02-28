@@ -14,18 +14,18 @@ public class AppRouteView : RouteView
     #region Properties
 
     [Inject]
-    NavigationManager NavigationManager { get; set; }
+    private NavigationManager navigationManager { get; set; }
 
     [Inject]
-    IState<AuthState> AuthState { get; set; }
+    private IState<AuthState> authState { get; set; }
 
     #endregion
 
     protected override void Render(RenderTreeBuilder builder)
     {
         var authorize = Attribute.GetCustomAttribute(RouteData.PageType, typeof(AuthorizeAttribute)) != null;
-        if (authorize && AuthState?.Value?.IsAuthenticated != true)
-            NavigationManager.NavigateTo(UiRoutes.Auth);
+        if (authorize && authState?.Value?.IsAuthenticated != true)
+            navigationManager.NavigateTo(UiRoutes.Auth);
         else
             base.Render(builder);
     }

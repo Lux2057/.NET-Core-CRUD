@@ -18,11 +18,11 @@ public partial class ValidationMessageComponent<TRequest> : ComponentBase<Valida
     [Parameter, EditorRequired]
     public Expression<Func<TRequest, object>> Name { get; set; }
 
-    private string validationKey => Key.IsNullOrWhitespace() ? typeof(TRequest).Name : Key;
+    private string key => Key.IsNullOrWhitespace() ? typeof(TRequest).Name : Key;
 
-    private string validationName => Name.GetPropertyInfo()?.Name;
+    private string name => Name.GetPropertyInfo()?.Name;
 
-    public string[] Messages => State.ValidationErrors(validationKey, validationName);
+    public string[] messages => State.ValidationErrors(key, name);
 
     #endregion
 }

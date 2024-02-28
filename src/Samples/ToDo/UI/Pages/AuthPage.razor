@@ -11,7 +11,7 @@
         <ModalWindowComponent ModalId="@signInModalId">
             <ButtonContent>
                 <div class="btn btn-outline-primary btn-sm shadow-none"
-                     @onclick="ClearFields"
+                     @onclick="clearFields"
                      role="button"
                      title="@Localization[nameof(Resource.Sign_in)]">
                     <span aria-hidden="true" class="oi oi-account-login"></span> @Localization[nameof(Resource.Sign_in)]
@@ -26,7 +26,7 @@
                     <label class="form-label">
                         @Localization[nameof(Resource.User_name)]
                     </label>
-                    <input @bind="AuthRequest.UserName"
+                    <input @bind="authRequest.UserName"
                            class="form-control me-1"
                            type="text"/>
                     <ValidationMessageComponent
@@ -40,7 +40,7 @@
                     <label class="form-label">
                         @Localization[nameof(Resource.Password)]
                     </label>
-                    <input @bind="AuthRequest.Password"
+                    <input @bind="authRequest.Password"
                            class="form-control me-1"
                            type="password"/>
                     <ValidationMessageComponent
@@ -56,7 +56,7 @@
                         <button class="btn btn-outline-primary btn-sm shadow-none"
                                 data-bs-placement="top"
                                 data-bs-toggle="tooltip"
-                                @onclick="@SignIn"
+                                @onclick="@signIn"
                                 title="@Localization[nameof(Resource.Sign_in)]"
                                 type="button">
                             <span>
@@ -81,7 +81,7 @@
         <ModalWindowComponent ModalId="@signUpModalId">
             <ButtonContent>
                 <div class="btn btn-outline-primary btn-sm shadow-none"
-                     @onclick="ClearFields"
+                     @onclick="clearFields"
                      role="button"
                      title="@Localization[nameof(Resource.Sign_up)]">
                     <span aria-hidden="true" class="oi oi-pencil"></span> @Localization[nameof(Resource.Sign_up)]
@@ -96,7 +96,7 @@
                     <label class="form-label">
                         @Localization[nameof(Resource.User_name)]
                     </label>
-                    <input @bind="AuthRequest.UserName"
+                    <input @bind="authRequest.UserName"
                            class="form-control me-1"
                            type="text"/>
                     <ValidationMessageComponent
@@ -110,7 +110,7 @@
                     <label class="form-label">
                         @Localization[nameof(Resource.Password)]
                     </label>
-                    <input @bind="AuthRequest.Password"
+                    <input @bind="authRequest.Password"
                            class="form-control me-1"
                            type="password"/>
                     <ValidationMessageComponent
@@ -126,7 +126,7 @@
                         <button class="btn btn-outline-primary btn-sm shadow-none"
                                 data-bs-placement="top"
                                 data-bs-toggle="tooltip"
-                                @onclick="@SignUp"
+                                @onclick="@signUp"
                                 title="@Localization[nameof(Resource.Sign_up)]"
                                 type="button">
                             <span>

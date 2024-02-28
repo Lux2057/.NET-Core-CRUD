@@ -42,16 +42,16 @@ public partial class DragulaTestPage : PageBase<DragulaTestState>
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    [JSInvokable]
-    public void DropCallback(string uid, string source, string target)
-    {
-        Dispatcher.Dispatch(new SetDragulaMessageWf.InitAction($"{uid} has been dropped from {source} to {target}"));
-    }
-
     protected override void Dispose(bool disposing)
     {
         this.refObj?.Dispose();
 
         base.Dispose(disposing);
+    }
+
+    [JSInvokable]
+    public void DropCallback(string uid, string source, string target)
+    {
+        Dispatcher.Dispatch(new SetDragulaMessageWf.InitAction($"{uid} has been dropped from {source} to {target}"));
     }
 }

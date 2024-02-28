@@ -24,23 +24,23 @@ public partial class AuthPage : PageBase<AuthState>
 
     #region Properties
 
-    AuthRequest AuthRequest { get; set; } = new AuthRequest();
+    private AuthRequest authRequest { get; set; } = new();
 
     #endregion
 
-    void ClearFields()
+    private void clearFields()
     {
         Dispatcher.Dispatch(new SetValidationStateWf.Init(null, null));
 
-        AuthRequest = new AuthRequest();
+        authRequest = new AuthRequest();
     }
 
-    void SignIn()
+    private void signIn()
     {
         if (State.IsLoading)
             return;
 
-        Dispatcher.Dispatch(new SignInWf.Init(request: AuthRequest,
+        Dispatcher.Dispatch(new SignInWf.Init(request: authRequest,
                                               callback: async authInfo =>
                                                         {
                                                             if (authInfo == null)
@@ -53,12 +53,12 @@ public partial class AuthPage : PageBase<AuthState>
                                               validationKey: signInValidationKey));
     }
 
-    void SignUp()
+    private void signUp()
     {
         if (State.IsLoading)
             return;
 
-        Dispatcher.Dispatch(new SignUpWf.Init(request: AuthRequest,
+        Dispatcher.Dispatch(new SignUpWf.Init(request: authRequest,
                                               callback: async authInfo =>
                                                         {
                                                             if (authInfo == null)

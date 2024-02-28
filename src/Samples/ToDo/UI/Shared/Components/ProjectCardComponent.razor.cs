@@ -17,9 +17,9 @@ public partial class ProjectCardComponent : UI.ComponentBase
 
     private ProjectDto State { get; set; }
 
-    bool IsProjectEditing { get; set; }
+    private bool isProjectEditing { get; set; }
 
-    private string ValidationKey = Guid.NewGuid().ToString();
+    private string validationKey = Guid.NewGuid().ToString();
 
     #endregion
 
@@ -30,9 +30,9 @@ public partial class ProjectCardComponent : UI.ComponentBase
         State = (ProjectStateDto)Model.Clone();
     }
 
-    void UpdateProject()
+    private void updateProject()
     {
-        IsProjectEditing = false;
+        isProjectEditing = false;
         Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(request: new CreateOrUpdateProjectRequest
                                                                       {
                                                                               Id = State.Id,
@@ -40,19 +40,19 @@ public partial class ProjectCardComponent : UI.ComponentBase
                                                                               Name = State.Name,
                                                                               TagsIds = State.Tags.Select(r => r.Id).ToArray()
                                                                       },
-                                                             validationKey: this.ValidationKey));
+                                                             validationKey: this.validationKey));
     }
 
-    void ToggleIsProjectEditing()
+    private void toggleIsProjectEditing()
     {
-        IsProjectEditing = !IsProjectEditing;
+        isProjectEditing = !isProjectEditing;
 
-        if (IsProjectEditing)
+        if (isProjectEditing)
             return;
 
         State = (ProjectStateDto)Model.Clone();
         StateHasChanged();
     }
 
-    void OpenProjectPage() { }
+    private void openProjectPage() { }
 }

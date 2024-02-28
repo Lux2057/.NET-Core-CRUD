@@ -28,7 +28,7 @@ public partial class ModalWindowComponent : ComponentBase
     [Parameter]
     public bool IsLoading { get; set; }
 
-    private string ModalLabelId => $"{ModalId}-label";
+    private string modalLabelId => $"{ModalId}-label";
 
     #endregion
 }

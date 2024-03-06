@@ -35,10 +35,19 @@ public class DefaultDispatcher : IDispatcher
 
     #region Interface Implementations
 
-    public async Task PushAsync<TCommand>(TCommand command, CancellationToken cancellationToken = default) where TCommand : CommandBase
+    public void Dispose()
+    {
+        this.unitOfWork.CloseTransaction();
+    }
+
+    #endregion
+
+    public async Task PushAsync<TCommand>(TCommand command,
+                                          CancellationToken cancellationToken = default,
+                                          IsolationLevel isolationLevel = IsolationLevel.ReadCommitted) where TCommand : CommandBase
     {
         if (!this.unitOfWork.IsTransactionOpened)
-            this.unitOfWork.OpenTransaction(IsolationLevel.ReadCommitted);
+            this.unitOfWork.OpenTransaction(isolationLevel);
 
         try
         {
@@ -51,8 +60,13 @@ public class DefaultDispatcher : IDispatcher
         }
     }
 
-    public async Task<TResponse> QueryAsync<TResponse>(QueryBase<TResponse> queryBase, CancellationToken cancellationToken = default)
+    public async Task<TResponse> QueryAsync<TResponse>(QueryBase<TResponse> queryBase,
+                                                       CancellationToken cancellationToken = default,
+                                                       IsolationLevel? isolationLevel = null)
     {
+        if (isolationLevel != null && !this.unitOfWork.IsTransactionOpened)
+            this.unitOfWork.OpenTransaction(isolationLevel.Value);
+
         try
         {
             return await this._mediator.Send(request: queryBase, cancellationToken: cancellationToken);
@@ -63,11 +77,4 @@ public class DefaultDispatcher : IDispatcher
             throw;
         }
     }
-
-    public void Dispose()
-    {
-        this.unitOfWork.CloseTransaction();
-    }
-
-    #endregion
 }

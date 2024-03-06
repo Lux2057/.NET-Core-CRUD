@@ -4,6 +4,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using System.Data;
 
 #endregion
 
@@ -12,5 +13,7 @@ using System.Threading.Tasks;
 /// </summary>
 public interface IDispatcher : IReadDispatcher
 {
-    public Task PushAsync<TCommand>(TCommand command, CancellationToken cancellationToken = default) where TCommand : CommandBase;
+    public Task PushAsync<TCommand>(TCommand command,
+                                    CancellationToken cancellationToken = default,
+                                    IsolationLevel isolationLevel = IsolationLevel.ReadCommitted) where TCommand : CommandBase;
 }

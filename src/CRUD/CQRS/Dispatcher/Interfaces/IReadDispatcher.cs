@@ -5,6 +5,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Data;
 
 #endregion
 
@@ -13,5 +14,7 @@ using System.Threading.Tasks;
 /// </summary>
 public interface IReadDispatcher : IDisposable
 {
-    public Task<TResponse> QueryAsync<TResponse>(QueryBase<TResponse> queryBase, CancellationToken cancellationToken = default);
+    public Task<TResponse> QueryAsync<TResponse>(QueryBase<TResponse> queryBase,
+                                                 CancellationToken cancellationToken = default,
+                                                 IsolationLevel? isolationLevel = null);
 }

@@ -2,6 +2,7 @@
 
 #region << Using >>
 
+using System.Data;
 using CRUD.CQRS;
 using Hangfire;
 using JetBrains.Annotations;
@@ -45,7 +46,7 @@ public class CleanDbRecurrentCommand : CommandBase
             var tasksToDelete = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<TaskEntity>(true)).Take(deletingCount).ToArrayAsync(cancellationToken);
             await Repository.DeleteAsync(tasksToDelete, cancellationToken);
 
-            BackgroundJob.Schedule<IDispatcher>(dispatcher => dispatcher.PushAsync(new CleanDbRecurrentCommand(), new CancellationToken()), TimeSpan.FromMinutes(10));
+            BackgroundJob.Schedule<IDispatcher>(dispatcher => dispatcher.PushAsync(new CleanDbRecurrentCommand(), new CancellationToken(), IsolationLevel.ReadCommitted), TimeSpan.FromMinutes(10));
         }
     }
 

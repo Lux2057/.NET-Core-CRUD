@@ -129,6 +129,9 @@
   <data name="Authenticate" xml:space="preserve">
     <value>Authenticate</value>
   </data>
+  <data name="Authorization" xml:space="preserve">
+    <value>Authorization</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>

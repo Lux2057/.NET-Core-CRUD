@@ -10,11 +10,12 @@ public class LocalizationConst
 
     public const string DefaultLanguage = "en-US";
 
-    public static readonly string[] SupportedLanguages =
-    {
-            "en-US",
-            "ru-RU"
-    };
+    public static readonly Dictionary<string, string> SupportedLanguages =
+            new()
+            {
+                    { "en-US", "English" },
+                    { "ru-RU", "Русский" }
+            };
 
     #endregion
 }

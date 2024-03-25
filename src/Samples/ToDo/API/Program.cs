@@ -185,7 +185,7 @@ app.UseRouting();
 
 app.UseRequestLocalization(options =>
                            {
-                               var supportedCultures = LocalizationConst.SupportedLanguages.Select(r => new CultureInfo(r)).ToArray();
+                               var supportedCultures = LocalizationConst.SupportedLanguages.Select(r => new CultureInfo(r.Key)).ToArray();
                                options.DefaultRequestCulture = new RequestCulture(LocalizationConst.DefaultLanguage);
                                options.SupportedCultures = supportedCultures;
                                options.SupportedUICultures = supportedCultures;

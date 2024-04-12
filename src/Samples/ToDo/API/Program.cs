@@ -1,7 +1,6 @@
 #region << Using >>
 
 using System.Globalization;
-using System.Text;
 using CRUD.Core;
 using CRUD.CQRS;
 using CRUD.DAL.EntityFramework;
@@ -35,20 +34,22 @@ builder.Services.AddAuthentication(x =>
                                    })
        .AddJwtBearer(x =>
                      {
+                         x.UseSecurityTokenValidators = true;
                          x.RequireHttpsMetadata = true;
                          x.SaveToken = true;
+
                          x.TokenValidationParameters =
                                  new TokenValidationParameters
                                  {
-                                         ValidateIssuer = true,
+                                         ValidateIssuer = false,
                                          ValidIssuer = jwtSettings.Issuer,
                                          ValidateAudience = true,
                                          ValidAudience = jwtSettings.Audience,
-                                         ValidateIssuerSigningKey = true,
                                          RequireExpirationTime = false,
                                          ValidateLifetime = true,
                                          ClockSkew = TimeSpan.Zero,
-                                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret))
+                                         IssuerSigningKey = jwtSettings.Secret.GetSecurityKey(),
+                                         ValidateIssuerSigningKey = true,
                                  };
                      });
 

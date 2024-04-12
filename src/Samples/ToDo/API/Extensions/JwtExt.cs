@@ -3,12 +3,14 @@
 #region << Using >>
 
 using System.Security.Claims;
+using System.Text;
 using Extensions;
+using Microsoft.IdentityModel.Tokens;
 using Samples.ToDo.Shared;
 
 #endregion
 
-public static class UserExt
+public static class JwtExt
 {
     public static Claim[] GetClaims(this UserEntity user)
     {
@@ -36,5 +38,10 @@ public static class UserExt
                                Id = Convert.ToInt32(id.Value),
                                UserName = userName?.Value
                        };
+    }
+
+    public static SecurityKey GetSecurityKey(this string secret)
+    {
+        return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
     }
 }

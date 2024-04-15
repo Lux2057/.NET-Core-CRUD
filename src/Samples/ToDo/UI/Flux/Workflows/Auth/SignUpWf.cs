@@ -4,6 +4,7 @@
 
 using Fluxor;
 using JetBrains.Annotations;
+using Microsoft.JSInterop;
 using Samples.ToDo.Shared;
 
 #endregion
@@ -14,15 +15,19 @@ public class SignUpWf
 
     private readonly AuthAPI authApi;
 
+    private readonly IJSRuntime js;
+
     #endregion
 
     #region Constructors
 
     public SignUpWf(HttpClient http,
                     IDispatcher dispatcher,
-                    IState<LocalizationState> localizationState)
+                    IState<LanguageState> localizationState,
+                    IJSRuntime js)
     {
         this.authApi = new AuthAPI(http, dispatcher, localizationState);
+        this.js = js;
     }
 
     #endregion
@@ -71,7 +76,7 @@ public class SignUpWf
         var authInfo = await this.authApi.SignUpAsync(request: action.Request,
                                                       validationKey: action.ValidationKey);
 
-        dispatcher.Dispatch(new LocalStorageAuthWf.Set(authInfo));
+        await LocalStorage.SetAsync(this.js, LocalStorage.Key.AuthInfo, authInfo);
 
         dispatcher.Dispatch(new Update(authInfo, action.Callback));
     }

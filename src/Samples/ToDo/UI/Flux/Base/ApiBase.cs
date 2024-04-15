@@ -14,7 +14,7 @@ public abstract class ApiBase
 
     protected readonly HttpClient Http;
 
-    protected readonly IState<LocalizationState> localizationState;
+    protected readonly IState<LanguageState> localizationState;
 
     #endregion
 
@@ -22,7 +22,7 @@ public abstract class ApiBase
 
     public ApiBase(HttpClient http,
                    IDispatcher dispatcher,
-                   IState<LocalizationState> localizationState)
+                   IState<LanguageState> localizationState)
     {
         this.Http = http;
         this.dispatcher = dispatcher;

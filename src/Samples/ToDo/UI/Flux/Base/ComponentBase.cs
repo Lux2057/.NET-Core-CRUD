@@ -26,13 +26,6 @@ public class ComponentBase : Fluxor.Blazor.Web.Components.FluxorComponent
     protected AuthState AuthState => authState?.Value ?? new AuthState(false, null);
 
     #endregion
-
-    protected override void OnInitialized()
-    {
-        authState.StateChanged += (_, _) => StateHasChanged();
-
-        base.OnInitialized();
-    }
 }
 
 public class ComponentBase<TState> : ComponentBase

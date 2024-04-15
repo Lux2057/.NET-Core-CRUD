@@ -4,11 +4,28 @@
 
 using Fluxor;
 using JetBrains.Annotations;
+using Microsoft.JSInterop;
+using Samples.ToDo.Shared;
 
 #endregion
 
 public class SignOutWf
 {
+    #region Properties
+
+    private readonly IJSRuntime js;
+
+    #endregion
+
+    #region Constructors
+
+    public SignOutWf(IJSRuntime js)
+    {
+        this.js = js;
+    }
+
+    #endregion
+
     #region Nested Classes
 
     public record Init(Action Callback = default);
@@ -27,13 +44,11 @@ public class SignOutWf
 
     [EffectMethod,
      UsedImplicitly]
-    public Task HandleInit(Init action, IDispatcher dispatcher)
+    public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
         dispatcher.Dispatch(new Update(action.Callback));
 
-        dispatcher.Dispatch(new LocalStorageAuthWf.Set(null));
-
-        return Task.CompletedTask;
+        await LocalStorage.SetAsync(this.js, LocalStorage.Key.AuthInfo, (AuthInfoDto)null);
     }
 
     [ReducerMethod,

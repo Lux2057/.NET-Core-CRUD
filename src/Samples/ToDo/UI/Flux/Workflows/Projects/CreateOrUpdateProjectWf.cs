@@ -23,7 +23,7 @@ public class CreateOrUpdateProjectWf
 
     public CreateOrUpdateProjectWf(HttpClient http,
                                    IDispatcher dispatcher,
-                                   IState<LocalizationState> localizationState)
+                                   IState<LanguageState> localizationState)
     {
         this.projectsAPI = new ProjectsAPI(http, dispatcher, localizationState);
         this.tagsAPI = new TagsAPI(http, dispatcher, localizationState);

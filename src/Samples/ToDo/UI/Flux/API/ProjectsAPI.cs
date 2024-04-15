@@ -14,7 +14,7 @@ public class ProjectsAPI : ApiBase
 
     public ProjectsAPI(HttpClient http,
                        IDispatcher dispatcher,
-                       IState<LocalizationState> localizationState)
+                       IState<LanguageState> localizationState)
             : base(http, dispatcher, localizationState) { }
 
     #endregion

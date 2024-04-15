@@ -8,7 +8,7 @@ using Microsoft.JSInterop;
 
 #endregion
 
-public class SetCultureWf
+public class SetLanguageWf
 {
     #region Properties
 
@@ -18,7 +18,7 @@ public class SetCultureWf
 
     #region Constructors
 
-    public SetCultureWf(IJSRuntime js)
+    public SetLanguageWf(IJSRuntime js)
     {
         this.js = js;
     }
@@ -35,10 +35,10 @@ public class SetCultureWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static LocalizationState OnInit(LocalizationState state, Init action)
+    public static LanguageState OnInit(LanguageState state, Init action)
     {
-        return new LocalizationState(isUpdating: true,
-                                     language: state.Language);
+        return new LanguageState(isUpdating: true,
+                                 language: state.Language);
     }
 
     [EffectMethod,
@@ -52,10 +52,10 @@ public class SetCultureWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static LocalizationState OnUpdate(LocalizationState state, Update action)
+    public static LanguageState OnUpdate(LanguageState state, Update action)
     {
-        return new LocalizationState(isUpdating: false,
-                                     language: action.Language);
+        return new LanguageState(isUpdating: false,
+                                 language: action.Language);
     }
 
     [EffectMethod,

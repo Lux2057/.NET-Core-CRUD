@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 #endregion
 
 [FeatureState]
-public class LocalizationState
+public class LanguageState
 {
     #region Properties
 
@@ -22,12 +22,12 @@ public class LocalizationState
     #region Constructors
 
     [UsedImplicitly]
-    LocalizationState()
+    LanguageState()
     {
         Language = CultureInfo.CurrentCulture.Name;
     }
 
-    public LocalizationState(string language, bool isUpdating)
+    public LanguageState(string language, bool isUpdating)
     {
         Language = language;
         IsUpdating = isUpdating;

@@ -5,6 +5,7 @@
 using Extensions;
 using Fluxor;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using Samples.ToDo.Shared;
 
 #endregion
@@ -33,7 +34,9 @@ public class AuthState
     AuthState()
     {
         IsLoading = false;
-        AuthInfo = null;
+
+        var authInfoJson = LocalStorage.GetBuiltInValueOrDefault(LocalStorage.Key.AuthInfo);
+        AuthInfo = authInfoJson.IsNullOrWhitespace() ? null : JsonConvert.DeserializeObject<AuthInfoDto>(authInfoJson);
     }
 
     public AuthState(bool isLoading,

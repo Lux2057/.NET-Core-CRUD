@@ -41,10 +41,7 @@ public class AuthMiddleware : Middleware
 
             if (!authState.IsAuthenticated)
             {
-                if (authState.AuthInfo == null)
-                    this.Dispatcher.Dispatch(new LocalStorageAuthWf.Fetch(authInfo => this.Dispatcher.Dispatch(authInfo != null ? action : new NavigationWf.NavigateTo(UiRoutes.Auth, true))));
-                else
-                    this.Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth, true));
+                this.Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth, true));
 
                 return false;
             }

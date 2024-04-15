@@ -13,7 +13,7 @@ public partial class LanguageSelectorComponent : ComponentBase
     #region Properties
 
     [Inject]
-    private IState<LocalizationState> localizationState { get; set; }
+    private IState<LanguageState> localizationState { get; set; }
 
     private string currentLanguage { get => localizationState.Value.Language; set => setCurrentLanguage(value); }
 
@@ -24,7 +24,7 @@ public partial class LanguageSelectorComponent : ComponentBase
         if (localizationState.Value.Language == language)
             return;
 
-        Dispatcher.Dispatch(new SetCultureWf.Init(Language: language,
+        Dispatcher.Dispatch(new SetLanguageWf.Init(Language: language,
                                                   Callback: () => Dispatcher.Dispatch(new NavigationWf.Refresh(true))));
     }
 }

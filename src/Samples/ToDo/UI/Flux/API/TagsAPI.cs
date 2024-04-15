@@ -13,7 +13,7 @@ public class TagsAPI : ApiBase
 
     public TagsAPI(HttpClient http,
                    IDispatcher dispatcher,
-                   IState<LocalizationState> localizationState)
+                   IState<LanguageState> localizationState)
             : base(http, dispatcher, localizationState) { }
 
     #endregion

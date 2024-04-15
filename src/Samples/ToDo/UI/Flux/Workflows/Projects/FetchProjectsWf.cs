@@ -20,7 +20,7 @@ public class FetchProjectsWf
 
     public FetchProjectsWf(HttpClient http,
                            IDispatcher dispatcher,
-                           IState<LocalizationState> localizationState)
+                           IState<LanguageState> localizationState)
     {
         this.api = new ProjectsAPI(http, dispatcher, localizationState);
     }

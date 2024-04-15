@@ -1,8 +1,10 @@
 #region << Using >>
 
+using Extensions;
 using Fluxor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.JSInterop;
 using Samples.ToDo.Shared;
 using Samples.ToDo.UI;
 
@@ -28,6 +30,12 @@ builder.Services.AddFluxor(o =>
 builder.Services.AddLocalization();
 
 var host = builder.Build();
+
+var js = host.Services.GetRequiredService<IJSRuntime>();
+await LocalStorage.FetchBuiltInValuesAsync(js);
+
+if (LocalStorage.GetBuiltInValueOrDefault(LocalStorage.Key.Language).IsNullOrWhitespace())
+    await LocalStorage.SetAsync(js, LocalStorage.Key.Language, LocalizationConst.DefaultLanguage);
 
 await host.InitLanguageAsync(LocalizationConst.DefaultLanguage);
 

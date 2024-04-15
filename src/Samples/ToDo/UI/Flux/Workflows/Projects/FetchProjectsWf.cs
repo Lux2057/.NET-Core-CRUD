@@ -31,7 +31,7 @@ public class FetchProjectsWf
 
     public record Init(int Page,
                        string SearchTerm = default,
-                       Action Callback = default) : IAuthenticatedAction
+                       Action Callback = default) : IAuthRequiredAction
     {
         #region Properties
 

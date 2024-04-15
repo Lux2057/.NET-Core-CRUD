@@ -2,7 +2,6 @@
 
 #region << Using >>
 
-using Fluxor;
 using Microsoft.AspNetCore.Components;
 using ComponentBase = Samples.ToDo.UI.ComponentBase;
 
@@ -13,9 +12,7 @@ public partial class NavMenu : ComponentBase
     #region Properties
 
     [Inject]
-    private IState<AuthState> authState { get; set; }
-
-    private AuthState auth => authState.Value;
+    private NavigationManager navigationManager { get; set; }
 
     private string navMenuCssClass => this.collapseNavMenu ? "collapse" : null;
 
@@ -25,7 +22,7 @@ public partial class NavMenu : ComponentBase
 
     protected override void OnInitialized()
     {
-        NavigationManager.LocationChanged += (s, e) => StateHasChanged();
+        navigationManager.LocationChanged += (_, _) => StateHasChanged();
     }
 
     private void toggleNavMenu()
@@ -35,6 +32,6 @@ public partial class NavMenu : ComponentBase
 
     private void signOut()
     {
-        Dispatcher.Dispatch(new SignOutWf.Init(() => NavigationManager.NavigateTo(UiRoutes.Auth)));
+        Dispatcher.Dispatch(new SignOutWf.Init(() => Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth, true))));
     }
 }

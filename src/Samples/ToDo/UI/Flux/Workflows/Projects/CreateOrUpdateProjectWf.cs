@@ -33,7 +33,7 @@ public class CreateOrUpdateProjectWf
 
     #region Nested Classes
 
-    public record Init : ValidatingAction<CreateOrUpdateProjectRequest>, IAuthenticatedAction
+    public record Init : ValidatingAction<CreateOrUpdateProjectRequest>, IAuthRequiredAction
     {
         #region Properties
 

@@ -2,8 +2,10 @@
 
 #region << Using >>
 
+using Extensions;
 using Microsoft.JSInterop;
-using System.Linq.Expressions;
+using Newtonsoft.Json;
+using Samples.ToDo.Shared;
 
 #endregion
 
@@ -27,5 +29,17 @@ public static class JsExt
     public static async Task InitDragulaAsync(this IJSRuntime js, object refObj, string[] statusesIds, string callbackName)
     {
         await js.InvokeVoidAsync("initDragula", refObj, statusesIds, callbackName);
+    }
+
+    public static async Task<AuthInfoDto> GetAuthInfoAsync(this IJSRuntime js)
+    {
+        var value = await js.InvokeAsync<string>("authInfo.get");
+
+        return value.IsNullOrWhitespace() ? null : JsonConvert.DeserializeObject<AuthInfoDto>(value);
+    }
+
+    public static async Task SetAuthInfoAsync(this IJSRuntime js, AuthInfoDto authInfo)
+    {
+        await js.InvokeVoidAsync("authInfo.set", authInfo?.ToJsonString());
     }
 }

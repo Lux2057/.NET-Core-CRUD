@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="d-flex">
             <div class="p-1">
-                <a class="navbar-brand" href="@(auth.IsAuthenticated ? UiRoutes.Projects : UiRoutes.Auth)">ToDo</a>
+                <a class="navbar-brand" href="@(AuthState.IsAuthenticated ? UiRoutes.Projects : UiRoutes.Auth)">ToDo</a>
             </div>
             <div class="p-1 ms-2">
                 <LanguageSelectorComponent />
@@ -18,7 +18,7 @@
 
 <div class="@navMenuCssClass nav-scrollable" @onclick="toggleNavMenu">
     <nav class="flex-column">
-        @if (auth?.IsAuthenticated == true)
+        @if (AuthState?.IsAuthenticated == true)
         {
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="@UiRoutes.Projects" Match="NavLinkMatch.All">

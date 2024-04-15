@@ -71,6 +71,8 @@ public class SignInWf
         var authInfo = await this.authApi.SignInAsync(request: action.Request,
                                                       validationKey: action.ValidationKey);
 
+        dispatcher.Dispatch(new LocalStorageAuthWf.Set(authInfo));
+
         dispatcher.Dispatch(new Update(authInfo, action.Callback));
     }
 

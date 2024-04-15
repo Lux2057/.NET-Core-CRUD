@@ -1,6 +1,6 @@
 ﻿namespace Samples.ToDo.UI;
 
-public interface IAuthenticatedAction
+public interface IAuthRequiredAction
 {
     #region Properties
 

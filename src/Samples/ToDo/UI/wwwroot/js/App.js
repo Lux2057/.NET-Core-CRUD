@@ -26,3 +26,8 @@ window.blazorCulture = {
         get : () => window.localStorage['BlazorCulture'],
         set : (value) => window.localStorage['BlazorCulture'] = value
     };
+
+window.authInfo = {
+        get : () => window.localStorage['AuthInfo'],
+        set : (value) => window.localStorage["AuthInfo"] = value
+    };

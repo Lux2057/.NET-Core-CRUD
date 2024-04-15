@@ -35,13 +35,16 @@ public class AuthMiddleware : Middleware
 
     public override bool MayDispatchAction(object action)
     {
-        if (action is IAuthenticatedAction authenticatedAction)
+        if (action is IAuthRequiredAction authenticatedAction)
         {
             var authState = AuthState();
 
-            if (authState?.IsAuthenticated != true)
+            if (!authState.IsAuthenticated)
             {
-                this.Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth, true));
+                if (authState.AuthInfo == null)
+                    this.Dispatcher.Dispatch(new LocalStorageAuthWf.Fetch(authInfo => this.Dispatcher.Dispatch(authInfo != null ? action : new NavigationWf.NavigateTo(UiRoutes.Auth, true))));
+                else
+                    this.Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth, true));
 
                 return false;
             }
@@ -75,6 +78,6 @@ public class AuthMiddleware : Middleware
     {
         this.Store.Features.TryGetValue(typeof(AuthState).FullName!, out var feature);
 
-        return (AuthState)feature!.GetState();
+        return (AuthState)feature!.GetState() ?? new AuthState(false, null);
     }
 }

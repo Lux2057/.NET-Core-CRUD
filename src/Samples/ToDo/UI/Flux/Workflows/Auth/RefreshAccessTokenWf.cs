@@ -68,6 +68,8 @@ public class RefreshAccessTokenWf
     {
         var authInfo = await this.authApi.RefreshTokenAsync(request: action.Request, validationKey: action.ValidationKey);
 
+        dispatcher.Dispatch(new LocalStorageAuthWf.Set(authInfo));
+
         dispatcher.Dispatch(new Update(authInfo, action.Callback));
     }
 

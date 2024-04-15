@@ -25,6 +25,6 @@ public partial class LanguageSelectorComponent : ComponentBase
             return;
 
         Dispatcher.Dispatch(new SetCultureWf.Init(Language: language,
-                                                  Callback: () => Dispatcher.Dispatch(new NavigationWf.NavigateTo(NavigationManager.Uri, true))));
+                                                  Callback: () => Dispatcher.Dispatch(new NavigationWf.Refresh(true))));
     }
 }

@@ -31,6 +31,8 @@ public class SignOutWf
     {
         dispatcher.Dispatch(new Update(action.Callback));
 
+        dispatcher.Dispatch(new LocalStorageAuthWf.Set(null));
+
         return Task.CompletedTask;
     }
 

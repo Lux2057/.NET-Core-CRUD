@@ -29,6 +29,8 @@ public class NavigationWf
 
     public record NavigateTo(string Route, bool ForceLoad);
 
+    public record Refresh(bool ForceLoad);
+
     #endregion
 
     [EffectMethod,
@@ -36,6 +38,15 @@ public class NavigationWf
     public Task HandleNavigateToAuth(NavigateTo action, IDispatcher _)
     {
         this.navigationManager.NavigateTo(action.Route, action.ForceLoad);
+
+        return Task.CompletedTask;
+    }
+
+    [EffectMethod,
+     UsedImplicitly]
+    public Task HandleNavigateToAuth(Refresh action, IDispatcher _)
+    {
+        this.navigationManager.Refresh(action.ForceLoad);
 
         return Task.CompletedTask;
     }

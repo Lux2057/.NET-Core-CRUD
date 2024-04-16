@@ -35,7 +35,7 @@ public class AuthState
     {
         IsLoading = false;
 
-        var authInfoJson = LocalStorage.GetBuiltInValueOrDefault(LocalStorage.Key.AuthInfo);
+        var authInfoJson = LocalStorage.GetOrDefault(LocalStorage.Key.AuthInfo);
         AuthInfo = authInfoJson.IsNullOrWhitespace() ? null : JsonConvert.DeserializeObject<AuthInfoDto>(authInfoJson);
     }
 

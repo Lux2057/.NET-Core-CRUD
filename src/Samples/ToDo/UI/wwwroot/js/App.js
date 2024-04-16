@@ -30,8 +30,3 @@ window.ToDoSample = {
                 set : (key, value) => window.localStorage[key] = value
             }
     };
-
-window.blazorCulture = {
-        get : () => window.localStorage['BlazorCulture'],
-        set : (value) => window.localStorage['BlazorCulture'] = value
-    };

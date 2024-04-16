@@ -3,29 +3,33 @@
 #region << Using >>
 
 using System.Globalization;
-using Fluxor;
+using Extensions;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
+using Newtonsoft.Json;
+using Samples.ToDo.Shared;
 
 #endregion
 
 public static class WebAssemblyHostExt
 {
-    public static async Task InitLanguageAsync(this WebAssemblyHost host, string defaultLanguage)
+    public static async Task InitLocalStorageAsync(this WebAssemblyHost host)
     {
-        CultureInfo culture;
         var js = host.Services.GetRequiredService<IJSRuntime>();
-        var result = await js.GetBlazorLanguageAsync();
 
-        if (result != null)
-        {
-            culture = new CultureInfo(result);
-        }
-        else
-        {
-            culture = new CultureInfo(defaultLanguage);
-            await js.SetBlazorLanguageAsync(defaultLanguage);
-        }
+        await js.FetchLocalStorageValuesAsync();
+
+        await js.setLanguageAsync();
+    }
+
+    static async Task setLanguageAsync(this IJSRuntime js)
+    {
+        if (LocalStorage.GetOrDefault(LocalStorage.Key.Language).IsNullOrWhitespace())
+            await js.SetLocalStorageAsync(LocalStorage.Key.Language, LocalizationConst.DefaultLanguage);
+
+        var language = JsonConvert.DeserializeObject<string>(LocalStorage.GetOrDefault(LocalStorage.Key.Language))!;
+
+        var culture = new CultureInfo(language);
 
         CultureInfo.DefaultThreadCurrentCulture = culture;
         CultureInfo.DefaultThreadCurrentUICulture = culture;

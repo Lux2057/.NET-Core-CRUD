@@ -4,8 +4,6 @@
 
 using Extensions;
 using Microsoft.JSInterop;
-using Newtonsoft.Json;
-using Samples.ToDo.Shared;
 
 #endregion
 
@@ -27,23 +25,36 @@ public static class AppJsExt
         await js.InvokeVoidAsync($"{AppName}.Modal.close", modalId);
     }
 
-    public static async Task<string> GetLocalStorageValueAsync(this IJSRuntime js, string key)
+    #region LocalStorage
+
+    static async Task<string> getLocalStorageValueAsync(this IJSRuntime js, string key)
     {
         return await js.InvokeAsync<string>($"{AppName}.LocalStorage.get", key);
     }
 
-    public static async Task SetLocalStorageValue(this IJSRuntime js, string key, string value)
+    static async Task setLocalStorageValue(this IJSRuntime js, string key, string value)
     {
         await js.InvokeVoidAsync($"{AppName}.LocalStorage.set", key, value);
     }
 
-    public static async Task<string> GetBlazorLanguageAsync(this IJSRuntime js)
+    public static async Task SetLocalStorageAsync<T>(this IJSRuntime js, LocalStorage.Key key, T value)
     {
-        return await js.InvokeAsync<string>("blazorCulture.get");
+        var jsonValue = value?.ToJsonString() ?? string.Empty;
+
+        await js.setLocalStorageValue(key.ToString(), jsonValue);
+
+        LocalStorage.AddOrUpdate(key, jsonValue);
     }
 
-    public static async Task SetBlazorLanguageAsync(this IJSRuntime js, string language)
+    public static async Task FetchLocalStorageValuesAsync(this IJSRuntime js)
     {
-        await js.InvokeVoidAsync("blazorCulture.set", language);
+        foreach (var key in Enum.GetValues<LocalStorage.Key>())
+        {
+            var value = await js.getLocalStorageValueAsync(key.ToString());
+
+            LocalStorage.AddOrUpdate(key, value);
+        }
     }
+
+    #endregion
 }

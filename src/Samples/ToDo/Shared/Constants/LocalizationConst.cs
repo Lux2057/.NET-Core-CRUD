@@ -13,7 +13,7 @@ public class LocalizationConst
     public static readonly Dictionary<string, string> SupportedLanguages =
             new()
             {
-                    { "en-US", "English" },
+                    { DefaultLanguage, "English" },
                     { "ru-RU", "Русский" }
             };
 

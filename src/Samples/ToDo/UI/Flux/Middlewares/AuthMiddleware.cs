@@ -29,7 +29,7 @@ public class AuthMiddleware : Middleware
         this.Store.UnhandledException += (_, exceptionArgs) =>
                                          {
                                              if (exceptionArgs.Exception.GetType() == typeof(UnauthorizedAccessException))
-                                                 this.Dispatcher.Dispatch(new SignOutWf.Init(() => this.Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth, true))));
+                                                 this.Dispatcher.Dispatch(new SignOutWf.Init(() => this.Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth, ForceLoad: true))));
                                          };
     }
 
@@ -41,7 +41,7 @@ public class AuthMiddleware : Middleware
 
             if (!authState.IsAuthenticated)
             {
-                this.Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth, true));
+                this.Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth, ForceLoad: true, IgnoreRefresh: true));
 
                 return false;
             }

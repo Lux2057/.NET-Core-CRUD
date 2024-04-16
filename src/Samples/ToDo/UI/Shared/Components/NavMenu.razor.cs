@@ -32,6 +32,6 @@ public partial class NavMenu : ComponentBase
 
     private void signOut()
     {
-        Dispatcher.Dispatch(new SignOutWf.Init(() => Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth, true))));
+        Dispatcher.Dispatch(new SignOutWf.Init(() => Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Auth, ForceLoad: true))));
     }
 }

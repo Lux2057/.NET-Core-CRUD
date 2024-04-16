@@ -48,7 +48,7 @@ public partial class AuthPage : PageBase<AuthState>
 
                                                             await JS.CloseModalAsync(signInModalId);
 
-                                                            Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects, false));
+                                                            Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects));
                                                         },
                                               validationKey: signInValidationKey));
     }
@@ -66,7 +66,7 @@ public partial class AuthPage : PageBase<AuthState>
 
                                                             await JS.CloseModalAsync(signUpModalId);
 
-                                                            Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects, false));
+                                                            Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.Projects));
                                                         },
                                               validationKey: signUpValidationKey));
     }

@@ -76,7 +76,7 @@ public class SignInWf
         var authInfo = await this.authApi.SignInAsync(request: action.Request,
                                                       validationKey: action.ValidationKey);
 
-        await LocalStorage.SetAsync(this.js, LocalStorage.Key.AuthInfo, authInfo);
+        await this.js.SetLocalStorageAsync(LocalStorage.Key.AuthInfo, authInfo);
 
         dispatcher.Dispatch(new Update(authInfo, action.Callback));
     }

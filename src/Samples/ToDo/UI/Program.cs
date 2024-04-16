@@ -31,12 +31,6 @@ builder.Services.AddLocalization();
 
 var host = builder.Build();
 
-var js = host.Services.GetRequiredService<IJSRuntime>();
-await LocalStorage.FetchBuiltInValuesAsync(js);
-
-if (LocalStorage.GetBuiltInValueOrDefault(LocalStorage.Key.Language).IsNullOrWhitespace())
-    await LocalStorage.SetAsync(js, LocalStorage.Key.Language, LocalizationConst.DefaultLanguage);
-
-await host.InitLanguageAsync(LocalizationConst.DefaultLanguage);
+await host.InitLocalStorageAsync();
 
 await host.RunAsync();

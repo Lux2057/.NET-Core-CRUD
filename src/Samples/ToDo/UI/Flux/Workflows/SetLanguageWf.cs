@@ -45,7 +45,7 @@ public class SetLanguageWf
      UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
-        await this.js.SetBlazorLanguageAsync(action.Language);
+        await this.js.SetLocalStorageAsync(LocalStorage.Key.Language, action.Language);
 
         dispatcher.Dispatch(new Update(action.Language, action.Callback));
     }

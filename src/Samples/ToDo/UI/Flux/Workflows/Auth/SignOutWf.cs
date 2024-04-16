@@ -48,7 +48,7 @@ public class SignOutWf
     {
         dispatcher.Dispatch(new Update(action.Callback));
 
-        await LocalStorage.SetAsync(this.js, LocalStorage.Key.AuthInfo, (AuthInfoDto)null);
+        await this.js.SetLocalStorageAsync(LocalStorage.Key.AuthInfo, (AuthInfoDto)null);
     }
 
     [ReducerMethod,

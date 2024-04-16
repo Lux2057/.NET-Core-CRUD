@@ -29,8 +29,6 @@ public class CreateOrUpdateTaskCommand : CommandBase, ICreateOrUpdateTaskRequest
 
     public string Description { get; }
 
-    public DateTime? DueDate { get; }
-
     public int[] TagsIds { get; }
 
     public new bool Result { get; set; }
@@ -45,7 +43,6 @@ public class CreateOrUpdateTaskCommand : CommandBase, ICreateOrUpdateTaskRequest
                                      int statusId,
                                      string name,
                                      string description,
-                                     DateTime? dueDate,
                                      IEnumerable<int> tagsIds)
     {
         Id = id;
@@ -53,7 +50,6 @@ public class CreateOrUpdateTaskCommand : CommandBase, ICreateOrUpdateTaskRequest
         ProjectId = projectId;
         Name = name?.Trim() ?? string.Empty;
         Description = description?.Trim() ?? string.Empty;
-        DueDate = dueDate;
         StatusId = statusId;
         TagsIds = tagsIds.ToDistinctArrayOrEmpty();
     }
@@ -118,7 +114,6 @@ public class CreateOrUpdateTaskCommand : CommandBase, ICreateOrUpdateTaskRequest
             task.Name = command.Name;
             task.Description = command.Description;
             task.UpDt = DateTime.UtcNow;
-            task.DueDate = command.DueDate;
             task.ProjectId = command.ProjectId;
             task.StatusId = command.StatusId;
 

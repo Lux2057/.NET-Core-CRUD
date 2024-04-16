@@ -26,17 +26,18 @@ public class ProjectsAPI : ApiBase
     {
         var uri = $"{ApiRoutes.ReadProjects}?"
                 + $"{ApiRoutes.Params.SearchTerm}={searchTerm}&"
-                + $"{ApiRoutes.Params.page}={page}&";
+                + $"{ApiRoutes.Params.page}={page}";
 
         if (tagsIds?.Any() == true)
             uri += $"&{tagsIds.ToApiParams(ApiRoutes.Params.TagsIds)}";
 
-        var result = await this.Http.GetApiResponseOrDefaultAsync<PaginatedResponseDto<ProjectStateDto>>(dispatcher: this.dispatcher,
-                                                                                                         validationKey: null,
-                                                                                                         httpMethod: HttpMethodType.GET,
-                                                                                                         uri: uri,
-                                                                                                         accessToken: accessToken,
-                                                                                                         cancellationToken: cancellationToken);
+        var result = await this.Http.GetApiResponseOrDefaultAsync
+                             <PaginatedResponseDto<ProjectStateDto>>(dispatcher: this.dispatcher,
+                                                                     validationKey: null,
+                                                                     httpMethod: HttpMethodType.GET,
+                                                                     uri: uri,
+                                                                     accessToken: accessToken,
+                                                                     cancellationToken: cancellationToken);
 
         return result ?? new PaginatedResponseDto<ProjectStateDto>();
     }

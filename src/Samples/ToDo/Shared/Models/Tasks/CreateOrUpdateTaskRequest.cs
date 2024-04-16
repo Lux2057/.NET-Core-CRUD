@@ -14,8 +14,6 @@ public interface ICreateOrUpdateTaskRequest
 
     public string Description { get; }
 
-    public DateTime? DueDate { get; }
-
     public int[] TagsIds { get; }
 
     #endregion
@@ -34,8 +32,6 @@ public class CreateOrUpdateTaskRequest : ICreateOrUpdateProjectRequest
     public int StatusId { get; set; }
 
     public string Description { get; set; }
-
-    public DateTime? DueDate { get; set; }
 
     public int[] TagsIds { get; set; }
 

@@ -28,8 +28,6 @@ public class TaskEntity : EntityBase,
 
     public DateTime? UpDt { get; set; }
 
-    public DateTime? DueDate { get; set; }
-
     public int UserId { get; set; }
 
     public virtual UserEntity User { get; set; }
@@ -57,7 +55,6 @@ public class TaskEntity : EntityBase,
             builder.Property(r => r.Name).IsRequired();
             builder.Property(r => r.Description).HasColumnTypeText();
             builder.Property(r => r.UpDt);
-            builder.Property(r => r.DueDate);
             builder.HasOne(r => r.Project).WithMany(r => r.Tasks).HasForeignKey(r => r.ProjectId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(r => r.User).WithMany(r => r.Tasks).HasForeignKey(r => r.UserId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(r => r.Status).WithMany(r => r.Tasks).HasForeignKey(r => r.StatusId).OnDelete(DeleteBehavior.Cascade);
@@ -75,7 +72,6 @@ public class TaskEntity : EntityBase,
                     .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))
                     .ForMember(r => r.Name, r => r.MapFrom(x => x.Name))
                     .ForMember(r => r.Description, r => r.MapFrom(x => x.Description))
-                    .ForMember(r => r.DueDate, r => r.MapFrom(x => x.DueDate))
                     .ForMember(r => r.StatusId, r => r.MapFrom(x => x.StatusId))
                     .ForMember(r => r.Tags, r => r.Ignore())
                     .ReverseMap();

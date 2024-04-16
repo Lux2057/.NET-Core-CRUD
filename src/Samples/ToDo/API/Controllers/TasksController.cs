@@ -51,7 +51,6 @@ public class TasksController : DispatcherControllerBase
                                                     name: request.Name,
                                                     projectId: request.ProjectId,
                                                     description: request.Description,
-                                                    dueDate: request.DueDate,
                                                     tagsIds: request.TagsIds);
 
         await Dispatcher.PushAsync(command, cancellationToken);

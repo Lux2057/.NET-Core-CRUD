@@ -17,7 +17,7 @@ namespace Samples.ToDo.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -231,9 +231,6 @@ namespace Samples.ToDo.API.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("DueDate")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -300,67 +297,6 @@ namespace Samples.ToDo.API.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Tasks_Tags");
-                });
-
-            modelBuilder.Entity("Samples.ToDo.API.ToDoListEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CrDt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ToDoList");
-                });
-
-            modelBuilder.Entity("Samples.ToDo.API.ToDoListItemEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CrDt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<int>("ToDoListId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ToDoListId");
-
-                    b.ToTable("ToDoListItem");
                 });
 
             modelBuilder.Entity("Samples.ToDo.API.UserEntity", b =>
@@ -506,17 +442,6 @@ namespace Samples.ToDo.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Samples.ToDo.API.ToDoListItemEntity", b =>
-                {
-                    b.HasOne("Samples.ToDo.API.ToDoListEntity", "ToDoList")
-                        .WithMany("Items")
-                        .HasForeignKey("ToDoListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ToDoList");
-                });
-
             modelBuilder.Entity("Samples.ToDo.API.ProjectEntity", b =>
                 {
                     b.Navigation("Tags");
@@ -539,11 +464,6 @@ namespace Samples.ToDo.API.Migrations
             modelBuilder.Entity("Samples.ToDo.API.TaskEntity", b =>
                 {
                     b.Navigation("Tags");
-                });
-
-            modelBuilder.Entity("Samples.ToDo.API.ToDoListEntity", b =>
-                {
-                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("Samples.ToDo.API.UserEntity", b =>

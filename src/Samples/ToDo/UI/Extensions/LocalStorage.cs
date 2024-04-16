@@ -3,6 +3,8 @@
 #region << Using >>
 
 using System.Collections.Concurrent;
+using Extensions;
+using Newtonsoft.Json;
 
 #endregion
 
@@ -30,8 +32,11 @@ public static class LocalStorage
         return values.ContainsKey(key) ? values.TryUpdate(key, value, values[key]) : values.TryAdd(key, value);
     }
 
-    public static string GetOrDefault(Key key)
+    public static T GetOrDefault<T>(Key key)
     {
-        return values.ContainsKey(key) ? values[key] : default;
+        if (!values.ContainsKey(key))
+            return default(T);
+
+        return values[key].IsNullOrWhitespace() ? default(T) : JsonConvert.DeserializeObject<T>(values[key]);
     }
 }

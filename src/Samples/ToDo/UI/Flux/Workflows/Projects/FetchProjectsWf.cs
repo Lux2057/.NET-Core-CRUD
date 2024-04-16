@@ -19,10 +19,9 @@ public class FetchProjectsWf
     #region Constructors
 
     public FetchProjectsWf(HttpClient http,
-                           IDispatcher dispatcher,
-                           IState<LanguageState> localizationState)
+                           IDispatcher dispatcher)
     {
-        this.api = new ProjectsAPI(http, dispatcher, localizationState);
+        this.api = new ProjectsAPI(http, dispatcher);
     }
 
     #endregion

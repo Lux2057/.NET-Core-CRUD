@@ -14,19 +14,15 @@ public abstract class ApiBase
 
     protected readonly HttpClient Http;
 
-    protected readonly IState<LanguageState> localizationState;
-
     #endregion
 
     #region Constructors
 
     public ApiBase(HttpClient http,
-                   IDispatcher dispatcher,
-                   IState<LanguageState> localizationState)
+                   IDispatcher dispatcher)
     {
         this.Http = http;
         this.dispatcher = dispatcher;
-        this.localizationState = localizationState;
     }
 
     #endregion

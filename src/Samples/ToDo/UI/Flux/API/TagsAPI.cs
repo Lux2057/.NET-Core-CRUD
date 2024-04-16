@@ -12,9 +12,8 @@ public class TagsAPI : ApiBase
     #region Constructors
 
     public TagsAPI(HttpClient http,
-                   IDispatcher dispatcher,
-                   IState<LanguageState> localizationState)
-            : base(http, dispatcher, localizationState) { }
+                   IDispatcher dispatcher)
+            : base(http, dispatcher) { }
 
     #endregion
 
@@ -26,7 +25,6 @@ public class TagsAPI : ApiBase
         var uri = $"{ApiRoutes.ReadTags}?{ids.ToApiParams(ApiRoutes.Params.TagsIds)}";
 
         var result = await this.Http.GetApiResponseOrDefaultAsync<TagDto[]>(dispatcher: this.dispatcher,
-                                                                            acceptLanguage: this.localizationState.Value.Language,
                                                                             validationKey: validationKey,
                                                                             httpMethod: HttpMethodType.GET,
                                                                             uri: uri,

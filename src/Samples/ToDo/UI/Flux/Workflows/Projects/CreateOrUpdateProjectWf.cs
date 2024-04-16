@@ -22,11 +22,10 @@ public class CreateOrUpdateProjectWf
     #region Constructors
 
     public CreateOrUpdateProjectWf(HttpClient http,
-                                   IDispatcher dispatcher,
-                                   IState<LanguageState> localizationState)
+                                   IDispatcher dispatcher)
     {
-        this.projectsAPI = new ProjectsAPI(http, dispatcher, localizationState);
-        this.tagsAPI = new TagsAPI(http, dispatcher, localizationState);
+        this.projectsAPI = new ProjectsAPI(http, dispatcher);
+        this.tagsAPI = new TagsAPI(http, dispatcher);
     }
 
     #endregion

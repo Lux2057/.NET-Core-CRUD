@@ -13,9 +13,8 @@ public class ProjectsAPI : ApiBase
     #region Constructors
 
     public ProjectsAPI(HttpClient http,
-                       IDispatcher dispatcher,
-                       IState<LanguageState> localizationState)
-            : base(http, dispatcher, localizationState) { }
+                       IDispatcher dispatcher)
+            : base(http, dispatcher) { }
 
     #endregion
 
@@ -33,7 +32,6 @@ public class ProjectsAPI : ApiBase
             uri += $"&{tagsIds.ToApiParams(ApiRoutes.Params.TagsIds)}";
 
         var result = await this.Http.GetApiResponseOrDefaultAsync<PaginatedResponseDto<ProjectStateDto>>(dispatcher: this.dispatcher,
-                                                                                                         acceptLanguage: this.localizationState.Value.Language,
                                                                                                          validationKey: null,
                                                                                                          httpMethod: HttpMethodType.GET,
                                                                                                          uri: uri,
@@ -49,7 +47,6 @@ public class ProjectsAPI : ApiBase
                                                 CancellationToken cancellationToken = default)
     {
         return await this.Http.GetApiResponseOrDefaultAsync<bool>(dispatcher: this.dispatcher,
-                                                                  acceptLanguage: this.localizationState.Value.Language,
                                                                   validationKey: validationKey,
                                                                   httpMethod: HttpMethodType.POST,
                                                                   uri: ApiRoutes.CreateOrUpdateProject,

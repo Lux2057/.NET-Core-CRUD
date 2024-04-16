@@ -23,10 +23,9 @@ public class SignUpWf
 
     public SignUpWf(HttpClient http,
                     IDispatcher dispatcher,
-                    IState<LanguageState> localizationState,
                     IJSRuntime js)
     {
-        this.authApi = new AuthAPI(http, dispatcher, localizationState);
+        this.authApi = new AuthAPI(http, dispatcher);
         this.js = js;
     }
 

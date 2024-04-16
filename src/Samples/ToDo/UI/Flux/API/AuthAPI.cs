@@ -12,9 +12,8 @@ public class AuthAPI : ApiBase
     #region Constructors
 
     public AuthAPI(HttpClient http,
-                   IDispatcher dispatcher,
-                   IState<LanguageState> localizationState) :
-            base(http, dispatcher, localizationState) { }
+                   IDispatcher dispatcher) :
+            base(http, dispatcher) { }
 
     #endregion
 
@@ -23,7 +22,6 @@ public class AuthAPI : ApiBase
                                                CancellationToken cancellationToken = default)
     {
         return await this.Http.GetApiResponseOrDefaultAsync<AuthInfoDto>(dispatcher: this.dispatcher,
-                                                                         acceptLanguage: this.localizationState.Value.Language,
                                                                          validationKey: validationKey,
                                                                          httpMethod: HttpMethodType.POST,
                                                                          uri: ApiRoutes.SignIn,
@@ -37,7 +35,6 @@ public class AuthAPI : ApiBase
                                                CancellationToken cancellationToken = default)
     {
         return await this.Http.GetApiResponseOrDefaultAsync<AuthInfoDto>(dispatcher: this.dispatcher,
-                                                                         acceptLanguage: this.localizationState.Value.Language,
                                                                          validationKey: validationKey,
                                                                          httpMethod: HttpMethodType.POST,
                                                                          uri: ApiRoutes.SignUp,
@@ -51,7 +48,6 @@ public class AuthAPI : ApiBase
                                                      CancellationToken cancellationToken = default)
     {
         return await this.Http.GetApiResponseOrDefaultAsync<AuthInfoDto>(dispatcher: this.dispatcher,
-                                                                         acceptLanguage: this.localizationState.Value.Language,
                                                                          validationKey: validationKey,
                                                                          httpMethod: HttpMethodType.POST,
                                                                          uri: ApiRoutes.RefreshToken,

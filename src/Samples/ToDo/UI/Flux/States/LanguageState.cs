@@ -2,10 +2,8 @@
 
 #region << Using >>
 
-using Extensions;
 using Fluxor;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 
 #endregion
 
@@ -26,8 +24,7 @@ public class LanguageState
     LanguageState()
     {
         IsUpdating = false;
-        var jsonLanguage = LocalStorage.GetOrDefault(LocalStorage.Key.Language);
-        Language = jsonLanguage.IsNullOrWhitespace() ? string.Empty : JsonConvert.DeserializeObject<string>(jsonLanguage);
+        Language = LocalStorage.GetOrDefault<string>(LocalStorage.Key.Language);
     }
 
     public LanguageState(string language, bool isUpdating)

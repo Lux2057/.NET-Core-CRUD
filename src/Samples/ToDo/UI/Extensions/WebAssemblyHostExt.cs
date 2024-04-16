@@ -24,10 +24,10 @@ public static class WebAssemblyHostExt
 
     static async Task setLanguageAsync(this IJSRuntime js)
     {
-        if (LocalStorage.GetOrDefault(LocalStorage.Key.Language).IsNullOrWhitespace())
+        if (LocalStorage.GetOrDefault<string>(LocalStorage.Key.Language).IsNullOrWhitespace())
             await js.SetLocalStorageAsync(LocalStorage.Key.Language, LocalizationConst.DefaultLanguage);
 
-        var language = JsonConvert.DeserializeObject<string>(LocalStorage.GetOrDefault(LocalStorage.Key.Language))!;
+        var language = LocalStorage.GetOrDefault<string>(LocalStorage.Key.Language);
 
         var culture = new CultureInfo(language);
 

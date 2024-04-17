@@ -53,38 +53,6 @@ public abstract class NameProp
             }
         }
 
-        public class ContainedTerm<TEntity> : SpecificationBase<TEntity> where TEntity : EntityBase, Interface, new()
-        {
-            #region Properties
-
-            readonly bool caseSensitive;
-
-            private readonly string term;
-
-            #endregion
-
-            #region Constructors
-
-            public ContainedTerm(string term, bool caseSensitive = false)
-            {
-                this.term = term;
-                this.caseSensitive = caseSensitive;
-            }
-
-            #endregion
-
-            public override Expression<Func<TEntity, bool>> ToExpression()
-            {
-                if (this.term.IsNullOrWhitespace())
-                    return x => true;
-
-                if (this.caseSensitive)
-                    return x => x.Name.Contains(this.term);
-
-                return x => x.Name.ToLower().Contains(this.term.ToLower());
-            }
-        }
-
         #endregion
     }
 

@@ -25,9 +25,7 @@ public class ProjectsController : DispatcherControllerBase
     [HttpGet,
      Route("~/" + ApiRoutes.ReadProjects),
      ProducesResponseType(typeof(PaginatedResponseDto<ProjectDto>), 200)]
-    public async Task<IActionResult> Read([FromQuery(Name = ApiRoutes.Params.SearchTerm)] string searchTerm,
-                                          [FromQuery(Name = ApiRoutes.Params.page)]
-                                          int? page,
+    public async Task<IActionResult> Read([FromQuery(Name = ApiRoutes.Params.page)] int? page,
                                           [FromQuery(Name = ApiRoutes.Params.pageSize)]
                                           int? pageSize,
                                           CancellationToken cancellationToken = default)
@@ -35,7 +33,6 @@ public class ProjectsController : DispatcherControllerBase
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
         return Ok(await Dispatcher.QueryAsync(new GetProjectsQuery(userId: currentUserId,
-                                                                   searchTerm: searchTerm,
                                                                    disablePaging: false,
                                                                    page: page,
                                                                    pageSize: pageSize), cancellationToken));
@@ -53,15 +50,7 @@ public class ProjectsController : DispatcherControllerBase
                                                        name: request.Name,
                                                        description: request.Description);
 
-        try
-        {
-            await Dispatcher.PushAsync(command, cancellationToken);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        await Dispatcher.PushAsync(command, cancellationToken);
 
         return Ok(command.Result);
     }

@@ -18,14 +18,11 @@ public class ProjectsAPI : ApiBase
 
     #endregion
 
-    public async Task<PaginatedResponseDto<ProjectStateDto>> GetAsync(string searchTerm,
-                                                                      int page,
+    public async Task<PaginatedResponseDto<ProjectStateDto>> GetAsync(int page,
                                                                       string accessToken,
                                                                       CancellationToken cancellationToken = default)
     {
-        var uri = $"{ApiRoutes.ReadProjects}?"
-                + $"{ApiRoutes.Params.SearchTerm}={searchTerm}&"
-                + $"{ApiRoutes.Params.page}={page}";
+        var uri = $"{ApiRoutes.ReadProjects}?{ApiRoutes.Params.page}={page}";
 
         var result = await this.Http.GetApiResponseOrDefaultAsync
                              <PaginatedResponseDto<ProjectStateDto>>(dispatcher: this.dispatcher,

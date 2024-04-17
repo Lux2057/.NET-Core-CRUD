@@ -29,7 +29,6 @@ public class FetchProjectsWf
     #region Nested Classes
 
     public record Init(int Page,
-                       string SearchTerm = default,
                        Action Callback = default) : IAuthRequiredAction
     {
         #region Properties
@@ -57,8 +56,7 @@ public class FetchProjectsWf
      UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
-        var apiResponse = await this.api.GetAsync(searchTerm: action.SearchTerm,
-                                                  page: action.Page,
+        var apiResponse = await this.api.GetAsync(page: action.Page,
                                                   accessToken: action.AccessToken);
 
         dispatcher.Dispatch(new Update(apiResponse, action.Callback));

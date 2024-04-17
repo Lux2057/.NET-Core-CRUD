@@ -18,19 +18,15 @@ public class GetTasksQuery : QueryBase<TaskDto[]>
 
     public int ProjectId { get; }
 
-    public string SearchTerm { get; }
-
     #endregion
 
     #region Constructors
 
     public GetTasksQuery(int userId,
-                         int projectId,
-                         string searchTerm)
+                         int projectId)
     {
         UserId = userId;
         ProjectId = projectId;
-        SearchTerm = searchTerm?.Trim();
     }
 
     #endregion
@@ -50,9 +46,7 @@ public class GetTasksQuery : QueryBase<TaskDto[]>
         {
             var tasksSpec = new IsDeletedProp.FindBy.EqualTo<TaskEntity>(false) &&
                             new UserIdProp.FindBy.EqualTo<TaskEntity>(request.UserId) &&
-                            new ProjectIdProp.FindBy.EqualTo<TaskEntity>(request.ProjectId) &&
-                            (new NameProp.FindBy.ContainedTerm<TaskEntity>(request.SearchTerm) ||
-                             new DescriptionProp.FindBy.ContainedTerm<TaskEntity>(request.SearchTerm));
+                            new ProjectIdProp.FindBy.EqualTo<TaskEntity>(request.ProjectId);
 
             var tasks = await Repository.Read(tasksSpec)
                                         .ProjectTo<TaskDto>(Mapper.ConfigurationProvider)

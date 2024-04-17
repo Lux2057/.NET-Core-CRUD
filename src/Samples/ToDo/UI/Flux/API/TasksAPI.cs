@@ -19,14 +19,12 @@ public class TasksAPI : ApiBase
     #endregion
 
     public async Task<PaginatedResponseDto<TaskStateDto>> GetAsync(int projectId,
-                                                                   string searchTerm,
                                                                    int page,
                                                                    string accessToken,
                                                                    CancellationToken cancellationToken = default)
     {
         var uri = $"{ApiRoutes.ReadTasks}?"
                 + $"{ApiRoutes.Params.ProjectId}={projectId}&"
-                + $"{ApiRoutes.Params.SearchTerm}={searchTerm}&"
                 + $"{ApiRoutes.Params.page}={page}";
 
         var result = await this.Http.GetApiResponseOrDefaultAsync

@@ -23,14 +23,11 @@ public class GetProjectsQuery : QueryBase<PaginatedResponseDto<ProjectDto>>
 
     public int UserId { get; }
 
-    public string SearchTerm { get; }
-
     #endregion
 
     #region Constructors
 
     public GetProjectsQuery(int userId,
-                            string searchTerm,
                             bool disablePaging,
                             int? page = default,
                             int? pageSize = default)
@@ -39,7 +36,6 @@ public class GetProjectsQuery : QueryBase<PaginatedResponseDto<ProjectDto>>
         DisablePaging = disablePaging;
         Page = page ?? 1;
         PageSize = pageSize ?? 10;
-        SearchTerm = searchTerm?.Trim();
     }
 
     #endregion
@@ -58,9 +54,7 @@ public class GetProjectsQuery : QueryBase<PaginatedResponseDto<ProjectDto>>
         protected override async Task<PaginatedResponseDto<ProjectDto>> Execute(GetProjectsQuery request, CancellationToken cancellationToken)
         {
             var projectsSpec = new IsDeletedProp.FindBy.EqualTo<ProjectEntity>(false) &&
-                               new UserIdProp.FindBy.EqualTo<ProjectEntity>(request.UserId) &&
-                               (new NameProp.FindBy.ContainedTerm<ProjectEntity>(request.SearchTerm) ||
-                                new DescriptionProp.FindBy.ContainedTerm<ProjectEntity>(request.SearchTerm));
+                               new UserIdProp.FindBy.EqualTo<ProjectEntity>(request.UserId);
 
             var projectsQueryable = Repository.Read(projectsSpec).ProjectTo<ProjectDto>(Mapper.ConfigurationProvider);
             var totalCount = await projectsQueryable.CountAsync(cancellationToken);

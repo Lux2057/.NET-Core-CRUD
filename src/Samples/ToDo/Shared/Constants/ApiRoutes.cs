@@ -63,11 +63,6 @@ public static class ApiRoutes
         public const string pageSize = "pageSize";
 
         /// <summary>
-        ///     Type: string
-        /// </summary>
-        public const string SearchTerm = "searchTerm";
-
-        /// <summary>
         ///     Type: int
         /// </summary>
         public const string ProjectId = "projectId";

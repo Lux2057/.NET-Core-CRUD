@@ -30,7 +30,6 @@ public class FetchTasksWf
 
     public record Init(int ProjectId,
                        int Page,
-                       string SearchTerm = default,
                        Action Callback = default) : IAuthRequiredAction
     {
         #region Properties
@@ -60,7 +59,6 @@ public class FetchTasksWf
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
         var apiResponse = await this.api.GetAsync(projectId: action.ProjectId,
-                                                  searchTerm: action.SearchTerm,
                                                   page: action.Page,
                                                   accessToken: action.AccessToken);
 

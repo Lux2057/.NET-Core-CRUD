@@ -53,15 +53,17 @@ public class TasksController : DispatcherControllerBase
 
     [HttpPut,
      Route("~/" + ApiRoutes.SetTaskStatus),
-     ProducesResponseType(typeof(int), 200)]
+     ProducesResponseType(typeof(bool), 200)]
     public async Task<IActionResult> SetStatus([FromBody] SetTaskStatusRequest request, CancellationToken cancellationToken = default)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
-        await Dispatcher.PushAsync(new SetTaskStatusCommand(id: request.Id,
-                                                            userId: currentUserId,
-                                                            status: request.Status), cancellationToken);
+        var command = new SetTaskStatusCommand(id: request.Id,
+                                               userId: currentUserId,
+                                               status: request.Status);
 
-        return Ok();
+        await Dispatcher.PushAsync(command, cancellationToken);
+
+        return Ok(command.Result);
     }
 }

@@ -2,7 +2,6 @@
 
 #region << Using >>
 
-using CRUD.Core;
 using Fluxor;
 using JetBrains.Annotations;
 
@@ -19,7 +18,7 @@ public class TasksPageState : ILoadingStatus
 
     public int ProjectId { get; }
 
-    public PaginatedResponseDto<TaskStateDto> Tasks { get; }
+    public TaskStateDto[] Tasks { get; }
 
     #endregion
 
@@ -31,13 +30,13 @@ public class TasksPageState : ILoadingStatus
         IsLoading = false;
         IsCreating = false;
         ProjectId = 0;
-        Tasks = new();
+        Tasks = Array.Empty<TaskStateDto>();
     }
 
     public TasksPageState(bool isLoading,
-                            bool isCreating,
-                            int projectId,
-                            PaginatedResponseDto<TaskStateDto> tasks)
+                          bool isCreating,
+                          int projectId,
+                          TaskStateDto[] tasks)
     {
         IsLoading = isLoading;
         IsCreating = isCreating;

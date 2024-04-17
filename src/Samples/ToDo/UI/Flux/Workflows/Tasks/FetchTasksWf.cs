@@ -2,7 +2,6 @@
 
 #region << Using >>
 
-using CRUD.Core;
 using Fluxor;
 using JetBrains.Annotations;
 
@@ -39,7 +38,7 @@ public class FetchTasksWf
         #endregion
     }
 
-    public record Update(PaginatedResponseDto<TaskStateDto> Tasks,
+    public record Update(TaskStateDto[] Tasks,
                          Action Callback);
 
     #endregion
@@ -49,9 +48,9 @@ public class FetchTasksWf
     public static TasksPageState OnInit(TasksPageState state, Init action)
     {
         return new TasksPageState(isLoading: true,
-                                    isCreating: state.IsCreating,
-                                    projectId: state.ProjectId,
-                                    tasks: state.Tasks);
+                                  isCreating: state.IsCreating,
+                                  projectId: state.ProjectId,
+                                  tasks: state.Tasks);
     }
 
     [EffectMethod,
@@ -70,9 +69,9 @@ public class FetchTasksWf
     public static TasksPageState OnUpdate(TasksPageState state, Update action)
     {
         return new TasksPageState(isLoading: false,
-                                    isCreating: state.IsCreating,
-                                    projectId: state.ProjectId,
-                                    tasks: action.Tasks);
+                                  isCreating: state.IsCreating,
+                                  projectId: state.ProjectId,
+                                  tasks: action.Tasks);
     }
 
     [EffectMethod,

@@ -49,7 +49,7 @@ public class SetTaskStatusCommand : CommandBase, ISetTaskStatusRequest
         public Validator(IDispatcher dispatcher)
         {
             RuleFor(r => r.Id).NotEmpty().WithMessage(Localization.Task_id_cant_be_empty)
-                              .MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<TaskEntity>(id)))
+                              .MustAsync((command, id, _) => dispatcher.QueryAsync(new DoesTaskBelongToUserQuery(command.Id, command.UserId)))
                               .WithMessage(Localization.Task_id_is_invalid);
         }
 

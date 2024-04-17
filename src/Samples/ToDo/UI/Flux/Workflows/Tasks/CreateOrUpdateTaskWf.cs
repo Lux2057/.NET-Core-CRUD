@@ -4,7 +4,6 @@
 
 #region << Using >>
 
-using CRUD.Core;
 using Fluxor;
 using JetBrains.Annotations;
 using Samples.ToDo.Shared;
@@ -17,7 +16,7 @@ public class CreateOrUpdateTaskWf
 {
     #region Properties
 
-    private readonly TasksAPI tasksAPI;
+    private readonly TasksAPI api;
 
     #endregion
 
@@ -26,7 +25,7 @@ public class CreateOrUpdateTaskWf
     public CreateOrUpdateTaskWf(HttpClient http,
                                 IDispatcher dispatcher)
     {
-        this.tasksAPI = new TasksAPI(http, dispatcher);
+        this.api = new TasksAPI(http, dispatcher);
     }
 
     #endregion
@@ -56,11 +55,11 @@ public class CreateOrUpdateTaskWf
         #endregion
     }
 
-    public record UpdateFail(int? TaskId);
+    public record Fail(int? TaskId);
 
-    public record UpdateCreatingSuccess(Action Callback);
+    public record CreatingSuccess(Action Callback);
 
-    public record UpdateEditingSuccess(TaskStateDto Task, Action Callback);
+    public record EditingSuccess(TaskStateDto Task, Action Callback);
 
     #endregion
 
@@ -74,88 +73,80 @@ public class CreateOrUpdateTaskWf
         var isCreating = action.Request.Id == null;
 
         return new TasksPageState(isLoading: state.IsLoading,
-                                    isCreating: isCreating,
-                                    projectId: state.ProjectId,
-                                    tasks: isCreating ?
-                                                   state.Tasks :
-                                                   new PaginatedResponseDto<TaskStateDto>
-                                                   {
-                                                       Items = state.Tasks.Items.Select(r =>
-                                                                                        {
-                                                                                            if (r.Id == action.Request.Id)
-                                                                                                r.IsUpdating = true;
+                                  isCreating: isCreating,
+                                  projectId: state.ProjectId,
+                                  tasks: isCreating ?
+                                                 state.Tasks :
+                                                 state.Tasks.Select(r =>
+                                                                    {
+                                                                        if (r.Id == action.Request.Id)
+                                                                            r.IsUpdating = true;
 
-                                                                                            return r;
-                                                                                        }).ToArray(),
-                                                       PagingInfo = state.Tasks.PagingInfo
-                                                   });
+                                                                        return r;
+                                                                    }).ToArray());
     }
 
     [EffectMethod,
      UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
-        var success = await this.tasksAPI.CreateOrUpdateAsync(request: action.Request,
-                                                              accessToken: action.AccessToken,
-                                                              validationKey: action.ValidationKey);
+        var success = await this.api.CreateOrUpdateAsync(request: action.Request,
+                                                         accessToken: action.AccessToken,
+                                                         validationKey: action.ValidationKey);
 
         if (!success)
         {
-            dispatcher.Dispatch(new UpdateFail(action.Request.Id));
+            dispatcher.Dispatch(new Fail(action.Request.Id));
             return;
         }
 
         if (action.Request.Id == null)
         {
-            dispatcher.Dispatch(new UpdateCreatingSuccess(action.SuccessCallback));
+            dispatcher.Dispatch(new CreatingSuccess(action.SuccessCallback));
             return;
         }
 
-        dispatcher.Dispatch(new UpdateEditingSuccess(Task: new TaskStateDto
-        {
-            Id = action.Request.Id.GetValueOrDefault(),
-            Name = action.Request.Name,
-            Description = action.Request.Description,
-            IsUpdating = false
-        },
-                                                     Callback: action.SuccessCallback));
+        dispatcher.Dispatch(new EditingSuccess(Task: new TaskStateDto
+                                                     {
+                                                             Id = action.Request.Id.GetValueOrDefault(),
+                                                             Name = action.Request.Name,
+                                                             Description = action.Request.Description,
+                                                             IsUpdating = false
+                                                     },
+                                               Callback: action.SuccessCallback));
     }
 
     [ReducerMethod,
      UsedImplicitly]
-    public static TasksPageState OnUpdateFail(TasksPageState state, UpdateFail action)
+    public static TasksPageState OnFail(TasksPageState state, Fail action)
     {
         return new TasksPageState(isLoading: state.IsLoading,
-                                    isCreating: false,
-                                    projectId: state.ProjectId,
-                                    tasks: action.TaskId == null ?
-                                                   state.Tasks :
-                                                   new PaginatedResponseDto<TaskStateDto>
-                                                   {
-                                                       Items = state.Tasks.Items.Select(r =>
-                                                                                        {
-                                                                                            if (r.Id == action.TaskId)
-                                                                                                r.IsUpdating = false;
+                                  isCreating: false,
+                                  projectId: state.ProjectId,
+                                  tasks: action.TaskId == null ?
+                                                 state.Tasks :
+                                                 state.Tasks.Select(r =>
+                                                                    {
+                                                                        if (r.Id == action.TaskId)
+                                                                            r.IsUpdating = false;
 
-                                                                                            return r;
-                                                                                        }).ToArray(),
-                                                       PagingInfo = state.Tasks.PagingInfo
-                                                   });
+                                                                        return r;
+                                                                    }).ToArray());
     }
 
     [ReducerMethod,
      UsedImplicitly]
-    public static TasksPageState OnUpdateCreatingSuccess(TasksPageState state, UpdateCreatingSuccess action)
+    public static TasksPageState OnCreatingSuccess(TasksPageState state, CreatingSuccess action)
     {
         return new TasksPageState(isLoading: state.IsLoading,
-                                    isCreating: false,
-                                    projectId: state.ProjectId,
-                                    tasks: state.Tasks);
+                                  isCreating: false,
+                                  projectId: state.ProjectId,
+                                  tasks: state.Tasks);
     }
 
     [EffectMethod,
      UsedImplicitly]
-    public Task HandleUpdateCreatingSuccess(UpdateCreatingSuccess action, IDispatcher dispatcher)
+    public Task HandleCreatingSuccess(CreatingSuccess action, IDispatcher dispatcher)
     {
         action.Callback?.Invoke();
 
@@ -164,21 +155,17 @@ public class CreateOrUpdateTaskWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static TasksPageState OnUpdateEditingSuccess(TasksPageState state, UpdateEditingSuccess action)
+    public static TasksPageState OnEditingSuccess(TasksPageState state, EditingSuccess action)
     {
         return new TasksPageState(isLoading: state.IsLoading,
-                                    isCreating: state.IsCreating,
-                                    projectId: state.ProjectId,
-                                    tasks: new PaginatedResponseDto<TaskStateDto>
-                                    {
-                                        Items = state.Tasks.Items.Select(r => r.Id == action.Task.Id ? action.Task : r).ToArray(),
-                                        PagingInfo = state.Tasks.PagingInfo
-                                    });
+                                  isCreating: state.IsCreating,
+                                  projectId: state.ProjectId,
+                                  tasks: state.Tasks.Select(r => r.Id == action.Task.Id ? action.Task : r).ToArray());
     }
 
     [EffectMethod,
      UsedImplicitly]
-    public Task HandleUpdateEditingSuccess(UpdateEditingSuccess action, IDispatcher dispatcher)
+    public Task HandleEditingSuccess(EditingSuccess action, IDispatcher dispatcher)
     {
         action.Callback?.Invoke();
 

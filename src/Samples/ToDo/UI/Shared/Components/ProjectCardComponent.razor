@@ -1,85 +1,88 @@
 ﻿@inherits UI.ComponentBase
 
-<div class="p-2 w-25">
-    <div class="card">
-        <div class="card-header">
-            <span>
-                @Localization[nameof(Resource.Project)] #@Model.Id
-            </span>
+<tr>
+    <td class="project-id">
+        <div class="text-truncate" title="@Model.Id">
+            @Model.Id
         </div>
-        <div class="card-body">
-            <div class="d-flex flex-column p-1">
-                <div class="d-flex flex-row">
-                    <div class="fw-bold">
-                        @Localization[nameof(Resource.Name)]:
-                    </div>
-                    <div class="ms-1 text-truncate" title="@State.Name">
-                        @if (isProjectEditing)
-                        {
-                            <input @bind="State.Name" class="form-control" type="text"/>
-                            <ValidationMessageComponent
-                                Key="@validationKey"
-                                Name="r => r.Name"
-                                TRequest="@ICreateOrUpdateProjectRequest"/>
-                        }
-                        else
-                        {
-                            @State.Name
-                        }
-                    </div>
-                </div>
-                <div class="d-flex flex-row">
-                    <div class="fw-bold">
-                        @Localization[nameof(Resource.Description)]:
-                    </div>
-                    <div class="ms-1 text-truncate" title="@State.Description">
-                        @if (isProjectEditing)
-                        {
-                            <input @bind="State.Description" class="form-control" type="text"/>
-                            <ValidationMessageComponent
-                                Key="@validationKey"
-                                Name="r => r.Description"
-                                TRequest="@ICreateOrUpdateProjectRequest"/>
-                        }
-                        else
-                        {
-                            @State.Description
-                        }
-                    </div>
-                </div>
-            </div>
+    </td>
+    <td class="project-name">
+        <div class="m-0 text-truncate" title="@State.Name">
+            @if (isProjectEditing)
+            {
+                <input @bind="State.Name" class="form-control" type="text"/>
+                <ValidationMessageComponent
+                    Key="@validationKey"
+                    Name="r => r.Name"
+                    TRequest="@ICreateOrUpdateProjectRequest"/>
+            }
+            else
+            {
+                @State.Name
+            }
         </div>
-        <div class="card-footer">
-            <div class="d-flex">
-                <div class="p-1">
-                    @if (isProjectEditing)
-                    {
-                        <div class="d-flex">
-                            <div class="me-2 ms-auto">
-                                <button class="btn btn-outline-success btn-sm" @onclick="updateProject" title="@Localization[nameof(Resource.Save)]" type="button">
-                                    <span class="oi oi-check"></span>
-                                </button>
-                            </div>
-                            <div>
-                                <button class="btn btn-outline-secondary btn-sm" @onclick="toggleIsProjectEditing" title="@Localization[nameof(Resource.Cancel)]" type="button">
-                                    <span class="oi oi-circle-x"></span>
-                                </button>
-                            </div>
+    </td>
+    <td class="project-description">
+        <div class="m-0 text-truncate" title="@State.Description">
+            @if (isProjectEditing)
+            {
+                <input @bind="State.Description" class="form-control" type="text"/>
+                <ValidationMessageComponent
+                    Key="@validationKey"
+                    Name="r => r.Description"
+                    TRequest="@ICreateOrUpdateProjectRequest"/>
+            }
+            else
+            {
+                @State.Description
+            }
+        </div>
+    </td>
+    <td class="project-controls">
+        <div class="d-flex m-0">
+            <div>
+                @if (isProjectEditing)
+                {
+                    <div class="d-flex">
+                        <div>
+                            <button class="btn btn-outline-success btn-sm shadow-none"
+                                    @onclick="updateProject"
+                                    title="@Localization[nameof(Resource.Save)]"
+                                    type="button">
+                                <span class="oi oi-check"></span>
+                            </button>
                         </div>
-                    }
-                    else
-                    {
-                        <button class="btn btn-outline-primary btn-sm" @onclick="toggleIsProjectEditing" title="@Localization[nameof(Resource.Edit)]" type="button">
-                            <span class="oi oi-pencil"></span>
-                        </button>
-                    }
-                </div>
-                <div class="ms-auto p-1">
-                    <button class="btn btn-outline-info btn-sm" @onclick="openProjectPage" title="@Localization[nameof(Resource.Open)]" type="button">
+                        <div class="ms-2">
+                            <button class="btn btn-outline-secondary btn-sm shadow-none"
+                                    @onclick="toggleIsProjectEditing"
+                                    title="@Localization[nameof(Resource.Cancel)]"
+                                    type="button">
+                                <span class="oi oi-circle-x"></span>
+                            </button>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <button class="btn btn-outline-primary btn-sm shadow-none"
+                            @onclick="toggleIsProjectEditing"
+                            title="@Localization[nameof(Resource.Edit)]"
+                            type="button">
+                        <span class="oi oi-pencil"></span>
+                    </button>
+                }
+            </div>
+            @if (!isProjectEditing)
+            {
+                <div class="ms-2">
+                    <button class="btn btn-outline-info btn-sm shadow-none"
+                            @onclick="openProjectPage"
+                            title="@Localization[nameof(Resource.Open)]"
+                            type="button">
                         <span class="oi oi-document"></span>
                     </button>
                 </div>
-            </div>
+            }
         </div>
-    </div>
-</div>
+    </td>
+</tr>

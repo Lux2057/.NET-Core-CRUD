@@ -82,5 +82,10 @@ a, .btn-link { color: #0071c1; }
 
 a.nav-link { padding-left: 5px; }
 
-/*HACK: hide Highcharts stock navigator label*/
-g.highcharts-label.highcharts-series-label.highcharts-navigator-series.highcharts-color-none { display: none; }
+.project-id { width: 70px; }
+
+.project-controls { width: 100px; }
+
+.project-name { width: calc((100% - 170px) * 0.3) }
+
+.project-description { width: calc((100% - 170px) * 0.7) }

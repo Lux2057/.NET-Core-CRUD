@@ -32,14 +32,18 @@ public partial class ProjectCardComponent : UI.ComponentBase
 
     private void updateProject()
     {
-        isProjectEditing = false;
         Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(request: new CreateOrUpdateProjectRequest
                                                                       {
                                                                               Id = State.Id,
                                                                               Description = State.Description,
                                                                               Name = State.Name
                                                                       },
-                                                             validationKey: this.validationKey));
+                                                             validationKey: this.validationKey,
+                                                             successCallback: () =>
+                                                                              {
+                                                                                  isProjectEditing = false;
+                                                                                  InvokeAsync(StateHasChanged);
+                                                                              }));
     }
 
     private void toggleIsProjectEditing()

@@ -32,26 +32,6 @@ public static class ApiRoutes
     /// <summary>
     ///     HttpMethod.GET
     /// </summary>
-    public const string ReadStatuses = "Statuses/Read";
-
-    /// <summary>
-    ///     HttpMethod.POST
-    /// </summary>
-    public const string CreateOrUpdateStatus = "Statuses/CreateOrUpdate";
-
-    /// <summary>
-    ///     HttpMethod.GET
-    /// </summary>
-    public const string ReadTags = "Tags/Read";
-
-    /// <summary>
-    ///     HttpMethod.POST
-    /// </summary>
-    public const string CreateTag = "Tags/Create";
-
-    /// <summary>
-    ///     HttpMethod.GET
-    /// </summary>
     public const string ReadTasks = "Tasks/Read";
 
     /// <summary>
@@ -73,16 +53,6 @@ public static class ApiRoutes
         #region Constants
 
         /// <summary>
-        ///     Type: int[]
-        /// </summary>
-        public const string ids = "ids";
-
-        /// <summary>
-        ///     Type: int
-        /// </summary>
-        public const string id = "id";
-
-        /// <summary>
         ///     Type: int?
         /// </summary>
         public const string page = "page";
@@ -93,19 +63,9 @@ public static class ApiRoutes
         public const string pageSize = "pageSize";
 
         /// <summary>
-        ///     Type: int
-        /// </summary>
-        public const string toDoListId = "toDoListId";
-
-        /// <summary>
         ///     Type: string
         /// </summary>
         public const string SearchTerm = "searchTerm";
-
-        /// <summary>
-        ///     Type: int[]
-        /// </summary>
-        public const string TagsIds = "tagsIds";
 
         /// <summary>
         ///     Type: int

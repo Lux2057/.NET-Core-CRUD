@@ -10,7 +10,5 @@ public class ProjectDto
 
     public string Description { get; set; }
 
-    public TagDto[] Tags { get; set; }
-
     #endregion
 }

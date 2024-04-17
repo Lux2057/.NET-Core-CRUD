@@ -26,16 +26,13 @@ public class TasksController : DispatcherControllerBase
     public async Task<IActionResult> Get([FromQuery(Name = ApiRoutes.Params.ProjectId)] int projectId,
                                          [FromQuery(Name = ApiRoutes.Params.SearchTerm)]
                                          string searchTerm,
-                                         [FromQuery(Name = ApiRoutes.Params.TagsIds)]
-                                         int[] tagsIds,
                                          CancellationToken cancellationToken = default)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
         return Ok(await Dispatcher.QueryAsync(new GetTasksQuery(userId: currentUserId,
                                                                 projectId: projectId,
-                                                                searchTerm: searchTerm,
-                                                                tagsIds: tagsIds), cancellationToken));
+                                                                searchTerm: searchTerm), cancellationToken));
     }
 
     [HttpPost,
@@ -47,11 +44,10 @@ public class TasksController : DispatcherControllerBase
 
         var command = new CreateOrUpdateTaskCommand(id: request.Id,
                                                     userId: currentUserId,
-                                                    statusId: request.StatusId,
+                                                    status: request.Status,
                                                     name: request.Name,
                                                     projectId: request.ProjectId,
-                                                    description: request.Description,
-                                                    tagsIds: request.TagsIds);
+                                                    description: request.Description);
 
         await Dispatcher.PushAsync(command, cancellationToken);
 
@@ -66,7 +62,7 @@ public class TasksController : DispatcherControllerBase
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
         await Dispatcher.PushAsync(new SetTaskStatusCommand(id: request.Id,
                                                             userId: currentUserId,
-                                                            statusId: request.StatusId), cancellationToken);
+                                                            status: request.Status), cancellationToken);
 
         return Ok();
     }

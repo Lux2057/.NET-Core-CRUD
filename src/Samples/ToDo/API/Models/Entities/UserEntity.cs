@@ -21,13 +21,7 @@ public class UserEntity : EntityBase
 
     public virtual ICollection<ProjectEntity> Projects { get; set; }
 
-    public virtual ICollection<ProjectToTagEntity> ProjectsToTags { get; set; }
-
     public virtual ICollection<TaskEntity> Tasks { get; set; }
-
-    public virtual ICollection<StatusEntity> Statuses { get; set; }
-
-    public virtual ICollection<TaskToTagEntity> TasksToTags { get; set; }
 
     public virtual ICollection<RefreshTokenEntity> Tokens { get; set; }
 

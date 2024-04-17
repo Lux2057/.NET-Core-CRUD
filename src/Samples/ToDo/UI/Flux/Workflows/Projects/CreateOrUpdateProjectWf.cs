@@ -15,8 +15,6 @@ public class CreateOrUpdateProjectWf
 
     private readonly ProjectsAPI projectsAPI;
 
-    private readonly TagsAPI tagsAPI;
-
     #endregion
 
     #region Constructors
@@ -25,7 +23,6 @@ public class CreateOrUpdateProjectWf
                                    IDispatcher dispatcher)
     {
         this.projectsAPI = new ProjectsAPI(http, dispatcher);
-        this.tagsAPI = new TagsAPI(http, dispatcher);
     }
 
     #endregion
@@ -106,18 +103,11 @@ public class CreateOrUpdateProjectWf
             return;
         }
 
-        var tags = action.Request.TagsIds.Any() ?
-                           await this.tagsAPI.GetAsync(ids: action.Request.TagsIds,
-                                                       validationKey: action.ValidationKey,
-                                                       accessToken: action.AccessToken) :
-                           Array.Empty<TagDto>();
-
         dispatcher.Dispatch(new UpdateEditingSuccess(Project: new ProjectStateDto
                                                               {
                                                                       Id = action.Request.Id.GetValueOrDefault(),
                                                                       Name = action.Request.Name,
                                                                       Description = action.Request.Description,
-                                                                      Tags = tags,
                                                                       IsUpdating = false
                                                               },
                                                      Callback: action.SuccessCallback));

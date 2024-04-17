@@ -21,15 +21,11 @@ public class ProjectsAPI : ApiBase
     public async Task<PaginatedResponseDto<ProjectStateDto>> GetAsync(string searchTerm,
                                                                       int page,
                                                                       string accessToken,
-                                                                      int[] tagsIds = default,
                                                                       CancellationToken cancellationToken = default)
     {
         var uri = $"{ApiRoutes.ReadProjects}?"
                 + $"{ApiRoutes.Params.SearchTerm}={searchTerm}&"
                 + $"{ApiRoutes.Params.page}={page}";
-
-        if (tagsIds?.Any() == true)
-            uri += $"&{tagsIds.ToApiParams(ApiRoutes.Params.TagsIds)}";
 
         var result = await this.Http.GetApiResponseOrDefaultAsync
                              <PaginatedResponseDto<ProjectStateDto>>(dispatcher: this.dispatcher,

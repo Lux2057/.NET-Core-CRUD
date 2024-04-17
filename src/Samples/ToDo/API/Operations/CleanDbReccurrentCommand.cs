@@ -31,12 +31,6 @@ public class CleanDbRecurrentCommand : CommandBase
 
         protected override async Task Execute(CleanDbRecurrentCommand command, CancellationToken cancellationToken)
         {
-            var tagsToDelete = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<TagEntity>(true)).Take(deletingCount).ToArrayAsync(cancellationToken);
-            await Repository.DeleteAsync(tagsToDelete, cancellationToken);
-
-            var statusesToDelete = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<StatusEntity>(true)).Take(deletingCount).ToArrayAsync(cancellationToken);
-            await Repository.DeleteAsync(statusesToDelete, cancellationToken);
-
             var usersToDelete = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<UserEntity>(true)).Take(deletingCount).ToArrayAsync(cancellationToken);
             await Repository.DeleteAsync(usersToDelete, cancellationToken);
 

@@ -10,9 +10,7 @@ public class TaskDto
 
     public string Description { get; set; }
 
-    public int StatusId { get; set; }
-
-    public TagDto[] Tags { get; set; }
+    public TaskStatus Status { get; set; }
 
     #endregion
 }

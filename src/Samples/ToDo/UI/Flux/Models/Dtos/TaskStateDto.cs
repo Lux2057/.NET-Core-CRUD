@@ -24,10 +24,7 @@ public class TaskStateDto : TaskDto, IUpdatingStatus, ICloneable
                        Name = Name,
                        Description = Description,
                        IsUpdating = IsUpdating,
-                       StatusId = StatusId,
-                       Tags = Tags == null ?
-                                      Array.Empty<TagDto>() :
-                                      (TagDto[])Tags.Clone()
+                       Status = Status
                };
     }
 

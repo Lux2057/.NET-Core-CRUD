@@ -23,10 +23,7 @@ public class ProjectStateDto : ProjectDto, IUpdatingStatus, ICloneable
                        Id = Id,
                        Name = Name,
                        Description = Description,
-                       IsUpdating = IsUpdating,
-                       Tags = Tags == null ?
-                                      Array.Empty<TagDto>() :
-                                      (TagDto[])Tags.Clone()
+                       IsUpdating = IsUpdating
                };
     }
 

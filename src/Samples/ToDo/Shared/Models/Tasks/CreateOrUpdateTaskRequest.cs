@@ -10,16 +10,14 @@ public interface ICreateOrUpdateTaskRequest
 
     public int ProjectId { get; }
 
-    public int StatusId { get; }
+    public TaskStatus Status { get; }
 
     public string Description { get; }
-
-    public int[] TagsIds { get; }
 
     #endregion
 }
 
-public class CreateOrUpdateTaskRequest : ICreateOrUpdateProjectRequest
+public class CreateOrUpdateTaskRequest : ICreateOrUpdateTaskRequest
 {
     #region Properties
 
@@ -29,11 +27,9 @@ public class CreateOrUpdateTaskRequest : ICreateOrUpdateProjectRequest
 
     public int ProjectId { get; set; }
 
-    public int StatusId { get; set; }
+    public TaskStatus Status { get; set; }
 
     public string Description { get; set; }
-
-    public int[] TagsIds { get; set; }
 
     #endregion
 }

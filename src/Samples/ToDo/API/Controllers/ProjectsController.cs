@@ -26,8 +26,6 @@ public class ProjectsController : DispatcherControllerBase
      Route("~/" + ApiRoutes.ReadProjects),
      ProducesResponseType(typeof(PaginatedResponseDto<ProjectDto>), 200)]
     public async Task<IActionResult> Read([FromQuery(Name = ApiRoutes.Params.SearchTerm)] string searchTerm,
-                                          [FromQuery(Name = ApiRoutes.Params.TagsIds)]
-                                          int[] tagsIds,
                                           [FromQuery(Name = ApiRoutes.Params.page)]
                                           int? page,
                                           [FromQuery(Name = ApiRoutes.Params.pageSize)]
@@ -38,7 +36,6 @@ public class ProjectsController : DispatcherControllerBase
 
         return Ok(await Dispatcher.QueryAsync(new GetProjectsQuery(userId: currentUserId,
                                                                    searchTerm: searchTerm,
-                                                                   tagsIds: tagsIds,
                                                                    disablePaging: false,
                                                                    page: page,
                                                                    pageSize: pageSize), cancellationToken));
@@ -54,10 +51,17 @@ public class ProjectsController : DispatcherControllerBase
         var command = new CreateOrUpdateProjectCommand(id: request.Id,
                                                        userId: currentUserId,
                                                        name: request.Name,
-                                                       description: request.Description,
-                                                       tagsIds: request.TagsIds);
+                                                       description: request.Description);
 
-        await Dispatcher.PushAsync(command, cancellationToken);
+        try
+        {
+            await Dispatcher.PushAsync(command, cancellationToken);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
 
         return Ok(command.Result);
     }

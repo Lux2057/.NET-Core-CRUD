@@ -37,8 +37,7 @@ public partial class ProjectCardComponent : UI.ComponentBase
                                                                       {
                                                                               Id = State.Id,
                                                                               Description = State.Description,
-                                                                              Name = State.Name,
-                                                                              TagsIds = State.Tags.Select(r => r.Id).ToArray()
+                                                                              Name = State.Name
                                                                       },
                                                              validationKey: this.validationKey));
     }

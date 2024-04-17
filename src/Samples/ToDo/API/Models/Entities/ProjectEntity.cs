@@ -33,8 +33,6 @@ public class ProjectEntity : EntityBase,
 
     public virtual ICollection<TaskEntity> Tasks { get; set; }
 
-    public virtual ICollection<ProjectToTagEntity> Tags { get; set; }
-
     #endregion
 
     #region Nested Classes
@@ -63,7 +61,6 @@ public class ProjectEntity : EntityBase,
                     .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))
                     .ForMember(r => r.Name, r => r.MapFrom(x => x.Name))
                     .ForMember(r => r.Description, r => r.MapFrom(x => x.Description))
-                    .ForMember(r => r.Tags, r => r.Ignore())
                     .ReverseMap();
         }
 

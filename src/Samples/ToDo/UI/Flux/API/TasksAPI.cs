@@ -22,16 +22,12 @@ public class TasksAPI : ApiBase
                                                                    string searchTerm,
                                                                    int page,
                                                                    string accessToken,
-                                                                   int[] tagsIds = default,
                                                                    CancellationToken cancellationToken = default)
     {
         var uri = $"{ApiRoutes.ReadTasks}?"
                 + $"{ApiRoutes.Params.ProjectId}={projectId}&"
                 + $"{ApiRoutes.Params.SearchTerm}={searchTerm}&"
                 + $"{ApiRoutes.Params.page}={page}";
-
-        if (tagsIds?.Any() == true)
-            uri += $"&{tagsIds.ToApiParams(ApiRoutes.Params.TagsIds)}";
 
         var result = await this.Http.GetApiResponseOrDefaultAsync
                              <PaginatedResponseDto<TaskStateDto>>(dispatcher: this.dispatcher,

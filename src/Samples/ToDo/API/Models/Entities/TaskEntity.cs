@@ -32,15 +32,11 @@ public class TaskEntity : EntityBase,
 
     public virtual UserEntity User { get; set; }
 
-    public int StatusId { get; set; }
-
-    public virtual StatusEntity Status { get; set; }
+    public TaskStatus Status { get; set; }
 
     public int ProjectId { get; set; }
 
     public virtual ProjectEntity Project { get; set; }
-
-    public virtual ICollection<TaskToTagEntity> Tags { get; set; }
 
     #endregion
 
@@ -55,9 +51,9 @@ public class TaskEntity : EntityBase,
             builder.Property(r => r.Name).IsRequired();
             builder.Property(r => r.Description).HasColumnTypeText();
             builder.Property(r => r.UpDt);
+            builder.Property(r => r.Status).IsRequired();
             builder.HasOne(r => r.Project).WithMany(r => r.Tasks).HasForeignKey(r => r.ProjectId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(r => r.User).WithMany(r => r.Tasks).HasForeignKey(r => r.UserId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(r => r.Status).WithMany(r => r.Tasks).HasForeignKey(r => r.StatusId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 
@@ -72,8 +68,7 @@ public class TaskEntity : EntityBase,
                     .ForMember(r => r.Id, r => r.MapFrom(x => x.Id))
                     .ForMember(r => r.Name, r => r.MapFrom(x => x.Name))
                     .ForMember(r => r.Description, r => r.MapFrom(x => x.Description))
-                    .ForMember(r => r.StatusId, r => r.MapFrom(x => x.StatusId))
-                    .ForMember(r => r.Tags, r => r.Ignore())
+                    .ForMember(r => r.Status, r => r.MapFrom(x => x.Status))
                     .ReverseMap();
         }
 

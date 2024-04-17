@@ -6,7 +6,7 @@ public interface ISetTaskStatusRequest
 
     public int Id { get; }
 
-    public int StatusId { get; }
+    public TaskStatus Status { get; }
 
     #endregion
 }
@@ -17,7 +17,7 @@ public class SetTaskStatusRequest : ISetTaskStatusRequest
 
     public int Id { get; set; }
 
-    public int StatusId { get; set; }
+    public TaskStatus Status { get; set; }
 
     #endregion
 }

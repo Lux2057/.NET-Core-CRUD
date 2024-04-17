@@ -17,8 +17,6 @@ public class CreateOrUpdateTaskWf
 {
     #region Properties
 
-    private readonly TagsAPI tagsAPI;
-
     private readonly TasksAPI tasksAPI;
 
     #endregion
@@ -29,7 +27,6 @@ public class CreateOrUpdateTaskWf
                                 IDispatcher dispatcher)
     {
         this.tasksAPI = new TasksAPI(http, dispatcher);
-        this.tagsAPI = new TagsAPI(http, dispatcher);
     }
 
     #endregion
@@ -69,17 +66,16 @@ public class CreateOrUpdateTaskWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static ProjectPageState OnInit(ProjectPageState state, Init action)
+    public static TasksPageState OnInit(TasksPageState state, Init action)
     {
         if (action.Request.ProjectId != state.ProjectId)
             throw new Exception($"Invalid ProjectId: {state.ProjectId} is expected but {action.Request.ProjectId} was sent");
 
         var isCreating = action.Request.Id == null;
 
-        return new ProjectPageState(isLoading: state.IsLoading,
+        return new TasksPageState(isLoading: state.IsLoading,
                                     isCreating: isCreating,
                                     projectId: state.ProjectId,
-                                    statuses: state.Statuses,
                                     tasks: isCreating ?
                                                    state.Tasks :
                                                    new PaginatedResponseDto<TaskStateDto>
@@ -115,18 +111,11 @@ public class CreateOrUpdateTaskWf
             return;
         }
 
-        var tags = action.Request.TagsIds.Any() ?
-                           await this.tagsAPI.GetAsync(ids: action.Request.TagsIds,
-                                                       validationKey: action.ValidationKey,
-                                                       accessToken: action.AccessToken) :
-                           Array.Empty<TagDto>();
-
         dispatcher.Dispatch(new UpdateEditingSuccess(Task: new TaskStateDto
         {
             Id = action.Request.Id.GetValueOrDefault(),
             Name = action.Request.Name,
             Description = action.Request.Description,
-            Tags = tags,
             IsUpdating = false
         },
                                                      Callback: action.SuccessCallback));
@@ -134,12 +123,11 @@ public class CreateOrUpdateTaskWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static ProjectPageState OnUpdateFail(ProjectPageState state, UpdateFail action)
+    public static TasksPageState OnUpdateFail(TasksPageState state, UpdateFail action)
     {
-        return new ProjectPageState(isLoading: state.IsLoading,
+        return new TasksPageState(isLoading: state.IsLoading,
                                     isCreating: false,
                                     projectId: state.ProjectId,
-                                    statuses: state.Statuses,
                                     tasks: action.TaskId == null ?
                                                    state.Tasks :
                                                    new PaginatedResponseDto<TaskStateDto>
@@ -157,12 +145,11 @@ public class CreateOrUpdateTaskWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static ProjectPageState OnUpdateCreatingSuccess(ProjectPageState state, UpdateCreatingSuccess action)
+    public static TasksPageState OnUpdateCreatingSuccess(TasksPageState state, UpdateCreatingSuccess action)
     {
-        return new ProjectPageState(isLoading: state.IsLoading,
+        return new TasksPageState(isLoading: state.IsLoading,
                                     isCreating: false,
                                     projectId: state.ProjectId,
-                                    statuses: state.Statuses,
                                     tasks: state.Tasks);
     }
 
@@ -177,12 +164,11 @@ public class CreateOrUpdateTaskWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static ProjectPageState OnUpdateEditingSuccess(ProjectPageState state, UpdateEditingSuccess action)
+    public static TasksPageState OnUpdateEditingSuccess(TasksPageState state, UpdateEditingSuccess action)
     {
-        return new ProjectPageState(isLoading: state.IsLoading,
+        return new TasksPageState(isLoading: state.IsLoading,
                                     isCreating: state.IsCreating,
                                     projectId: state.ProjectId,
-                                    statuses: state.Statuses,
                                     tasks: new PaginatedResponseDto<TaskStateDto>
                                     {
                                         Items = state.Tasks.Items.Select(r => r.Id == action.Task.Id ? action.Task : r).ToArray(),

@@ -20,7 +20,7 @@ public class SetTaskStatusCommand : CommandBase, ISetTaskStatusRequest
 
     public int UserId { get; }
 
-    public int StatusId { get; }
+    public TaskStatus Status { get; }
 
     public new bool Result { get; set; }
 
@@ -29,11 +29,11 @@ public class SetTaskStatusCommand : CommandBase, ISetTaskStatusRequest
     #region Constructors
 
     public SetTaskStatusCommand(int id,
-                                int statusId,
+                                TaskStatus status,
                                 int userId)
     {
         Id = id;
-        StatusId = statusId;
+        Status = status;
         UserId = userId;
     }
 
@@ -51,10 +51,6 @@ public class SetTaskStatusCommand : CommandBase, ISetTaskStatusRequest
             RuleFor(r => r.Id).NotEmpty().WithMessage(Localization.Task_id_cant_be_empty)
                               .MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<TaskEntity>(id)))
                               .WithMessage(Localization.Task_id_is_invalid);
-
-            RuleFor(r => r.StatusId).NotEmpty().WithMessage(Localization.Status_id_cant_be_empty)
-                                    .MustAsync((statusId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<StatusEntity>(statusId)))
-                                    .WithMessage(Localization.Status_id_is_invalid);
         }
 
         #endregion
@@ -75,7 +71,7 @@ public class SetTaskStatusCommand : CommandBase, ISetTaskStatusRequest
                                              new FindEntityByIntId<TaskEntity>(command.Id))
                                        .SingleAsync(cancellationToken);
 
-            task.StatusId = command.StatusId;
+            task.Status = command.Status;
 
             await Repository.UpdateAsync(task, cancellationToken);
 

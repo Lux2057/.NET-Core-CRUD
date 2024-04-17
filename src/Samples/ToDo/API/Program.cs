@@ -142,14 +142,11 @@ builder.Services.AddEntityRead<LogEntity, int, LogDto>();
 MarkEntitiesAsDeletedCommand<UserEntity>.Register(builder.Services);
 
 IsNameUniqueQuery<ProjectEntity>.Register(builder.Services);
-IsNameUniqueQuery<StatusEntity>.Register(builder.Services);
 IsNameUniqueQuery<TaskEntity>.Register(builder.Services);
 
 DoesEntityExistQuery<UserEntity>.Register(builder.Services);
 DoesEntityExistQuery<ProjectEntity>.Register(builder.Services);
-DoesEntityExistQuery<StatusEntity>.Register(builder.Services);
 DoesEntityExistQuery<TaskEntity>.Register(builder.Services);
-DoesEntityExistQuery<TagEntity>.Register(builder.Services);
 
 #endregion
 

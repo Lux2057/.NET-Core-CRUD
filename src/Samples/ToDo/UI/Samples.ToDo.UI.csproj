@@ -71,8 +71,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Flux\Workflows\Projects\Statuses\" />
-  </ItemGroup>
-
 </Project>

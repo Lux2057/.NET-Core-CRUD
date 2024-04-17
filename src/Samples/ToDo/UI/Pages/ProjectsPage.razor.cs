@@ -9,7 +9,7 @@ using Samples.ToDo.Shared;
 #endregion
 
 [Route(UiRoutes.Projects), Authorize]
-public partial class ProjectsPage : PageBase<ProjectsState>
+public partial class ProjectsPage : PageBase<ProjectsPageState>
 {
     #region Constants
 

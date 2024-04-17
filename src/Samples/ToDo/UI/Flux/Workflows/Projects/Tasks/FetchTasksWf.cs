@@ -47,12 +47,13 @@ public class FetchTasksWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static TasksState OnInit(TasksState state, Init action)
+    public static ProjectPageState OnInit(ProjectPageState state, Init action)
     {
-        return new TasksState(isLoading: true,
-                              isCreating: state.IsCreating,
-                              projectId: state.ProjectId,
-                              tasks: state.Tasks);
+        return new ProjectPageState(isLoading: true,
+                                    isCreating: state.IsCreating,
+                                    projectId: state.ProjectId,
+                                    statuses: state.Statuses,
+                                    tasks: state.Tasks);
     }
 
     [EffectMethod,
@@ -69,12 +70,13 @@ public class FetchTasksWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static TasksState OnUpdate(TasksState state, Update action)
+    public static ProjectPageState OnUpdate(ProjectPageState state, Update action)
     {
-        return new TasksState(isLoading: false,
-                              isCreating: state.IsCreating,
-                              projectId: state.ProjectId,
-                              tasks: action.Tasks);
+        return new ProjectPageState(isLoading: false,
+                                    isCreating: state.IsCreating,
+                                    projectId: state.ProjectId,
+                                    statuses: state.Statuses,
+                                    tasks: action.Tasks);
     }
 
     [EffectMethod,

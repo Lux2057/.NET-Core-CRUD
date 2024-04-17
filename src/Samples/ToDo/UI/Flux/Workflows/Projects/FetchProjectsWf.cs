@@ -46,11 +46,11 @@ public class FetchProjectsWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static ProjectsState OnInit(ProjectsState state, Init action)
+    public static ProjectsPageState OnInit(ProjectsPageState pageState, Init action)
     {
-        return new ProjectsState(isLoading: true,
-                                 isCreating: state.IsCreating,
-                                 projects: state.Projects);
+        return new ProjectsPageState(isLoading: true,
+                                 isCreating: pageState.IsCreating,
+                                 projects: pageState.Projects);
     }
 
     [EffectMethod,
@@ -66,10 +66,10 @@ public class FetchProjectsWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static ProjectsState OnUpdate(ProjectsState state, Update action)
+    public static ProjectsPageState OnUpdate(ProjectsPageState pageState, Update action)
     {
-        return new ProjectsState(isLoading: false,
-                                 isCreating: state.IsCreating,
+        return new ProjectsPageState(isLoading: false,
+                                 isCreating: pageState.IsCreating,
                                  projects: action.Projects);
     }
 

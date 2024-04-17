@@ -65,24 +65,24 @@ public class CreateOrUpdateProjectWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static ProjectsState OnInit(ProjectsState state, Init action)
+    public static ProjectsPageState OnInit(ProjectsPageState pageState, Init action)
     {
         var isCreating = action.Request.Id == null;
 
-        return new ProjectsState(isLoading: state.IsLoading,
+        return new ProjectsPageState(isLoading: pageState.IsLoading,
                                  isCreating: isCreating,
                                  projects: isCreating ?
-                                                   state.Projects :
+                                                   pageState.Projects :
                                                    new PaginatedResponseDto<ProjectStateDto>
                                                    {
-                                                           Items = state.Projects.Items.Select(r =>
+                                                           Items = pageState.Projects.Items.Select(r =>
                                                                                                {
                                                                                                    if (r.Id == action.Request.Id)
                                                                                                        r.IsUpdating = true;
 
                                                                                                    return r;
                                                                                                }).ToArray(),
-                                                           PagingInfo = state.Projects.PagingInfo
+                                                           PagingInfo = pageState.Projects.PagingInfo
                                                    });
     }
 
@@ -125,32 +125,32 @@ public class CreateOrUpdateProjectWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static ProjectsState OnUpdateFail(ProjectsState state, UpdateFail action)
+    public static ProjectsPageState OnUpdateFail(ProjectsPageState pageState, UpdateFail action)
     {
-        return new ProjectsState(isLoading: state.IsLoading,
+        return new ProjectsPageState(isLoading: pageState.IsLoading,
                                  isCreating: false,
                                  projects: action.ProjectId == null ?
-                                                   state.Projects :
+                                                   pageState.Projects :
                                                    new PaginatedResponseDto<ProjectStateDto>
                                                    {
-                                                           Items = state.Projects.Items.Select(r =>
+                                                           Items = pageState.Projects.Items.Select(r =>
                                                                                                {
                                                                                                    if (r.Id == action.ProjectId)
                                                                                                        r.IsUpdating = false;
 
                                                                                                    return r;
                                                                                                }).ToArray(),
-                                                           PagingInfo = state.Projects.PagingInfo
+                                                           PagingInfo = pageState.Projects.PagingInfo
                                                    });
     }
 
     [ReducerMethod,
      UsedImplicitly]
-    public static ProjectsState OnUpdateCreatingSuccess(ProjectsState state, UpdateCreatingSuccess action)
+    public static ProjectsPageState OnUpdateCreatingSuccess(ProjectsPageState pageState, UpdateCreatingSuccess action)
     {
-        return new ProjectsState(isLoading: state.IsLoading,
+        return new ProjectsPageState(isLoading: pageState.IsLoading,
                                  isCreating: false,
-                                 projects: state.Projects);
+                                 projects: pageState.Projects);
     }
 
     [EffectMethod,
@@ -164,14 +164,14 @@ public class CreateOrUpdateProjectWf
 
     [ReducerMethod,
      UsedImplicitly]
-    public static ProjectsState OnUpdateEditingSuccess(ProjectsState state, UpdateEditingSuccess action)
+    public static ProjectsPageState OnUpdateEditingSuccess(ProjectsPageState pageState, UpdateEditingSuccess action)
     {
-        return new ProjectsState(isLoading: state.IsLoading,
-                                 isCreating: state.IsCreating,
+        return new ProjectsPageState(isLoading: pageState.IsLoading,
+                                 isCreating: pageState.IsCreating,
                                  projects: new PaginatedResponseDto<ProjectStateDto>
                                            {
-                                                   Items = state.Projects.Items.Select(r => r.Id == action.Project.Id ? action.Project : r).ToArray(),
-                                                   PagingInfo = state.Projects.PagingInfo
+                                                   Items = pageState.Projects.Items.Select(r => r.Id == action.Project.Id ? action.Project : r).ToArray(),
+                                                   PagingInfo = pageState.Projects.PagingInfo
                                            });
     }
 

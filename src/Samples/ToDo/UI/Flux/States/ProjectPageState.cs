@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 #endregion
 
 [FeatureState]
-public class TasksState : ILoadingStatus
+public class ProjectPageState : ILoadingStatus
 {
     #region Properties
 
@@ -21,28 +21,33 @@ public class TasksState : ILoadingStatus
 
     public PaginatedResponseDto<TaskStateDto> Tasks { get; }
 
+    public StatusStateDto[] Statuses { get; }
+
     #endregion
 
     #region Constructors
 
     [UsedImplicitly]
-    TasksState()
+    ProjectPageState()
     {
+        Statuses = Array.Empty<StatusStateDto>();
         IsLoading = false;
         IsCreating = false;
         ProjectId = 0;
         Tasks = new();
     }
 
-    public TasksState(bool isLoading,
-                      bool isCreating,
-                      int projectId,
-                      PaginatedResponseDto<TaskStateDto> tasks)
+    public ProjectPageState(bool isLoading,
+                            bool isCreating,
+                            int projectId,
+                            PaginatedResponseDto<TaskStateDto> tasks,
+                            StatusStateDto[] statuses)
     {
         IsLoading = isLoading;
         IsCreating = isCreating;
         ProjectId = projectId;
         Tasks = tasks;
+        Statuses = statuses;
     }
 
     #endregion

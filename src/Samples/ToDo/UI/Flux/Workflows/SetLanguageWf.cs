@@ -27,9 +27,11 @@ public class SetLanguageWf
 
     #region Nested Classes
 
-    public record Init(string Language, Action Callback = default);
+    public record Init(string Language,
+                       Action Callback = default);
 
-    public record Update(string Language, Action Callback);
+    public record Update(string Language,
+                         Action Callback);
 
     #endregion
 

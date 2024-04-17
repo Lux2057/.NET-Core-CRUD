@@ -27,7 +27,9 @@ public class NavigationWf
 
     #region Nested Classes
 
-    public record NavigateTo(string Route, bool ForceLoad = false, bool IgnoreRefresh = false);
+    public record NavigateTo(string Route,
+                             bool ForceLoad = false,
+                             bool IgnoreRefresh = false);
 
     public record Refresh(bool ForceLoad);
 
@@ -37,7 +39,7 @@ public class NavigationWf
      UsedImplicitly]
     public Task HandleNavigateToAuth(NavigateTo action, IDispatcher _)
     {
-        if(action.IgnoreRefresh && action.Route == this.navigationManager.Uri)
+        if (action.IgnoreRefresh && action.Route == this.navigationManager.Uri)
             return Task.CompletedTask;
 
         this.navigationManager.NavigateTo(action.Route, action.ForceLoad);

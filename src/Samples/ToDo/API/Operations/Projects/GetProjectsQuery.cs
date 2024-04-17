@@ -35,7 +35,7 @@ public class GetProjectsQuery : QueryBase<PaginatedResponseDto<ProjectDto>>
         UserId = userId;
         DisablePaging = disablePaging;
         Page = page ?? 1;
-        PageSize = pageSize ?? 10;
+        PageSize = pageSize ?? 20;
     }
 
     #endregion

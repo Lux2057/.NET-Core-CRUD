@@ -17,6 +17,8 @@ public class MarkEntitiesAsDeletedCommand<TEntity> : CommandBase where TEntity :
 
     public int[] Ids { get; }
 
+    public new bool Result { get; set; }
+
     #endregion
 
     #region Constructors
@@ -39,12 +41,12 @@ public class MarkEntitiesAsDeletedCommand<TEntity> : CommandBase where TEntity :
 
         #endregion
 
-        protected override async Task Execute(MarkEntitiesAsDeletedCommand<TEntity> asDeletedCommand, CancellationToken cancellationToken)
+        protected override async Task Execute(MarkEntitiesAsDeletedCommand<TEntity> command, CancellationToken cancellationToken)
         {
-            if (asDeletedCommand.Ids.Length == 0)
+            if (command.Ids.Length == 0)
                 return;
 
-            var entities = await Repository.Read(new FindEntitiesByIds<TEntity, int>(asDeletedCommand.Ids)).ToArrayAsync(cancellationToken);
+            var entities = await Repository.Read(new FindEntitiesByIds<TEntity, int>(command.Ids)).ToArrayAsync(cancellationToken);
 
             if (entities.Length == 0)
                 return;
@@ -52,6 +54,8 @@ public class MarkEntitiesAsDeletedCommand<TEntity> : CommandBase where TEntity :
             Parallel.ForEach(entities, entity => entity.IsDeleted = true);
 
             await Repository.UpdateAsync(entities, cancellationToken);
+
+            command.Result = true;
         }
     }
 

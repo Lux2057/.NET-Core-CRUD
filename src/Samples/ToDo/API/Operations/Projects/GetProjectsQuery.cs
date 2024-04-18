@@ -1,4 +1,4 @@
-﻿namespace Samples.ToDo.API.Projects;
+﻿namespace Samples.ToDo.API;
 
 #region << Using >>
 

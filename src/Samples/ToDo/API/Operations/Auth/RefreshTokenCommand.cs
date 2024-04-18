@@ -9,7 +9,6 @@ using FluentValidation.Results;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Samples.ToDo.API.Resources;
 using Samples.ToDo.Shared;
 
 #endregion

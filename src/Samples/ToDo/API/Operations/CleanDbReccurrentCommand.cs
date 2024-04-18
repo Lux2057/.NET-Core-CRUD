@@ -31,14 +31,14 @@ public class CleanDbRecurrentCommand : CommandBase
 
         protected override async Task Execute(CleanDbRecurrentCommand command, CancellationToken cancellationToken)
         {
-            var usersToDelete = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<UserEntity>(true)).Take(deletingCount).ToArrayAsync(cancellationToken);
-            await Repository.DeleteAsync(usersToDelete, cancellationToken);
+            var tasksToDelete = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<TaskEntity>(true)).Take(deletingCount).ToArrayAsync(cancellationToken);
+            await Repository.DeleteAsync(tasksToDelete, cancellationToken);
 
             var projectsToDelete = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<ProjectEntity>(true)).Take(deletingCount).ToArrayAsync(cancellationToken);
             await Repository.DeleteAsync(projectsToDelete, cancellationToken);
 
-            var tasksToDelete = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<TaskEntity>(true)).Take(deletingCount).ToArrayAsync(cancellationToken);
-            await Repository.DeleteAsync(tasksToDelete, cancellationToken);
+            var usersToDelete = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<UserEntity>(true)).Take(deletingCount).ToArrayAsync(cancellationToken);
+            await Repository.DeleteAsync(usersToDelete, cancellationToken);
 
             BackgroundJob.Schedule<IDispatcher>(dispatcher => dispatcher.PushAsync(new CleanDbRecurrentCommand(), new CancellationToken(), IsolationLevel.ReadCommitted), TimeSpan.FromMinutes(10));
         }

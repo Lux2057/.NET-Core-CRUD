@@ -7,7 +7,6 @@ using CRUD.DAL.Abstractions;
 using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
-using Samples.ToDo.API.Resources;
 using Samples.ToDo.Shared;
 
 #endregion
@@ -60,12 +59,8 @@ public class CreateOrUpdateTaskCommand : CommandBase, ICreateOrUpdateTaskRequest
 
         public Validator(IDispatcher dispatcher)
         {
-            When(r => r.Id != null,
-                 () =>
-                 {
-                     RuleFor(r => r.Id).MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<TaskEntity>(id.Value)))
-                                       .WithMessage(Localization.Task_id_is_invalid);
-                 });
+            RuleFor(r => r.Id).MustAsync((command, _, _) => dispatcher.QueryAsync(new DoesEntityBelongToUserQuery<TaskEntity>(command.Id, command.UserId)))
+                              .WithMessage(Localization.Task_id_is_invalid);
 
             RuleFor(r => r.UserId).NotEmpty().WithMessage(Localization.User_id_cant_be_empty)
                                   .MustAsync((userId, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(userId)))

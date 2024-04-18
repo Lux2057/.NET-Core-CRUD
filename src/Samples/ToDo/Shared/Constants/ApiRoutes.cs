@@ -30,6 +30,11 @@ public static class ApiRoutes
     public const string CreateOrUpdateProject = "Projects/CreateOrUpdate";
 
     /// <summary>
+    ///     HttpMethod.DELETE
+    /// </summary>
+    public const string DeleteProject = "Projects/Delete";
+
+    /// <summary>
     ///     HttpMethod.GET
     /// </summary>
     public const string ReadTasks = "Tasks/Read";
@@ -43,6 +48,11 @@ public static class ApiRoutes
     ///     HttpMethod.PUT
     /// </summary>
     public const string SetTaskStatus = "Tasks/SetStatus";
+
+    /// <summary>
+    ///     HttpMethod.DELETE
+    /// </summary>
+    public const string DeleteTask = "Tasks/Delete";
 
     #endregion
 

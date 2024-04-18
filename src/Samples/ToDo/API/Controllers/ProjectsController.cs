@@ -7,7 +7,6 @@ using CRUD.CQRS;
 using CRUD.WebAPI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Samples.ToDo.API.Projects;
 using Samples.ToDo.Shared;
 
 #endregion
@@ -23,7 +22,7 @@ public class ProjectsController : DispatcherControllerBase
     #endregion
 
     [HttpGet,
-     Route("~/" + ApiRoutes.ReadProjects),
+     Route($"~/{ApiRoutes.ReadProjects}"),
      ProducesResponseType(typeof(PaginatedResponseDto<ProjectDto>), 200)]
     public async Task<IActionResult> Read([FromQuery(Name = ApiRoutes.Params.page)] int? page,
                                           [FromQuery(Name = ApiRoutes.Params.pageSize)]
@@ -39,8 +38,8 @@ public class ProjectsController : DispatcherControllerBase
     }
 
     [HttpPost,
-     Route("~/" + ApiRoutes.CreateOrUpdateProject),
-     ProducesResponseType(typeof(int), 200)]
+     Route($"~/{ApiRoutes.CreateOrUpdateProject}"),
+     ProducesResponseType(typeof(bool), 200)]
     public async Task<IActionResult> CreateOrUpdate([FromBody] CreateOrUpdateProjectRequest request, CancellationToken cancellationToken = default)
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
@@ -49,6 +48,21 @@ public class ProjectsController : DispatcherControllerBase
                                                        userId: currentUserId,
                                                        name: request.Name,
                                                        description: request.Description);
+
+        await Dispatcher.PushAsync(command, cancellationToken);
+
+        return Ok(command.Result);
+    }
+
+    [HttpDelete,
+     Route($"~/{ApiRoutes.DeleteProject}"),
+     ProducesResponseType(typeof(bool), 200)]
+    public async Task<IActionResult> Delete([FromBody] DeleteEntityRequest request, CancellationToken cancellationToken = default)
+    {
+        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
+
+        var command = new DeleteProjectCommand(id: request.Id,
+                                               userId: currentUserId);
 
         await Dispatcher.PushAsync(command, cancellationToken);
 

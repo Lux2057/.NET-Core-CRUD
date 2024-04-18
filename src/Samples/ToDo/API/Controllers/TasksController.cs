@@ -21,7 +21,7 @@ public class TasksController : DispatcherControllerBase
     #endregion
 
     [HttpGet,
-     Route("~/" + ApiRoutes.ReadTasks),
+     Route($"~/{ApiRoutes.ReadTasks}"),
      ProducesResponseType(typeof(TaskDto[]), 200)]
     public async Task<IActionResult> Get([FromQuery(Name = ApiRoutes.Params.ProjectId)] int projectId,
                                          CancellationToken cancellationToken = default)
@@ -33,7 +33,7 @@ public class TasksController : DispatcherControllerBase
     }
 
     [HttpPost,
-     Route("~/" + ApiRoutes.CreateOrUpdateTask),
+     Route($"~/{ApiRoutes.CreateOrUpdateTask}"),
      ProducesResponseType(typeof(int), 200)]
     public async Task<IActionResult> CreateOrUpdate([FromBody] CreateOrUpdateTaskRequest request, CancellationToken cancellationToken = default)
     {
@@ -52,7 +52,7 @@ public class TasksController : DispatcherControllerBase
     }
 
     [HttpPut,
-     Route("~/" + ApiRoutes.SetTaskStatus),
+     Route($"~/{ApiRoutes.SetTaskStatus}"),
      ProducesResponseType(typeof(bool), 200)]
     public async Task<IActionResult> SetStatus([FromBody] SetTaskStatusRequest request, CancellationToken cancellationToken = default)
     {
@@ -61,6 +61,21 @@ public class TasksController : DispatcherControllerBase
         var command = new SetTaskStatusCommand(id: request.Id,
                                                userId: currentUserId,
                                                status: request.Status);
+
+        await Dispatcher.PushAsync(command, cancellationToken);
+
+        return Ok(command.Result);
+    }
+
+    [HttpDelete,
+     Route($"~/{ApiRoutes.DeleteTask}"),
+     ProducesResponseType(typeof(bool), 200)]
+    public async Task<IActionResult> Delete([FromBody] DeleteEntityRequest request, CancellationToken cancellationToken = default)
+    {
+        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
+
+        var command = new DeleteTaskCommand(id: request.Id,
+                                            userId: currentUserId);
 
         await Dispatcher.PushAsync(command, cancellationToken);
 

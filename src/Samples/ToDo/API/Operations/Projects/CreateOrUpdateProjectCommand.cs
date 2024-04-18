@@ -1,14 +1,12 @@
-﻿namespace Samples.ToDo.API.Projects;
+﻿namespace Samples.ToDo.API;
 
 #region << Using >>
 
 using CRUD.CQRS;
 using CRUD.DAL.Abstractions;
-using Extensions;
 using FluentValidation;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
-using Samples.ToDo.API.Resources;
 using Samples.ToDo.Shared;
 
 #endregion
@@ -53,12 +51,8 @@ public class CreateOrUpdateProjectCommand : CommandBase, ICreateOrUpdateProjectR
 
         public Validator(IDispatcher dispatcher)
         {
-            When(r => r.Id != null,
-                 () =>
-                 {
-                     RuleFor(r => r.Id).MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<ProjectEntity>(id.Value)))
-                                       .WithMessage(Localization.Project_id_is_invalid);
-                 });
+            RuleFor(r => r.Id).MustAsync((command, _, _) => dispatcher.QueryAsync(new DoesEntityBelongToUserQuery<ProjectEntity>(command.Id, command.UserId)))
+                              .WithMessage(Localization.Project_id_is_invalid);
 
             RuleFor(r => r.UserId).NotEmpty().WithMessage(Localization.User_id_cant_be_empty)
                                   .MustAsync((id, _) => dispatcher.QueryAsync(new DoesEntityExistQuery<UserEntity>(id)))

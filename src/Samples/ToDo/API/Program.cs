@@ -139,14 +139,16 @@ builder.Services.AddCQRS(mediatorAssemblies: new[]
 
 builder.Services.AddEntityRead<LogEntity, int, LogDto>();
 
-MarkEntitiesAsDeletedCommand<UserEntity>.Register(builder.Services);
+MarkEntitiesAsDeletedCommand<ProjectEntity>.Register(builder.Services);
+MarkEntitiesAsDeletedCommand<TaskEntity>.Register(builder.Services);
 
 IsNameUniqueQuery<ProjectEntity>.Register(builder.Services);
 IsNameUniqueQuery<TaskEntity>.Register(builder.Services);
 
 DoesEntityExistQuery<UserEntity>.Register(builder.Services);
-DoesEntityExistQuery<ProjectEntity>.Register(builder.Services);
-DoesEntityExistQuery<TaskEntity>.Register(builder.Services);
+
+DoesEntityBelongToUserQuery<ProjectEntity>.Register(builder.Services);
+DoesEntityBelongToUserQuery<TaskEntity>.Register(builder.Services);
 
 #endregion
 

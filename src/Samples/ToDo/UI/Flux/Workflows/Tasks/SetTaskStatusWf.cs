@@ -55,29 +55,7 @@ public class SetTaskStatusWf
         #endregion
     }
 
-    public record Success(SetTaskStatusRequest Request,
-                          Action Callback);
-
-    public record Fail(SetTaskStatusRequest Request,
-                       Action Callback);
-
     #endregion
-
-    [ReducerMethod,
-     UsedImplicitly]
-    public static TasksPageState OnInit(TasksPageState state, Init action)
-    {
-        return new TasksPageState(isLoading: state.IsLoading,
-                                  isCreating: state.IsCreating,
-                                  projectId: state.ProjectId,
-                                  tasks: state.Tasks.Select(r =>
-                                                            {
-                                                                if (r.Id == action.Request.Id)
-                                                                    r.IsUpdating = true;
-
-                                                                return r;
-                                                            }).ToArray());
-    }
 
     [EffectMethod,
      UsedImplicitly]
@@ -88,61 +66,8 @@ public class SetTaskStatusWf
                                                     validationKey: action.ValidationKey);
 
         if (success)
-            dispatcher.Dispatch(new Success(action.Request, action.SuccessCallback));
+            action.SuccessCallback?.Invoke();
         else
-            dispatcher.Dispatch(new Fail(action.Request, action.FailCallback));
-    }
-
-    [ReducerMethod,
-     UsedImplicitly]
-    public static TasksPageState OnSuccess(TasksPageState state, Success action)
-    {
-        return new TasksPageState(isLoading: state.IsLoading,
-                                  isCreating: state.IsCreating,
-                                  projectId: state.ProjectId,
-                                  tasks: state.Tasks.Select(r =>
-                                                            {
-                                                                if (r.Id == action.Request.Id)
-                                                                {
-                                                                    r.IsUpdating = false;
-                                                                    r.Status = action.Request.Status;
-                                                                }
-
-                                                                return r;
-                                                            }).ToArray());
-    }
-
-    [EffectMethod,
-     UsedImplicitly]
-    public Task HandleSuccess(Success action, IDispatcher dispatcher)
-    {
-        action.Callback?.Invoke();
-
-        return Task.CompletedTask;
-    }
-
-    [ReducerMethod,
-     UsedImplicitly]
-    public static TasksPageState OnFail(TasksPageState state, Fail action)
-    {
-        return new TasksPageState(isLoading: state.IsLoading,
-                                  isCreating: state.IsCreating,
-                                  projectId: state.ProjectId,
-                                  tasks: state.Tasks.Select(r =>
-                                                            {
-                                                                if (r.Id == action.Request.Id)
-                                                                    r.IsUpdating = false;
-
-                                                                return r;
-                                                            }).ToArray());
-    }
-
-    [EffectMethod,
-     UsedImplicitly]
-    public Task HandleFail(Fail action, IDispatcher dispatcher)
-    {
-        action.Callback?.Invoke();
-
-        return Task.CompletedTask;
+            action.FailCallback?.Invoke();
     }
 }

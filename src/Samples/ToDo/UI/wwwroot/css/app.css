@@ -89,3 +89,10 @@ a.nav-link { padding-left: 5px; }
 .project-name { width: calc((100% - 170px) * 0.3) }
 
 .project-description { width: calc((100% - 170px) * 0.7) }
+
+.cursor-grab {
+    cursor: -webkit-grab;
+    cursor: grab;
+}
+
+.status-group { min-height: 200px; }

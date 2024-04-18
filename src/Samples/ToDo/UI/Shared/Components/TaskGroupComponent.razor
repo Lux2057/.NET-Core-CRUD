@@ -1,0 +1,32 @@
+﻿@inherits UI.ComponentBase
+
+<div class="card">
+    <div class="card-header">
+        <p class="card-title fw-bold h4">
+            @Status.ToString()
+        </p>
+    </div>
+    <div class="card-body">
+        <div class="status-group" id="@Status">
+            @foreach (var task in Tasks)
+            {
+                <div class="card cursor-grab mb-3" uid="@task.Id">
+                    <div class="card-header pb-1 pe-2 ps-2 pt-1">
+                        <p class="h6 m-0">
+                            #@task.Id
+                        </p>
+                    </div>
+                    <div class="card-body m-0">
+                        <div class="fw-bold mb-2">
+                            @task.Name
+                        </div>
+                        <div>
+                            @task.Description
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>

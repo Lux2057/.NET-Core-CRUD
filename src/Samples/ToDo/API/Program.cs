@@ -146,6 +146,7 @@ IsNameUniqueQuery<ProjectEntity>.Register(builder.Services);
 IsNameUniqueQuery<TaskEntity>.Register(builder.Services);
 
 DoesEntityExistQuery<UserEntity>.Register(builder.Services);
+DoesEntityExistQuery<ProjectEntity>.Register(builder.Services);
 
 DoesEntityBelongToUserQuery<ProjectEntity>.Register(builder.Services);
 DoesEntityBelongToUserQuery<TaskEntity>.Register(builder.Services);

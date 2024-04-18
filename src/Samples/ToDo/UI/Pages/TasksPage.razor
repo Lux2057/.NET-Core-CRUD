@@ -69,3 +69,13 @@
         }
     </div>
 </div>
+<div class="d-flex">
+    @foreach (var statusGroup in StatusGroups)
+    {
+        <div class="h-100 p-2 w-25">
+            <TaskGroupComponent
+                Status="@statusGroup.Key"
+                Tasks="@statusGroup.Value"/>
+        </div>
+    }
+</div>

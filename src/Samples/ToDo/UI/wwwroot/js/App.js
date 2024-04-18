@@ -6,9 +6,13 @@ window.ToDoSample = {
                         containers.push(document.querySelector(`#${ids[i]}`));
                     }
 
-                    const drake = dragula(containers);
+                    if (window.ToDoSample.Dragula._drake) {
+                        window.ToDoSample.Dragula._drake.destroy();
+                    }
 
-                    drake.on('drop',
+                    window.ToDoSample.Dragula._drake = dragula(containers);
+
+                    window.ToDoSample.Dragula._drake.on('drop',
                         (el, target, source, sibling) => {
                             const uid = el.attributes["uid"].nodeValue;
                             console.log(`${uid} dropped from ${source.id} to ${target.id}`);

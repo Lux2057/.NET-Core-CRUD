@@ -18,13 +18,10 @@ public class TasksAPI : ApiBase
     #endregion
 
     public async Task<TaskStateDto[]> GetAsync(int projectId,
-                                               int page,
                                                string accessToken,
                                                CancellationToken cancellationToken = default)
     {
-        var uri = $"{ApiRoutes.ReadTasks}?"
-                + $"{ApiRoutes.Params.ProjectId}={projectId}&"
-                + $"{ApiRoutes.Params.page}={page}";
+        var uri = $"{ApiRoutes.ReadTasks}?{ApiRoutes.Params.ProjectId}={projectId}";
 
         var result = await this.Http.GetApiResponseOrDefaultAsync<TaskStateDto[]>(dispatcher: this.dispatcher,
                                                                                   validationKey: null,

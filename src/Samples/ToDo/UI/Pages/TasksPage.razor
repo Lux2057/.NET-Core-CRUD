@@ -1,0 +1,71 @@
+﻿@inherits PageBase<TasksPageState>
+
+<PageTitle>@Title</PageTitle>
+
+<div class="d-flex mb-2">
+    <div class="p-2">
+        <h4>@Title</h4>
+    </div>
+    <div class="align-content-center p-2">
+        <ModalWindowComponent ModalId="@createTaskModalId">
+            <ButtonContent>
+                <div class="badge d-flex text-bg-dark"
+                     role="button"
+                     title="@Localization[nameof(Resource.Create)]">
+                    <div>
+                        <span class="me-1 oi oi-plus"></span>
+                    </div>
+                </div>
+            </ButtonContent>
+            <Title>
+                @Localization[nameof(Resource.Create)]
+            </Title>
+            <Body>
+            <div class="d-flex flex-column">
+                <div class="mb-1 p-1">
+                    <label class="form-label">@Localization[nameof(Resource.Name)]</label>
+                    <input @bind="newTask.Name"
+                           class="form-control"
+                           type="text"/>
+                    <ValidationMessageComponent Key="@createTaskValidationKey"
+                                                Name="r => r.Name"
+                                                TRequest="CreateOrUpdateProjectRequest"/>
+                </div>
+                <div class="mb-1 p-1">
+                    <label class="form-label">@Localization[nameof(Resource.Description)]</label>
+                    <input @bind="newTask.Description"
+                           class="form-control"
+                           type="text"/>
+                    <ValidationMessageComponent Key="@createTaskValidationKey"
+                                                Name="r => r.Description"
+                                                TRequest="CreateOrUpdateProjectRequest"/>
+                </div>
+            </div>
+            </Body>
+            <Footer>
+                <div class="d-flex">
+                    <div class="ms-auto p-1">
+                        @if (!State.IsLoading && !State.IsCreating)
+                        {
+                            <button class="btn btn-outline-primary btn-sm shadow-none"
+                                    data-bs-placement="top"
+                                    data-bs-toggle="tooltip"
+                                    @onclick="@createTask"
+                                    title="@Localization[nameof(Resource.Create)]"
+                                    type="button">
+                                @Localization[nameof(Resource.Create)]
+                            </button>
+                        }
+                    </div>
+                </div>
+            </Footer>
+        </ModalWindowComponent>
+
+    </div>
+    <div class="p-2">
+        @if (State.IsLoading || State.IsCreating)
+        {
+            <LoaderComponent IsInline="true" IsSmall="true"/>
+        }
+    </div>
+</div>

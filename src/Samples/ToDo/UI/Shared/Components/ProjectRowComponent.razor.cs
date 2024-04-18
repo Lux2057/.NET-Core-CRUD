@@ -7,7 +7,7 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public partial class ProjectCardComponent : UI.ComponentBase
+public partial class ProjectRowComponent : UI.ComponentBase
 {
     #region Properties
 
@@ -57,5 +57,8 @@ public partial class ProjectCardComponent : UI.ComponentBase
         StateHasChanged();
     }
 
-    private void openProjectPage() { }
+    private void openProjectPage()
+    {
+        Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.TasksRoute(Model.Id)));
+    }
 }

@@ -43,7 +43,10 @@ public partial class ProjectsPage : PageBase<ProjectsPageState>
                                                              successCallback: async () =>
                                                                               {
                                                                                   await JS.CloseModalAsync(createProjectModalId);
-                                                                                  newProject = new();
+
+                                                                                  newProject.Name = string.Empty;
+                                                                                  newProject.Description = string.Empty;
+
                                                                                   goToPage(1);
                                                                               },
                                                              validationKey: createProjectValidationKey));

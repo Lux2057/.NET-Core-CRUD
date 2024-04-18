@@ -28,7 +28,6 @@ public class FetchTasksWf
     #region Nested Classes
 
     public record Init(int ProjectId,
-                       int Page,
                        Action Callback = default) : IAuthRequiredAction
     {
         #region Properties
@@ -49,7 +48,7 @@ public class FetchTasksWf
     {
         return new TasksPageState(isLoading: true,
                                   isCreating: state.IsCreating,
-                                  projectId: state.ProjectId,
+                                  projectId: action.ProjectId,
                                   tasks: state.Tasks);
     }
 
@@ -58,7 +57,6 @@ public class FetchTasksWf
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
         var apiResponse = await this.api.GetAsync(projectId: action.ProjectId,
-                                                  page: action.Page,
                                                   accessToken: action.AccessToken);
 
         dispatcher.Dispatch(new Update(apiResponse, action.Callback));

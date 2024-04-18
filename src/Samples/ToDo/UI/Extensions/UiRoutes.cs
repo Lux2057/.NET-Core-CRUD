@@ -10,8 +10,6 @@ public static class UiRoutes
 
     public const string About = "about";
 
-    public const string DragulaTestPage = "dragula";
-
     public const string Auth = "auth";
 
     #endregion

@@ -9,44 +9,106 @@
                 </p>
             </div>
             <div class="ms-auto">
-                <ModalWindowComponent ModalId="@deleteTaskModalId">
-                    <ButtonContent>
-                        <button class="btn btn-outline-danger btn-sm shadow-none"
-                                role="button"
-                                title="@deleteTaskTitle">
-                            <span class="me-1 oi oi-trash"></span>
-                        </button>
-                    </ButtonContent>
-                    <Title>
-                        @deleteTaskTitle
-                    </Title>
-                    <Body>
-                    <div class="d-flex flex-column">
-                        <div class="mb-1 p-1">
-                            @Localization[Resource.Are_you_sure_you_want_delete_this_item__]
-                        </div>
-                        <div class="mb-1 p-1">
-                            <ValidationMessageComponent Key="@deleteTaskValidationKey"
-                                                        Name="r => r.Id"
-                                                        TRequest="DeleteEntityRequest"/>
-                        </div>
-                    </div>
-                    </Body>
-                    <Footer>
-                        <div class="d-flex">
-                            <div class="ms-auto p-1">
-                                <button class="btn btn-outline-primary btn-sm shadow-none"
-                                        data-bs-placement="top"
-                                        data-bs-toggle="tooltip"
-                                        @onclick="@DeleteTask"
-                                        title="@Localization[nameof(Resource.Delete)]"
-                                        type="button">
-                                    @Localization[nameof(Resource.Delete)]
+                <div class="d-flex">
+                    <div>
+                        <ModalWindowComponent ModalId="@updateTaskModalId">
+                            <ButtonContent>
+                                <button class="btn btn-outline-warning btn-sm shadow-none"
+                                        role="button"
+                                        title="@updateTaskTitle">
+                                    <span class="me-1 oi oi-pencil"></span>
                                 </button>
+                            </ButtonContent>
+                            <Title>
+                                @updateTaskTitle
+                            </Title>
+                            <Body>
+                            <div class="d-flex flex-column">
+                                <div class="mb-1 p-1">
+                                    <label class="form-label">
+                                        @Localization[nameof(Resource.Name)]
+                                    </label>
+                                    <input @bind="State.Name"
+                                           class="form-control"
+                                           type="text"/>
+                                    <ValidationMessageComponent Key="@updateTaskValidationKey"
+                                                                Name="r => r.Name"
+                                                                TRequest="CreateOrUpdateTaskRequest"/>
+                                </div>
                             </div>
-                        </div>
-                    </Footer>
-                </ModalWindowComponent>
+                            <div class="d-flex flex-column">
+                                <div class="mb-1 p-1">
+                                    <label class="form-label">
+                                        @Localization[nameof(Resource.Description)]
+                                    </label>
+                                    <input @bind="State.Description"
+                                           class="form-control"
+                                           type="text"/>
+                                    <ValidationMessageComponent Key="@updateTaskValidationKey"
+                                                                Name="r => r.Description"
+                                                                TRequest="CreateOrUpdateTaskRequest"/>
+                                </div>
+                            </div>
+                            </Body>
+                            <Footer>
+                                <div class="d-flex">
+                                    <div class="ms-auto p-1">
+                                        <button class="btn btn-outline-primary btn-sm shadow-none"
+                                                data-bs-placement="top"
+                                                data-bs-toggle="tooltip"
+                                                @onclick="Update"
+                                                title="@Localization[nameof(Resource.Save)]"
+                                                type="submit">
+                                            <span>
+                                                @Localization[nameof(Resource.Save)]
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </Footer>
+                        </ModalWindowComponent>
+                    </div>
+                    <div class="ms-2">
+                        <ModalWindowComponent ModalId="@deleteTaskModalId">
+                            <ButtonContent>
+                                <button class="btn btn-outline-danger btn-sm shadow-none"
+                                        role="button"
+                                        title="@deleteTaskTitle">
+                                    <span class="me-1 oi oi-trash"></span>
+                                </button>
+                            </ButtonContent>
+                            <Title>
+                                @deleteTaskTitle
+                            </Title>
+                            <Body>
+                            <div class="d-flex flex-column">
+                                <div class="mb-1 p-1">
+                                    @Localization[Resource.Are_you_sure_you_want_delete_this_item__]
+                                </div>
+                                <div class="mb-1 p-1">
+                                    <ValidationMessageComponent Key="@deleteTaskValidationKey"
+                                                                Name="r => r.Id"
+                                                                TRequest="DeleteEntityRequest"/>
+                                </div>
+                            </div>
+                            </Body>
+                            <Footer>
+                                <div class="d-flex">
+                                    <div class="ms-auto p-1">
+                                        <button class="btn btn-outline-primary btn-sm shadow-none"
+                                                data-bs-placement="top"
+                                                data-bs-toggle="tooltip"
+                                                @onclick="@Delete"
+                                                title="@Localization[nameof(Resource.Delete)]"
+                                                type="button">
+                                            @Localization[nameof(Resource.Delete)]
+                                        </button>
+                                    </div>
+                                </div>
+                            </Footer>
+                        </ModalWindowComponent>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

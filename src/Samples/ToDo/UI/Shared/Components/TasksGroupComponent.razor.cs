@@ -13,6 +13,9 @@ public partial class TasksGroupComponent : ComponentBase
     #region Properties
 
     [Parameter, EditorRequired]
+    public int ProjectId { get; set; }
+
+    [Parameter, EditorRequired]
     public TaskStatus Status { get; set; }
 
     [Parameter, EditorRequired]

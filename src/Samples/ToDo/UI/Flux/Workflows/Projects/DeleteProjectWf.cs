@@ -52,7 +52,9 @@ public class DeleteProjectWf
         #endregion
     }
 
-    public record Update(DeleteEntityRequest Request, bool Success, Action<bool> Callback);
+    public record Update(DeleteEntityRequest Request,
+                         bool Success,
+                         Action<bool> Callback);
 
     #endregion
 

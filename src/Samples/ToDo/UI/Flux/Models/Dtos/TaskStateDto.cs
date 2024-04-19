@@ -12,6 +12,8 @@ public class TaskStateDto : TaskDto, ICloneable
 
     public bool IsUpdating { get; set; }
 
+    public bool IsDeleting { get; set; }
+
     #endregion
 
     #region Interface Implementations

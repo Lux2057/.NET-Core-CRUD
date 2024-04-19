@@ -43,7 +43,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="Shared\Components\TaskGroupComponent.razor" />
     <_ContentIncludedByDefault Remove="Shared\Components\ValidationMessageComponent.razor" />
   </ItemGroup>
 
@@ -70,10 +69,6 @@
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Shared\Components\TaskGroupComponent.razor" />
   </ItemGroup>
 
 </Project>

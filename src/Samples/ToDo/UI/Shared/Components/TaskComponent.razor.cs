@@ -8,7 +8,7 @@ using ComponentBase = Samples.ToDo.UI.ComponentBase;
 
 #endregion
 
-public partial class TaskGroupComponent : ComponentBase
+public partial class TaskComponent : ComponentBase
 {
     #region Properties
 

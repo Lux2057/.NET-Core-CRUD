@@ -47,6 +47,20 @@ public class TasksAPI : ApiBase
                                                                   cancellationToken: cancellationToken);
     }
 
+    public async Task<bool> DeleteAsync(DeleteEntityRequest request,
+                                        string accessToken,
+                                        string validationKey,
+                                        CancellationToken cancellationToken = default)
+    {
+        return await this.Http.GetApiResponseOrDefaultAsync<bool>(dispatcher: this.dispatcher,
+                                                                  validationKey: validationKey,
+                                                                  httpMethod: HttpMethodType.DELETE,
+                                                                  uri: ApiRoutes.DeleteTask,
+                                                                  accessToken: accessToken,
+                                                                  content: request,
+                                                                  cancellationToken: cancellationToken);
+    }
+
     public async Task<bool> SetStatusAsync(SetTaskStatusRequest request,
                                            string accessToken,
                                            string validationKey,

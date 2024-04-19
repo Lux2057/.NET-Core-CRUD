@@ -295,6 +295,15 @@ namespace Samples.ToDo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Task.
+        /// </summary>
+        public static string Task {
+            get {
+                return ResourceManager.GetString("Task", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is no data.
         /// </summary>
         public static string There_is_no_data {

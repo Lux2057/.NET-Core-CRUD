@@ -28,8 +28,8 @@ public class TasksController : DispatcherControllerBase
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
-        return Ok(await Dispatcher.QueryAsync(new GetTasksQuery(userId: currentUserId,
-                                                                projectId: projectId), cancellationToken));
+        return Ok(await Dispatcher.QueryAsync(new ReadTasksQuery(userId: currentUserId,
+                                                                 projectId: projectId), cancellationToken));
     }
 
     [HttpPost,

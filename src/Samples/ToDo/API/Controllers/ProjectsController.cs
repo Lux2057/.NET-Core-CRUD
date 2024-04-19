@@ -31,10 +31,10 @@ public class ProjectsController : DispatcherControllerBase
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
-        return Ok(await Dispatcher.QueryAsync(new GetProjectsQuery(userId: currentUserId,
-                                                                   disablePaging: false,
-                                                                   page: page,
-                                                                   pageSize: pageSize), cancellationToken));
+        return Ok(await Dispatcher.QueryAsync(new ReadProjectsQuery(userId: currentUserId,
+                                                                    disablePaging: false,
+                                                                    page: page,
+                                                                    pageSize: pageSize), cancellationToken));
     }
 
     [HttpPost,

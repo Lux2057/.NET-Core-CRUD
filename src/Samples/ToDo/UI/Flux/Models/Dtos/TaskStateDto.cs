@@ -6,7 +6,7 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public class TaskStateDto : TaskDto, IUpdatingStatus, ICloneable
+public class TaskStateDto : TaskDto, ICloneable
 {
     #region Properties
 

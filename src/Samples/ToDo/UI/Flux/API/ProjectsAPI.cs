@@ -18,9 +18,9 @@ public class ProjectsAPI : ApiBase
 
     #endregion
 
-    public async Task<PaginatedResponseDto<ProjectStateDto>> GetAsync(int page,
-                                                                      string accessToken,
-                                                                      CancellationToken cancellationToken = default)
+    public async Task<PaginatedResponseDto<ProjectStateDto>> ReadAsync(int page,
+                                                                       string accessToken,
+                                                                       CancellationToken cancellationToken = default)
     {
         var uri = $"{ApiRoutes.ReadProjects}?{ApiRoutes.Params.page}={page}";
 
@@ -44,6 +44,20 @@ public class ProjectsAPI : ApiBase
                                                                   validationKey: validationKey,
                                                                   httpMethod: HttpMethodType.POST,
                                                                   uri: ApiRoutes.CreateOrUpdateProject,
+                                                                  accessToken: accessToken,
+                                                                  content: request,
+                                                                  cancellationToken: cancellationToken);
+    }
+
+    public async Task<bool> DeleteAsync(DeleteEntityRequest request,
+                                        string accessToken,
+                                        string validationKey,
+                                        CancellationToken cancellationToken = default)
+    {
+        return await this.Http.GetApiResponseOrDefaultAsync<bool>(dispatcher: this.dispatcher,
+                                                                  validationKey: validationKey,
+                                                                  httpMethod: HttpMethodType.DELETE,
+                                                                  uri: ApiRoutes.DeleteProject,
                                                                   accessToken: accessToken,
                                                                   content: request,
                                                                   cancellationToken: cancellationToken);

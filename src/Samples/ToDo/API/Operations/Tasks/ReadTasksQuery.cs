@@ -10,7 +10,7 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public class GetTasksQuery : QueryBase<TaskDto[]>
+public class ReadTasksQuery : QueryBase<TaskDto[]>
 {
     #region Properties
 
@@ -22,8 +22,8 @@ public class GetTasksQuery : QueryBase<TaskDto[]>
 
     #region Constructors
 
-    public GetTasksQuery(int userId,
-                         int projectId)
+    public ReadTasksQuery(int userId,
+                          int projectId)
     {
         UserId = userId;
         ProjectId = projectId;
@@ -34,7 +34,7 @@ public class GetTasksQuery : QueryBase<TaskDto[]>
     #region Nested Classes
 
     [UsedImplicitly]
-    class Handler : QueryHandlerBase<GetTasksQuery, TaskDto[]>
+    class Handler : QueryHandlerBase<ReadTasksQuery, TaskDto[]>
     {
         #region Constructors
 
@@ -42,7 +42,7 @@ public class GetTasksQuery : QueryBase<TaskDto[]>
 
         #endregion
 
-        protected override async Task<TaskDto[]> Execute(GetTasksQuery request, CancellationToken cancellationToken)
+        protected override async Task<TaskDto[]> Execute(ReadTasksQuery request, CancellationToken cancellationToken)
         {
             var tasksSpec = new IsDeletedProp.FindBy.EqualTo<TaskEntity>(false) &&
                             new UserIdProp.FindBy.EqualTo<TaskEntity>(request.UserId) &&

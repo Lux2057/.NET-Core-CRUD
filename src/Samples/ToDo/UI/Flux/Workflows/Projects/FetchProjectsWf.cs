@@ -48,16 +48,16 @@ public class FetchProjectsWf
     public static ProjectsPageState OnInit(ProjectsPageState pageState, Init action)
     {
         return new ProjectsPageState(isLoading: true,
-                                 isCreating: pageState.IsCreating,
-                                 projects: pageState.Projects);
+                                     isCreating: pageState.IsCreating,
+                                     projects: pageState.Projects);
     }
 
     [EffectMethod,
      UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
-        var apiResponse = await this.api.GetAsync(page: action.Page,
-                                                  accessToken: action.AccessToken);
+        var apiResponse = await this.api.ReadAsync(page: action.Page,
+                                                   accessToken: action.AccessToken);
 
         dispatcher.Dispatch(new Update(apiResponse, action.Callback));
     }
@@ -67,8 +67,8 @@ public class FetchProjectsWf
     public static ProjectsPageState OnUpdate(ProjectsPageState pageState, Update action)
     {
         return new ProjectsPageState(isLoading: false,
-                                 isCreating: pageState.IsCreating,
-                                 projects: action.Projects);
+                                     isCreating: pageState.IsCreating,
+                                     projects: action.Projects);
     }
 
     [EffectMethod,

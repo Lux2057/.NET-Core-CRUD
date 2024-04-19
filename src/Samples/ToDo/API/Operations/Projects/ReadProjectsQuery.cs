@@ -11,7 +11,7 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public class GetProjectsQuery : QueryBase<PaginatedResponseDto<ProjectDto>>
+public class ReadProjectsQuery : QueryBase<PaginatedResponseDto<ProjectDto>>
 {
     #region Properties
 
@@ -27,10 +27,10 @@ public class GetProjectsQuery : QueryBase<PaginatedResponseDto<ProjectDto>>
 
     #region Constructors
 
-    public GetProjectsQuery(int userId,
-                            bool disablePaging,
-                            int? page = default,
-                            int? pageSize = default)
+    public ReadProjectsQuery(int userId,
+                             bool disablePaging,
+                             int? page = default,
+                             int? pageSize = default)
     {
         UserId = userId;
         DisablePaging = disablePaging;
@@ -43,7 +43,7 @@ public class GetProjectsQuery : QueryBase<PaginatedResponseDto<ProjectDto>>
     #region Nested Classes
 
     [UsedImplicitly]
-    class Handler : QueryHandlerBase<GetProjectsQuery, PaginatedResponseDto<ProjectDto>>
+    class Handler : QueryHandlerBase<ReadProjectsQuery, PaginatedResponseDto<ProjectDto>>
     {
         #region Constructors
 
@@ -51,7 +51,7 @@ public class GetProjectsQuery : QueryBase<PaginatedResponseDto<ProjectDto>>
 
         #endregion
 
-        protected override async Task<PaginatedResponseDto<ProjectDto>> Execute(GetProjectsQuery request, CancellationToken cancellationToken)
+        protected override async Task<PaginatedResponseDto<ProjectDto>> Execute(ReadProjectsQuery request, CancellationToken cancellationToken)
         {
             var projectsSpec = new IsDeletedProp.FindBy.EqualTo<ProjectEntity>(false) &&
                                new UserIdProp.FindBy.EqualTo<ProjectEntity>(request.UserId);

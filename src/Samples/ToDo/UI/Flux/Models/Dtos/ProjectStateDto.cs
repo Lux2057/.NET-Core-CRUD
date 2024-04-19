@@ -6,11 +6,13 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public class ProjectStateDto : ProjectDto, IUpdatingStatus, ICloneable
+public class ProjectStateDto : ProjectDto, ICloneable
 {
     #region Properties
 
     public bool IsUpdating { get; set; }
+
+    public bool IsDeleting { get; set; }
 
     #endregion
 

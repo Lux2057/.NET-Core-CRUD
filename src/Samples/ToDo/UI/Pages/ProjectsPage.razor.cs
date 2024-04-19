@@ -29,15 +29,15 @@ public partial class ProjectsPage : PageBase<ProjectsPageState>
     {
         base.OnInitialized();
 
-        goToPage(1);
+        GoToPage(1);
     }
 
-    private void goToPage(int page)
+    private void GoToPage(int page)
     {
         Dispatcher.Dispatch(new FetchProjectsWf.Init(page));
     }
 
-    private void createProject()
+    private void CreateProject()
     {
         Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(request: newProject,
                                                              successCallback: async () =>
@@ -47,7 +47,7 @@ public partial class ProjectsPage : PageBase<ProjectsPageState>
                                                                                   newProject.Name = string.Empty;
                                                                                   newProject.Description = string.Empty;
 
-                                                                                  goToPage(1);
+                                                                                  GoToPage(1);
                                                                               },
                                                              validationKey: createProjectValidationKey));
     }

@@ -5,6 +5,7 @@
 using Fluxor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
+using Microsoft.JSInterop;
 using Samples.ToDo.UI.Localization;
 
 #endregion
@@ -13,6 +14,9 @@ using Samples.ToDo.UI.Localization;
 public class ComponentBase : Fluxor.Blazor.Web.Components.FluxorComponent
 {
     #region Properties
+
+    [Inject]
+    protected IJSRuntime JS { get; set; }
 
     [Inject]
     protected IDispatcher Dispatcher { get; set; }

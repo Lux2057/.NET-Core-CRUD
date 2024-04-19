@@ -21,7 +21,7 @@ public class CreateOrUpdateTaskRequest : ICreateOrUpdateTaskRequest
 {
     #region Properties
 
-    public int? Id { get; }
+    public int? Id { get; set; }
 
     public string Name { get; set; }
 

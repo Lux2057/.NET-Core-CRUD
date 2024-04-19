@@ -26,7 +26,25 @@ window.ToDoSample = {
                     const modalElement = document.getElementById(id);
                     const modal = window.bootstrap.Modal.getInstance(modalElement);
 
-                    modal.hide();
+                    if (modal != null) {
+                        modal.hide();
+                    }
+                    else {
+                        const modals = document.getElementsByClassName("modal show");
+                        if (modals.length) {
+                            for (let i = 0; i < modals.length; i++) {
+                                modals[i].classList.remove("show");
+                            }
+                        }
+
+                        const backdrop = document.getElementsByClassName("modal-backdrop")[0];
+                        backdrop.remove();
+
+                        const body = document.getElementsByTagName("body")[0];
+                        body.classList.remove("modal-open");
+                        body.removeAttribute("style");
+                    }
+
                 }
             },
         LocalStorage : {

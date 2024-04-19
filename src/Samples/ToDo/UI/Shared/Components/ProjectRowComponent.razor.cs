@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Components;
 using Samples.ToDo.Shared;
+using Samples.ToDo.UI.Localization;
 
 #endregion
 
@@ -11,15 +12,20 @@ public partial class ProjectRowComponent : UI.ComponentBase
 {
     #region Properties
 
-    [Parameter]
-    [EditorRequired]
+    [Parameter, EditorRequired]
     public ProjectStateDto Model { get; set; }
 
     private ProjectDto State { get; set; }
 
     private bool isProjectEditing { get; set; }
 
-    private string validationKey = Guid.NewGuid().ToString();
+    private string deleteProjectTitle => $"{Localization[Resource.Delete]} {Localization[Resource.Project]} #{Model?.Id}";
+
+    private string deleteProjectModalId => $"delete-project-{Model.Id}-modal";
+
+    private string deleteProjectValidationKey => $"delete-project-{Model.Id}-validation";
+
+    private string updateProjectValidationKey => $"update-project-{Model.Id}-modal";
 
     #endregion
 
@@ -30,7 +36,7 @@ public partial class ProjectRowComponent : UI.ComponentBase
         State = (ProjectStateDto)Model.Clone();
     }
 
-    private void updateProject()
+    private void UpdateProject()
     {
         Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(request: new CreateOrUpdateProjectRequest
                                                                       {
@@ -38,7 +44,7 @@ public partial class ProjectRowComponent : UI.ComponentBase
                                                                               Description = State.Description,
                                                                               Name = State.Name
                                                                       },
-                                                             validationKey: this.validationKey,
+                                                             validationKey: this.updateProjectValidationKey,
                                                              successCallback: () =>
                                                                               {
                                                                                   isProjectEditing = false;
@@ -46,7 +52,18 @@ public partial class ProjectRowComponent : UI.ComponentBase
                                                                               }));
     }
 
-    private void toggleIsProjectEditing()
+    private void DeleteProject()
+    {
+        Dispatcher.Dispatch(new DeleteProjectWf.Init(request: new DeleteEntityRequest { Id = Model.Id },
+                                                     callback: async success =>
+                                                               {
+                                                                   if (success)
+                                                                       await JS.CloseModalAsync(this.deleteProjectModalId);
+                                                               },
+                                                     validationKey: this.deleteProjectValidationKey));
+    }
+
+    private void ToggleIsProjectEditing()
     {
         isProjectEditing = !isProjectEditing;
 
@@ -57,7 +74,7 @@ public partial class ProjectRowComponent : UI.ComponentBase
         StateHasChanged();
     }
 
-    private void openProjectPage()
+    private void OpenProjectPage()
     {
         Dispatcher.Dispatch(new NavigationWf.NavigateTo(UiRoutes.TasksRoute(Model.Id)));
     }

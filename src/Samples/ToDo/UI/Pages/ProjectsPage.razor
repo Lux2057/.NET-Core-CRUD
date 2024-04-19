@@ -51,7 +51,7 @@
                             <button class="btn btn-outline-primary btn-sm shadow-none"
                                     data-bs-placement="top"
                                     data-bs-toggle="tooltip"
-                                    @onclick="@createProject"
+                                    @onclick="@CreateProject"
                                     title="@Localization[nameof(Resource.Create)]"
                                     type="button">
                                 @Localization[nameof(Resource.Create)]
@@ -127,7 +127,7 @@
                 else
                 {
                     <li class="page-item">
-                        <button class="page-link shadow-none" @onclick="() => goToPage(pageNumber)" type="button">@pageNumber</button>
+                        <button class="page-link shadow-none" @onclick="() => GoToPage(pageNumber)" type="button">@pageNumber</button>
                     </li>
                 }
             }

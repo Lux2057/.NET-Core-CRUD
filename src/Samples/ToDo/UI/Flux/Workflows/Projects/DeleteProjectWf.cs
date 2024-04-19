@@ -19,9 +19,10 @@ public class DeleteProjectWf
 
     #region Constructors
 
-    public DeleteProjectWf(ProjectsAPI api)
+    public DeleteProjectWf(HttpClient http,
+                           IDispatcher dispatcher)
     {
-        this.api = api;
+        this.api = new ProjectsAPI(http, dispatcher);
     }
 
     #endregion
@@ -41,13 +42,11 @@ public class DeleteProjectWf
         #region Constructors
 
         public Init(DeleteEntityRequest request,
-                    string accessToken,
                     Action<bool> callback,
                     string validationKey = default)
                 : base(request, validationKey)
         {
             Callback = callback;
-            AccessToken = accessToken;
         }
 
         #endregion

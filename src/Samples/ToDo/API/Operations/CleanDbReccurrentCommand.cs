@@ -19,7 +19,7 @@ public class CleanDbRecurrentCommand : CommandBase
     {
         #region Constants
 
-        private const int deletingCount = 10;
+        private const int deletingCount = 20;
 
         #endregion
 
@@ -40,7 +40,7 @@ public class CleanDbRecurrentCommand : CommandBase
             var usersToDelete = await Repository.Read(new IsDeletedProp.FindBy.EqualTo<UserEntity>(true)).Take(deletingCount).ToArrayAsync(cancellationToken);
             await Repository.DeleteAsync(usersToDelete, cancellationToken);
 
-            BackgroundJob.Schedule<IDispatcher>(dispatcher => dispatcher.PushAsync(new CleanDbRecurrentCommand(), new CancellationToken(), IsolationLevel.ReadCommitted), TimeSpan.FromMinutes(10));
+            BackgroundJob.Schedule<IDispatcher>(dispatcher => dispatcher.PushAsync(new CleanDbRecurrentCommand(), new CancellationToken(), IsolationLevel.ReadCommitted), TimeSpan.FromMinutes(5));
         }
     }
 

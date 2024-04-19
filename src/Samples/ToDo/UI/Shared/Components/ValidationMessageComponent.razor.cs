@@ -20,7 +20,15 @@ public partial class ValidationMessageComponent<TRequest> : ComponentBase<Valida
 
     private string key => Key.IsNullOrWhitespace() ? typeof(TRequest).Name : Key;
 
-    private string name => Name.GetPropertyInfo()?.Name;
+    private string name
+    {
+        get
+        {
+            var body = Name.Body as MemberExpression ?? ((UnaryExpression)Name.Body).Operand as MemberExpression;
+
+            return body?.Member.Name;
+        }
+    }
 
     public string[] messages => State.ValidationErrors(key, name);
 

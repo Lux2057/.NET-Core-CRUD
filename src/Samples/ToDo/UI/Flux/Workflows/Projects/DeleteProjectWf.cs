@@ -64,7 +64,7 @@ public class DeleteProjectWf
     {
         return new ProjectsPageState(isLoading: state.IsLoading,
                                      isCreating: state.IsCreating,
-                                     projects: new PaginatedResponseDto<ProjectStateDto>
+                                     projects: new PaginatedResponseDto<ProjectStatedDto>
                                                {
                                                        Items = state.Projects.Items.Select(r =>
                                                                                            {
@@ -94,7 +94,7 @@ public class DeleteProjectWf
     {
         return new ProjectsPageState(isLoading: state.IsLoading,
                                      isCreating: state.IsCreating,
-                                     projects: new PaginatedResponseDto<ProjectStateDto>
+                                     projects: new PaginatedResponseDto<ProjectStatedDto>
                                                {
                                                        Items = action.Success ?
                                                                        state.Projects.Items.Where(r => r.Id != action.Request.Id).ToArray() :

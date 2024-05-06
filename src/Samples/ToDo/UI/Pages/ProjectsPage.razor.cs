@@ -2,9 +2,11 @@
 
 #region << Using >>
 
+using Fluxor;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Samples.ToDo.Shared;
+using Samples.ToDo.UI.Localization;
 
 #endregion
 
@@ -20,6 +22,9 @@ public partial class ProjectsPage : PageBase<ProjectsPageState>
     #endregion
 
     #region Properties
+
+    [Inject]
+    private IState<ValidationState> validationState { get; set; }
 
     private CreateOrUpdateProjectRequest newProject { get; set; } = new();
 
@@ -40,15 +45,21 @@ public partial class ProjectsPage : PageBase<ProjectsPageState>
     private void CreateProject()
     {
         Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(request: newProject,
-                                                             successCallback: async () =>
-                                                                              {
-                                                                                  await JS.CloseModalAsync(createProjectModalId);
+                                                             callback: async (success) =>
+                                                                       {
+                                                                           if (success)
+                                                                               await JS.CloseModalAsync(createProjectModalId);
 
-                                                                                  newProject.Name = string.Empty;
-                                                                                  newProject.Description = string.Empty;
+                                                                           newProject.Name = string.Empty;
+                                                                           newProject.Description = string.Empty;
 
-                                                                                  GoToPage(1);
-                                                                              },
+                                                                           if (success)
+                                                                               GoToPage(1);
+                                                                           else if (validationState.Value.ValidationErrors(createProjectValidationKey)?.Any() != true)
+                                                                               Dispatcher.Dispatch(new SetValidationStateWf.Init(createProjectValidationKey,
+                                                                                                                                 new ValidationFailureResult(Localization[Resource.Http_request_error],
+                                                                                                                                                             Array.Empty<ValidationError>())));
+                                                                       },
                                                              validationKey: createProjectValidationKey));
     }
 }

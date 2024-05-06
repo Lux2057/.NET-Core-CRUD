@@ -6,7 +6,7 @@ using Samples.ToDo.Shared;
 
 #endregion
 
-public class ProjectStateDto : ProjectDto, ICloneable
+public class ProjectStatedDto : ProjectDto, ICloneable
 {
     #region Properties
 
@@ -20,7 +20,7 @@ public class ProjectStateDto : ProjectDto, ICloneable
 
     public object Clone()
     {
-        return new ProjectStateDto
+        return new ProjectStatedDto
                {
                        Id = Id,
                        Name = Name,

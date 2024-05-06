@@ -38,7 +38,7 @@ public class FetchProjectsWf
         #endregion
     }
 
-    public record Update(PaginatedResponseDto<ProjectStateDto> Projects,
+    public record Update(PaginatedResponseDto<ProjectStatedDto> Projects,
                          Action Callback);
 
     #endregion

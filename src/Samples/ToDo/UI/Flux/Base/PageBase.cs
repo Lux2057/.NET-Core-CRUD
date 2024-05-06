@@ -4,7 +4,6 @@ namespace Samples.ToDo.UI;
 #region << Using >>
 
 using Fluxor;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using Microsoft.JSInterop;

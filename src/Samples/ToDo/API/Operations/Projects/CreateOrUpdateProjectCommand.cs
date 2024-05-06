@@ -79,6 +79,12 @@ public class CreateOrUpdateProjectCommand : CommandBase, ICreateOrUpdateProjectR
 
         protected override async Task Execute(CreateOrUpdateProjectCommand command, CancellationToken cancellationToken)
         {
+            if (string.Equals(command.Name, TestLiterals.Test_failure, StringComparison.InvariantCultureIgnoreCase))
+            {
+                command.Result = false;
+                return;
+            }
+
             var project = command.Id == null ?
                                   null :
                                   await Repository.Read(new FindEntityByIntId<ProjectEntity>(command.Id.Value)).SingleOrDefaultAsync(cancellationToken);

@@ -157,7 +157,7 @@
     <value>Описание не может быть пустым</value>
   </data>
   <data name="Name_cant_be_empty" xml:space="preserve">
-    <value>Имя на может быть пустым</value>
+    <value>Имя не может быть пустым</value>
   </data>
   <data name="Password_cant_be_empty" xml:space="preserve">
     <value>Пароль не может быть пустым</value>

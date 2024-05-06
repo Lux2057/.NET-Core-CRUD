@@ -30,7 +30,7 @@ public partial class ValidationMessageComponent<TRequest> : ComponentBase<Valida
         }
     }
 
-    public string[] messages => State.ValidationErrors(key, name);
+    private string[] messages => State.ValidationErrors(key, name);
 
     #endregion
 }

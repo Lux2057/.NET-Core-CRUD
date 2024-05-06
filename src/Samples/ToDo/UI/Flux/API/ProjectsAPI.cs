@@ -18,21 +18,21 @@ public class ProjectsAPI : ApiBase
 
     #endregion
 
-    public async Task<PaginatedResponseDto<ProjectStateDto>> ReadAsync(int page,
-                                                                       string accessToken,
-                                                                       CancellationToken cancellationToken = default)
+    public async Task<PaginatedResponseDto<ProjectStatedDto>> ReadAsync(int page,
+                                                                        string accessToken,
+                                                                        CancellationToken cancellationToken = default)
     {
         var uri = $"{ApiRoutes.ReadProjects}?{ApiRoutes.Params.page}={page}";
 
         var result = await this.Http.GetApiResponseOrDefaultAsync
-                             <PaginatedResponseDto<ProjectStateDto>>(dispatcher: this.dispatcher,
-                                                                     validationKey: null,
-                                                                     httpMethod: HttpMethodType.GET,
-                                                                     uri: uri,
-                                                                     accessToken: accessToken,
-                                                                     cancellationToken: cancellationToken);
+                             <PaginatedResponseDto<ProjectStatedDto>>(dispatcher: this.dispatcher,
+                                                                      validationKey: null,
+                                                                      httpMethod: HttpMethodType.GET,
+                                                                      uri: uri,
+                                                                      accessToken: accessToken,
+                                                                      cancellationToken: cancellationToken);
 
-        return result ?? new PaginatedResponseDto<ProjectStateDto>();
+        return result ?? new PaginatedResponseDto<ProjectStatedDto>();
     }
 
     public async Task<bool> CreateOrUpdateAsync(CreateOrUpdateProjectRequest request,

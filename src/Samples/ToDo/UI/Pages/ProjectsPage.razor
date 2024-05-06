@@ -29,7 +29,7 @@
                     <ValidationMessageComponent
                         Key="@createProjectValidationKey"
                         Name="r => r.Name"
-                        TRequest="CreateOrUpdateProjectRequest"/>
+                        TRequest="ICreateOrUpdateProjectRequest"/>
                 </div>
                 <div class="mb-1 p-1">
                     <label class="form-label">@Localization[nameof(Resource.Description)]</label>
@@ -39,8 +39,10 @@
                     <ValidationMessageComponent
                         Key="@createProjectValidationKey"
                         Name="r => r.Description"
-                        TRequest="CreateOrUpdateProjectRequest"/>
+                        TRequest="ICreateOrUpdateProjectRequest"/>
                 </div>
+                <SummaryValidationMessageComponent Key="@createProjectValidationKey"
+                                                   TRequest="ICreateOrUpdateProjectRequest"/>
             </div>
             </Body>
             <Footer>

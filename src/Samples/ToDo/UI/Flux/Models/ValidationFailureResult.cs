@@ -1,3 +1,3 @@
 ﻿namespace Samples.ToDo.UI;
 
-public record ValidationFailureResult(string Message, ValidationError[] Errors);
+public record ValidationFailureResult(string SummaryMessage, ValidationError[] Errors);

@@ -35,6 +35,24 @@ public class ValidationState
 
     #endregion
 
+    public string SummaryMessage(string key)
+    {
+        if (key.IsNullOrWhitespace() || !this.failsDict.ContainsKey(key))
+            return string.Empty;
+
+        return this.failsDict[key]?.SummaryMessage;
+    }
+
+    public string[] ValidationErrors(string key)
+    {
+        if (key.IsNullOrWhitespace() || !this.failsDict.ContainsKey(key))
+            return Array.Empty<string>();
+
+        return this.failsDict[key]?.Errors?
+                   .Select(r => r.Message)
+                   .ToArray() ?? Array.Empty<string>();
+    }
+
     public string[] ValidationErrors(string key, string propertyName)
     {
         if (key.IsNullOrWhitespace() || !this.failsDict.ContainsKey(key))

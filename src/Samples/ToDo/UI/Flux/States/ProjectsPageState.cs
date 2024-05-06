@@ -19,7 +19,7 @@ public class ProjectsPageState : ILoadingStatus
 
     public bool IsEmpty => Projects?.Items?.Any() != true;
 
-    public PaginatedResponseDto<ProjectStateDto> Projects { get; }
+    public PaginatedResponseDto<ProjectStatedDto> Projects { get; }
 
     #endregion
 
@@ -35,7 +35,7 @@ public class ProjectsPageState : ILoadingStatus
 
     public ProjectsPageState(bool isLoading,
                          bool isCreating,
-                         PaginatedResponseDto<ProjectStateDto> projects)
+                         PaginatedResponseDto<ProjectStatedDto> projects)
     {
         IsLoading = isLoading;
         IsCreating = isCreating;

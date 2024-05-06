@@ -89,6 +89,12 @@ public class CreateOrUpdateTaskCommand : CommandBase, ICreateOrUpdateTaskRequest
 
         protected override async Task Execute(CreateOrUpdateTaskCommand command, CancellationToken cancellationToken)
         {
+            if (string.Equals(command.Name, TestLiterals.Test_failure, StringComparison.InvariantCultureIgnoreCase))
+            {
+                command.Result = false;
+                return;
+            }
+
             var task = command.Id == null ?
                                null :
                                await Repository.Read(new FindEntityByIntId<TaskEntity>(command.Id.Value)).SingleOrDefaultAsync(cancellationToken);

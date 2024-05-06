@@ -13,7 +13,7 @@ public class CreateOrUpdateProjectWf
 {
     #region Properties
 
-    private readonly ProjectsAPI projectsAPI;
+    private readonly ProjectsAPI api;
 
     #endregion
 
@@ -22,7 +22,7 @@ public class CreateOrUpdateProjectWf
     public CreateOrUpdateProjectWf(HttpClient http,
                                    IDispatcher dispatcher)
     {
-        this.projectsAPI = new ProjectsAPI(http, dispatcher);
+        this.api = new ProjectsAPI(http, dispatcher);
     }
 
     #endregion
@@ -83,9 +83,9 @@ public class CreateOrUpdateProjectWf
      UsedImplicitly]
     public async Task HandleInit(Init action, IDispatcher dispatcher)
     {
-        var success = await this.projectsAPI.CreateOrUpdateAsync(request: action.Request,
-                                                                 accessToken: action.AccessToken,
-                                                                 validationKey: action.ValidationKey);
+        var success = await this.api.CreateOrUpdateAsync(request: action.Request,
+                                                         accessToken: action.AccessToken,
+                                                         validationKey: action.ValidationKey);
 
         dispatcher.Dispatch(new Update(action, success));
     }

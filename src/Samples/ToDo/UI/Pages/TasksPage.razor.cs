@@ -2,6 +2,7 @@
 
 #region << Using >>
 
+using Fluxor;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -22,6 +23,9 @@ public partial class TasksPage : PageBase<TasksPageState>
     #endregion
 
     #region Properties
+
+    [Inject]
+    private IState<ValidationState> validationState { get; set; }
 
     private string Title => $"{Localization[nameof(Resource.Project)]} #{ProjectId}";
 
@@ -83,15 +87,21 @@ public partial class TasksPage : PageBase<TasksPageState>
     private void createTask()
     {
         Dispatcher.Dispatch(new CreateOrUpdateTaskWf.Init(request: newTask,
-                                                          successCallback: async () =>
-                                                                           {
-                                                                               await JS.CloseModalAsync(createTaskModalId);
+                                                          callback: async (success) =>
+                                                                    {
+                                                                        if (success)
+                                                                            await JS.CloseModalAsync(createTaskModalId);
 
-                                                                               newTask.Name = string.Empty;
-                                                                               newTask.Description = string.Empty;
+                                                                        newTask.Name = string.Empty;
+                                                                        newTask.Description = string.Empty;
 
-                                                                               Dispatcher.Dispatch(new FetchTasksWf.Init(ProjectId));
-                                                                           },
+                                                                        if (success)
+                                                                            Dispatcher.Dispatch(new FetchTasksWf.Init(ProjectId));
+                                                                        else if (validationState.Value.ValidationErrors(createTaskValidationKey)?.Any() != true)
+                                                                            Dispatcher.Dispatch(new SetValidationStateWf.Init(createTaskValidationKey,
+                                                                                                                              new ValidationFailureResult(Localization[Resource.Http_request_error],
+                                                                                                                                                          Array.Empty<ValidationError>())));
+                                                                    },
                                                           validationKey: createTaskValidationKey));
     }
 }

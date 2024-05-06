@@ -1,5 +1,7 @@
 ﻿namespace Samples.ToDo.UI;
 
+using CRUD.Core;
+
 #region << Using >>
 
 #region << Using >>
@@ -36,7 +38,7 @@ public class CreateOrUpdateTaskWf
     {
         #region Properties
 
-        public Action SuccessCallback { get; }
+        public Action<bool> Callback { get; }
 
         public string AccessToken { get; set; }
 
@@ -45,21 +47,17 @@ public class CreateOrUpdateTaskWf
         #region Constructors
 
         public Init(CreateOrUpdateTaskRequest request,
-                    Action successCallback = default,
+                    Action<bool> callback = default,
                     string validationKey = default)
                 : base(request, validationKey)
         {
-            SuccessCallback = successCallback;
+            Callback = callback;
         }
 
         #endregion
     }
 
-    public record Fail(int? TaskId);
-
-    public record CreatingSuccess(Action Callback);
-
-    public record EditingSuccess(TaskStateDto Task, Action Callback);
+    public record Update(Init InitAction, bool Success);
 
     #endregion
 
@@ -94,80 +92,42 @@ public class CreateOrUpdateTaskWf
                                                          accessToken: action.AccessToken,
                                                          validationKey: action.ValidationKey);
 
-        if (!success)
-        {
-            dispatcher.Dispatch(new Fail(action.Request.Id));
-            return;
-        }
-
-        if (action.Request.Id == null)
-        {
-            dispatcher.Dispatch(new CreatingSuccess(action.SuccessCallback));
-            return;
-        }
-
-        dispatcher.Dispatch(new EditingSuccess(Task: new TaskStateDto
-                                                     {
-                                                             Id = action.Request.Id.GetValueOrDefault(),
-                                                             Name = action.Request.Name,
-                                                             Description = action.Request.Description,
-                                                             IsUpdating = false
-                                                     },
-                                               Callback: action.SuccessCallback));
+        dispatcher.Dispatch(new Update(action, success));
     }
 
-    [ReducerMethod,
+        [ReducerMethod,
      UsedImplicitly]
-    public static TasksPageState OnFail(TasksPageState state, Fail action)
+    public static TasksPageState OnUpdate(TasksPageState state, Update action)
     {
-        return new TasksPageState(isLoading: state.IsLoading,
-                                  isCreating: false,
-                                  projectId: state.ProjectId,
-                                  tasks: action.TaskId == null ?
-                                                 state.Tasks :
-                                                 state.Tasks.Select(r =>
-                                                                    {
-                                                                        if (r.Id == action.TaskId)
-                                                                            r.IsUpdating = false;
+        var isCreating = action.InitAction.Request.Id == null;
 
-                                                                        return r;
-                                                                    }).ToArray());
-    }
-
-    [ReducerMethod,
-     UsedImplicitly]
-    public static TasksPageState OnCreatingSuccess(TasksPageState state, CreatingSuccess action)
-    {
         return new TasksPageState(isLoading: state.IsLoading,
-                                  isCreating: false,
+                                  isCreating: !isCreating && state.IsCreating,
                                   projectId: state.ProjectId,
-                                  tasks: state.Tasks);
+                                  tasks: isCreating ?
+                                                    state.Tasks :
+                                                    state.Tasks.Select(r =>
+                                                                       {
+                                                                           if (r.Id != action.InitAction.Request.Id)
+                                                                               return r;
+
+                                                                           r.IsUpdating = false;
+
+                                                                           if (action.Success)
+                                                                           {
+                                                                               r.Name = action.InitAction.Request.Name;
+                                                                               r.Description = action.InitAction.Request.Description;
+                                                                           }
+
+                                                                           return r;
+                                                                       }).ToArray());
     }
 
     [EffectMethod,
      UsedImplicitly]
-    public Task HandleCreatingSuccess(CreatingSuccess action, IDispatcher dispatcher)
+    public Task HandleUpdate(Update action, IDispatcher dispatcher)
     {
-        action.Callback?.Invoke();
-
-        return Task.CompletedTask;
-    }
-
-    [ReducerMethod,
-     UsedImplicitly]
-    public static TasksPageState OnEditingSuccess(TasksPageState state, EditingSuccess action)
-    {
-        return new TasksPageState(isLoading: state.IsLoading,
-                                  isCreating: state.IsCreating,
-                                  projectId: state.ProjectId,
-                                  tasks: state.Tasks.Select(r => r.Id == action.Task.Id ? action.Task : r).ToArray());
-    }
-
-    [EffectMethod,
-     UsedImplicitly]
-    public Task HandleEditingSuccess(EditingSuccess action, IDispatcher dispatcher)
-    {
-        action.Callback?.Invoke();
+        action.InitAction.Callback?.Invoke(action.Success);
 
         return Task.CompletedTask;
     }

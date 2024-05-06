@@ -33,7 +33,7 @@
                                            type="text"/>
                                     <ValidationMessageComponent Key="@updateTaskValidationKey"
                                                                 Name="r => r.Name"
-                                                                TRequest="CreateOrUpdateTaskRequest"/>
+                                                                TRequest="ICreateOrUpdateTaskRequest"/>
                                 </div>
                             </div>
                             <div class="d-flex flex-column">
@@ -46,9 +46,11 @@
                                            type="text"/>
                                     <ValidationMessageComponent Key="@updateTaskValidationKey"
                                                                 Name="r => r.Description"
-                                                                TRequest="CreateOrUpdateTaskRequest"/>
+                                                                TRequest="ICreateOrUpdateTaskRequest"/>
                                 </div>
                             </div>
+                            <SummaryValidationMessageComponent Key="@updateTaskValidationKey"
+                                                               TRequest="ICreateOrUpdateTaskRequest"/>
                             </Body>
                             <Footer>
                                 <div class="d-flex">

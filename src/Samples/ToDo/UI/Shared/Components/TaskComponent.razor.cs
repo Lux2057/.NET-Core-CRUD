@@ -2,10 +2,15 @@
 
 #region << Using >>
 
+#region << Using >>
+
+using Fluxor;
 using Microsoft.AspNetCore.Components;
 using Samples.ToDo.Shared;
 using Samples.ToDo.UI.Localization;
 using ComponentBase = Samples.ToDo.UI.ComponentBase;
+
+#endregion
 
 #endregion
 
@@ -18,6 +23,9 @@ public partial class TaskComponent : ComponentBase
 
     [Parameter, EditorRequired]
     public int ProjectId { get; set; }
+
+    [Inject]
+    private IState<ValidationState> validationState { get; set; }
 
     private TaskDto State { get; set; }
 
@@ -52,11 +60,17 @@ public partial class TaskComponent : ComponentBase
                                                                            ProjectId = ProjectId
                                                                    },
                                                           validationKey: updateTaskValidationKey,
-                                                          successCallback: async () =>
-                                                                           {
-                                                                               await InvokeAsync(StateHasChanged);
-                                                                               await JS.CloseModalAsync(updateTaskModalId);
-                                                                           }));
+                                                          callback: async (success) =>
+                                                                    {
+                                                                        if (success)
+                                                                            await JS.CloseModalAsync(updateTaskModalId);
+                                                                        else if (validationState.Value.ValidationErrors(updateTaskValidationKey)?.Any() != true)
+                                                                            Dispatcher.Dispatch(new SetValidationStateWf.Init(updateTaskValidationKey,
+                                                                                                                              new ValidationFailureResult(Localization[Resource.Http_request_error],
+                                                                                                                                                          Array.Empty<ValidationError>())));
+
+                                                                        await InvokeAsync(StateHasChanged);
+                                                                    }));
     }
 
     private void Delete()

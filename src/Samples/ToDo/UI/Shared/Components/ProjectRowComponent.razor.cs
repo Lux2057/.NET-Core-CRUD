@@ -18,15 +18,17 @@ public partial class ProjectRowComponent : UI.ComponentBase
 
     private ProjectDto State { get; set; }
 
-    private bool isProjectEditing { get; set; }
-
     private string deleteProjectTitle => $"{Localization[Resource.Delete]} {Localization[Resource.Project]} #{Model?.Id}";
 
     private string deleteProjectModalId => $"delete-project-{Model.Id}-modal";
 
     private string deleteProjectValidationKey => $"delete-project-{Model.Id}-validation";
 
-    private string updateProjectValidationKey => $"update-project-{Model.Id}-modal";
+    private string updateProjectModalId => $"update-project-{Model.Id}-modal";
+
+    private string updateProjectValidationKey => $"update-project-{Model.Id}-validation";
+
+    private string updateProjectTitle => $"{Localization[Resource.Edit]} {Localization[Resource.Project]} #{Model.Id}";
 
     [Inject]
     private IState<ValidationState> validationState { get; set; }
@@ -40,7 +42,7 @@ public partial class ProjectRowComponent : UI.ComponentBase
         State = (ProjectStatedDto)Model.Clone();
     }
 
-    private void UpdateProject()
+    private void Update()
     {
         Dispatcher.Dispatch(new CreateOrUpdateProjectWf.Init(request: new CreateOrUpdateProjectRequest
                                                                       {
@@ -49,16 +51,16 @@ public partial class ProjectRowComponent : UI.ComponentBase
                                                                               Name = State.Name
                                                                       },
                                                              validationKey: updateProjectValidationKey,
-                                                             callback: (success) =>
+                                                             callback: async (success) =>
                                                                        {
                                                                            if (success)
-                                                                               isProjectEditing = false;
+                                                                               await JS.CloseModalAsync(updateProjectModalId);
                                                                            else if (validationState.Value.ValidationErrors(updateProjectValidationKey)?.Any() != true)
                                                                                Dispatcher.Dispatch(new SetValidationStateWf.Init(updateProjectValidationKey,
                                                                                                                                  new ValidationFailureResult(Localization[Resource.Http_request_error],
                                                                                                                                                              Array.Empty<ValidationError>())));
 
-                                                                           InvokeAsync(StateHasChanged);
+                                                                           await InvokeAsync(StateHasChanged);
                                                                        }));
     }
 
@@ -73,14 +75,10 @@ public partial class ProjectRowComponent : UI.ComponentBase
                                                      validationKey: deleteProjectValidationKey));
     }
 
-    private void ToggleIsProjectEditing()
+    private void InitState()
     {
-        isProjectEditing = !isProjectEditing;
-
-        if (isProjectEditing)
-            return;
-
         State = (ProjectStatedDto)Model.Clone();
+
         StateHasChanged();
     }
 

@@ -12,13 +12,20 @@ window.ToDoSample = {
 
                     window.ToDoSample.Dragula._drake = dragula(containers);
 
-                    window.ToDoSample.Dragula._drake.on('drop',
-                        (el, target, source, sibling) => {
-                            const uid = el.attributes["uid"].nodeValue;
-                            console.log(`${uid} dropped from ${source.id} to ${target.id}`);
+                    window.ToDoSample.Dragula._drake
+                        .on('drop',
+                            (el, target, source, sibling) => {
+                                const uid = el.attributes["uid"].nodeValue;
+                                console.log(`${uid} dropped from ${source.id} to ${target.id}`);
 
-                            netRefObj.invokeMethodAsync(callbackName, uid, source.id, target.id);
-                        });
+                                netRefObj.invokeMethodAsync(callbackName, uid, source.id, target.id);
+                            })
+                        .on('shadow',
+                            (el, container, source) => {
+                                if (el !== container.children[container.children.length - 1]) {
+                                    container.appendChild(el);
+                                }
+                            });
                 }
             },
         Modal : {

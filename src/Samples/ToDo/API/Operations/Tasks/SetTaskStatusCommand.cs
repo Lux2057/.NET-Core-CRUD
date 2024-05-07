@@ -71,6 +71,7 @@ public class SetTaskStatusCommand : CommandBase, ISetTaskStatusRequest
                                        .SingleAsync(cancellationToken);
 
             task.Status = command.Status;
+            task.StatusUpDt = DateTime.UtcNow;
 
             await Repository.UpdateAsync(task, cancellationToken);
 

@@ -34,7 +34,7 @@ public partial class TasksPage : PageBase<TasksPageState>
     [Parameter, EditorRequired]
     public int ProjectId { get; set; }
 
-    private Dictionary<TaskStatus, TaskStateDto[]> StatusGroups => this.statuses.ToDictionary(status => status, status => State.Tasks.Where(x => x.Status == status).ToArray());
+    private Dictionary<TaskStatus, TaskStateDto[]> StatusGroups => this.statuses.ToDictionary(status => status, status => State.Tasks.Where(x => x.Status == status).OrderBy(r => r.StatusUpDt).ToArray());
 
     readonly TaskStatus[] statuses = Enum.GetValues<TaskStatus>().ToArray();
 

@@ -51,9 +51,7 @@ public class AuthController : DispatcherControllerBase
      ProducesResponseType(typeof(AuthInfoDto), 200)]
     public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
     {
-        var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery());
-
-        var command = new RefreshTokenCommand(userId: currentUserId,
+        var command = new RefreshTokenCommand(userId: request.UserId,
                                               refreshToken: request.RefreshToken);
 
         await Dispatcher.PushAsync(command);

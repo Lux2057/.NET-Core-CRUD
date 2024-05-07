@@ -16,8 +16,7 @@ using Samples.ToDo.Shared;
 public class ProjectEntity : EntityBase,
                              NameProp.Interface,
                              DescriptionProp.Interface,
-                             UserIdProp.Interface,
-                             IUpDt
+                             UserIdProp.Interface 
 {
     #region Properties
 
@@ -28,8 +27,6 @@ public class ProjectEntity : EntityBase,
     public int UserId { get; set; }
 
     public virtual UserEntity User { get; set; }
-
-    public DateTime? UpDt { get; set; }
 
     public virtual ICollection<TaskEntity> Tasks { get; set; }
 
@@ -45,7 +42,6 @@ public class ProjectEntity : EntityBase,
             base.Configure(builder);
             builder.Property(r => r.Name).IsRequired();
             builder.Property(r => r.Description).HasColumnTypeText();
-            builder.Property(r => r.UpDt);
             builder.HasOne(r => r.User).WithMany(r => r.Projects).HasForeignKey(r => r.UserId).OnDelete(DeleteBehavior.Cascade);
         }
     }

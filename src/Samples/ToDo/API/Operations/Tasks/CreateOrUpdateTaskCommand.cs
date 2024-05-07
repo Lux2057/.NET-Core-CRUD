@@ -104,12 +104,12 @@ public class CreateOrUpdateTaskCommand : CommandBase, ICreateOrUpdateTaskRequest
                 task = new TaskEntity
                        {
                                UserId = command.UserId,
-                               ProjectId = command.ProjectId
+                               ProjectId = command.ProjectId,
+                               StatusUpDt = DateTime.UtcNow
                        };
 
             task.Name = command.Name;
             task.Description = command.Description;
-            task.UpDt = DateTime.UtcNow;
             task.Status = command.Status;
 
             if (isNew)

@@ -10,6 +10,8 @@ public class TaskDto
 
     public string Description { get; set; }
 
+    public DateTime StatusUpDt { get; set; }
+
     public TaskStatus Status { get; set; }
 
     #endregion

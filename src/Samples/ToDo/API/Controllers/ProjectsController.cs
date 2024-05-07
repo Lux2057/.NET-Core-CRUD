@@ -31,7 +31,10 @@ public class ProjectsController : DispatcherControllerBase
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
-        return Ok(await Dispatcher.QueryAsync(new ReadProjectsQuery(userId: currentUserId,
+        if(currentUserId == null)
+            return BadRequest();
+
+        return Ok(await Dispatcher.QueryAsync(new ReadProjectsQuery(userId: currentUserId.Value,
                                                                     disablePaging: false,
                                                                     page: page,
                                                                     pageSize: pageSize), cancellationToken));
@@ -44,8 +47,11 @@ public class ProjectsController : DispatcherControllerBase
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
+        if(currentUserId == null)
+            return BadRequest();
+
         var command = new CreateOrUpdateProjectCommand(id: request.Id,
-                                                       userId: currentUserId,
+                                                       userId: currentUserId.Value,
                                                        name: request.Name,
                                                        description: request.Description);
 
@@ -61,8 +67,11 @@ public class ProjectsController : DispatcherControllerBase
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
+        if(currentUserId == null)
+            return BadRequest();
+
         var command = new DeleteProjectCommand(id: request.Id,
-                                               userId: currentUserId);
+                                               userId: currentUserId.Value);
 
         await Dispatcher.PushAsync(command, cancellationToken);
 

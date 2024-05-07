@@ -28,7 +28,10 @@ public class TasksController : DispatcherControllerBase
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
-        return Ok(await Dispatcher.QueryAsync(new ReadTasksQuery(userId: currentUserId,
+        if(currentUserId == null)
+            return BadRequest();
+
+        return Ok(await Dispatcher.QueryAsync(new ReadTasksQuery(userId: currentUserId.Value,
                                                                  projectId: projectId), cancellationToken));
     }
 
@@ -39,8 +42,11 @@ public class TasksController : DispatcherControllerBase
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
+        if(currentUserId == null)
+            return BadRequest();
+
         var command = new CreateOrUpdateTaskCommand(id: request.Id,
-                                                    userId: currentUserId,
+                                                    userId: currentUserId.Value,
                                                     status: request.Status,
                                                     name: request.Name,
                                                     projectId: request.ProjectId,
@@ -58,8 +64,11 @@ public class TasksController : DispatcherControllerBase
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
+        if(currentUserId == null)
+            return BadRequest();
+
         var command = new SetTaskStatusCommand(id: request.Id,
-                                               userId: currentUserId,
+                                               userId: currentUserId.Value,
                                                status: request.Status);
 
         await Dispatcher.PushAsync(command, cancellationToken);
@@ -74,8 +83,11 @@ public class TasksController : DispatcherControllerBase
     {
         var currentUserId = await Dispatcher.QueryAsync(new GetCurrentUserIdOrDefaultQuery(), cancellationToken);
 
+        if(currentUserId == null)
+            return BadRequest();
+
         var command = new DeleteTaskCommand(id: request.Id,
-                                            userId: currentUserId);
+                                            userId: currentUserId.Value);
 
         await Dispatcher.PushAsync(command, cancellationToken);
 

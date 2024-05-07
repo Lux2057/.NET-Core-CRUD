@@ -4,6 +4,8 @@ public interface IRefreshRequest
 {
     #region Properties
 
+    public int UserId { get; }
+
     public string RefreshToken { get; }
 
     #endregion
@@ -12,6 +14,8 @@ public interface IRefreshRequest
 public class RefreshTokenRequest : IRefreshRequest
 {
     #region Properties
+
+    public int UserId { get; set; }
 
     public string RefreshToken { get; set; }
 

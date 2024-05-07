@@ -50,6 +50,7 @@ public class AuthMiddleware : Middleware
             {
                 this.Dispatcher.Dispatch(new RefreshAccessTokenWf.Init(new RefreshTokenRequest
                                                                        {
+                                                                               UserId = authState.AuthInfo.User.Id,
                                                                                RefreshToken = authState.AuthInfo.RefreshToken
                                                                        },
                                                                        authInfo =>

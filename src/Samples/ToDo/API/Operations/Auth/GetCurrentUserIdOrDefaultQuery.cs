@@ -7,12 +7,12 @@ using JetBrains.Annotations;
 
 #endregion
 
-public class GetCurrentUserIdOrDefaultQuery : QueryBase<int>
+public class GetCurrentUserIdOrDefaultQuery : QueryBase<int?>
 {
     #region Nested Classes
 
     [UsedImplicitly]
-    class Handler : QueryHandlerBase<GetCurrentUserIdOrDefaultQuery, int>
+    class Handler : QueryHandlerBase<GetCurrentUserIdOrDefaultQuery, int?>
     {
         #region Properties
 
@@ -29,9 +29,9 @@ public class GetCurrentUserIdOrDefaultQuery : QueryBase<int>
 
         #endregion
 
-        protected override Task<int> Execute(GetCurrentUserIdOrDefaultQuery request, CancellationToken cancellationToken)
+        protected override Task<int?> Execute(GetCurrentUserIdOrDefaultQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(this.httpAccessor.HttpContext?.User?.ToUserDto().Id ?? default);
+            return Task.FromResult(this.httpAccessor.HttpContext?.User.ToUserDto().Id);
         }
     }
 

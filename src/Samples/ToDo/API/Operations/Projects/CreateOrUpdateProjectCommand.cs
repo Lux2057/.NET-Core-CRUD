@@ -95,7 +95,6 @@ public class CreateOrUpdateProjectCommand : CommandBase, ICreateOrUpdateProjectR
 
             project.Name = command.Name;
             project.Description = command.Description;
-            project.UpDt = DateTime.UtcNow;
 
             if (isNew)
                 await Repository.CreateAsync(project, cancellationToken);

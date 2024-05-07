@@ -17,8 +17,7 @@ public class TaskEntity : EntityBase,
                           NameProp.Interface,
                           DescriptionProp.Interface,
                           UserIdProp.Interface,
-                          ProjectIdProp.Interface,
-                          IUpDt
+                          ProjectIdProp.Interface
 {
     #region Properties
 
@@ -26,7 +25,7 @@ public class TaskEntity : EntityBase,
 
     public string Description { get; set; }
 
-    public DateTime? UpDt { get; set; }
+    public DateTime StatusUpDt { get; set; }
 
     public int UserId { get; set; }
 
@@ -50,7 +49,7 @@ public class TaskEntity : EntityBase,
             base.Configure(builder);
             builder.Property(r => r.Name).IsRequired();
             builder.Property(r => r.Description).HasColumnTypeText();
-            builder.Property(r => r.UpDt);
+            builder.Property(r => r.StatusUpDt);
             builder.Property(r => r.Status).IsRequired();
             builder.HasOne(r => r.Project).WithMany(r => r.Tasks).HasForeignKey(r => r.ProjectId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(r => r.User).WithMany(r => r.Tasks).HasForeignKey(r => r.UserId).OnDelete(DeleteBehavior.Cascade);
@@ -69,6 +68,7 @@ public class TaskEntity : EntityBase,
                     .ForMember(r => r.Name, r => r.MapFrom(x => x.Name))
                     .ForMember(r => r.Description, r => r.MapFrom(x => x.Description))
                     .ForMember(r => r.Status, r => r.MapFrom(x => x.Status))
+                    .ForMember(r => r.StatusUpDt, r => r.MapFrom(x => x.StatusUpDt))
                     .ReverseMap();
         }
 

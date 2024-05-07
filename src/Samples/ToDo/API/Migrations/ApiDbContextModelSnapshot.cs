@@ -77,9 +77,6 @@ namespace Samples.ToDo.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("UpDt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -155,7 +152,7 @@ namespace Samples.ToDo.API.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("UpDt")
+                    b.Property<DateTime>("StatusUpDt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("UserId")

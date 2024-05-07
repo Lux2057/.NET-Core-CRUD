@@ -23,7 +23,7 @@ public class AuthState
                                    !AuthInfo.RefreshToken.IsNullOrWhitespace();
 
     public bool IsExpiring => IsAuthenticated &&
-                              (DateTime.UtcNow - AuthInfo.AuthenticatedAt).Seconds >= 30;
+                              (DateTime.UtcNow - AuthInfo.AuthenticatedAt).Minutes >= 2;
 
     #endregion
 

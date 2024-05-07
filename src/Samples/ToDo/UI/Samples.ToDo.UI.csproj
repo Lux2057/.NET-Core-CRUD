@@ -1,0 +1,74 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>   
+    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Shared\Components\ToDoListItemComponent.razor.cs" />
+    <Compile Remove="Flux\Workflows\CreateOrUpdateToDoListItemWf.cs" />
+    <Compile Remove="Pages\ToDoListPage.razor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Shared\Components\ToDoListItemComponent.razor" />
+    <Content Remove="Pages\ToDoListPage.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Samples.ToDo.UI.csproj.DotSettings" />
+    <None Remove="Templates.Blazor.EF.UI.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fluxor" Version="5.9.1" />
+    <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />
+    <PackageReference Include="Fluxor.Blazor.Web.ReduxDevTools" Version="5.9.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.4" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Samples.ToDo.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Shared\Components\ValidationMessageComponent.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Shared\Components\ValidationMessageComponent.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Localization\Resource.ru-RU.resx" />
+    <Content Include="Localization\Resource.Designer.cs" />
+    <Content Include="Localization\Resource.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Localization\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Localization\Resource.ru-RU.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

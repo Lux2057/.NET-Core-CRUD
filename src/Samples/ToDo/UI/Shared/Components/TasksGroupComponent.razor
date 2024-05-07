@@ -1,0 +1,17 @@
+﻿@inherits UI.ComponentBase
+
+<div class="card">
+    <div class="card-header">
+        <p class="card-title fw-bold h4">
+            @Status.ToString()
+        </p>
+    </div>
+    <div class="card-body">
+        <div class="status-group" id="@Status">
+            @foreach (var task in Tasks)
+            {
+                <TaskComponent Model="task" ProjectId="ProjectId"/>
+            }
+        </div>
+    </div>
+</div>

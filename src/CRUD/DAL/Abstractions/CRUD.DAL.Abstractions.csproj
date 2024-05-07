@@ -6,7 +6,7 @@
     <Nullable>disable</Nullable>
     <PackageId>XulBenet.CRUD.DAL.Abstractions</PackageId>
     <Title>.NET Core CRUD DAL abstractions package</Title>
-    <Version>2.0.4</Version>
+    <Version>2.0.5</Version>
     <Authors>XulBenet</Authors>
     <PackageProjectUrl>https://github.com/Lux2057/.NET-Core-CRUD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Lux2057/.NET-Core-CRUD</RepositoryUrl>
@@ -17,10 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="LinqSpecs" Version="3.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
-    <PackageReference Include="XulBenet.Extensions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    <PackageReference Include="XulBenet.Extensions" Version="2.0.1" />
   </ItemGroup>
 
 </Project>

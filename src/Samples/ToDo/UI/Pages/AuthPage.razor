@@ -1,0 +1,149 @@
+﻿@inherits PageBase<AuthState>
+
+<PageTitle>@(Localization[nameof(Resource.Authorization)])</PageTitle>
+
+<div class="d-flex mb-2">
+    <div class="p-2">
+        <h4>@(Localization[nameof(Resource.Authorization)])</h4>
+    </div>
+</div>
+
+<div class="d-flex ms-auto">
+    <div>
+        <ModalWindowComponent ModalId="@signInModalId">
+            <ButtonContent>
+                <div class="btn btn-outline-primary btn-sm shadow-none"
+                     @onclick="clearFields"
+                     role="button"
+                     title="@Localization[nameof(Resource.Sign_in)]">
+                    <span aria-hidden="true" class="oi oi-account-login"></span> @Localization[nameof(Resource.Sign_in)]
+                </div>
+            </ButtonContent>
+            <Title>
+                @Localization[nameof(Resource.Sign_in)]
+            </Title>
+            <Body>
+            <div class="d-flex flex-column">
+                <div class="mb-1 p-1">
+                    <label class="form-label">
+                        @Localization[nameof(Resource.User_name)]
+                    </label>
+                    <input @bind="authRequest.UserName"
+                           class="form-control me-1"
+                           type="text"/>
+                    <ValidationMessageComponent
+                        Key="@signInValidationKey"
+                        Name="r => r.UserName"
+                        TRequest="IAuthRequest"/>
+                </div>
+            </div>
+            <div class="d-flex flex-column">
+                <div class="mb-1 p-1">
+                    <label class="form-label">
+                        @Localization[nameof(Resource.Password)]
+                    </label>
+                    <input @bind="authRequest.Password"
+                           class="form-control me-1"
+                           type="password"/>
+                    <ValidationMessageComponent
+                        Key="@signInValidationKey"
+                        Name="r => r.Password"
+                        TRequest="IAuthRequest"/>
+                </div>
+            </div>
+            </Body>
+            <Footer>
+                <div class="d-flex">
+                    <div class="ms-auto p-1">
+                        <button class="btn btn-outline-primary btn-sm shadow-none"
+                                data-bs-placement="top"
+                                data-bs-toggle="tooltip"
+                                @onclick="@signIn"
+                                title="@Localization[nameof(Resource.Sign_in)]"
+                                type="button">
+                            <span>
+                                @Localization[nameof(Resource.Sign_in)]
+                            </span>
+                            @if (State.IsLoading)
+                            {
+                                <span class="ms-1">
+                                    <LoaderComponent IsInline="true" IsSmall="true"/>
+                                </span>
+                            }
+                        </button>
+                    </div>
+                </div>
+            </Footer>
+        </ModalWindowComponent>
+    </div>
+    <div class="me-2 ms-2">
+        @Localization[Resource.or]
+    </div>
+    <div>
+        <ModalWindowComponent ModalId="@signUpModalId">
+            <ButtonContent>
+                <div class="btn btn-outline-primary btn-sm shadow-none"
+                     @onclick="clearFields"
+                     role="button"
+                     title="@Localization[nameof(Resource.Sign_up)]">
+                    <span aria-hidden="true" class="oi oi-pencil"></span> @Localization[nameof(Resource.Sign_up)]
+                </div>
+            </ButtonContent>
+            <Title>
+                @Localization[nameof(Resource.Sign_up)]
+            </Title>
+            <Body>
+            <div class="d-flex flex-column">
+                <div class="mb-1 p-1">
+                    <label class="form-label">
+                        @Localization[nameof(Resource.User_name)]
+                    </label>
+                    <input @bind="authRequest.UserName"
+                           class="form-control me-1"
+                           type="text"/>
+                    <ValidationMessageComponent
+                        Key="@signUpValidationKey"
+                        Name="r => r.UserName"
+                        TRequest="IAuthRequest"/>
+                </div>
+            </div>
+            <div class="d-flex flex-column">
+                <div class="mb-1 p-1">
+                    <label class="form-label">
+                        @Localization[nameof(Resource.Password)]
+                    </label>
+                    <input @bind="authRequest.Password"
+                           class="form-control me-1"
+                           type="password"/>
+                    <ValidationMessageComponent
+                        Key="@signUpValidationKey"
+                        Name="r => r.Password"
+                        TRequest="IAuthRequest"/>
+                </div>
+            </div>
+            </Body>
+            <Footer>
+                <div class="d-flex">
+                    <div class="ms-auto p-1">
+                        <button class="btn btn-outline-primary btn-sm shadow-none"
+                                data-bs-placement="top"
+                                data-bs-toggle="tooltip"
+                                @onclick="@signUp"
+                                title="@Localization[nameof(Resource.Sign_up)]"
+                                type="button">
+                            <span>
+                                @Localization[nameof(Resource.Sign_up)]
+                            </span>
+                            @if (State.IsLoading)
+                            {
+                                <span class="ms-1">
+                                    <LoaderComponent IsInline="true" IsSmall="true"/>
+                                </span>
+                            }
+                        </button>
+                    </div>
+                </div>
+            </Footer>
+        </ModalWindowComponent>
+    </div>
+</div>

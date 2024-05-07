@@ -1,0 +1,138 @@
+﻿@inherits UI.PageBase<ProjectsPageState>
+<PageTitle>@(Localization[nameof(Resource.Projects)])</PageTitle>
+
+<div class="d-flex mb-2">
+    <div class="p-2">
+        <h4>@(Localization[nameof(Resource.Projects)])</h4>
+    </div>
+    <div class="align-content-center p-2">
+        <ModalWindowComponent ModalId="@createProjectModalId">
+            <ButtonContent>
+                <div class="badge d-flex text-bg-dark"
+                     role="button"
+                     title="@Localization[nameof(Resource.Create)]">
+                    <div>
+                        <span class="me-1 oi oi-plus"></span>
+                    </div>
+                </div>
+            </ButtonContent>
+            <Title>
+                @Localization[nameof(Resource.Create)]
+            </Title>
+            <Body>
+            <div class="d-flex flex-column">
+                <div class="mb-1 p-1">
+                    <label class="form-label">@Localization[nameof(Resource.Name)]</label>
+                    <input @bind="newProject.Name"
+                           class="form-control"
+                           type="text"/>
+                    <ValidationMessageComponent
+                        Key="@createProjectValidationKey"
+                        Name="r => r.Name"
+                        TRequest="ICreateOrUpdateProjectRequest"/>
+                </div>
+                <div class="mb-1 p-1">
+                    <label class="form-label">@Localization[nameof(Resource.Description)]</label>
+                    <input @bind="newProject.Description"
+                           class="form-control"
+                           type="text"/>
+                    <ValidationMessageComponent
+                        Key="@createProjectValidationKey"
+                        Name="r => r.Description"
+                        TRequest="ICreateOrUpdateProjectRequest"/>
+                </div>
+                <SummaryValidationMessageComponent Key="@createProjectValidationKey"
+                                                   TRequest="ICreateOrUpdateProjectRequest"/>
+            </div>
+            </Body>
+            <Footer>
+                <div class="d-flex">
+                    <div class="ms-auto p-1">
+                        @if (!State.IsLoading && !State.IsCreating)
+                        {
+                            <button class="btn btn-outline-primary btn-sm shadow-none"
+                                    data-bs-placement="top"
+                                    data-bs-toggle="tooltip"
+                                    @onclick="@CreateProject"
+                                    title="@Localization[nameof(Resource.Create)]"
+                                    type="button">
+                                @Localization[nameof(Resource.Create)]
+                            </button>
+                        }
+                    </div>
+                </div>
+            </Footer>
+        </ModalWindowComponent>
+
+    </div>
+    <div class="p-2">
+        @if (State.IsLoading || State.IsCreating)
+        {
+            <LoaderComponent IsInline="true" IsSmall="true"/>
+        }
+    </div>
+</div>
+<div class="d-flex flex-wrap">
+    @if (!State.IsLoading)
+    {
+        @if (State.IsEmpty)
+        {
+            <div class="p-1">
+                <h3>@Localization[nameof(Resource.There_is_no_data)]</h3>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive w-100">
+                <table class="align-middle justify-content-center table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th class="project-id">
+                            #
+                        </th>
+                        <th class="project-name">
+                            @Localization[Resource.Name]
+                        </th>
+                        <th class="project-description">
+                            @Localization[Resource.Description]
+                        </th>
+                        <th class="project-controls">
+
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var project in State.Projects.Items)
+                    {
+                        <ProjectRowComponent Model="project"/>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+</div>
+<div class="d-flex justify-content-center">
+    @if (!State.IsEmpty && State.Projects.PagingInfo is {TotalPages: > 1 })
+    {
+        <ul class="pagination">
+            @for (var i = 1; i <= State.Projects.PagingInfo.TotalPages; i++)
+            {
+                var pageNumber = i;
+
+                if (pageNumber == State.Projects.PagingInfo.CurrentPage)
+                {
+                    <li class="active page-item">
+                        <button class="page-link shadow-none" type="button">@pageNumber</button>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <button class="page-link shadow-none" @onclick="() => GoToPage(pageNumber)" type="button">@pageNumber</button>
+                    </li>
+                }
+            }
+        </ul>
+    }
+</div>

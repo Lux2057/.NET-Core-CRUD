@@ -1,0 +1,10 @@
+﻿@inherits ComponentBase<ValidationState>
+@using Extensions
+@typeparam TRequest
+
+@if (!message.IsNullOrWhitespace())
+{
+    <div class="text-danger">
+        <div>@message</div>
+    </div>
+}

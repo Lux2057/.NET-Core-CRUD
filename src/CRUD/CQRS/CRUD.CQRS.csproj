@@ -9,7 +9,7 @@
     <PackageId>XulBenet.CRUD.CQRS</PackageId>
     <Authors>XulBenet</Authors>
     <Company />
-    <Version>2.0.4</Version>
+    <Version>2.0.5</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
@@ -18,10 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-    <PackageReference Include="FluentValidation" Version="11.9.0" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.9.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.1" />
     <PackageReference Include="MediatR" Version="12.2.0" />
   </ItemGroup>
 

@@ -42,10 +42,10 @@ public class DefaultDispatcher : IDispatcher
 
     public async Task PushAsync<TCommand>(TCommand command,
                                           CancellationToken cancellationToken = default,
-                                          IsolationLevel isolationLevel = IsolationLevel.ReadCommitted) where TCommand : CommandBase
+                                          IsolationLevel? isolationLevel = IsolationLevel.ReadCommitted) where TCommand : CommandBase
     {
-        if (!this.unitOfWork.IsTransactionOpened)
-            this.unitOfWork.OpenTransaction(isolationLevel);
+        if (isolationLevel != null && !this.unitOfWork.IsTransactionOpened)
+            this.unitOfWork.OpenTransaction(isolationLevel.Value);
 
         try
         {

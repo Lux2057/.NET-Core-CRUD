@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <PackageId>XulBenet.CRUD.DAL.EntityFramework</PackageId>
-    <Version>2.0.5</Version>
+    <Version>2.0.6</Version>
     <Authors>XulBenet</Authors>
     <PackageProjectUrl>https://github.com/Lux2057/.NET-Core-CRUD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Lux2057/.NET-Core-CRUD</RepositoryUrl>

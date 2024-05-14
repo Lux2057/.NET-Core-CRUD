@@ -6,7 +6,7 @@
     <Nullable>disable</Nullable>
     <PackageId>XulBenet.CRUD.DAL.NHibernate</PackageId>
     <Title>.NET Core CRUD DAL package based on NHibernate</Title>
-    <Version>2.0.5</Version>
+    <Version>2.0.6</Version>
     <Authors>XulBenet</Authors>
     <PackageProjectUrl>https://github.com/Lux2057/.NET-Core-CRUD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Lux2057/.NET-Core-CRUD</RepositoryUrl>
@@ -19,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="FluentNHibernate" Version="3.3.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
-    <PackageReference Include="Npgsql" Version="8.0.2" />
+    <PackageReference Include="Npgsql" Version="8.0.3" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
     <PackageReference Include="XulBenet.Extensions" Version="2.0.1" />

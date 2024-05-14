@@ -15,6 +15,6 @@ public interface IDispatcher : IReadDispatcher
 {
     public Task PushAsync<TCommand>(TCommand command,
                                     CancellationToken cancellationToken = default,
-                                    IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
+                                    IsolationLevel? isolationLevel = IsolationLevel.ReadCommitted)
             where TCommand : CommandBase;
 }

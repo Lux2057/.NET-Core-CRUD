@@ -10,7 +10,8 @@ using LinqSpecs;
 /// <summary>
 ///     Finds an entity by specified Int id.
 /// </summary>
-public class FindEntityByIntId<TEntity> : Specification<TEntity> where TEntity : IId<int>
+public class FindEntityByIntId<TEntity> : Specification<TEntity>
+        where TEntity : IId<int>
 {
     #region Properties
 

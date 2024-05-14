@@ -9,7 +9,8 @@ using LinqToDB.Data;
 
 #endregion
 
-public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TDataConnection : DataConnection
+public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository
+        where TDataConnection : DataConnection
 {
     #region Properties
 
@@ -29,7 +30,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     #region Interface Implementations
 
     public IQueryable<TEntity> Read<TEntity>(Specification<TEntity> specification = default,
-                                             IEnumerable<OrderSpecification<TEntity>> orderSpecifications = default) where TEntity : class, new()
+                                             IEnumerable<OrderSpecification<TEntity>> orderSpecifications = default)
+            where TEntity : class, new()
     {
         var table = this._connection.GetTable<TEntity>();
 
@@ -38,7 +40,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
 
     public IQueryable<TEntity> Read<TEntity>(Specification<TEntity> specification = default,
                                              string tableName = default,
-                                             IEnumerable<OrderSpecification<TEntity>> orderSpecifications = default) where TEntity : class, new()
+                                             IEnumerable<OrderSpecification<TEntity>> orderSpecifications = default)
+            where TEntity : class, new()
     {
         var table = string.IsNullOrWhiteSpace(tableName) ?
                             this._connection.GetTable<TEntity>() :
@@ -48,7 +51,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     }
 
     public async Task CreateAsync<TEntity>(TEntity entity,
-                                           CancellationToken cancellationToken = default) where TEntity : class, new()
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entity == null)
             return;
@@ -58,7 +62,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     }
 
     public async Task CreateAsync<TEntity>(IEnumerable<TEntity> entities,
-                                           CancellationToken cancellationToken = default) where TEntity : class, new()
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entities == null)
             return;
@@ -77,7 +82,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     }
 
     public async Task UpdateAsync<TEntity>(TEntity entity,
-                                           CancellationToken cancellationToken = default) where TEntity : class, new()
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entity == null)
             return;
@@ -87,7 +93,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     }
 
     public async Task UpdateAsync<TEntity>(IEnumerable<TEntity> entities,
-                                           CancellationToken cancellationToken = default) where TEntity : class, new()
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entities == null)
             return;
@@ -103,7 +110,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     }
 
     public async Task DeleteAsync<TEntity>(TEntity entity,
-                                           CancellationToken cancellationToken = default) where TEntity : class, new()
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entity == null)
             return;
@@ -113,7 +121,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
     }
 
     public async Task DeleteAsync<TEntity>(IEnumerable<TEntity> entities,
-                                           CancellationToken cancellationToken = default) where TEntity : class, new()
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entities == null)
             return;
@@ -130,7 +139,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
 
     public async Task CreateAsync<TEntity>(TEntity entity,
                                            string tableName,
-                                           CancellationToken cancellationToken = default) where TEntity : class, new()
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entity == null)
             return;
@@ -142,7 +152,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
 
     public async Task CreateAsync<TEntity>(IEnumerable<TEntity> entities,
                                            BulkCopyOptions options,
-                                           CancellationToken cancellationToken = default) where TEntity : class, new()
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entities == null)
             return;
@@ -162,7 +173,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
 
     public async Task UpdateAsync<TEntity>(TEntity entity,
                                            string tableName,
-                                           CancellationToken cancellationToken = default) where TEntity : class, new()
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entity == null)
             return;
@@ -174,7 +186,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
 
     public async Task UpdateAsync<TEntity>(IEnumerable<TEntity> entities,
                                            string tableName,
-                                           CancellationToken cancellationToken = default) where TEntity : class, new()
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entities == null)
             return;
@@ -192,7 +205,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
 
     public async Task DeleteAsync<TEntity>(TEntity entity,
                                            string tableName,
-                                           CancellationToken cancellationToken = default) where TEntity : class, new()
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entity == null)
             return;
@@ -204,7 +218,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
 
     public async Task DeleteAsync<TEntity>(IEnumerable<TEntity> entities,
                                            string tableName,
-                                           CancellationToken cancellationToken = default) where TEntity : class, new()
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entities == null)
             return;
@@ -220,7 +235,8 @@ public class Linq2DbRepository<TDataConnection> : ILinq2DbRepository where TData
                                                token: cancellationToken);
     }
 
-    public ITable<TEntity> GetTable<TEntity>(string tableName = default) where TEntity : class, new()
+    public ITable<TEntity> GetTable<TEntity>(string tableName = default)
+            where TEntity : class, new()
     {
         return string.IsNullOrWhiteSpace(tableName) ?
                        this._connection.GetTable<TEntity>() :

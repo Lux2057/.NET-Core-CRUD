@@ -7,7 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 #endregion
 
-public abstract class QueryHandlerBase<TRequest, TResponse> : CRUD.CQRS.QueryHandlerBase<TRequest, TResponse> where TRequest : QueryBase<TResponse>
+public abstract class QueryHandlerBase<TRequest, TResponse> : CQRS.QueryHandlerBase<TRequest, TResponse>
+        where TRequest : QueryBase<TResponse>
 {
     #region Properties
 

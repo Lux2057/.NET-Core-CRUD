@@ -50,6 +50,7 @@ public class EfUnitOfWork : IUnitOfWork
             return;
 
         this._dbContext.Database.CurrentTransaction.Commit();
+
         OpenedTransactionId = string.Empty;
         IsTransactionOpened = false;
     }
@@ -60,6 +61,7 @@ public class EfUnitOfWork : IUnitOfWork
             return;
 
         this._dbContext.Database.CurrentTransaction.Rollback();
+
         OpenedTransactionId = string.Empty;
         IsTransactionOpened = false;
     }

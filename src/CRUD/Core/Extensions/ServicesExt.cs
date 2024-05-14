@@ -18,8 +18,12 @@ public static class ServicesExt
             where TDto : class, IId<TId>, new()
     {
         services.AddEntityRead<TEntity, TId, TDto>();
-        services.AddTransient(typeof(INotificationHandler<CreateOrUpdateEntitiesCommand<TEntity, TId, TDto>>), typeof(CreateOrUpdateEntitiesCommand<TEntity, TId, TDto>.Handler));
-        services.AddTransient(typeof(INotificationHandler<DeleteEntitiesCommand<TEntity, TId>>), typeof(DeleteEntitiesCommand<TEntity, TId>.Handler));
+
+        services.AddTransient(typeof(INotificationHandler<CreateOrUpdateEntitiesCommand<TEntity, TId, TDto>>),
+                              typeof(CreateOrUpdateEntitiesCommand<TEntity, TId, TDto>.Handler));
+
+        services.AddTransient(typeof(INotificationHandler<DeleteEntitiesCommand<TEntity, TId>>),
+                              typeof(DeleteEntitiesCommand<TEntity, TId>.Handler));
     }
 
     /// <summary>
@@ -29,6 +33,7 @@ public static class ServicesExt
             where TEntity : class, IId<TId>, new()
             where TDto : class, new()
     {
-        services.AddTransient(typeof(IRequestHandler<ReadEntitiesQuery<TEntity, TId, TDto>, PaginatedResponseDto<TDto>>), typeof(ReadEntitiesQuery<TEntity, TId, TDto>.Handler));
+        services.AddTransient(typeof(IRequestHandler<ReadEntitiesQuery<TEntity, TId, TDto>, PaginatedResponseDto<TDto>>),
+                              typeof(ReadEntitiesQuery<TEntity, TId, TDto>.Handler));
     }
 }

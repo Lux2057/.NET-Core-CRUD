@@ -6,7 +6,8 @@ using System.Linq.Expressions;
 
 #endregion
 
-public class OrderById<TEntity, TId> : OrderSpecification<TEntity> where TEntity : IId<TId>
+public class OrderById<TEntity, TId> : OrderSpecification<TEntity>
+        where TEntity : IId<TId>
 {
     #region Constructors
 

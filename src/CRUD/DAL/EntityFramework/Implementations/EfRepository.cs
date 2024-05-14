@@ -37,7 +37,9 @@ public class EfRepository : IRepository
         return (specification == null ? dbSet : dbSet.Where(specification)).ApplyOrderSpecifications(orderSpecifications).AsNoTracking();
     }
 
-    public async Task CreateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task CreateAsync<TEntity>(TEntity entity,
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entity == null)
             return;
@@ -47,7 +49,9 @@ public class EfRepository : IRepository
         await this._context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task CreateAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task CreateAsync<TEntity>(IEnumerable<TEntity> entities,
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         var entitiesArray = entities.Where(r => r != null).ToArrayOrEmpty();
 
@@ -59,7 +63,9 @@ public class EfRepository : IRepository
         await this._context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task UpdateAsync<TEntity>(TEntity entity,
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entity == null)
             return;
@@ -69,7 +75,9 @@ public class EfRepository : IRepository
         await this._context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task UpdateAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task UpdateAsync<TEntity>(IEnumerable<TEntity> entities,
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         var entitiesArray = entities.Where(r => r != null).ToArrayOrEmpty();
 
@@ -81,7 +89,9 @@ public class EfRepository : IRepository
         await this._context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task DeleteAsync<TEntity>(TEntity entity,
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entity == null)
             return;
@@ -91,7 +101,9 @@ public class EfRepository : IRepository
         await this._context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task DeleteAsync<TEntity>(IEnumerable<TEntity> entities,
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         var entitiesArray = entities.Where(r => r != null).ToArrayOrEmpty();
 

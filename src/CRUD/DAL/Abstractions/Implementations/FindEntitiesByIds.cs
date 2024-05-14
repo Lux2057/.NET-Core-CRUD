@@ -12,7 +12,8 @@ using LinqSpecs;
 ///     Finds entities by specified id collection.
 ///     Optional: returns true if id collection is empty.
 /// </summary>
-public class FindEntitiesByIds<TEntity, TId> : Specification<TEntity> where TEntity : IId<TId>
+public class FindEntitiesByIds<TEntity, TId> : Specification<TEntity>
+        where TEntity : IId<TId>
 {
     #region Properties
 

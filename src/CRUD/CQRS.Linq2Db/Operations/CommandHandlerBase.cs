@@ -7,7 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 #endregion
 
-public abstract class CommandHandlerBase<TNotification> : CRUD.CQRS.CommandHandlerBase<TNotification> where TNotification : CommandBase
+public abstract class CommandHandlerBase<TNotification> : CRUD.CQRS.CommandHandlerBase<TNotification>
+        where TNotification : CommandBase
 {
     #region Properties
 

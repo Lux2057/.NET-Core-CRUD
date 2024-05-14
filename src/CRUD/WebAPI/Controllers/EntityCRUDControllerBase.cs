@@ -20,7 +20,10 @@ public abstract class EntityCRUDControllerBase<TEntity, TId, TDto> : DispatcherC
     #endregion
 
     [HttpGet]
-    public virtual async Task<IActionResult> Read(TId[] ids, int? page, int? pageSize, CancellationToken cancellationToken = default)
+    public virtual async Task<IActionResult> Read(TId[] ids,
+                                                  int? page,
+                                                  int? pageSize,
+                                                  CancellationToken cancellationToken = default)
     {
         var entities = await Dispatcher.QueryAsync(new ReadEntitiesQuery<TEntity, TId, TDto>(ids)
                                                    {
@@ -32,7 +35,8 @@ public abstract class EntityCRUDControllerBase<TEntity, TId, TDto> : DispatcherC
     }
 
     [HttpPost]
-    public virtual async Task<IActionResult> CreateOrUpdate([FromBody] TDto[] dtos, CancellationToken cancellationToken = default)
+    public virtual async Task<IActionResult> CreateOrUpdate([FromBody] TDto[] dtos,
+                                                            CancellationToken cancellationToken = default)
     {
         var createOrUpdateEntitiesCommand = new CreateOrUpdateEntitiesCommand<TEntity, TId, TDto>(dtos);
         await Dispatcher.PushAsync(createOrUpdateEntitiesCommand, cancellationToken);
@@ -41,7 +45,8 @@ public abstract class EntityCRUDControllerBase<TEntity, TId, TDto> : DispatcherC
     }
 
     [HttpDelete]
-    public virtual async Task<IActionResult> Delete([FromBody] TId[] ids, CancellationToken cancellationToken = default)
+    public virtual async Task<IActionResult> Delete([FromBody] TId[] ids,
+                                                    CancellationToken cancellationToken = default)
     {
         var deleteEntitiesCommand = new DeleteEntitiesCommand<TEntity, TId>(ids);
         await Dispatcher.PushAsync(deleteEntitiesCommand, cancellationToken);

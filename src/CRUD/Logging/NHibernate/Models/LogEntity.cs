@@ -2,7 +2,6 @@
 
 #region << Using >>
 
-using System.ComponentModel.DataAnnotations.Schema;
 using CRUD.DAL.Abstractions;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;

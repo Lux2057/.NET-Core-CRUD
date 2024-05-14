@@ -28,7 +28,9 @@ public class NhRepository : IRepository
 
     #region Interface Implementations
 
-    public async Task CreateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task CreateAsync<TEntity>(TEntity entity,
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entity == null)
             return;
@@ -39,7 +41,9 @@ public class NhRepository : IRepository
         await this._session.FlushAsync();
     }
 
-    public async Task CreateAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task CreateAsync<TEntity>(IEnumerable<TEntity> entities,
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         var entitiesArray = entities.Where(r => r != null).ToArrayOrEmpty();
 
@@ -54,7 +58,9 @@ public class NhRepository : IRepository
         await this._session.FlushAsync();
     }
 
-    public async Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task UpdateAsync<TEntity>(TEntity entity,
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entity == null)
             return;
@@ -65,7 +71,9 @@ public class NhRepository : IRepository
         await this._session.FlushAsync();
     }
 
-    public async Task UpdateAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task UpdateAsync<TEntity>(IEnumerable<TEntity> entities,
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         var entitiesArray = entities.Where(r => r != null).ToArrayOrEmpty();
 
@@ -80,7 +88,9 @@ public class NhRepository : IRepository
         await this._session.FlushAsync();
     }
 
-    public async Task DeleteAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task DeleteAsync<TEntity>(TEntity entity,
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         if (entity == null)
             return;
@@ -92,7 +102,9 @@ public class NhRepository : IRepository
         await this._session.FlushAsync();
     }
 
-    public async Task DeleteAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class, new()
+    public async Task DeleteAsync<TEntity>(IEnumerable<TEntity> entities,
+                                           CancellationToken cancellationToken = default)
+            where TEntity : class, new()
     {
         var entitiesArray = entities.Where(r => r != null).ToArrayOrEmpty();
 

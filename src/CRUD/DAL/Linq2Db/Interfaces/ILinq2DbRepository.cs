@@ -16,7 +16,8 @@ public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
     /// </summary>
     Task CreateAsync<TEntity>(TEntity entity,
                               string tableName,
-                              CancellationToken cancellationToken = default) where TEntity : class, new();
+                              CancellationToken cancellationToken = default)
+            where TEntity : class, new();
 
     /// <summary>
     ///     Supported only by Linq2Db.
@@ -24,7 +25,8 @@ public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
     /// </summary>
     Task CreateAsync<TEntity>(IEnumerable<TEntity> entities,
                               BulkCopyOptions options,
-                              CancellationToken cancellationToken = default) where TEntity : class, new();
+                              CancellationToken cancellationToken = default)
+            where TEntity : class, new();
 
     /// <summary>
     ///     Supported only by Linq2Db.
@@ -32,7 +34,8 @@ public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
     /// </summary>
     Task UpdateAsync<TEntity>(TEntity entity,
                               string tableName,
-                              CancellationToken cancellationToken = default) where TEntity : class, new();
+                              CancellationToken cancellationToken = default)
+            where TEntity : class, new();
 
     /// <summary>
     ///     Supported only by Linq2Db.
@@ -40,7 +43,8 @@ public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
     /// </summary>
     Task UpdateAsync<TEntity>(IEnumerable<TEntity> entities,
                               string tableName,
-                              CancellationToken cancellationToken = default) where TEntity : class, new();
+                              CancellationToken cancellationToken = default)
+            where TEntity : class, new();
 
     /// <summary>
     ///     Supported only by Linq2Db.
@@ -48,7 +52,8 @@ public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
     /// </summary>
     Task DeleteAsync<TEntity>(TEntity entity,
                               string tableName,
-                              CancellationToken cancellationToken = default) where TEntity : class, new();
+                              CancellationToken cancellationToken = default)
+            where TEntity : class, new();
 
     /// <summary>
     ///     Supported only by Linq2Db.
@@ -56,11 +61,13 @@ public interface ILinq2DbRepository : IRepository, ILinq2DbReadRepository
     /// </summary>
     Task DeleteAsync<TEntity>(IEnumerable<TEntity> entities,
                               string tableName,
-                              CancellationToken cancellationToken = default) where TEntity : class, new();
+                              CancellationToken cancellationToken = default)
+            where TEntity : class, new();
 
     /// <summary>
     ///     Supported only by Linq2Db.
     ///     Returns Linq2Db ITable.
     /// </summary>
-    ITable<TEntity> GetTable<TEntity>(string tableName) where TEntity : class, new();
+    ITable<TEntity> GetTable<TEntity>(string tableName)
+            where TEntity : class, new();
 }

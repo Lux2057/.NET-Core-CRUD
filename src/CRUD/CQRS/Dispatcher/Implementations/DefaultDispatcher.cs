@@ -40,8 +40,6 @@ public class DefaultDispatcher : IDispatcher
         this.unitOfWork.CloseTransaction();
     }
 
-    #endregion
-
     public async Task PushAsync<TCommand>(TCommand command,
                                           CancellationToken cancellationToken = default,
                                           IsolationLevel isolationLevel = IsolationLevel.ReadCommitted) where TCommand : CommandBase
@@ -77,4 +75,6 @@ public class DefaultDispatcher : IDispatcher
             throw;
         }
     }
+
+    #endregion
 }

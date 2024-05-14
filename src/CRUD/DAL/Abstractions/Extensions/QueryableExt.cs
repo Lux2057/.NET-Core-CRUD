@@ -8,7 +8,8 @@ using Extensions;
 
 public static class QueryableExt
 {
-    public static IQueryable<TEntity> ApplyOrderSpecifications<TEntity>(this IQueryable<TEntity> queryable, IEnumerable<OrderSpecification<TEntity>> orderSpecifications)
+    public static IQueryable<TEntity> ApplyOrderSpecifications<TEntity>(this IQueryable<TEntity> queryable,
+                                                                        IEnumerable<OrderSpecification<TEntity>> orderSpecifications)
     {
         var orderSpecificationsArray = orderSpecifications.ToArrayOrEmpty();
 

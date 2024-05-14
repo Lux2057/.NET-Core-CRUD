@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Http;
 
 public static class FormFileExt
 {
-    public static async Task<byte[]> ToByteArrayAsync(this IFormFile file, CancellationToken cancellationToken = default)
+    public static async Task<byte[]> ToByteArrayAsync(this IFormFile file,
+                                                      CancellationToken cancellationToken = default)
     {
         byte[] data;
         await using (var inStream = file.OpenReadStream())

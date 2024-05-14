@@ -11,7 +11,8 @@ using LinqToDB.Data;
 /// <summary>
 ///     Linq2Db based implementation of the IUnitOfWork interface.
 /// </summary>
-public class Linq2DbUnitOfWork<TDataConnection> : IUnitOfWork where TDataConnection : DataConnection
+public class Linq2DbUnitOfWork<TDataConnection> : IUnitOfWork
+        where TDataConnection : DataConnection
 {
     #region Properties
 
@@ -36,7 +37,7 @@ public class Linq2DbUnitOfWork<TDataConnection> : IUnitOfWork where TDataConnect
 
     public void OpenTransaction(IsolationLevel isolationLevel)
     {
-        if (this.IsTransactionOpened)
+        if (IsTransactionOpened)
             return;
 
         this._connection.BeginTransaction(isolationLevel);

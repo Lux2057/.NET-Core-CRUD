@@ -11,7 +11,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public static class EfMappingExt
 {
-    public static PropertyBuilder<TEnum> PropertyAsEnum<TEntity, TEnum>(this EntityTypeBuilder<TEntity> builder, Expression<Func<TEntity, TEnum>> propertyExpression) where TEntity : class, new() where TEnum : struct, Enum
+    public static PropertyBuilder<TEnum> PropertyAsEnum<TEntity, TEnum>(this EntityTypeBuilder<TEntity> builder,
+                                                                        Expression<Func<TEntity, TEnum>> propertyExpression)
+            where TEntity : class, new()
+            where TEnum : struct, Enum
     {
         return builder.Property(propertyExpression)
                       .HasMaxLength(50)

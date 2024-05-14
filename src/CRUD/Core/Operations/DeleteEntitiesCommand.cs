@@ -16,7 +16,8 @@ using Extensions;
 /// <summary>
 ///     Deletes Entities from data storage by specified id collection.
 /// </summary>
-public class DeleteEntitiesCommand<TEntity, TId> : CommandBase where TEntity : class, IId<TId>, new()
+public class DeleteEntitiesCommand<TEntity, TId> : CommandBase
+        where TEntity : class, IId<TId>, new()
 {
     #region Properties
 

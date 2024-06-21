@@ -63,11 +63,11 @@ public partial class TasksPage : PageBase<TasksPageState>
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    protected override void Dispose(bool disposing)
+    protected override ValueTask DisposeAsyncCore(bool disposing)
     {
         this.refObj?.Dispose();
 
-        base.Dispose(disposing);
+        return base.DisposeAsyncCore(disposing);
     }
 
     [JSInvokable]

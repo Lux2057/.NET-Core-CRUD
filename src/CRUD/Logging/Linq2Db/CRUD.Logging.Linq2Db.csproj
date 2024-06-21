@@ -6,7 +6,7 @@
     <Nullable>disable</Nullable>
     <PackageId>XulBenet.CRUD.Logging.Linq2Db</PackageId>
     <Title>.NET Core CRUD Logging package based on Linq2Db</Title>
-    <Version>2.0.6</Version>
+    <Version>2.1.0</Version>
     <Authors>XulBenet</Authors>
     <PackageProjectUrl>https://github.com/Lux2057/.NET-Core-CRUD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Lux2057/.NET-Core-CRUD</RepositoryUrl>

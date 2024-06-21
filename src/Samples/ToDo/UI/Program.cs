@@ -1,11 +1,9 @@
 #region << Using >>
 
-using Extensions;
 using Fluxor;
+using Fluxor.Blazor.Web.ReduxDevTools;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.JSInterop;
-using Samples.ToDo.Shared;
 using Samples.ToDo.UI;
 
 #endregion
